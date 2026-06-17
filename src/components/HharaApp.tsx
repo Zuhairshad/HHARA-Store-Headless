@@ -895,8 +895,8 @@ function VideoFeature({ onCta }) {
 function Manifesto({ onShop }: { onShop: () => void }) {
   return (
     <section className="section">
-      <div className="section-head">
-        <div className="section-head-stack">
+      <div className="section-head" style={{ justifyContent: "center", textAlign: "center" }}>
+        <div className="section-head-stack" style={{ alignItems: "center" }}>
           <span className="eyebrow">The Collection Manifesto</span>
           <h2 className="section-title">Two Perspectives.<br/>One Uncompromising Identity.</h2>
         </div>
