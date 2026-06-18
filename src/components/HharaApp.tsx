@@ -470,7 +470,7 @@ function Footer({ setRoute }) {
 
 // === FILE 05-1ba71939-ee08-44bd-a9c0-607c20b1bd8a.jsx ===
 
-function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct, checkoutUrl }) {
+function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct, checkoutUrl, setRoute }) {
   const subtotal = items.reduce((a, i) => a + i.price * i.qty, 0);
   const freeThreshold = 800;
   const progress = Math.min(subtotal / freeThreshold, 1);
@@ -502,7 +502,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct, 
           <div className="cart-empty">
             <h4>Your bag is empty</h4>
             <p>Begin with a piece from The Imara or Dalia Set.</p>
-            <button className="btn btn-primary" onClick={onClose}>
+            <button className="btn btn-primary" onClick={() => { setRoute?.("shop"); onClose(); }}>
               Explore the Collection
               <span className="btn-arrow"><Icon.Arrow /></span>
             </button>
@@ -2248,6 +2248,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
             updateQty={updateQty}
             removeItem={removeItem}
             checkoutUrl={shopifyCart?.checkoutUrl}
+            setRoute={setRouteState}
           />
           <SearchOverlay
             open={searchOpen}
