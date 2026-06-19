@@ -63,7 +63,10 @@ class ShopifyError extends Error {
 export async function shopifyFetch<T>(
   query: string,
   variables: Record<string, unknown> = {},
-  cache: RequestCache = "no-store"
+  options?: {
+    cache?: RequestCache;
+    next?: any;
+  }
 ): Promise<T> {
   if (!DOMAIN || !TOKEN) {
     throw new ShopifyError("Missing SHOPIFY_STORE_DOMAIN or SHOPIFY_STOREFRONT_TOKEN env vars");
@@ -76,7 +79,8 @@ export async function shopifyFetch<T>(
       Accept: "application/json",
     },
     body: JSON.stringify({ query, variables }),
-    cache,
+    cache: options?.cache ?? "no-store",
+    next: options?.next,
   });
 
   if (!res.ok) {
@@ -131,7 +135,7 @@ export async function getProducts(first = 50): Promise<ShopifyProduct[]> {
       images: { nodes: ShopifyImage[] };
       variants: { nodes: ShopifyVariant[] };
     }> };
-  }>(query, { first });
+  }>(query, { first }, { next: { tags: ["products"] } });
   return data.products.nodes.map((p) => ({
     ...p,
     images: p.images.nodes,
@@ -153,7 +157,7 @@ export async function getProductByHandle(handle: string): Promise<ShopifyProduct
           variants: { nodes: ShopifyVariant[] };
         })
       | null;
-  }>(query, { handle });
+  }>(query, { handle }, { next: { tags: ["products"] } });
   if (!data.product) return null;
   return { ...data.product, images: data.product.images.nodes, variants: data.product.variants.nodes };
 }

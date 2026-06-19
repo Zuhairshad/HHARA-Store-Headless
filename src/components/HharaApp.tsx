@@ -1954,11 +1954,11 @@ function AccountPage({ onAuthenticated }: { onAuthenticated?: () => void }) {
           <form className="auth-form" onSubmit={handleSignUp}>
             <div className="field">
               <label>First Name</label>
-              <input type="text" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} placeholder="Your given name" />
+              <input type="text" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} placeholder="First name" />
             </div>
             <div className="field">
               <label>Last Name</label>
-              <input type="text" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} placeholder="Your family name" />
+              <input type="text" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} placeholder="Last name" />
             </div>
             <div className="field">
               <label>Email</label>

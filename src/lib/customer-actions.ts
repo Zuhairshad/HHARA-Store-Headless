@@ -46,6 +46,14 @@ export async function signUp(input: {
   const tok = await customerAccessTokenCreate(input.email, input.password);
   if (!tok.token) return { ok: false, error: tok.errors[0]?.message || "Login after signup failed" };
   await writeToken(tok.token.accessToken, tok.token.expiresAt);
+  
+  // Link guest cart to customer account if present
+  const cCookie = await cookies();
+  const cartId = cCookie.get("hhara_cart_id")?.value;
+  if (cartId) {
+    try { await customerAssociateCart(cartId, tok.token.accessToken); } catch {}
+  }
+
   return { ok: true };
 }
 
@@ -53,6 +61,14 @@ export async function signIn(email: string, password: string): Promise<{ ok: boo
   const tok = await customerAccessTokenCreate(email, password);
   if (!tok.token) return { ok: false, error: tok.errors[0]?.message || "Invalid credentials" };
   await writeToken(tok.token.accessToken, tok.token.expiresAt);
+
+  // Link guest cart to customer account if present
+  const cCookie = await cookies();
+  const cartId = cCookie.get("hhara_cart_id")?.value;
+  if (cartId) {
+    try { await customerAssociateCart(cartId, tok.token.accessToken); } catch {}
+  }
+
   return { ok: true };
 }
 
