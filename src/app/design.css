@@ -2085,4 +2085,33 @@ img { display: block; max-width: 100%; }
   .wish-grid { grid-template-columns: repeat(2, 1fr); }
   .lb-row.cols-2, .lb-row.cols-2-flip, .lb-row.cols-3 { grid-template-columns: 1fr; }
   .search-results { grid-template-columns: 1fr; }
+  
+  /* Mobile image swipe slider for PDP product gallery */
+  .pdp-gallery {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 8px;
+    padding-bottom: 12px;
+    scrollbar-width: none; /* Firefox */
+  }
+  .pdp-gallery::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+  .pdp-gallery .shot {
+    flex: 0 0 85%; /* Peek next slide */
+    scroll-snap-align: start;
+    aspect-ratio: 3 / 4;
+  }
+  .pdp-gallery .shot.wide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* Spinner keyframe animation for buttons */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }

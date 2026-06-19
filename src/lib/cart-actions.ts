@@ -8,6 +8,7 @@ import {
   cartLinesRemove,
   getCart,
   ShopifyCart,
+  cartDiscountCodesUpdate,
 } from "./shopify";
 
 const COOKIE = "hhara_cart_id";
@@ -67,4 +68,10 @@ export async function getCurrentCart(): Promise<ShopifyCart | null> {
   const id = await readCartId();
   if (!id) return null;
   return getCart(id);
+}
+
+export async function applyDiscountCode(code: string): Promise<ShopifyCart> {
+  const id = await readCartId();
+  if (!id) return ensureCart();
+  return cartDiscountCodesUpdate(id, code ? [code] : []);
 }

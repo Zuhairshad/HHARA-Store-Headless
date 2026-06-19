@@ -2,7 +2,7 @@
 // @ts-nocheck
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, react/no-unescaped-entities */
 import React, { useState, useEffect, useRef, useContext, createContext } from "react";
-import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine } from "@/lib/cart-actions";
+import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount } from "@/lib/cart-actions";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
 
@@ -470,7 +470,27 @@ function Footer({ setRoute }) {
 
 // === FILE 05-1ba71939-ee08-44bd-a9c0-607c20b1bd8a.jsx ===
 
-function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct, checkoutUrl, setRoute }) {
+function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct, checkoutUrl, setRoute, discountCodes, applyDiscount }) {
+  const [promo, setPromo] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleApplyPromo = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (busy) return;
+    setBusy(true);
+    setError("");
+    try {
+      await applyDiscount(promo.trim());
+      setPromo("");
+    } catch (err) {
+      setError("Invalid or expired code");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const activeDiscount = discountCodes?.find((d: any) => d.applicable);
   const subtotal = items.reduce((a, i) => a + i.price * i.qty, 0);
   const freeThreshold = 800;
   const progress = Math.min(subtotal / freeThreshold, 1);
@@ -540,6 +560,27 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct, 
               })}
             </div>
             <div className="cart-foot">
+              {!activeDiscount ? (
+                <form onSubmit={handleApplyPromo} className="promo-form" style={{ display: "flex", gap: 8, margin: "0 0 16px" }}>
+                  <input 
+                    type="text" 
+                    placeholder="Promo Code" 
+                    value={promo} 
+                    onChange={(e) => setPromo(e.target.value)} 
+                    disabled={busy}
+                    style={{ flex: 1, padding: "8px 12px", border: "1px solid var(--line-soft)", background: "transparent", fontSize: 13 }}
+                  />
+                  <button type="submit" disabled={busy || !promo} className="btn" style={{ padding: "8px 16px", fontSize: 12, minHeight: "unset" }}>
+                    {busy ? "Applying..." : "Apply"}
+                  </button>
+                </form>
+              ) : (
+                <div className="cart-row discount-row" style={{ display: "flex", justifyContent: "space-between", color: "#7a2e3a", fontSize: 13, margin: "0 0 16px", border: "1px solid var(--line-soft)", padding: "8px 12px" }}>
+                  <span>Code Applied: <strong>{activeDiscount.code}</strong></span>
+                  <button onClick={() => applyDiscount("")} style={{ background: "none", border: "none", color: "var(--ink-soft)", textDecoration: "underline", fontSize: 12, cursor: "pointer", padding: 0 }}>Remove</button>
+                </div>
+              )}
+              {error && <div style={{ color: "#7a2e3a", fontSize: 12, marginTop: -8, marginBottom: 16 }}>{error}</div>}
               <div className="cart-row">
                 <span>Subtotal</span>
                 <span>AED {subtotal.toLocaleString()}</span>
@@ -1044,12 +1085,15 @@ function CollectionPage({ setRoute, openProduct, quickAdd }) {
   if (sort === "Price, low to high") visible.sort((a, b) => a.price - b.price);
   if (sort === "Price, high to low") visible.sort((a, b) => b.price - a.price);
 
-  const cats = ["The Imara Set", "The Dalia Set"];
-  const sizes = ["XS", "S", "M", "L", "XL"];
-  const colorOpts = [
-    { name: "Bark Oxides", hex: "#5C4632" },
-    { name: "Zinc Crimson", hex: "#7A2E3A" },
-  ];
+  // Dynamically extract categories, sizes, and color choices from loaded catalog
+  const cats = Array.from(new Set(PRODUCTS.map((p) => p.cat).filter(Boolean)));
+  const sizes = Array.from(new Set(PRODUCTS.flatMap((p) => p.sizes).filter(Boolean)));
+  
+  const colorMap = new Map<string, string>();
+  PRODUCTS.flatMap((p) => p.swatches).forEach((s) => {
+    if (s.name) colorMap.set(s.name, s.hex || "#888");
+  });
+  const colorOpts = Array.from(colorMap.entries()).map(([name, hex]) => ({ name, hex }));
 
   const toggle = (group, val) => {
     setFilters((f) => ({
@@ -1178,6 +1222,8 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const [size, setSize] = useState(null);
   const [open, setOpen] = useState("details");
   const [added, setAdded] = useState(false);
+  const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
+  const [adding, setAdding] = useState(false);
 
   React.useEffect(() => {
     setColor(product.swatches[0]);
@@ -1186,7 +1232,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [productId]);
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (!size) {
       const el = document.querySelector(".pdp-sizes");
       if (el) el.classList.add("flash");
@@ -1196,16 +1242,23 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
       }, 600);
       return;
     }
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      color: color.name,
-      size,
-      tone: product.tone,
-    });
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1800);
+    setAdding(true);
+    try {
+      await addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        color: color.name,
+        size,
+        tone: product.tone,
+      });
+      setAdded(true);
+      setTimeout(() => setAdded(false), 1800);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setAdding(false);
+    }
   };
 
   const related = PRODUCTS.filter((p) => p.id !== product.id && p.cat === product.cat).slice(0, 4);
@@ -1285,7 +1338,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
             <div className="pdp-option-row">
               <div className="lbl">
                 <span>Size {size && <span style={{ color: "var(--muted)" }}>— {size}</span>}</span>
-                <span className="help">Size guide</span>
+                <span className="help" onClick={() => setSizeGuideOpen(true)} style={{ cursor: "pointer", textDecoration: "underline" }}>Size guide</span>
               </div>
               <div className="pdp-sizes">
                 {product.sizes.map((s) => {
@@ -1311,8 +1364,17 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
             <div className="pdp-actions">
               <div className="pdp-actions-row">
-                <button className="btn btn-primary" onClick={handleAdd}>
-                  {added ? "Added to Bag ✓" : `Add to Bag — AED ${product.price.toLocaleString()}`}
+                <button className="btn btn-primary" onClick={handleAdd} disabled={adding}>
+                  {adding ? (
+                    <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                      <span className="spinner" style={{ width: 12, height: 12, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }}></span>
+                      Adding...
+                    </span>
+                  ) : added ? (
+                    "Added to Bag ✓"
+                  ) : (
+                    `Add to Bag — AED ${product.price.toLocaleString()}`
+                  )}
                 </button>
                 <button className="pdp-iconbtn" onClick={() => onWishlistToggle?.(product.id)} title="Save to wishlist"><Icon.Heart /></button>
               </div>
@@ -1362,6 +1424,47 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
           ))}
         </div>
       </section>
+
+      {sizeGuideOpen && (
+        <>
+          <div className="cart-backdrop open" onClick={() => setSizeGuideOpen(false)} style={{ zIndex: 1000 }}></div>
+          <aside className="cart-drawer open" style={{ zIndex: 1001, padding: "24px 32px", width: "100%", maxWidth: "480px" }}>
+            <div className="cart-head" style={{ marginBottom: 32 }}>
+              <h3>Size Guide</h3>
+              <button onClick={() => setSizeGuideOpen(false)}><Icon.Close /></button>
+            </div>
+            
+            <p style={{ fontSize: 14, opacity: 0.7, lineHeight: 1.6, marginBottom: 24 }}>
+              Our capsule is engineered for second-skin compression. If you prefer a less restrictive fit, we recommend sizing up.
+            </p>
+
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left", marginBottom: 32 }}>
+              <thead>
+                <tr style={{ borderBottom: "1px solid var(--line-soft)", textTransform: "uppercase", fontSize: 11, letterSpacing: "0.1em" }}>
+                  <th style={{ padding: "8px 0" }}>Size</th>
+                  <th>Chest (cm)</th>
+                  <th>Waist (cm)</th>
+                  <th>Hips (cm)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style={{ borderBottom: "1px solid var(--line-soft)" }}><td style={{ padding: "12px 0" }}><strong>XS</strong> (0–2)</td><td>80–84</td><td>60–64</td><td>86–90</td></tr>
+                <tr style={{ borderBottom: "1px solid var(--line-soft)" }}><td style={{ padding: "12px 0" }}><strong>S</strong> (4–6)</td><td>85–89</td><td>65–69</td><td>91–95</td></tr>
+                <tr style={{ borderBottom: "1px solid var(--line-soft)" }}><td style={{ padding: "12px 0" }}><strong>M</strong> (8–10)</td><td>90–94</td><td>70–74</td><td>96–100</td></tr>
+                <tr style={{ borderBottom: "1px solid var(--line-soft)" }}><td style={{ padding: "12px 0" }}><strong>L</strong> (12–14)</td><td>95–99</td><td>75–79</td><td>101–105</td></tr>
+                <tr style={{ borderBottom: "1px solid var(--line-soft)" }}><td style={{ padding: "12px 0" }}><strong>XL</strong> (16)</td><td>100–104</td><td>80–84</td><td>106–110</td></tr>
+              </tbody>
+            </table>
+
+            <h4 style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 12 }}>How to measure</h4>
+            <ul style={{ paddingLeft: 0, listStyle: "none", fontSize: 13, lineHeight: 1.7, opacity: 0.8, display: "flex", flexDirection: "column", gap: 12 }}>
+              <li><strong>1. Chest:</strong> Measure around the fullest part of your chest, keeping the tape horizontal.</li>
+              <li><strong>2. Waist:</strong> Measure around the narrowest part of your waistline (typically where your body bends side to side).</li>
+              <li><strong>3. Hips:</strong> Measure around the fullest part of your hips, keeping your feet together.</li>
+            </ul>
+          </aside>
+        </>
+      )}
     </>
   );
 }
@@ -2195,6 +2298,17 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     }
   };
 
+  const applyDiscount = async (code: string) => {
+    try {
+      const next = await serverApplyDiscount(code);
+      setShopifyCart(next);
+      return next;
+    } catch (e) {
+      console.error("applyDiscount failed", e);
+      throw e;
+    }
+  };
+
   const cartCount = cart.reduce((a: number, i: any) => a + i.qty, 0);
   const openProduct = (id) => setRoute("product", id);
   const openArticle = (id) => setRoute("article", id);
@@ -2249,6 +2363,8 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
             removeItem={removeItem}
             checkoutUrl={shopifyCart?.checkoutUrl}
             setRoute={setRouteState}
+            discountCodes={shopifyCart?.discountCodes}
+            applyDiscount={applyDiscount}
           />
           <SearchOverlay
             open={searchOpen}

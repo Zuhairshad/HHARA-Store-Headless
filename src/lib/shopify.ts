@@ -52,6 +52,7 @@ export type ShopifyCart = {
       selectedOptions: { name: string; value: string }[];
     };
   }[];
+  discountCodes: { code: string; applicable: boolean }[];
 };
 
 class ShopifyError extends Error {
@@ -187,6 +188,10 @@ const CART_FRAGMENT = /* GraphQL */ `
           }
         }
       }
+    }
+    discountCodes {
+      code
+      applicable
     }
   }
 `;
@@ -363,4 +368,21 @@ export async function customerAssociateCart(cartId: string, token: string): Prom
     }
   `;
   await shopifyFetch(query, { cartId, token });
+}
+
+export async function cartDiscountCodesUpdate(cartId: string, discountCodes: string[]): Promise<ShopifyCart> {
+  const query = /* GraphQL */ `
+    ${CART_FRAGMENT}
+    mutation CartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!]) {
+      cartDiscountCodesUpdate(cartId: $cartId, discountCodes: $discountCodes) {
+        cart { ...CartFields }
+        userErrors { message }
+      }
+    }
+  `;
+  const data = await shopifyFetch<{ cartDiscountCodesUpdate: { cart: RawCart; userErrors: { message: string }[] } }>(
+    query,
+    { cartId, discountCodes }
+  );
+  return normaliseCart(data.cartDiscountCodesUpdate.cart);
 }
