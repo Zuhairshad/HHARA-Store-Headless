@@ -343,6 +343,7 @@ function MegaMenu({ open, onClose, setRoute }) {
 
 function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const closeTimer = useRef(null);
 
   const openMenu = () => {
@@ -359,6 +360,9 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
       <Announce />
       <header className="header" style={{ position: "sticky" }}>
         <div className="header-inner">
+          <button className="mobile-menu-trigger" onClick={() => setMobileMenuOpen(true)}>
+            <Icon.Menu />
+          </button>
           <nav className="header-nav">
             <button
               className={route === "shop" ? "active" : ""}
@@ -412,6 +416,58 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
           <MegaMenu open={menuOpen} onClose={() => setMenuOpen(false)} setRoute={setRoute} />
         </div>
       </header>
+
+      <div className={`mobile-menu-backdrop ${mobileMenuOpen ? "open" : ""}`} onClick={() => setMobileMenuOpen(false)}></div>
+      <aside className={`mobile-menu-drawer ${mobileMenuOpen ? "open" : ""}`} aria-hidden={!mobileMenuOpen}>
+        <div className="mobile-menu-head">
+          <h3>HHARA</h3>
+          <button onClick={() => setMobileMenuOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--ink)", padding: 4 }}>
+            <Icon.Close />
+          </button>
+        </div>
+        <div className="mobile-menu-body">
+          <nav className="mobile-menu-nav">
+            <button
+              className={route === "shop" ? "active" : ""}
+              onClick={() => { setRoute("shop"); setMobileMenuOpen(false); }}
+            >
+              Shop All
+            </button>
+            <button
+              className={route === "lookbook" ? "active" : ""}
+              onClick={() => { setRoute("lookbook"); setMobileMenuOpen(false); }}
+            >
+              Lookbook
+            </button>
+            <button
+              className={route === "atelier" ? "active" : ""}
+              onClick={() => { setRoute("atelier"); setMobileMenuOpen(false); }}
+            >
+              Our Ethos
+            </button>
+            <button
+              className={route === "journal" || route === "article" ? "active" : ""}
+              onClick={() => { setRoute("journal"); setMobileMenuOpen(false); }}
+            >
+              Journal
+            </button>
+            <button
+              className={route === "stores" ? "active" : ""}
+              onClick={() => { setRoute("stores"); setMobileMenuOpen(false); }}
+            >
+              Impact
+            </button>
+          </nav>
+        </div>
+        <div className="mobile-menu-footer">
+          <div className="mobile-menu-locale">
+            <span>EN</span>
+            <span style={{ opacity: 0.5 }}>|</span>
+            <span>AED</span>
+          </div>
+        </div>
+      </aside>
+
     </>
   );
 }
