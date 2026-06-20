@@ -7,6 +7,7 @@ import {
   customerAccessTokenDelete,
   getCustomer,
   customerAssociateCart,
+  shopifyAdminFetch,
 } from "./shopify";
 
 const COOKIE = "hhara_customer_token";
@@ -39,9 +40,63 @@ export async function signUp(input: {
   firstName?: string;
   lastName?: string;
   acceptsMarketing?: boolean;
-}): Promise<{ ok: boolean; error?: string }> {
+}): Promise<{ ok: boolean; error?: string; status?: "TAKEN" | "ACTIVATION_SENT" | "EXISTS" }> {
   const created = await customerCreate(input);
-  if (created.errors.length) return { ok: false, error: created.errors[0].message };
+  if (created.errors.length) {
+    const errorMsg = created.errors[0].message;
+    const isEmailTaken = errorMsg?.toLowerCase().includes("taken") || (created.errors[0] as any).code === "TAKEN";
+    if (isEmailTaken) {
+      try {
+        // Query Admin API to see customer state
+        const query = `
+          query GetCustomer($query: String!) {
+            customers(first: 1, query: $query) {
+              nodes {
+                id
+                state
+              }
+            }
+          }
+        `;
+        const data = await shopifyAdminFetch<{ customers: { nodes: { id: string; state: string }[] } }>(query, {
+          query: `email:${input.email}`
+        });
+        const customer = data.customers.nodes[0];
+        if (customer) {
+          if (customer.state === "DISABLED" || customer.state === "INVITED") {
+            // Send activation email
+            const activationQuery = `
+              mutation SendActivation($id: ID!) {
+                customerSendActivationEmail(customerId: $id) {
+                  activationUrl
+                  userErrors { message }
+                }
+              }
+            `;
+            const actRes = await shopifyAdminFetch<{ customerSendActivationEmail: { activationUrl: string | null; userErrors: any[] } }>(
+              activationQuery,
+              { id: customer.id }
+            );
+            if (actRes.customerSendActivationEmail.userErrors.length === 0) {
+              return {
+                ok: false,
+                status: "ACTIVATION_SENT",
+                error: "An account under this email already exists as a guest (e.g. from your newsletter subscription). We have sent you an activation email to set up your password and complete your registration."
+              };
+            }
+          }
+          return {
+            ok: false,
+            status: "EXISTS",
+            error: "An account under this email already exists. Please log in directly, or click 'Forgot Password' if you need to reset it."
+          };
+        }
+      } catch (err) {
+        console.error("[signUp] Admin account recovery check failed:", err);
+      }
+    }
+    return { ok: false, error: errorMsg };
+  }
   // Auto-login after signup
   const tok = await customerAccessTokenCreate(input.email, input.password);
   if (!tok.token) return { ok: false, error: tok.errors[0]?.message || "Login after signup failed" };

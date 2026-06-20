@@ -92,6 +92,35 @@ export async function shopifyFetch<T>(
   return body.data as T;
 }
 
+export async function shopifyAdminFetch<T>(
+  query: string,
+  variables: Record<string, unknown> = {}
+): Promise<T> {
+  const adminToken = process.env.SHOPIFY_ADMIN_TOKEN;
+  const domain = process.env.SHOPIFY_STORE_DOMAIN;
+  if (!adminToken || !domain) {
+    throw new ShopifyError("Missing SHOPIFY_ADMIN_TOKEN or SHOPIFY_STORE_DOMAIN environment variables.");
+  }
+  const endpoint = `https://${domain}/admin/api/2025-01/graphql.json`;
+  const res = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Shopify-Access-Token": adminToken,
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ query, variables }),
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new ShopifyError(`Shopify Admin HTTP ${res.status}`, await res.text());
+  }
+  const body = (await res.json()) as { data?: T; errors?: unknown };
+  if (body.errors) throw new ShopifyError("Shopify Admin GraphQL errors", body.errors);
+  return body.data as T;
+}
+
 const PRODUCT_FRAGMENT = /* GraphQL */ `
   fragment ProductFields on Product {
     id
