@@ -1096,7 +1096,6 @@ function Home(props) {
       <Hero openShop={() => props.setRoute("shop")} />
       <Marquee />
       <Manifesto onShop={() => props.setRoute("shop")} />
-      <Categories onPick={() => props.setRoute("shop")} />
       <FeaturedGrid
         ids={HHRAA_DATA.FEATURED_IDS}
         title="The Capsule"
