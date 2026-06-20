@@ -18,7 +18,7 @@ const TOKEN = process.env.SHOPIFY_ADMIN_TOKEN;
 const API = process.env.SHOPIFY_API_VERSION || "2025-01";
 const ENDPOINT = `https://${DOMAIN}/admin/api/${API}/graphql.json`;
 
-const QUANTITY = 100;
+const QUANTITY = 10;
 
 async function gql(query, variables = {}) {
   const res = await fetch(ENDPOINT, {
