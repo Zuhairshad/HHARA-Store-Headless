@@ -1530,12 +1530,30 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
   const handleAdd = async () => {
     if (!size) {
-      const el = document.querySelector(".pdp-sizes");
-      if (el) el.classList.add("flash");
-      setTimeout(() => {
+      if (reelOpen) {
+        // Shake the reel's size selector to prompt the user
+        const reelSelect = document.querySelector(".reel-cta-card select");
+        if (reelSelect) {
+          reelSelect.style.animation = "none";
+          // Force reflow
+          void (reelSelect as HTMLElement).offsetHeight;
+          reelSelect.style.animation = "shake 0.5s ease";
+          reelSelect.style.border = "1.5px solid #c0392b";
+          setTimeout(() => {
+            if (reelSelect) {
+              reelSelect.style.border = "1px solid rgba(42, 31, 20, 0.25)";
+              reelSelect.style.animation = "none";
+            }
+          }, 1200);
+        }
+      } else {
         const el = document.querySelector(".pdp-sizes");
-        if (el) el.classList.remove("flash");
-      }, 600);
+        if (el) el.classList.add("flash");
+        setTimeout(() => {
+          const el = document.querySelector(".pdp-sizes");
+          if (el) el.classList.remove("flash");
+        }, 600);
+      }
       return;
     }
     setAdding(true);

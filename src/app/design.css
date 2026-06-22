@@ -2441,6 +2441,15 @@ img { display: block; max-width: 100%; }
   to { transform: rotate(360deg); }
 }
 
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-6px); }
+  30% { transform: translateX(5px); }
+  45% { transform: translateX(-4px); }
+  60% { transform: translateX(3px); }
+  75% { transform: translateX(-2px); }
+}
+
 /* Gives Back Page Custom Styles */
 .gives-back-container {
   min-height: 100vh;
@@ -2502,6 +2511,7 @@ img { display: block; max-width: 100%; }
 .gives-back-section.dark {
   background-color: #3A2416;
   text-align: center;
+  padding: 160px 24px;
 }
 
 .gives-back-section.alt-cream {
@@ -2582,10 +2592,10 @@ img { display: block; max-width: 100%; }
 .gives-back-quote-banner {
   font-family: var(--display);
   font-style: italic;
-  font-size: clamp(20px, 3vw, 26px);
+  font-size: clamp(26px, 4vw, 38px);
   line-height: 1.8;
   color: #FAF7F2;
-  max-width: 760px;
+  max-width: 860px;
   margin: 0 auto;
   font-weight: 300;
 }
