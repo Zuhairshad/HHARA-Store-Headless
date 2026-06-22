@@ -307,8 +307,6 @@ function Announce() {
     <div className="announce">
       <div className="announce-track">
         <span>Complimentary Global Shipping From UAE</span>
-        <span className="announce-dot"></span>
-        <span>10% Of Every Acquisition Funds Women-Led Initiatives</span>
       </div>
       <div className="announce-locale">
         <span>EN</span>
