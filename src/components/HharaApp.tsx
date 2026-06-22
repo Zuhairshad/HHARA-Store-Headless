@@ -937,7 +937,7 @@ function Lookbook({ openLookbook }) {
       <div className="section-head">
         <div className="section-head-stack">
           <span className="eyebrow">The Capsule</span>
-          <h2 className="section-title">Worn Intentionally</h2>
+          <h2 className="section-title">Wonder, Worn</h2>
         </div>
         <span className="section-link" onClick={openLookbook} style={{ cursor: "pointer" }}>View the Edit →</span>
       </div>
@@ -1115,7 +1115,7 @@ function Manifesto({ onShop }: { onShop: () => void }) {
           <h2 className="section-title" style={{ fontSize: "clamp(36px, 5vw, 56px)", lineHeight: 1.15 }}>
             Two sets.<br />
             Unapologetically<br />
-            <em style={{ fontFamily: "var(--display), 'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 300 }}>You.</em>
+            <em style={{ fontFamily: "var(--display), 'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 300, color: "#B8892E" }}>You.</em>
           </h2>
         </div>
       </div>
@@ -1303,7 +1303,7 @@ function CollectionPage({ setRoute, openProduct, quickAdd }) {
         <h1>The Collection</h1>
         <p className="cph-desc">
           Four essential technical pieces, two capsules. Designed in the UAE,
-          engineered in recycled performance fabrics. Worn intentionally; every acquisition gives back.
+          engineered in recycled performance fabrics. Crafted with purpose; every acquisition gives back.
         </p>
       </div>
 
@@ -2110,7 +2110,7 @@ const JOURNAL = [
   { id: "j1", title: "From plastic waste to performance grade", excerpt: "Inside the regenerative knit: how ocean and industrial plastic become a sensory-grade fabric.", date: "26 May 2026", cat: "Material Transparency", img: "j1" },
   { id: "j2", title: "On Bark Oxides and Zinc Crimson", excerpt: "Two colorways, two languages. Choosing pigments that capture mineral earth and inner energy.", date: "14 May 2026", cat: "The Palette", img: "j2" },
   { id: "j3", title: "Why we make only four pieces", excerpt: "The case for minimalist production: fewer SKUs, lower waste, garments engineered to outlast.", date: "02 May 2026", cat: "Our Ethos", img: "j3" },
-  { id: "j4", title: "Worn intentionally", excerpt: "Three women, two sets: the Imara and Dalia, photographed across the UAE.", date: "21 April 2026", cat: "The Capsule", img: "j4" },
+  { id: "j4", title: "Wonder, Worn", excerpt: "Three women, two sets: the Imara and Dalia, photographed across the UAE.", date: "21 April 2026", cat: "The Capsule", img: "j4" },
   { id: "j5", title: "Carbon-neutral, from the UAE", excerpt: "How optimised smart-freight from our regional base offsets every single shipment.", date: "08 April 2026", cat: "Circular Luxury", img: "j5" },
   { id: "j6", title: "The 10% directive", excerpt: "Where the philanthropic share goes: women-led literacy, micro-endowments, and clean water alliances.", date: "27 March 2026", cat: "Social Impact", img: "j6" },
 ];
@@ -2228,7 +2228,7 @@ function ArticlePage({ articleId, setRoute, openArticle }) {
         </p>
 
         <p>
-          The garment will be worn intentionally. It will be repaired, returned, re-circulated. And the value
+          The garment is built to endure. It will be repaired, returned, re-circulated. And the value
           will be measured not in seasons, but in social impact. This is, we have come to believe, the entire point.
         </p>
 
@@ -2359,7 +2359,7 @@ function LookbookPage({ setRoute, openProduct }) {
             <div className="ovr"></div>
             <div className="caption">
               <div>The HHARA Capsule</div>
-              <div className="ttl">Worn intentionally, around the world.</div>
+              <div className="ttl">Considered luxury, around the world.</div>
             </div>
           </div>
         </div>
@@ -2391,7 +2391,7 @@ function StoresPage({ setRoute }) {
         <span className="eyebrow">◆ GIVES BACK ◆</span>
         <h1>
           She is wonder.<br />
-          <em>So is every child who has never been told that.</em>
+          <em>Empowering the next generation of wonders.</em>
         </h1>
         <p className="sub">
           Every HHARA piece carries a name and a meaning. We believe every child deserves the same.
