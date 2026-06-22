@@ -420,7 +420,6 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
             </button>
           </nav>
           <div className="brandmark" onClick={() => setRoute("home")}>
-            <img src="/images/Favicon-PNG-02.png" alt="HHARA Mark" className="brandmark-mark" />
             <img src="/images/Text-PNG-02.png" alt="HHARA Wordmark" className="brandmark-text" />
           </div>
           <div className="header-actions">
@@ -742,6 +741,7 @@ function Hero({ openShop }) {
   const heroImgs = [IMGS.hero1, IMGS.hero2, IMGS.hero3];
   const [idx, setIdx] = useState(0);
   const slide = HEROES[idx];
+  const textSlide = HEROES[0];
 
   useEffect(() => {
     const t = setInterval(() => setIdx((i) => (i + 1) % HEROES.length), 7000);
@@ -756,31 +756,25 @@ function Hero({ openShop }) {
         )}
       </div>
       <div className="hero-overlay"></div>
-      <div className="hero-content">
-        <div className="hero-eyebrow">{slide.eyebrow}</div>
-        <h1 className="hero-title">
-          {slide.title.split("\n").map((line, i, arr) => (
-            <span key={i}>
-              {i === arr.length - 1 ? <em>{line}</em> : line}
-              {i < arr.length - 1 && <br />}
-            </span>
-          ))}
-        </h1>
-        <p className="hero-sub">{slide.sub}</p>
-        <div className="hero-ctas">
-          <button className="btn btn-light" onClick={openShop}>
-            {slide.cta}
-            <span className="btn-arrow"><Icon.Arrow /></span>
-          </button>
+      <div className="hero-container">
+        <div className="hero-content">
+          <div className="hero-eyebrow">{textSlide.eyebrow}</div>
+          <h1 className="hero-title">
+            {textSlide.title.split("\n").map((line, i, arr) => (
+              <span key={i}>
+                {i === arr.length - 1 ? <em>{line}</em> : line}
+                {i < arr.length - 1 && <br />}
+              </span>
+            ))}
+          </h1>
+          <p className="hero-sub">{textSlide.sub}</p>
+          <div className="hero-ctas">
+            <button className="btn btn-light" onClick={openShop}>
+              {textSlide.cta}
+              <span className="btn-arrow"><Icon.Arrow /></span>
+            </button>
+          </div>
         </div>
-      </div>
-      <div className="hero-pagination">
-        {HEROES.map((h, i) => (
-          <button key={i} className={i === idx ? "active" : ""} onClick={() => setIdx(i)}>
-            <span className="num">0{i + 1}</span>
-            <span className="dash"></span>
-          </button>
-        ))}
       </div>
     </section>
   );
@@ -1031,10 +1025,10 @@ function Newsletter() {
       
       {/* Peeking Monkey Asset */}
       <div 
-        className="absolute bottom-[-130px] right-[-60px] w-[240px] h-[240px] transform rotate-[-25deg] transition-all duration-500 ease-out group-hover:bottom-[-60px] group-hover:right-[-25px] group-hover:rotate-[-12deg] pointer-events-none z-10 hidden md:block"
+        className="absolute bottom-[-60px] right-[-30px] w-[290px] h-[290px] transform rotate-[-12deg] pointer-events-none z-10 hidden md:block"
       >
         <img 
-          src="/images/monkey-peeking.png" 
+          src="/images/monkey-peeking.jpg" 
           alt="HHARA Meditating Monkey" 
           className="w-full h-full object-contain"
         />
@@ -1157,20 +1151,22 @@ function Pillars() {
   ];
   return (
     <section className="pillars-section">
-      <div className="section-head" style={{ borderBottom: "1px solid rgba(184, 137, 46, 0.12)", paddingBottom: 28, marginBottom: 48 }}>
-        <div className="section-head-stack">
-          <span className="eyebrow" style={{ color: "#B8892E" }}>The Four Pillars</span>
-          <h2 className="section-title" style={{ color: "#F7F3ED", fontWeight: 300 }}>Luxury within<br /><em>intention.</em></h2>
-        </div>
-      </div>
-      <div className="pillars-grid">
-        {pillars.map((p) => (
-          <div key={p.n} className="pillar-card">
-            <div className="pillar-num">{p.n}</div>
-            <h3 className="pillar-title">{p.title}</h3>
-            <p className="pillar-body">{p.body}</p>
+      <div className="pillars-container">
+        <div className="section-head" style={{ borderBottom: "1px solid rgba(184, 137, 46, 0.12)", paddingBottom: 28, marginBottom: 48 }}>
+          <div className="section-head-stack">
+            <span className="eyebrow" style={{ color: "#B8892E" }}>The Four Pillars</span>
+            <h2 className="section-title" style={{ color: "#F7F3ED", fontWeight: 300 }}>Luxury within<br /><em>intention.</em></h2>
           </div>
-        ))}
+        </div>
+        <div className="pillars-grid">
+          {pillars.map((p) => (
+            <div key={p.n} className="pillar-card">
+              <div className="pillar-num">{p.n}</div>
+              <h3 className="pillar-title">{p.title}</h3>
+              <p className="pillar-body">{p.body}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -1320,15 +1316,31 @@ function CollectionPage({ setRoute, openProduct, quickAdd }) {
         </div>
         <div className="ctoolbar-r">
           <span style={{ color: "var(--muted)" }}>Sort:</span>
-          {["Featured", "Newest", "Price, low to high", "Price, high to low"].map((s) => (
-            <button
-              key={s}
-              onClick={() => setSort(s)}
-              style={{ opacity: sort === s ? 1 : 0.5, fontWeight: sort === s ? 500 : 400 }}
+          
+          <div className="sort-select-wrapper">
+            <select 
+              value={sort} 
+              onChange={(e) => setSort(e.target.value)}
+              className="sort-select"
             >
-              {s}
-            </button>
-          ))}
+              {["Featured", "Newest", "Price, low to high", "Price, high to low"].map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+            <Icon.Chevron dir="down" />
+          </div>
+
+          <div className="sort-buttons">
+            {["Featured", "Newest", "Price, low to high", "Price, high to low"].map((s) => (
+              <button
+                key={s}
+                onClick={() => setSort(s)}
+                style={{ opacity: sort === s ? 1 : 0.5, fontWeight: sort === s ? 500 : 400 }}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -2034,7 +2046,7 @@ function AtelierPage({ setRoute }) {
         </div>
       </div>
 
-      <section className="craft-grid" style={{ gridTemplateColumns: "repeat(3, 1fr)", paddingTop: 0 }}>
+      <section className="craft-grid three-cols" style={{ paddingTop: 0 }}>
         <div className="craft-item">
           <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>01</div>
           <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>5am</h4>
