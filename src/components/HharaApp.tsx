@@ -2839,6 +2839,21 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
   const [searchOpen, setSearchOpen] = useState(false);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [wishlistLoaded, setWishlistLoaded] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+
+    const timer = setTimeout(() => {
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }, 50);
+
+    return () => clearTimeout(timer);
+  }, [route, productId, articleId]);
+
   useEffect(() => {
     try {
       const raw = localStorage.getItem("hhara_wishlist");
