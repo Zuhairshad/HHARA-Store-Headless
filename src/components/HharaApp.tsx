@@ -2545,7 +2545,7 @@ function StoresPage({ setRoute }) {
       {/* LARGE STAT BANNER SECTION */}
       <section className="gives-back-section alt-cream">
         <div className="gives-back-content-width">
-          <div className="gives-back-large-number">273M</div>
+          <div className="gives-back-large-number"><span>273</span><span className="gives-back-large-number-m">M</span></div>
           <div className="gives-back-large-number-eyebrow">Children out of school worldwide</div>
           <p className="gives-back-large-number-text">
             A number that has risen for seven consecutive years. We cannot change that number alone. But we can change it for the children closest to us: the ones nobody else was looking for.
