@@ -3429,18 +3429,6 @@ img { display: block; max-width: 100%; }
   margin: 0 auto;
 }
 
-.hero-container {
-  position: relative;
-  max-width: var(--maxw);
-  margin: 0 auto;
-  height: 100%;
-  pointer-events: none;
-}
-
-.hero-container > * {
-  pointer-events: auto;
-}
-
 .pillars-container {
   max-width: var(--maxw);
   margin: 0 auto;

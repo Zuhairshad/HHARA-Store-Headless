@@ -756,24 +756,22 @@ function Hero({ openShop }) {
         )}
       </div>
       <div className="hero-overlay"></div>
-      <div className="hero-container">
-        <div className="hero-content">
-          <div className="hero-eyebrow">{textSlide.eyebrow}</div>
-          <h1 className="hero-title">
-            {textSlide.title.split("\n").map((line, i, arr) => (
-              <span key={i}>
-                {i === arr.length - 1 ? <em>{line}</em> : line}
-                {i < arr.length - 1 && <br />}
-              </span>
-            ))}
-          </h1>
-          <p className="hero-sub">{textSlide.sub}</p>
-          <div className="hero-ctas">
-            <button className="btn btn-light" onClick={openShop}>
-              {textSlide.cta}
-              <span className="btn-arrow"><Icon.Arrow /></span>
-            </button>
-          </div>
+      <div className="hero-content">
+        <div className="hero-eyebrow">{textSlide.eyebrow}</div>
+        <h1 className="hero-title">
+          {textSlide.title.split("\n").map((line, i, arr) => (
+            <span key={i}>
+              {i === arr.length - 1 ? <em>{line}</em> : line}
+              {i < arr.length - 1 && <br />}
+            </span>
+          ))}
+        </h1>
+        <p className="hero-sub">{textSlide.sub}</p>
+        <div className="hero-ctas">
+          <button className="btn btn-light" onClick={openShop}>
+            {textSlide.cta}
+            <span className="btn-arrow"><Icon.Arrow /></span>
+          </button>
         </div>
       </div>
     </section>
