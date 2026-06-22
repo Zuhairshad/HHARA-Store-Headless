@@ -21,7 +21,7 @@ export async function subscribeNewsletter(email: string): Promise<{ ok: boolean;
       input: {
         email,
         acceptsMarketing: true,
-        // No password — Shopify creates a "guest" / marketing-only customer record.
+        // No password - Shopify creates a "guest" / marketing-only customer record.
         // If Shopify rejects this for missing password, we'll fall through and treat
         // certain error codes as success (e.g. ALREADY_EXISTS).
         password: cryptoRandom(),
@@ -29,7 +29,7 @@ export async function subscribeNewsletter(email: string): Promise<{ ok: boolean;
     });
     const errs = data.customerCreate.customerUserErrors;
     if (errs.length) {
-      // Treat duplicate as success — they're already on the list
+      // Treat duplicate as success - they're already on the list
       if (errs.some((e) => /already/i.test(e.message) || e.code === "TAKEN")) return { ok: true };
       return { ok: false, error: errs[0].message };
     }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope, JetBrains_Mono } from "next/font/google";
+import { Cormorant_Garamond, Montserrat, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -8,9 +8,9 @@ const cormorant = Cormorant_Garamond({
   style: ["normal", "italic"],
   variable: "--font-display",
 });
-const manrope = Manrope({
+const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["100", "200", "300", "400", "500", "600", "700"],
   variable: "--font-sans",
 });
 const jetbrains = JetBrains_Mono({
@@ -20,11 +20,11 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "HHARA — Maison of Considered Luxury",
+  title: "HHARA | Maison of Considered Luxury",
   description: "Conceived in Florence, engineered in the UAE. High-performance activewear crafted from recycled ocean plastic, designed for longevity.",
   keywords: ["HHARA", "Considered Luxury", "Activewear", "Recycled Performance Wear", "UAE Activewear", "Maison HHARA", "Imara Set", "Dalia Set"],
   openGraph: {
-    title: "HHARA — Maison of Considered Luxury",
+    title: "HHARA | Maison of Considered Luxury",
     description: "Conceived in Florence, engineered in the UAE. High-performance activewear crafted from recycled ocean plastic, designed for longevity.",
     url: "https://hhara-store-headless.vercel.app",
     siteName: "HHARA",
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
         url: "/images/hero1.jpg",
         width: 1200,
         height: 630,
-        alt: "HHARA — Maison of Considered Luxury Capsule Collection",
+        alt: "HHARA | Maison of Considered Luxury Capsule Collection",
       },
     ],
     locale: "en_US",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "HHARA — Maison of Considered Luxury",
+    title: "HHARA | Maison of Considered Luxury",
     description: "Conceived in Florence, engineered in the UAE. High-performance activewear crafted from recycled ocean plastic, designed for longevity.",
     images: ["/images/hero1.jpg"],
   },
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${manrope.variable} ${jetbrains.variable}`}>
+    <html lang="en" className={`${cormorant.variable} ${montserrat.variable} ${jetbrains.variable}`}>
       <body>{children}</body>
     </html>
   );

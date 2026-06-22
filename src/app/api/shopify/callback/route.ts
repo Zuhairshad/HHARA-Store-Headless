@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Missing code, shop or state" }, { status: 400 });
   }
   if (!stateCookie || state !== stateCookie) {
-    return NextResponse.json({ error: "State mismatch — possible CSRF" }, { status: 400 });
+    return NextResponse.json({ error: "State mismatch, possible CSRF" }, { status: 400 });
   }
   if (!/^[a-zA-Z0-9-]+\.myshopify\.com$/.test(shop)) {
     return NextResponse.json({ error: "Invalid shop domain" }, { status: 400 });

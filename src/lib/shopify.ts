@@ -29,6 +29,7 @@ export type ShopifyProduct = {
   featuredImage: ShopifyImage | null;
   images: ShopifyImage[];
   variants: ShopifyVariant[];
+  metafield?: any;
 };
 
 export type ShopifyCart = {
@@ -146,6 +147,25 @@ const PRODUCT_FRAGMENT = /* GraphQL */ `
         price { amount currencyCode }
         selectedOptions { name value }
         image { url altText width height }
+      }
+    }
+    metafield(namespace: "custom", key: "floating_video") {
+      id
+      namespace
+      key
+      value
+      reference {
+        ... on Video {
+          id
+          sources {
+            url
+            mimeType
+            format
+          }
+          previewImage {
+            url
+          }
+        }
       }
     }
   }

@@ -37,8 +37,12 @@ async function clearCartId() {
 export async function ensureCart(): Promise<ShopifyCart> {
   const id = await readCartId();
   if (id) {
-    const existing = await getCart(id);
-    if (existing) return existing;
+    try {
+      const existing = await getCart(id);
+      if (existing && existing.checkoutUrl) return existing;
+    } catch (e) {
+      console.warn("[cart] failed to fetch existing cart, creating new one:", e);
+    }
     await clearCartId();
   }
   const created = await cartCreate();
@@ -47,8 +51,16 @@ export async function ensureCart(): Promise<ShopifyCart> {
 }
 
 export async function addLine(merchandiseId: string, quantity: number): Promise<ShopifyCart> {
-  const cart = await ensureCart();
-  return cartLinesAdd(cart.id, [{ merchandiseId, quantity }]);
+  let cart = await ensureCart();
+  try {
+    return await cartLinesAdd(cart.id, [{ merchandiseId, quantity }]);
+  } catch (e) {
+    // Cart may be expired/invalid — clear and retry with a fresh cart
+    console.warn("[cart] addLine failed, retrying with fresh cart:", e);
+    await clearCartId();
+    cart = await ensureCart();
+    return cartLinesAdd(cart.id, [{ merchandiseId, quantity }]);
+  }
 }
 
 export async function updateLine(lineId: string, quantity: number): Promise<ShopifyCart> {

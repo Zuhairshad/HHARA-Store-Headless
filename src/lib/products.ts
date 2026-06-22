@@ -34,7 +34,23 @@ export type LocalProduct = {
   }[];
   description: string;
   details: string[];
+  floatingVideoUrl?: string | null;
 };
+
+const TALA_FALLBACK_IMAGES = [
+  "https://cdn.shopify.com/s/files/1/0081/8711/7664/files/Dayflex_VNeckVest_DarkOlive_217.jpg",
+  "https://cdn.shopify.com/s/files/1/0081/8711/7664/files/Dayflex_VNeckVest_DarkOlive.jpg",
+  "https://cdn.shopify.com/s/files/1/0081/8711/7664/files/Dayflex_BandeauBra_MidnightNavy_070.jpg",
+  "https://cdn.shopify.com/s/files/1/0081/8711/7664/files/Dayflex_BandeauBra_Midnight_navy.jpg",
+  "https://cdn.shopify.com/s/files/1/0081/8711/7664/files/Dayflex_VNeckVest_DarkOlive_267.jpg",
+  "https://cdn.shopify.com/s/files/1/0081/8711/7664/files/Dayflex_VNeckVest_DarkOlive_274.jpg",
+  "https://cdn.shopify.com/s/files/1/0081/8711/7664/files/Dayflex_BandeauBra_MidnightNavy_106.jpg",
+  "https://cdn.shopify.com/s/files/1/0081/8711/7664/files/Dayflex_VNeckVest_DarkOlive_201.jpg",
+  "https://cdn.shopify.com/s/files/1/0081/8711/7664/files/Dayflex_BandeauBra_MidnightNavy_045.jpg",
+  "https://cdn.shopify.com/s/files/1/0081/8711/7664/files/Dayflex_BandeauBra_MidnightNavy_143.jpg",
+  "https://cdn.shopify.com/s/files/1/0081/8711/7664/files/Dayflex_VNeckVest_DarkOlive_DETAIL.jpg",
+  "https://cdn.shopify.com/s/files/1/0081/8711/7664/files/Dayflex_BandeauBra_Midnight_navy_DETAIL.jpg"
+];
 
 function mapShopifyProduct(p: ShopifyProduct, index: number): LocalProduct {
   const colorOpt = p.options.find((o) => /color|colour|colorway/i.test(o.name));
@@ -45,6 +61,29 @@ function mapShopifyProduct(p: ShopifyProduct, index: number): LocalProduct {
     hex: COLOR_HEX[v] || "#5C4632",
   }));
   const sizes = sizeOpt?.values?.length ? sizeOpt.values : ["One Size"];
+
+  let featuredImage = p.featuredImage;
+  let images = p.images || [];
+
+  if (!featuredImage || !images.length) {
+    const idxA = (index * 2) % TALA_FALLBACK_IMAGES.length;
+    const idxB = (index * 2 + 1) % TALA_FALLBACK_IMAGES.length;
+    featuredImage = {
+      url: TALA_FALLBACK_IMAGES[idxA],
+      altText: p.title,
+      width: 1000,
+      height: 1500,
+    };
+    images = [
+      featuredImage,
+      {
+        url: TALA_FALLBACK_IMAGES[idxB],
+        altText: `${p.title} detail`,
+        width: 1000,
+        height: 1500,
+      },
+    ];
+  }
 
   return {
     id: `p${index + 1}`,
@@ -58,8 +97,8 @@ function mapShopifyProduct(p: ShopifyProduct, index: number): LocalProduct {
     tone: TONE_CYCLE[index % TONE_CYCLE.length],
     altTone: ALT_TONE_CYCLE[index % ALT_TONE_CYCLE.length],
     imgKey: null,
-    featuredImage: p.featuredImage,
-    images: p.images,
+    featuredImage,
+    images,
     variants: p.variants.map((v) => ({
       id: v.id,
       title: v.title,
@@ -69,6 +108,9 @@ function mapShopifyProduct(p: ShopifyProduct, index: number): LocalProduct {
     })),
     description: p.description,
     details: p.description.split(/\n+/).filter(Boolean),
+    floatingVideoUrl: p.metafield?.reference?.sources?.find((s: any) => 
+      s.url.includes(".mp4") || s.mimeType?.includes("video/mp4")
+    )?.url || p.metafield?.reference?.sources?.[0]?.url || null,
   };
 }
 
