@@ -497,7 +497,7 @@ function Footer({ setRoute }) {
         <div className="footer-top">
           <div className="footer-brand">
             <div onClick={() => setRoute("home")} style={{ cursor: "pointer", marginBottom: "16px", display: "flex", alignItems: "center", gap: "12px" }}>
-              <img src="/images/monkey-peeking.jpg" alt="HHARA Mark" style={{ height: "30px", width: "auto", objectFit: "contain" }} />
+              <img src="/images/monkey-logo.jpg" alt="HHARA Mark" style={{ height: "30px", width: "auto", objectFit: "contain" }} />
               <img src="/images/Text-PNG-02.png" alt="HHARA" style={{ height: "22px", width: "auto" }} />
             </div>
             <div className="gold-rule"></div>
@@ -1020,6 +1020,17 @@ function Newsletter() {
           </button>
         </form>
         {error && <div style={{ marginTop: 12, fontSize: 13, color: "#fbb" }}>{error}</div>}
+      </div>
+      
+      {/* Peeking Monkey Asset */}
+      <div 
+        className="absolute bottom-[-90px] right-[-45px] w-[290px] h-[290px] transform rotate-[-12deg] pointer-events-none z-10 hidden md:block"
+      >
+        <img 
+          src="/images/monkey-peeking.png" 
+          alt="HHARA Meditating Monkey" 
+          className="w-full h-full object-contain"
+        />
       </div>
     </section>
   );
