@@ -550,7 +550,7 @@ function Footer({ setRoute }) {
 
 // === FILE 05-1ba71939-ee08-44bd-a9c0-607c20b1bd8a.jsx ===
 
-function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct, checkoutUrl, setRoute, discountCodes, applyDiscount }) {
+function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct = null, checkoutUrl, setRoute, discountCodes, applyDiscount }: { open: any; onClose: any; items: any; updateQty: any; removeItem: any; openProduct?: any; checkoutUrl: any; setRoute: any; discountCodes: any; applyDiscount: any }) {
   const [promo, setPromo] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -696,7 +696,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct, 
 
 // === FILE 06-ce7b1d96-f64b-4723-b417-6dfb0feade07.jsx ===
 
-function ProductCard({ product, onClick, onQuickAdd }) {
+function ProductCard({ product, onClick, onQuickAdd }: { product: any; onClick: any; onQuickAdd?: any }) {
 
   const imgA = product.imgKey ? IMGS[product.imgKey + "a"] : (product.featuredImage?.url || product.images?.[0]?.url || null);
   const imgB = product.imgKey ? IMGS[product.imgKey + "b"] : (product.images?.[1]?.url || product.featuredImage?.url || null);
@@ -1268,8 +1268,8 @@ function CollectionPage({ setRoute, openProduct, quickAdd }) {
   if (sort === "Price, high to low") visible.sort((a, b) => b.price - a.price);
 
   // Dynamically extract categories, sizes, and color choices from loaded catalog
-  const cats = Array.from(new Set(PRODUCTS.map((p) => p.cat).filter(Boolean)));
-  const sizes = Array.from(new Set(PRODUCTS.flatMap((p) => p.sizes).filter(Boolean)));
+  const cats = Array.from(new Set(PRODUCTS.map((p) => p.cat).filter(Boolean))) as string[];
+  const sizes = Array.from(new Set(PRODUCTS.flatMap((p) => p.sizes).filter(Boolean))) as string[];
 
   const colorMap = new Map<string, string>();
   PRODUCTS.flatMap((p) => p.swatches).forEach((s) => {
@@ -1530,11 +1530,11 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
     if (!size) {
       if (reelOpen) {
         // Shake the reel's size selector to prompt the user
-        const reelSelect = document.querySelector(".reel-cta-card select");
+        const reelSelect = document.querySelector(".reel-cta-card select") as HTMLElement | null;
         if (reelSelect) {
           reelSelect.style.animation = "none";
           // Force reflow
-          void (reelSelect as HTMLElement).offsetHeight;
+          void reelSelect.offsetHeight;
           reelSelect.style.animation = "shake 0.5s ease";
           reelSelect.style.border = "1.5px solid #c0392b";
           setTimeout(() => {
@@ -2756,7 +2756,7 @@ function SearchOverlay({ open, onClose, openProduct }) {
     if (open) {
       setTimeout(() => {
         const el = document.querySelector(".search-bar input");
-        if (el) el.focus();
+        if (el) (el as HTMLElement).focus();
       }, 100);
     } else {
       setQ("");
