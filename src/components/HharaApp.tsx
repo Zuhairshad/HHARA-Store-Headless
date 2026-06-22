@@ -1024,7 +1024,7 @@ function Newsletter() {
       
       {/* Peeking Monkey Asset */}
       <div 
-        className="absolute bottom-[-90px] right-[-45px] w-[290px] h-[290px] transform rotate-[-12deg] pointer-events-none z-10 hidden md:block"
+        className="absolute bottom-[-40px] right-[-20px] w-[360px] h-[360px] transform rotate-[-10deg] pointer-events-none z-10 hidden md:block"
       >
         <img 
           src="/images/monkey-peeking.png" 
