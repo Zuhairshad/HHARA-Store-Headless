@@ -2,4 +2,5 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "leaflet/dist/leaflet.css";
 @import "./design.css";

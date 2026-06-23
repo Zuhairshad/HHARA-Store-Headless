@@ -1,10 +1,11 @@
 "use client";
 // @ts-nocheck
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, react/no-unescaped-entities */
-import React, { useState, useEffect, useRef, useContext, createContext } from "react";
+import React, { useState, useEffect, useRef, useContext, createContext, lazy, Suspense } from "react";
 import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount } from "@/lib/cart-actions";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
+const ImpactMap = lazy(() => import("./ImpactMap"));
 
 const ProductsContext = createContext(null);
 const ShopifyCartContext = createContext(null);
@@ -2578,107 +2579,96 @@ function StoresPage({ setRoute }) {
       </section>
 
       {/* IMPACT MAP SECTION */}
-      <section className="gives-back-section alt-cream" style={{ padding: "80px var(--pad)" }}>
+      <section style={{ backgroundColor: "#14100b", padding: "100px var(--pad)" }}>
         <div className="gives-back-content-width" style={{ maxWidth: 1100 }}>
-          <div style={{ textAlign: "center", marginBottom: "32px" }}>
-            <span className="eyebrow" style={{ color: "#B8892E" }}>OUR GIVING · WHERE WONDER GIVES BACK</span>
-            <h2 className="gives-back-headline" style={{ margin: "16px 0 0" }}>
-              Every purchase.<br />
-              <em>A child in school.</em>
+          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+            <span className="eyebrow" style={{ color: "rgba(247,243,237,0.45)", letterSpacing: "0.3em" }}>OUR GIVING · WHERE WONDER GIVES BACK</span>
+            <h2 style={{
+              fontFamily: "var(--display)",
+              fontWeight: 300,
+              fontStyle: "italic",
+              fontSize: "clamp(32px, 4.5vw, 56px)",
+              color: "#F7F3ED",
+              lineHeight: 1.1,
+              margin: "20px 0 20px",
+            }}>
+              A child in school.
             </h2>
+            <p style={{
+              color: "rgba(247,243,237,0.55)",
+              fontSize: "clamp(13px, 1.1vw, 15px)",
+              maxWidth: 520,
+              margin: "0 auto",
+              lineHeight: 1.75,
+              fontWeight: 300,
+            }}>
+              HHARA is built on circular luxury — beauty that gives back. Our first giving chapter sponsors children's education in Kenya, one purchase at a time.
+            </p>
           </div>
-          
-          {/* Simple Square Map of Kenya */}
-          <div className="impact-map-container" style={{ aspectRatio: "1 / 1", maxWidth: 500, margin: "0 auto", position: "relative", backgroundColor: "transparent", borderRadius: 8, overflow: "visible" }}>
-            <img 
-              src="/images/kenya-square-map.png" 
-              alt="HHARA Kenya footprint map" 
-              className="impact-map-image"
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", borderRadius: 8 }}
-            />
-            
-            {/* Kenya Pin (Proper Location Marker Pin) */}
-            <div className="map-pin-wrapper kenya" style={{ left: "54.5%", top: "47%", transform: "translate(-50%, -85%)" }}>
-              <svg 
-                viewBox="0 0 24 24" 
-                width="34" 
-                height="34"
-                className="map-pin-marker"
-                style={{ filter: "drop-shadow(0px 3px 5px rgba(0,0,0,0.2))", display: "block" }}
-              >
-                <path 
-                  d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" 
-                  fill="#6B2737" 
-                  stroke="#F7F3ED" 
-                  strokeWidth="1.5"
-                />
-              </svg>
-              <div className="map-pin-tooltip" style={{ bottom: "35px" }}>
-                <h4 style={{ color: "#6B2737" }}>EDUCATION GIVING · KENYA</h4>
-                <p style={{ fontWeight: 600, color: "var(--ink)", fontFamily: "var(--sans)", fontSize: 11, margin: "4px 0 2px 0", textTransform: "none", letterSpacing: "normal" }}>Nairobi, Kenya</p>
-                <p>
-                  HHARA's first giving chapter. Sponsoring children's education through every purchase made globally.
-                </p>
-              </div>
+
+          {/* Interactive Leaflet Map */}
+          <div style={{ borderRadius: 12, overflow: "hidden", border: "1px solid rgba(247,243,237,0.08)" }}>
+            <Suspense fallback={<div style={{ width: "100%", height: 460, background: "#1a1510" }} />}>
+              <ImpactMap />
+            </Suspense>
+          </div>
+
+          {/* Statistics Bar */}
+          <div className="gives-back-stats-bar-brand" style={{
+            borderColor: "rgba(247,243,237,0.1)",
+            margin: "48px auto",
+          }}>
+            <div className="stats-col-brand col-dubai" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
+              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Dubai</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>WHERE WE'RE BUILT</span>
+            </div>
+            <div className="stats-col-brand col-children" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
+              <span className="stats-num-brand" style={{ color: "#F7F3ED" }}>—</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>CHILDREN SUPPORTED</span>
+            </div>
+            <div className="stats-col-brand col-perunit" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
+              <span className="stats-num-brand" style={{ color: "#F7F3ED" }}>Per Unit</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>GIVING MODEL</span>
+            </div>
+            <div className="stats-col-brand col-kenya" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
+              <span className="stats-num-brand" style={{ color: "#F7F3ED" }}>Kenya</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>OUR FIRST CHAPTER</span>
             </div>
           </div>
 
-          {/* Statistics Bar (Brand Styled) */}
-          <div className="gives-back-stats-bar-brand">
-            <div className="stats-col-brand col-dubai">
-              <span className="stats-num-brand gold">Dubai</span>
-              <span className="stats-label-brand">WHERE WE'RE BUILT</span>
-            </div>
-            <div className="stats-col-brand col-children">
-              <span className="stats-num-brand">Active</span>
-              <span className="stats-label-brand">CHILDREN SUPPORTED</span>
-            </div>
-            <div className="stats-col-brand col-perunit">
-              <span className="stats-num-brand">Per Unit</span>
-              <span className="stats-label-brand">GIVING MODEL</span>
-            </div>
-            <div className="stats-col-brand col-kenya">
-              <span className="stats-num-brand">Kenya</span>
-              <span className="stats-label-brand">OUR FIRST CHAPTER</span>
-            </div>
-          </div>
-
-          {/* Impact Cards Heading (Brand Styled) */}
+          {/* Impact heading */}
           <div className="gives-back-impact-heading-brand">
-            <span className="heading-text">IMPACT · NAIROBI, KENYA</span>
-            <div className="heading-line"></div>
+            <span className="heading-text" style={{ color: "rgba(247,243,237,0.4)" }}>IMPACT · NAIROBI, KENYA</span>
+            <div className="heading-line" style={{ background: "rgba(247,243,237,0.08)" }}></div>
           </div>
 
-          {/* Vertically stacked cards (Brand Styled) */}
+          {/* Vertically stacked cards */}
           <div className="gives-back-impact-cards-brand">
-            {/* Card 01 */}
             <div className="impact-card-brand">
-              <span className="impact-card-num-brand">01</span>
+              <span className="impact-card-num-brand" style={{ color: "rgba(247,243,237,0.2)" }}>01</span>
               <div className="impact-card-content-brand">
-                <h3 className="impact-card-title-brand">Education Access</h3>
-                <p className="impact-card-body-brand">
+                <h3 className="impact-card-title-brand" style={{ color: "#F7F3ED" }}>Education Access</h3>
+                <p className="impact-card-body-brand" style={{ color: "rgba(247,243,237,0.55)" }}>
                   Every HHARA piece sold contributes directly to sponsoring a child's education in Kenya. Fashion with a future.
                 </p>
               </div>
             </div>
 
-            {/* Card 02 */}
             <div className="impact-card-brand">
-              <span className="impact-card-num-brand">02</span>
+              <span className="impact-card-num-brand" style={{ color: "rgba(247,243,237,0.2)" }}>02</span>
               <div className="impact-card-content-brand">
-                <h3 className="impact-card-title-brand">Per-Unit Giving</h3>
-                <p className="impact-card-body-brand">
+                <h3 className="impact-card-title-brand" style={{ color: "#F7F3ED" }}>Per-Unit Giving</h3>
+                <p className="impact-card-body-brand" style={{ color: "rgba(247,243,237,0.55)" }}>
                   A portion of every purchase flows directly into our Kenya education fund. The more she wears wonder, the more wonder spreads.
                 </p>
               </div>
             </div>
 
-            {/* Card 03 */}
             <div className="impact-card-brand">
-              <span className="impact-card-num-brand">03</span>
+              <span className="impact-card-num-brand" style={{ color: "rgba(247,243,237,0.2)" }}>03</span>
               <div className="impact-card-content-brand">
-                <h3 className="impact-card-title-brand">Circular Luxury</h3>
-                <p className="impact-card-body-brand">
+                <h3 className="impact-card-title-brand" style={{ color: "#F7F3ED" }}>Circular Luxury</h3>
+                <p className="impact-card-body-brand" style={{ color: "rgba(247,243,237,0.55)" }}>
                   We believe luxury should leave something behind. HHARA's giving model is built into our DNA, not an afterthought.
                 </p>
               </div>
