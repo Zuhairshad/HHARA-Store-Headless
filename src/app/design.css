@@ -2547,11 +2547,10 @@ img { display: block; max-width: 100%; }
 }
 
 .gives-back-hero h1 {
-  font-family: var(--sans);
+  font-family: var(--display);
   font-size: clamp(38px, 5.5vw, 64px);
   line-height: 1.15;
-  font-weight: 100;
-  letter-spacing: -0.02em;
+  font-weight: 300;
   color: #FAF7F2;
   max-width: 800px;
   margin: 0 auto;
@@ -2630,11 +2629,10 @@ img { display: block; max-width: 100%; }
 }
 
 .gives-back-headline {
-  font-family: var(--sans);
+  font-family: var(--display);
   font-size: clamp(38px, 5.2vw, 56px);
   line-height: 1.2;
   font-weight: 300;
-  letter-spacing: -0.01em;
   color: #2A1F14;
   margin-bottom: 20px;
 }
@@ -2747,11 +2745,10 @@ img { display: block; max-width: 100%; }
 }
 
 .gives-back-large-number {
-  font-family: var(--sans);
+  font-family: var(--display);
   font-size: clamp(80px, 10vw, 110px);
   line-height: 1;
-  font-weight: 100;
-  letter-spacing: -0.02em;
+  font-weight: 300;
   color: #B8892E;
   text-align: center;
   margin-bottom: 12px;
@@ -2762,7 +2759,7 @@ img { display: block; max-width: 100%; }
 
 .gives-back-large-number-m {
   font-size: 0.85em;
-  font-weight: 100;
+  font-weight: 300;
 }
 
 .gives-back-large-number-eyebrow {
@@ -2777,7 +2774,8 @@ img { display: block; max-width: 100%; }
 }
 
 .gives-back-large-number-text {
-  font-family: var(--sans);
+  font-family: var(--display);
+  font-style: italic;
   font-size: clamp(16px, 2.5vw, 20px);
   line-height: 1.8;
   color: #2A1F14;
@@ -3749,7 +3747,7 @@ img { display: block; max-width: 100%; }
 }
 
 .stats-num-brand {
-  font-family: var(--sans);
+  font-family: var(--display);
   font-size: clamp(18px, 4vw, 32px);
   font-weight: 300;
   line-height: 1.1;
@@ -3830,7 +3828,7 @@ img { display: block; max-width: 100%; }
 }
 
 .impact-card-num-brand {
-  font-family: var(--sans);
+  font-family: var(--display);
   font-size: clamp(28px, 6vw, 36px);
   color: #6B2737;
   font-weight: 300;
@@ -3855,11 +3853,12 @@ img { display: block; max-width: 100%; }
 }
 
 .impact-card-body-brand {
-  font-family: var(--sans);
+  font-family: var(--display);
   font-size: clamp(14px, 2.5vw, 15.5px);
   line-height: 1.9;
   color: var(--muted);
   margin: 0;
+  font-style: italic;
 }
 
 
