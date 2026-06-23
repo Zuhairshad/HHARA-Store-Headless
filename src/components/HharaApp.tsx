@@ -123,7 +123,7 @@ const IMGS: Record<string, string> = {
   p7b: "/images/p7b.jpg",
   p8a: "/images/p8a.jpg",
   p8b: "/images/p8b.jpg",
-  editAtelier: "/images/editAtelier.jpg",
+  editAtelier: "/images/tala_cocoon_desktop.png",
   atelierHero: "/images/atelierHero.jpg",
   atelierFlorence: "/images/atelierFlorence.jpg",
   atelierCloth: "/images/atelierCloth.jpg",
@@ -840,7 +840,10 @@ function Editorial({ openShop }) {
     <section className="section-full" style={{ padding: 0 }}>
       <div className="editorial">
         <div className="editorial-media tone-5">
-          {IMGS.editAtelier && <img src={IMGS.editAtelier} alt="Atelier" className="img-fill" loading="lazy" />}
+          <picture style={{ width: "100%", height: "100%" }}>
+            <source media="(max-width: 768px)" srcSet="/images/tala_cocoon_mobile.png" />
+            <img src="/images/tala_cocoon_desktop.png" alt="HHARA CLOUD" className="img-fill" loading="lazy" />
+          </picture>
         </div>
         <div className="editorial-body" style={{ gap: "20px" }}>
           <span className="editorial-eyebrow" style={{ color: "#B8892E", textTransform: "uppercase", fontSize: 9, letterSpacing: "0.45em", fontWeight: 600, display: "block" }}>
