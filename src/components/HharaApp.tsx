@@ -101,9 +101,9 @@ const Icon = {
 // All picsum images are free for any use (CC-licensed Unsplash photos).
 
 const IMGS: Record<string, string> = {
-  hero1: "/images/hero1.jpg",
-  hero2: "/images/hero2.jpg",
-  hero3: "/images/hero3.jpg",
+  hero1: "/images/tala_hero1_desktop.jpg",
+  hero2: "/images/tala_hero2_desktop.jpg",
+  hero3: "/images/hero3.png",
   catOuter: "/images/catOuter.jpg",
   catRTW: "/images/catRTW.jpg",
   catAcc: "/images/catAcc.jpg",
