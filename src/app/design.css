@@ -3559,3 +3559,116 @@ img { display: block; max-width: 100%; }
   }
 }
 
+/* ====== Impact Map Section ====== */
+.impact-map-container {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(184, 137, 46, 0.15);
+  box-shadow: 0 16px 40px rgba(42, 31, 20, 0.05);
+  background-color: #F7F3ED;
+}
+
+.impact-map-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Thin coordinate grid line effect overlay */
+.map-grid-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(rgba(184, 137, 46, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184, 137, 46, 0.03) 1px, transparent 1px);
+  background-size: 5% 8%;
+}
+
+/* Pin styles */
+.map-pin-wrapper {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 20;
+}
+
+.map-pin-core {
+  width: 10px;
+  height: 10px;
+  background-color: #B8892E;
+  border: 2px solid #F7F3ED;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.map-pin-ripple {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: rgba(184, 137, 46, 0.45);
+  border-radius: 50%;
+  transform: translate(-33%, -33%);
+  animation: map-ripple 2.5s infinite ease-out;
+  pointer-events: none;
+}
+
+@keyframes map-ripple {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Glassmorphic tooltips */
+.map-pin-tooltip {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  width: 260px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(184, 137, 46, 0.2);
+  padding: 18px;
+  border-radius: 8px;
+  box-shadow: 0 12px 32px rgba(42, 31, 20, 0.12);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.map-pin-wrapper:hover .map-pin-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.map-pin-tooltip h4 {
+  font-family: var(--sans);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #B8892E;
+  margin: 0 0 6px 0;
+  font-weight: 600;
+}
+
+.map-pin-tooltip p {
+  font-family: var(--display);
+  font-size: 14px;
+  line-height: 1.45;
+  color: #554433;
+  margin: 0;
+  font-style: italic;
+}
+
+

@@ -2478,6 +2478,40 @@ function StoresPage({ setRoute }) {
         </div>
       </section>
 
+      {/* IMPACT MAP SECTION */}
+      <section className="gives-back-section alt-cream" style={{ padding: "80px var(--pad)" }}>
+        <div className="gives-back-content-width" style={{ maxWidth: 1100 }}>
+          <div style={{ textAlign: "center", marginBottom: "48px" }}>
+            <span className="eyebrow" style={{ color: "#B8892E" }}>Where We Give</span>
+            <h2 className="gives-back-headline" style={{ margin: "16px 0 0" }}>
+              Our footprint is specific.<br />
+              <em>Starting in Kenya.</em>
+            </h2>
+          </div>
+          
+          <div className="impact-map-container">
+            <img 
+              src="/images/world-map.png" 
+              alt="HHARA global footprint map" 
+              className="impact-map-image"
+            />
+            
+            {/* Grid coordinate lines overlay */}
+            <div className="map-grid-lines"></div>
+            
+            {/* Kenya Pin */}
+            <div className="map-pin-wrapper" style={{ left: "53%", top: "49%" }}>
+              <div className="map-pin-ripple"></div>
+              <div className="map-pin-core"></div>
+              <div className="map-pin-tooltip">
+                <h4>Kenya, East Africa</h4>
+                <p>Supporting direct school supplies, uniforms, and tuition for local children's homes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* WHAT YOUR PURCHASE SUPPORTS SECTION */}
       <section className="gives-back-section alt-cream">
         <div className="gives-back-content-width">
