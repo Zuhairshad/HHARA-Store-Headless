@@ -3437,6 +3437,15 @@ img { display: block; max-width: 100%; }
 .editorial {
   max-width: var(--maxw);
   margin: 0 auto;
+  align-items: stretch;
+}
+
+@media (min-width: 769px) {
+  .editorial-media {
+    height: 100%;
+    min-height: 100%;
+    aspect-ratio: auto;
+  }
 }
 
 /* ============ STACKING ORDER / Z-INDEX FIXES ============ */
