@@ -2479,7 +2479,7 @@ function StoresPage({ setRoute }) {
       </section>
 
       {/* WHAT YOUR PURCHASE SUPPORTS SECTION */}
-      <section className="gives-back-section alt-cream">
+      <section className="gives-back-section" style={{ backgroundColor: "#3A2416" }}>
         <div className="gives-back-content-width">
           <span className="eyebrow">What Your Purchase Supports</span>
           <div className="gives-back-grid">
@@ -2551,11 +2551,11 @@ function StoresPage({ setRoute }) {
       </section>
 
       {/* LARGE STAT BANNER SECTION */}
-      <section className="gives-back-section alt-cream">
+      <section className="gives-back-section" style={{ backgroundColor: "#3A2416", textAlign: "center" }}>
         <div className="gives-back-content-width">
           <div className="gives-back-large-number"><span>273</span><span className="gives-back-large-number-m">M</span></div>
           <div className="gives-back-large-number-eyebrow">Children out of school worldwide</div>
-          <p className="gives-back-large-number-text">
+          <p className="gives-back-large-number-text" style={{ color: "#FAF7F2" }}>
             A number that has risen for seven consecutive years. We cannot change that number alone. But we can change it for the children closest to us: the ones nobody else was looking for.
           </p>
         </div>
@@ -2577,31 +2577,107 @@ function StoresPage({ setRoute }) {
       {/* IMPACT MAP SECTION */}
       <section className="gives-back-section alt-cream" style={{ padding: "80px var(--pad)" }}>
         <div className="gives-back-content-width" style={{ maxWidth: 1100 }}>
-          <div style={{ textAlign: "center", marginBottom: "48px" }}>
-            <span className="eyebrow" style={{ color: "#B8892E" }}>Where We Give</span>
+          <div style={{ textAlign: "center", marginBottom: "32px" }}>
+            <span className="eyebrow" style={{ color: "#B8892E" }}>OUR GIVING · WHERE WONDER GIVES BACK</span>
             <h2 className="gives-back-headline" style={{ margin: "16px 0 0" }}>
-              Our footprint is specific.<br />
-              <em>Starting in Kenya.</em>
+              Every purchase.<br />
+              <em>A child in school.</em>
             </h2>
           </div>
           
-          <div className="impact-map-container">
+          {/* Simple Square Map of Kenya */}
+          <div className="impact-map-container" style={{ aspectRatio: "1 / 1", maxWidth: 500, margin: "0 auto", position: "relative", backgroundColor: "transparent", borderRadius: 8, overflow: "visible" }}>
             <img 
-              src="/images/world-map.png" 
-              alt="HHARA global footprint map" 
+              src="/images/kenya-square-map.png" 
+              alt="HHARA Kenya footprint map" 
               className="impact-map-image"
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", borderRadius: 8 }}
             />
             
-            {/* Grid coordinate lines overlay */}
-            <div className="map-grid-lines"></div>
-            
-            {/* Kenya Pin */}
-            <div className="map-pin-wrapper" style={{ left: "53%", top: "49%" }}>
-              <div className="map-pin-ripple"></div>
-              <div className="map-pin-core"></div>
-              <div className="map-pin-tooltip">
-                <h4>Kenya, East Africa</h4>
-                <p>Supporting direct school supplies, uniforms, and tuition for local children's homes.</p>
+            {/* Kenya Pin (Proper Location Marker Pin) */}
+            <div className="map-pin-wrapper kenya" style={{ left: "54.5%", top: "47%", transform: "translate(-50%, -85%)" }}>
+              <svg 
+                viewBox="0 0 24 24" 
+                width="34" 
+                height="34"
+                className="map-pin-marker"
+                style={{ filter: "drop-shadow(0px 3px 5px rgba(0,0,0,0.2))", display: "block" }}
+              >
+                <path 
+                  d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" 
+                  fill="#6B2737" 
+                  stroke="#F7F3ED" 
+                  strokeWidth="1.5"
+                />
+              </svg>
+              <div className="map-pin-tooltip" style={{ bottom: "35px" }}>
+                <h4 style={{ color: "#6B2737" }}>EDUCATION GIVING · KENYA</h4>
+                <p style={{ fontWeight: 600, color: "var(--ink)", fontFamily: "var(--sans)", fontSize: 11, margin: "4px 0 2px 0", textTransform: "none", letterSpacing: "normal" }}>Nairobi, Kenya</p>
+                <p>
+                  HHARA's first giving chapter. Sponsoring children's education through every purchase made globally.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Statistics Bar (Brand Styled) */}
+          <div className="gives-back-stats-bar-brand">
+            <div className="stats-col-brand col-dubai">
+              <span className="stats-num-brand gold">Dubai</span>
+              <span className="stats-label-brand">WHERE WE'RE BUILT</span>
+            </div>
+            <div className="stats-col-brand col-children">
+              <span className="stats-num-brand">Active</span>
+              <span className="stats-label-brand">CHILDREN SUPPORTED</span>
+            </div>
+            <div className="stats-col-brand col-perunit">
+              <span className="stats-num-brand">Per Unit</span>
+              <span className="stats-label-brand">GIVING MODEL</span>
+            </div>
+            <div className="stats-col-brand col-kenya">
+              <span className="stats-num-brand">Kenya</span>
+              <span className="stats-label-brand">OUR FIRST CHAPTER</span>
+            </div>
+          </div>
+
+          {/* Impact Cards Heading (Brand Styled) */}
+          <div className="gives-back-impact-heading-brand">
+            <span className="heading-text">IMPACT · NAIROBI, KENYA</span>
+            <div className="heading-line"></div>
+          </div>
+
+          {/* Vertically stacked cards (Brand Styled) */}
+          <div className="gives-back-impact-cards-brand">
+            {/* Card 01 */}
+            <div className="impact-card-brand">
+              <span className="impact-card-num-brand">01</span>
+              <div className="impact-card-content-brand">
+                <h3 className="impact-card-title-brand">Education Access</h3>
+                <p className="impact-card-body-brand">
+                  Every HHARA piece sold contributes directly to sponsoring a child's education in Kenya. Fashion with a future.
+                </p>
+              </div>
+            </div>
+
+            {/* Card 02 */}
+            <div className="impact-card-brand">
+              <span className="impact-card-num-brand">02</span>
+              <div className="impact-card-content-brand">
+                <h3 className="impact-card-title-brand">Per-Unit Giving</h3>
+                <p className="impact-card-body-brand">
+                  A portion of every purchase flows directly into our Kenya education fund. The more she wears wonder, the more wonder spreads.
+                </p>
+              </div>
+            </div>
+
+            {/* Card 03 */}
+            <div className="impact-card-brand">
+              <span className="impact-card-num-brand">03</span>
+              <div className="impact-card-content-brand">
+                <h3 className="impact-card-title-brand">Circular Luxury</h3>
+                <p className="impact-card-body-brand">
+                  We believe luxury should leave something behind. HHARA's giving model is built into our DNA, not an afterthought.
+                </p>
               </div>
             </div>
           </div>
@@ -3006,7 +3082,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     const product = products.find((p: any) => p.id === item.id);
     const variantId = item.variantId || findVariantId(product, item.color, item.size);
     if (!variantId) {
-      console.warn("No variant resolved for", item, "— product:", product?.name, "variants:", product?.variants?.length);
+      console.warn("No variant resolved for", item, "- product:", product?.name, "variants:", product?.variants?.length);
       setCartOpen(true);
       return;
     }
@@ -3015,7 +3091,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
       setShopifyCart(next);
       setCartOpen(true);
     } catch (e) {
-      console.error("addToCart failed — variantId:", variantId, e);
+      console.error("addToCart failed - variantId:", variantId, e);
       // Cart might be stale; try once more with a fresh cart
       try {
         const retry = await serverAddLine(variantId, 1);

@@ -23,6 +23,9 @@ export const metadata: Metadata = {
   title: "HHARA | Maison of Considered Luxury",
   description: "Conceived in Florence, engineered in the UAE. High-performance activewear crafted from recycled ocean plastic, designed for longevity.",
   keywords: ["HHARA", "Considered Luxury", "Activewear", "Recycled Performance Wear", "UAE Activewear", "Maison HHARA", "Imara Set", "Dalia Set"],
+  icons: {
+    icon: "/images/monkey-logo.jpg",
+  },
   openGraph: {
     title: "HHARA | Maison of Considered Luxury",
     description: "Conceived in Florence, engineered in the UAE. High-performance activewear crafted from recycled ocean plastic, designed for longevity.",

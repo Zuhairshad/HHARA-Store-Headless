@@ -55,7 +55,7 @@ export async function addLine(merchandiseId: string, quantity: number): Promise<
   try {
     return await cartLinesAdd(cart.id, [{ merchandiseId, quantity }]);
   } catch (e) {
-    // Cart may be expired/invalid — clear and retry with a fresh cart
+    // Cart may be expired/invalid: clear and retry with a fresh cart
     console.warn("[cart] addLine failed, retrying with fresh cart:", e);
     await clearCartId();
     cart = await ensureCart();

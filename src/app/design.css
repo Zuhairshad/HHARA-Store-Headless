@@ -2529,7 +2529,7 @@ img { display: block; max-width: 100%; }
 
 .gives-back-hero {
   background-color: #3A2416;
-  padding: 140px 24px 100px;
+  padding: 144px var(--pad) 96px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -2547,10 +2547,11 @@ img { display: block; max-width: 100%; }
 }
 
 .gives-back-hero h1 {
-  font-family: var(--display);
+  font-family: var(--sans);
   font-size: clamp(38px, 5.5vw, 64px);
   line-height: 1.15;
-  font-weight: 300;
+  font-weight: 100;
+  letter-spacing: -0.02em;
   color: #FAF7F2;
   max-width: 800px;
   margin: 0 auto;
@@ -2574,14 +2575,14 @@ img { display: block; max-width: 100%; }
 }
 
 .gives-back-section {
-  padding: 110px 24px;
+  padding: 112px var(--pad);
   background-color: #F7F3ED;
 }
 
 .gives-back-section.dark {
   background-color: #3A2416;
   text-align: center;
-  padding: 160px 24px;
+  padding: 160px var(--pad);
 }
 
 .gives-back-section.alt-cream {
@@ -2629,12 +2630,13 @@ img { display: block; max-width: 100%; }
 }
 
 .gives-back-headline {
-  font-family: var(--display);
+  font-family: var(--sans);
   font-size: clamp(38px, 5.2vw, 56px);
   line-height: 1.2;
   font-weight: 300;
+  letter-spacing: -0.01em;
   color: #2A1F14;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .gives-back-headline em {
@@ -2745,10 +2747,11 @@ img { display: block; max-width: 100%; }
 }
 
 .gives-back-large-number {
-  font-family: var(--display);
+  font-family: var(--sans);
   font-size: clamp(80px, 10vw, 110px);
   line-height: 1;
-  font-weight: 300;
+  font-weight: 100;
+  letter-spacing: -0.02em;
   color: #B8892E;
   text-align: center;
   margin-bottom: 12px;
@@ -2759,7 +2762,7 @@ img { display: block; max-width: 100%; }
 
 .gives-back-large-number-m {
   font-size: 0.85em;
-  font-weight: 300;
+  font-weight: 100;
 }
 
 .gives-back-large-number-eyebrow {
@@ -2774,8 +2777,7 @@ img { display: block; max-width: 100%; }
 }
 
 .gives-back-large-number-text {
-  font-family: var(--display);
-  font-style: italic;
+  font-family: var(--sans);
   font-size: clamp(16px, 2.5vw, 20px);
   line-height: 1.8;
   color: #2A1F14;
@@ -2793,7 +2795,7 @@ img { display: block; max-width: 100%; }
   color: #2A1F14;
   text-align: center;
   max-width: 720px;
-  margin: 0 auto 36px;
+  margin: 0 auto 40px;
   font-weight: 300;
 }
 
@@ -2866,14 +2868,14 @@ img { display: block; max-width: 100%; }
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0;
-  border-left: 1.5px solid rgba(201,168,76,0.45);
+  border-left: 2.5px solid rgba(184, 137, 46, 0.8);
 }
 
 .pillar-card {
   padding: 48px 32px;
-  border-right: 1.5px solid rgba(201,168,76,0.45);
-  border-bottom: 1.5px solid rgba(201,168,76,0.45);
-  border-top: 1.5px solid rgba(201,168,76,0.45);
+  border-right: 2.5px solid rgba(184, 137, 46, 0.8);
+  border-bottom: 2.5px solid rgba(184, 137, 46, 0.8);
+  border-top: 2.5px solid rgba(184, 137, 46, 0.8);
   display: flex;
   flex-direction: column;
 }
@@ -3668,6 +3670,196 @@ img { display: block; max-width: 100%; }
   color: #554433;
   margin: 0;
   font-style: italic;
+}
+
+/* ====== Gives Back Page - Map Legend, Stats, and Impact Cards (Brand-Styled) ====== */
+.map-legend-brand {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.map-legend-item-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--sans);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.map-legend-dot-brand {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.map-legend-dot-brand.orange {
+  background-color: var(--gold); /* Dubai HQ gold/orange */
+}
+
+.map-legend-dot-brand.green {
+  background-color: #6B2737; /* Zinfandel red/wine */
+}
+
+/* Dubai HQ Pin specific styling */
+.map-pin-wrapper.dubai .map-pin-core {
+  background-color: var(--gold);
+}
+
+.map-pin-wrapper.dubai .map-pin-ripple {
+  background: rgba(184, 137, 46, 0.4);
+}
+
+/* Kenya Pin specific styling */
+.map-pin-wrapper.kenya .map-pin-core {
+  background-color: #6B2737;
+}
+
+.map-pin-wrapper.kenya .map-pin-ripple {
+  background: rgba(107, 39, 55, 0.4);
+}
+
+/* Statistics row under map (Brand styling) */
+.gives-back-stats-bar-brand {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+  max-width: 900px;
+  border-top: 1.5px solid var(--gold-soft);
+  border-bottom: 1.5px solid var(--gold-soft);
+  margin: 48px auto;
+}
+
+.stats-col-brand {
+  padding: 32px 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-right: 1.5px solid var(--gold-soft);
+}
+
+.stats-col-brand:last-child {
+  border-right: none;
+}
+
+.stats-num-brand {
+  font-family: var(--sans);
+  font-size: clamp(18px, 4vw, 32px);
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.stats-col-brand.col-dubai .stats-num-brand {
+  color: var(--gold);
+}
+
+.stats-col-brand.col-children .stats-num-brand {
+  color: #6B2737;
+}
+
+.stats-col-brand.col-perunit .stats-num-brand {
+  color: #6B2737;
+}
+
+.stats-col-brand.col-kenya .stats-num-brand {
+  color: #6B2737;
+}
+
+.stats-label-brand {
+  font-family: var(--sans);
+  font-size: clamp(6.5px, 1.8vw, 8.5px);
+  letter-spacing: 0.35em;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* Impact Cards heading */
+.gives-back-impact-heading-brand {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+  gap: 16px;
+  margin: 48px auto 24px auto;
+}
+
+.gives-back-impact-heading-brand .heading-text {
+  font-family: var(--sans);
+  font-size: 9px;
+  letter-spacing: 0.35em;
+  color: #6B2737;
+  text-transform: uppercase;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.gives-back-impact-heading-brand .heading-line {
+  flex-grow: 1;
+  height: 1.5px;
+  background-color: rgba(107, 39, 55, 0.15);
+}
+
+/* Vertically stacked cards (Brand styling) */
+.gives-back-impact-cards-brand {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 48px auto;
+}
+
+.impact-card-brand {
+  display: flex;
+  padding: 32px 0;
+  border-bottom: 1.5px solid var(--gold-soft);
+  gap: 24px;
+  text-align: left;
+}
+
+.impact-card-brand:first-child {
+  border-top: 1.5px solid var(--gold-soft);
+}
+
+.impact-card-num-brand {
+  font-family: var(--sans);
+  font-size: clamp(28px, 6vw, 36px);
+  color: #6B2737;
+  font-weight: 300;
+  line-height: 1;
+  min-width: 48px;
+}
+
+.impact-card-content-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.impact-card-title-brand {
+  font-family: var(--sans);
+  font-size: clamp(13px, 3.5vw, 14px);
+  color: var(--ink);
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.impact-card-body-brand {
+  font-family: var(--sans);
+  font-size: clamp(14px, 2.5vw, 15.5px);
+  line-height: 1.9;
+  color: var(--muted);
+  margin: 0;
 }
 
 
