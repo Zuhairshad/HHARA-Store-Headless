@@ -36,11 +36,12 @@ export default function ImpactMap() {
         fillOpacity: 1,
       })
         .addTo(map)
-        .bindTooltip("<strong>Dubai</strong><br/>Where We're Built", {
-          className: "hhara-map-tooltip",
-          direction: "top",
-          offset: [0, -10],
-        });
+        .bindTooltip(
+          `<span class="mtt-label">WHERE WE'RE BUILT</span>
+           <span class="mtt-title">Dubai, UAE</span>
+           <span class="mtt-body">Conceived and engineered in the UAE — HHARA's home, where every design decision is made with intention.</span>`,
+          { className: "hhara-map-tooltip", direction: "top", offset: [0, -10] }
+        );
 
       // Nairobi, Kenya — forest green
       L.circleMarker([-1.2921, 36.8219], {
@@ -52,11 +53,12 @@ export default function ImpactMap() {
         fillOpacity: 1,
       })
         .addTo(map)
-        .bindTooltip("<strong>Nairobi, Kenya</strong><br/>Our First Chapter", {
-          className: "hhara-map-tooltip",
-          direction: "top",
-          offset: [0, -10],
-        });
+        .bindTooltip(
+          `<span class="mtt-label">OUR FIRST CHAPTER</span>
+           <span class="mtt-title">Nairobi, Kenya</span>
+           <span class="mtt-body">Every HHARA purchase directly sponsors a child's education here. Small. Local. Real.</span>`,
+          { className: "hhara-map-tooltip", direction: "top", offset: [0, -10] }
+        );
 
       instanceRef.current = map;
     });

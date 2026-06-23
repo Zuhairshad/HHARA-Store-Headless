@@ -3565,18 +3565,42 @@ img { display: block; max-width: 100%; }
 
 /* ====== Leaflet brand overrides ====== */
 .hhara-map-tooltip {
-  background: rgba(247, 243, 237, 0.96);
-  border: 1px solid rgba(184, 137, 46, 0.25);
-  border-radius: 6px;
-  padding: 8px 12px;
+  background: rgba(247, 243, 237, 0.97);
+  border: 1px solid rgba(184, 137, 46, 0.2);
+  border-radius: 8px;
+  padding: 14px 16px;
   font-family: var(--sans);
-  font-size: 11px;
   color: var(--ink);
-  letter-spacing: 0.04em;
-  box-shadow: 0 8px 24px rgba(42, 31, 20, 0.14);
+  box-shadow: 0 12px 32px rgba(42, 31, 20, 0.16);
+  width: 220px;
+  white-space: normal;
 }
-.hhara-map-tooltip strong { font-weight: 600; display: block; margin-bottom: 2px; }
 .hhara-map-tooltip::before { display: none; }
+.hhara-map-tooltip .mtt-label {
+  display: block;
+  font-size: 8.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.hhara-map-tooltip .mtt-title {
+  display: block;
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.hhara-map-tooltip .mtt-body {
+  display: block;
+  font-size: 11px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  font-weight: 300;
+}
 
 .leaflet-control-zoom {
   border: none !important;

@@ -1026,12 +1026,12 @@ function Newsletter() {
       </div>
       
       {/* Peeking Monkey Asset */}
-      <div 
-        className="absolute top-0 right-[-30px] h-full aspect-[512/487] transform rotate-[-8deg] pointer-events-none z-10 hidden md:block"
+      <div
+        className="absolute pointer-events-none z-10 aspect-[512/487] transform rotate-[-8deg] bottom-0 right-[-10px] h-[160px] md:top-0 md:bottom-auto md:right-[-30px] md:h-full"
       >
-        <img 
-          src="/images/monkey-peeking.png" 
-          alt="HHARA Meditating Monkey" 
+        <img
+          src="/images/monkey-peeking.png"
+          alt="HHARA Meditating Monkey"
           className="w-full h-full object-contain object-right-bottom"
         />
       </div>
