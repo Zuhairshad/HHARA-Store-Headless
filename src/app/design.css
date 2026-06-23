@@ -2866,14 +2866,14 @@ img { display: block; max-width: 100%; }
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0;
-  border-left: 1px solid rgba(201,168,76,0.25);
+  border-left: 1.5px solid rgba(201,168,76,0.45);
 }
 
 .pillar-card {
   padding: 48px 32px;
-  border-right: 1px solid rgba(201,168,76,0.25);
-  border-bottom: 1px solid rgba(201,168,76,0.25);
-  border-top: 1px solid rgba(201,168,76,0.25);
+  border-right: 1.5px solid rgba(201,168,76,0.45);
+  border-bottom: 1.5px solid rgba(201,168,76,0.45);
+  border-top: 1.5px solid rgba(201,168,76,0.45);
   display: flex;
   flex-direction: column;
 }
@@ -3436,7 +3436,7 @@ img { display: block; max-width: 100%; }
 
 .editorial {
   max-width: var(--maxw);
-  margin: 0 auto;
+  margin: 0 auto clamp(64px, 8vw, 110px);
   align-items: stretch;
 }
 
@@ -3565,9 +3565,7 @@ img { display: block; max-width: 100%; }
   width: 100%;
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid rgba(184, 137, 46, 0.15);
-  box-shadow: 0 16px 40px rgba(42, 31, 20, 0.05);
-  background-color: #F7F3ED;
+  background-color: transparent;
 }
 
 .impact-map-image {
@@ -3575,6 +3573,7 @@ img { display: block; max-width: 100%; }
   height: auto;
   display: block;
   object-fit: cover;
+  mix-blend-mode: multiply;
 }
 
 /* Thin coordinate grid line effect overlay */
@@ -3599,7 +3598,7 @@ img { display: block; max-width: 100%; }
 .map-pin-core {
   width: 10px;
   height: 10px;
-  background-color: #B8892E;
+  background-color: #B3081E; /* Rich red pin */
   border: 2px solid #F7F3ED;
   border-radius: 50%;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
@@ -3609,7 +3608,7 @@ img { display: block; max-width: 100%; }
   position: absolute;
   width: 30px;
   height: 30px;
-  background: rgba(184, 137, 46, 0.45);
+  background: rgba(179, 8, 30, 0.45); /* Red ripple */
   border-radius: 50%;
   transform: translate(-33%, -33%);
   animation: map-ripple 2.5s infinite ease-out;
@@ -3657,7 +3656,7 @@ img { display: block; max-width: 100%; }
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: #B8892E;
+  color: #B3081E; /* Red header */
   margin: 0 0 6px 0;
   font-weight: 600;
 }
