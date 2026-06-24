@@ -3982,4 +3982,172 @@ img { display: block; max-width: 100%; }
   }
 }
 
+/* ===================================================================
+   TESTIMONIALS — stacked scroll-swipe section
+   =================================================================== */
+.testi-scroll-container {
+  height: 500vh;
+  background: #FAF7F2;
+  position: relative;
+}
 
+.testi-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 3vh, 36px);
+  padding: clamp(48px, 6vh, 80px) 80px;
+  overflow: hidden;
+  background: #FAF7F2;
+}
+
+.testi-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.testi-stage {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  height: clamp(280px, 38vh, 400px);
+  flex-shrink: 0;
+}
+
+.testi-card {
+  position: absolute;
+  inset: 0;
+  background: #FFFFFF;
+  padding: clamp(28px, 4vh, 52px) clamp(28px, 4vw, 56px);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 8px 48px rgba(42, 31, 20, 0.09), 0 1px 6px rgba(42, 31, 20, 0.05);
+}
+
+.testi-quote-mark {
+  font-family: var(--display), 'Cormorant Garamond', serif;
+  font-size: 80px;
+  line-height: 0.55;
+  color: #B8892E;
+  opacity: 0.3;
+  font-style: italic;
+  display: block;
+  flex-shrink: 0;
+}
+
+.testi-quote {
+  font-family: var(--display), 'Cormorant Garamond', serif;
+  font-size: clamp(16px, 1.85vw, 22px);
+  font-style: italic;
+  line-height: 1.72;
+  color: #2A1F14;
+  margin: 0;
+  font-weight: 300;
+  flex: 1;
+}
+
+.testi-divider {
+  width: 36px;
+  height: 1px;
+  background: #B8892E;
+  opacity: 0.45;
+  flex-shrink: 0;
+}
+
+.testi-byline {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.testi-name {
+  font-family: var(--sans), 'Montserrat', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #2A1F14;
+  margin-bottom: 4px;
+}
+
+.testi-meta {
+  font-family: var(--sans);
+  font-size: 10px;
+  color: rgba(42, 31, 20, 0.45);
+  letter-spacing: 0.08em;
+}
+
+.testi-stars {
+  font-size: 11px;
+  color: #B8892E;
+  letter-spacing: 3px;
+  line-height: 1;
+}
+
+.testi-progress {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.testi-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(42, 31, 20, 0.2);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.testi-dot.active {
+  background: #B8892E;
+  width: 22px;
+  border-radius: 3px;
+}
+
+.testi-counter {
+  font-family: var(--mono, 'Courier New', monospace);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(42, 31, 20, 0.35);
+  margin-left: 10px;
+}
+
+/* Mobile — flat stacked list, no scroll-jacking */
+.testi-mobile-section {
+  background: #FAF7F2;
+  padding: clamp(56px, 8vh, 96px) 24px;
+}
+
+.testi-mobile-head {
+  text-align: center;
+  margin-bottom: clamp(28px, 4vh, 48px);
+}
+
+.testi-mobile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.testi-mobile-card {
+  background: #FFFFFF;
+  padding: 28px 24px;
+  box-shadow: 0 4px 24px rgba(42, 31, 20, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}

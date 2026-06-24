@@ -2,6 +2,7 @@
 // @ts-nocheck
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, react/no-unescaped-entities */
 import React, { useState, useEffect, useRef, useContext, createContext, lazy, Suspense } from "react";
+import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount } from "@/lib/cart-actions";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
@@ -1209,6 +1210,148 @@ function Proclamation() {
   );
 }
 
+const TESTIMONIALS = [
+  {
+    quote: "The Imara set went from morning yoga to a board meeting without a single second glance. I've worn luxury activewear from every label — nothing moves like this.",
+    name: "Layla M.",
+    location: "Dubai",
+    product: "Imara Set · Bark Oxide",
+  },
+  {
+    quote: "I've been searching for years for something that doesn't ask me to choose between beauty and function. HHARA finally understood what my mornings actually look like.",
+    name: "Amira K.",
+    location: "Abu Dhabi",
+    product: "Dalia Set · Zinc Crimson",
+  },
+  {
+    quote: "The craftsmanship on the Dalia Bra is extraordinary — soft against the skin but structured where it matters. Six hours later I forgot I was wearing activewear.",
+    name: "Nadia R.",
+    location: "London",
+    product: "Dalia Bra · Bark Oxide",
+  },
+  {
+    quote: "Finally activewear I'm proud to be seen in. The Bark Oxide colourway is richer and more considered in person than any photograph captures.",
+    name: "Fatima A.",
+    location: "Dubai",
+    product: "Imara Legging · Bark Oxide",
+  },
+  {
+    quote: "Worth every dirham. I bought the Dalia Short for the gym — I've worn it to dinner twice since. That says everything.",
+    name: "Sara H.",
+    location: "Riyadh",
+    product: "Dalia Short · Zinc Crimson",
+  },
+];
+
+function TestiCard({ data, index, total, progress }) {
+  const exitStart = index / total;
+  const exitEnd = (index + 1) / total;
+  const midExit = exitStart + (exitEnd - exitStart) * 0.65;
+
+  const x = useTransform(progress, [exitStart, exitEnd], ["0%", "-108%"]);
+  const rotate = useTransform(progress, [exitStart, exitEnd], [0, -5]);
+  const opacity = useTransform(progress, [midExit, exitEnd], [1, index < total - 1 ? 0 : 1]);
+  const prevEnd = Math.max(0, (index - 1) / total);
+  const scale = useTransform(progress, [prevEnd, exitStart], [Math.max(0.92, 0.96 - index * 0.01), 1]);
+
+  return (
+    <motion.div
+      className="testi-card"
+      style={{
+        x,
+        rotate,
+        opacity,
+        scale: index === 0 ? 1 : scale,
+        zIndex: total - index,
+        transformOrigin: "center bottom",
+      }}
+    >
+      <div className="testi-quote-mark">&ldquo;</div>
+      <blockquote className="testi-quote">{data.quote}</blockquote>
+      <div className="testi-divider" />
+      <div className="testi-byline">
+        <div>
+          <div className="testi-name">{data.name}</div>
+          <div className="testi-meta">{data.location} · {data.product}</div>
+        </div>
+        <div className="testi-stars">★★★★★</div>
+      </div>
+    </motion.div>
+  );
+}
+
+function Testimonials() {
+  const containerRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  const [activeIdx, setActiveIdx] = useState(0);
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    setActiveIdx(Math.min(Math.floor(v * TESTIMONIALS.length), TESTIMONIALS.length - 1));
+  });
+
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  if (isMobile) {
+    return (
+      <section className="testi-mobile-section">
+        <div className="testi-mobile-head">
+          <span className="eyebrow" style={{ color: "#B8892E" }}>What She Says</span>
+          <h2 className="section-title">Worn &amp; Witnessed</h2>
+        </div>
+        <div className="testi-mobile-list">
+          {TESTIMONIALS.map((t, i) => (
+            <div key={i} className="testi-mobile-card">
+              <div className="testi-quote-mark">&ldquo;</div>
+              <blockquote className="testi-quote">{t.quote}</blockquote>
+              <div className="testi-divider" />
+              <div className="testi-byline">
+                <div>
+                  <div className="testi-name">{t.name}</div>
+                  <div className="testi-meta">{t.location} · {t.product}</div>
+                </div>
+                <div className="testi-stars">★★★★★</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <div ref={containerRef} className="testi-scroll-container">
+      <div className="testi-sticky">
+        <div className="testi-head">
+          <span className="eyebrow" style={{ color: "#B8892E" }}>What She Says</span>
+          <h2 className="section-title">Worn &amp; Witnessed</h2>
+        </div>
+        <div className="testi-stage">
+          {TESTIMONIALS.map((t, i) => (
+            <TestiCard key={i} data={t} index={i} total={TESTIMONIALS.length} progress={scrollYProgress} />
+          ))}
+        </div>
+        <div className="testi-progress">
+          {TESTIMONIALS.map((_, i) => (
+            <div key={i} className={`testi-dot${i === activeIdx ? " active" : ""}`} />
+          ))}
+          <span className="testi-counter">
+            {String(activeIdx + 1).padStart(2, "0")} / {String(TESTIMONIALS.length).padStart(2, "0")}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Home(props) {
   return (
     <>
@@ -1228,6 +1371,7 @@ function Home(props) {
       <Pillars />
       <Lookbook openLookbook={() => props.setRoute("lookbook")} />
       <Proclamation />
+      <Testimonials />
       <Callouts />
       <Newsletter />
     </>
