@@ -277,7 +277,7 @@ const CATEGORIES = [
 
 const HEROES = [
   {
-    eyebrow: "Sustainable Luxury Athleisure · Designed in the UAE",
+    eyebrow: "",
     title: "She Is\nWonder.",
     sub: "She walks through the world before anyone else will, with quiet, untapped resilience. HHARA is designed to the last detail for her, and unapologetic in the process. Elegant, purposeful, and sustainable by design.",
     cta: "explore collection",
@@ -758,7 +758,7 @@ function Hero({ openShop }) {
       </div>
       <div className="hero-overlay"></div>
       <div className="hero-content">
-        <div className="hero-eyebrow">{textSlide.eyebrow}</div>
+        {textSlide.eyebrow && <div className="hero-eyebrow">{textSlide.eyebrow}</div>}
         <h1 className="hero-title">
           {textSlide.title.split("\n").map((line, i, arr) => (
             <span key={i}>
@@ -1027,7 +1027,7 @@ function Newsletter() {
       
       {/* Peeking Monkey Asset */}
       <div
-        className="absolute pointer-events-none z-10 aspect-[512/487] transform rotate-[-8deg] bottom-0 right-[-10px] h-[160px] md:top-0 md:bottom-auto md:right-[-30px] md:h-full"
+        className="absolute pointer-events-none z-10 aspect-[512/487] transform rotate-[-8deg] bottom-0 right-[-80px] h-[160px] md:top-0 md:bottom-auto md:right-[-180px] md:h-full"
       >
         <img
           src="/images/monkey-peeking.png"
