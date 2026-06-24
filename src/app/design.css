@@ -3983,10 +3983,12 @@ img { display: block; max-width: 100%; }
 }
 
 /* ===================================================================
-   TESTIMONIALS — stacked scroll-swipe section
+   TESTIMONIALS — scroll-driven horizontal swipe (3 cards visible)
    =================================================================== */
+
+/* scroll height = (N - CPV + 1) * 100vh = (8 - 3 + 1) * 100 = 600vh */
 .testi-scroll-container {
-  height: 500vh;
+  height: 600vh;
   background: #FAF7F2;
   position: relative;
 }
@@ -4000,7 +4002,7 @@ img { display: block; max-width: 100%; }
   align-items: center;
   justify-content: center;
   gap: clamp(20px, 3vh, 36px);
-  padding: clamp(48px, 6vh, 80px) 80px;
+  padding: clamp(48px, 6vh, 80px) clamp(32px, 5vw, 80px);
   overflow: hidden;
   background: #FAF7F2;
 }
@@ -4017,28 +4019,34 @@ img { display: block; max-width: 100%; }
 .testi-stage {
   position: relative;
   width: 100%;
-  max-width: 760px;
-  height: clamp(280px, 38vh, 400px);
+  height: clamp(340px, 48vh, 500px);
   flex-shrink: 0;
+  overflow: hidden;
+}
+
+.testi-track-row {
+  display: flex;
+  gap: 24px;
+  will-change: transform;
 }
 
 .testi-card {
-  position: absolute;
-  inset: 0;
+  flex-shrink: 0;
   background: #FFFFFF;
-  padding: clamp(28px, 4vh, 52px) clamp(28px, 4vw, 56px);
+  padding: clamp(24px, 3vh, 40px) clamp(20px, 2.5vw, 36px);
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
   box-shadow: 0 8px 48px rgba(42, 31, 20, 0.09), 0 1px 6px rgba(42, 31, 20, 0.05);
+  box-sizing: border-box;
 }
 
 .testi-quote-mark {
   font-family: var(--display), 'Cormorant Garamond', serif;
-  font-size: 80px;
+  font-size: 72px;
   line-height: 0.55;
   color: #B8892E;
-  opacity: 0.3;
+  opacity: 0.28;
   font-style: italic;
   display: block;
   flex-shrink: 0;
@@ -4046,9 +4054,9 @@ img { display: block; max-width: 100%; }
 
 .testi-quote {
   font-family: var(--display), 'Cormorant Garamond', serif;
-  font-size: clamp(16px, 1.85vw, 22px);
+  font-size: clamp(18px, 1.55vw, 24px);
   font-style: italic;
-  line-height: 1.72;
+  line-height: 1.75;
   color: #2A1F14;
   margin: 0;
   font-weight: 300;
@@ -4056,10 +4064,10 @@ img { display: block; max-width: 100%; }
 }
 
 .testi-divider {
-  width: 36px;
+  width: 32px;
   height: 1px;
   background: #B8892E;
-  opacity: 0.45;
+  opacity: 0.4;
   flex-shrink: 0;
 }
 
@@ -4124,7 +4132,7 @@ img { display: block; max-width: 100%; }
   margin-left: 10px;
 }
 
-/* Mobile — flat stacked list, no scroll-jacking */
+/* Mobile — flat stacked list */
 .testi-mobile-section {
   background: #FAF7F2;
   padding: clamp(56px, 8vh, 96px) 24px;

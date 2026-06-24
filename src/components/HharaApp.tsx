@@ -2,7 +2,7 @@
 // @ts-nocheck
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, react/no-unescaped-entities */
 import React, { useState, useEffect, useRef, useContext, createContext, lazy, Suspense } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent, useMotionValue } from "framer-motion";
 import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount } from "@/lib/cart-actions";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
@@ -1241,29 +1241,48 @@ const TESTIMONIALS = [
     location: "Riyadh",
     product: "Dalia Short · Zinc Crimson",
   },
+  {
+    quote: "I wore the Imara Set to a gallery opening and three women stopped to ask what I was wearing. HHARA moves with you and speaks for you without trying.",
+    name: "Hessa O.",
+    location: "Doha",
+    product: "Imara Set · Zinc Crimson",
+  },
+  {
+    quote: "The Dalia Legging is the most precise piece of activewear I own. The waistband doesn't roll, the fabric holds its shape after forty washes. Nothing comes close.",
+    name: "Mariam S.",
+    location: "Kuwait City",
+    product: "Dalia Legging · Bark Oxide",
+  },
+  {
+    quote: "I train four days a week and spend the other three in meetings. HHARA is the only thing I own that moves seamlessly between both worlds without compromise.",
+    name: "Rania B.",
+    location: "Beirut",
+    product: "Imara Bra · Zinc Crimson",
+  },
 ];
 
-function TestiCard({ data, index, total, progress }) {
-  const exitStart = index / total;
-  const exitEnd = (index + 1) / total;
-  const midExit = exitStart + (exitEnd - exitStart) * 0.65;
+const CPV = 3;
+const GAP = 24;
 
-  const x = useTransform(progress, [exitStart, exitEnd], ["0%", "-108%"]);
+function TestiCard({ data, index, total, progress, cardWidth }) {
+  const transitions = total - CPV;
+  const exitStart = Math.min(index / transitions, 0.999);
+  const exitEnd = Math.min((index + 1) / transitions, 1.0);
+  const midExit = exitStart + (exitEnd - exitStart) * 0.55;
+
   const rotate = useTransform(progress, [exitStart, exitEnd], [0, -5]);
-  const opacity = useTransform(progress, [midExit, exitEnd], [1, index < total - 1 ? 0 : 1]);
-  const prevEnd = Math.max(0, (index - 1) / total);
-  const scale = useTransform(progress, [prevEnd, exitStart], [Math.max(0.92, 0.96 - index * 0.01), 1]);
+  const opacity = useTransform(progress, [midExit, exitEnd], [1, 0]);
+  const shouldExit = index <= transitions - 1;
 
   return (
     <motion.div
       className="testi-card"
       style={{
-        x,
-        rotate,
-        opacity,
-        scale: index === 0 ? 1 : scale,
-        zIndex: total - index,
-        transformOrigin: "center bottom",
+        width: cardWidth > 0 ? cardWidth : undefined,
+        rotate: shouldExit ? rotate : 0,
+        opacity: shouldExit ? opacity : 1,
+        transformOrigin: "left bottom",
+        flexShrink: 0,
       }}
     >
       <div className="testi-quote-mark">&ldquo;</div>
@@ -1282,14 +1301,42 @@ function TestiCard({ data, index, total, progress }) {
 
 function Testimonials() {
   const containerRef = useRef(null);
+  const stageRef = useRef(null);
+  const [stageW, setStageW] = useState(0);
+  const N = TESTIMONIALS.length;
+  const transitions = N - CPV;
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
 
+  useEffect(() => {
+    function update() {
+      if (stageRef.current) setStageW((stageRef.current as HTMLElement).offsetWidth);
+    }
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  const cardWidth = stageW > 0 ? (stageW - GAP * (CPV - 1)) / CPV : 0;
+  const totalShiftRef = useRef(0);
+  totalShiftRef.current = transitions * (cardWidth + GAP);
+
+  const trackX = useMotionValue(0);
+
+  useMotionValueEvent(scrollYProgress, "change", (v) => {
+    trackX.set(-v * totalShiftRef.current);
+  });
+
+  useEffect(() => {
+    trackX.set(-scrollYProgress.get() * totalShiftRef.current);
+  }, [stageW]);
+
   const [activeIdx, setActiveIdx] = useState(0);
   useMotionValueEvent(scrollYProgress, "change", (v) => {
-    setActiveIdx(Math.min(Math.floor(v * TESTIMONIALS.length), TESTIMONIALS.length - 1));
+    setActiveIdx(Math.min(Math.round(v * transitions), transitions));
   });
 
   const [isMobile, setIsMobile] = useState(false);
@@ -1334,17 +1381,26 @@ function Testimonials() {
           <span className="eyebrow" style={{ color: "#B8892E" }}>What She Says</span>
           <h2 className="section-title">Worn &amp; Witnessed</h2>
         </div>
-        <div className="testi-stage">
-          {TESTIMONIALS.map((t, i) => (
-            <TestiCard key={i} data={t} index={i} total={TESTIMONIALS.length} progress={scrollYProgress} />
-          ))}
+        <div className="testi-stage" ref={stageRef}>
+          <motion.div className="testi-track-row" style={{ x: trackX }}>
+            {TESTIMONIALS.map((t, i) => (
+              <TestiCard
+                key={i}
+                data={t}
+                index={i}
+                total={N}
+                progress={scrollYProgress}
+                cardWidth={cardWidth}
+              />
+            ))}
+          </motion.div>
         </div>
         <div className="testi-progress">
-          {TESTIMONIALS.map((_, i) => (
+          {Array.from({ length: transitions + 1 }).map((_, i) => (
             <div key={i} className={`testi-dot${i === activeIdx ? " active" : ""}`} />
           ))}
           <span className="testi-counter">
-            {String(activeIdx + 1).padStart(2, "0")} / {String(TESTIMONIALS.length).padStart(2, "0")}
+            {String(activeIdx + 1).padStart(2, "0")} / {String(transitions + 1).padStart(2, "0")}
           </span>
         </div>
       </div>
