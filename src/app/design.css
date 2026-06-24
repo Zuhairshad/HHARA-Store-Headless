@@ -2858,22 +2858,23 @@ img { display: block; max-width: 100%; }
 
 /* ====== Pillars Section ====== */
 .pillars-section {
-  background-color: #3A2416;
+  background-color: #FAF7F2;
   padding: 100px 80px;
 }
 
 .pillars-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-  border-left: 2.5px solid rgba(184, 137, 46, 0.8);
+  gap: 20px;
+  /* border-left: 2.5px solid #B8892E; */
 }
 
 .pillar-card {
   padding: 48px 32px;
-  border-right: 2.5px solid rgba(184, 137, 46, 0.8);
-  border-bottom: 2.5px solid rgba(184, 137, 46, 0.8);
-  border-top: 2.5px solid rgba(184, 137, 46, 0.8);
+  background-color: #E8DFD2;
+  /* border-right: 2.5px solid #B8892E; */
+  /* border-bottom: 2.5px solid #B8892E; */
+  /* border-top: 2.5px solid #B8892E; */
   display: flex;
   flex-direction: column;
 }
@@ -2882,7 +2883,7 @@ img { display: block; max-width: 100%; }
   font-family: var(--display), 'Cormorant Garamond', serif;
   font-size: 44px;
   font-weight: 300;
-  color: rgba(247, 243, 237, 0.55);
+  color: rgba(42, 31, 20, 0.2);
   line-height: 1;
   margin-bottom: 14px;
 }
@@ -2893,7 +2894,7 @@ img { display: block; max-width: 100%; }
   font-size: 9px;
   letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: #F2E6C8;
+  color: #B8892E;
   margin-bottom: 10px;
   line-height: 1.4;
 }
@@ -2902,7 +2903,7 @@ img { display: block; max-width: 100%; }
   font-family: var(--display), 'Cormorant Garamond', serif;
   font-size: 16px;
   font-style: italic;
-  color: rgba(247, 243, 237, 0.95);
+  color: #2A1F14;
   line-height: 1.7;
   margin: 0;
 }
@@ -3038,7 +3039,7 @@ img { display: block; max-width: 100%; }
 /* Pulse animation for bubble */
 @keyframes bubblePulse {
   0% {
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25), 0 0 0 0px rgba(184, 137, 46, 0.25);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25), 0 0 0 0px #3A2416;
   }
   70% {
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25), 0 0 0 8px rgba(184, 137, 46, 0);
@@ -3362,7 +3363,7 @@ img { display: block; max-width: 100%; }
 .reel-cta-action-btn:hover:not(:disabled) {
   background-color: #B8892E;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(184, 137, 46, 0.25);
+  box-shadow: 0 6px 16px #3A2416;
 }
 
 .reel-cta-action-btn:disabled {

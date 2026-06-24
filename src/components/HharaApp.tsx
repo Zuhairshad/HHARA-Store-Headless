@@ -1157,7 +1157,7 @@ function Pillars() {
         <div className="section-head" style={{ borderBottom: "1px solid rgba(184, 137, 46, 0.12)", paddingBottom: 28, marginBottom: 48 }}>
           <div className="section-head-stack">
             <span className="eyebrow" style={{ color: "#B8892E" }}>The Four Pillars</span>
-            <h2 className="section-title" style={{ color: "#F7F3ED", fontWeight: 300 }}>Luxury within<br /><em>intention.</em></h2>
+            <h2 className="section-title" style={{ color: "#2A1F14", fontWeight: 300 }}>Luxury within<br /><em>intention.</em></h2>
           </div>
         </div>
         <div className="pillars-grid">
