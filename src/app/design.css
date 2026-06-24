@@ -458,14 +458,14 @@ img { display: block; max-width: 100%; }
 
 /* ====== Section primitives ====== */
 .section {
-  padding: 110px 80px;
+  padding: clamp(64px, 9vh, 110px) 80px;
   max-width: var(--maxw);
   margin: 0 auto;
   width: 100%;
 }
-.section-tight { padding-top: 64px; padding-bottom: 64px; padding-left: 80px; padding-right: 80px; }
+.section-tight { padding-top: clamp(44px, 6vh, 64px); padding-bottom: clamp(44px, 6vh, 64px); padding-left: 80px; padding-right: 80px; }
 .section-full {
-  padding: 110px 80px;
+  padding: clamp(64px, 9vh, 110px) 80px;
   width: 100%;
   max-width: none;
 }
@@ -2529,7 +2529,7 @@ img { display: block; max-width: 100%; }
 
 .gives-back-hero {
   background-color: #3A2416;
-  padding: 144px var(--pad) 96px;
+  padding: clamp(80px, 11vh, 144px) var(--pad) clamp(56px, 8vh, 96px);
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -2574,14 +2574,14 @@ img { display: block; max-width: 100%; }
 }
 
 .gives-back-section {
-  padding: 112px var(--pad);
+  padding: clamp(64px, 9vh, 112px) var(--pad);
   background-color: #F7F3ED;
 }
 
 .gives-back-section.dark {
   background-color: #3A2416;
   text-align: center;
-  padding: 160px var(--pad);
+  padding: clamp(80px, 12vh, 160px) var(--pad);
 }
 
 .gives-back-section.alt-cream {
@@ -2859,7 +2859,7 @@ img { display: block; max-width: 100%; }
 /* ====== Pillars Section ====== */
 .pillars-section {
   background-color: #FAF7F2;
-  padding: 100px 80px;
+  padding: clamp(56px, 8vh, 100px) 80px;
 }
 
 .pillars-grid {
@@ -2870,7 +2870,7 @@ img { display: block; max-width: 100%; }
 }
 
 .pillar-card {
-  padding: 48px 32px;
+  padding: clamp(28px, 4vh, 48px) 32px;
   background-color: #E8DFD2;
   /* border-right: 2.5px solid #B8892E; */
   /* border-bottom: 2.5px solid #B8892E; */
@@ -3487,7 +3487,7 @@ img { display: block; max-width: 100%; }
 }
 
 .gives-back-section.dark {
-  padding: 220px 24px !important;
+  padding: clamp(100px, 16vh, 220px) 24px !important;
 }
 
 .gives-back-quote-banner {
@@ -3918,6 +3918,68 @@ img { display: block; max-width: 100%; }
   color: var(--muted);
   margin: 0;
   font-style: italic;
+}
+
+/* ============================================================
+   SHORT-VIEWPORT FIX — targets HP/Windows laptops (~700-800px
+   effective viewport height) without touching MacBook layout
+   ============================================================ */
+@media (max-height: 800px) and (min-width: 1024px) {
+  .section,
+  .section-full {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+  .section-tight {
+    padding-top: 44px;
+    padding-bottom: 44px;
+  }
+  .pillars-section {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+  .pillar-card {
+    padding: 28px 24px;
+  }
+  .pillar-num {
+    font-size: 34px;
+    margin-bottom: 10px;
+  }
+  .callout {
+    padding: 40px 32px;
+  }
+  .hero {
+    max-height: 720px;
+  }
+}
+
+@media (max-height: 700px) and (min-width: 1024px) {
+  .section,
+  .section-full {
+    padding-top: 56px;
+    padding-bottom: 56px;
+  }
+  .section-tight {
+    padding-top: 36px;
+    padding-bottom: 36px;
+  }
+  .pillars-section {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+  .pillar-card {
+    padding: 22px 20px;
+  }
+  .pillar-num {
+    font-size: 30px;
+    margin-bottom: 8px;
+  }
+  .callout {
+    padding: 32px 24px;
+  }
+  .hero {
+    max-height: 620px;
+  }
 }
 
 

@@ -1041,7 +1041,7 @@ function Newsletter() {
 
 function Colourways() {
   return (
-    <section className="gives-back-section alt-cream" style={{ backgroundColor: "#E8DFD2", padding: "100px 24px" }}>
+    <section className="gives-back-section alt-cream" style={{ backgroundColor: "#E8DFD2", padding: "clamp(60px, 8vh, 100px) 24px" }}>
       <div className="gives-back-content-width" style={{ maxWidth: 960 }}>
         {/* Eyebrow */}
         <span className="eyebrow" style={{ color: "#B8892E", display: "inline-flex", alignItems: "center", gap: 12, justifyContent: "center", width: "100%", textAlign: "center" }}>
@@ -1215,6 +1215,7 @@ function Home(props) {
       <Hero openShop={() => props.setRoute("shop")} />
       <Marquee />
       <Manifesto onShop={() => props.setRoute("shop")} />
+      <Colourways />
       <FeaturedGrid
         ids={HHRAA_DATA.FEATURED_IDS}
         title="The Capsule"
@@ -1225,7 +1226,6 @@ function Home(props) {
       />
       <Editorial openShop={() => props.setRoute("atelier")} />
       <Pillars />
-      <Colourways />
       <Lookbook openLookbook={() => props.setRoute("lookbook")} />
       <Proclamation />
       <Callouts />
@@ -2109,7 +2109,7 @@ function AtelierPage({ setRoute }) {
         </div>
       </section>
 
-      <section className="gives-back-section dark" style={{ padding: "100px var(--pad)", backgroundColor: "#3A2416", textAlign: "center" }}>
+      <section className="gives-back-section dark" style={{ padding: "clamp(60px, 8vh, 100px) var(--pad)", backgroundColor: "#3A2416", textAlign: "center" }}>
         <div className="gives-back-content-width" style={{ maxWidth: 800, margin: "0 auto" }}>
           <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: "clamp(22px, 3.2vw, 30px)", lineHeight: 1.7, marginBottom: 40, color: "#F7F3ED", fontFamily: "var(--display)", fontWeight: 300 }}>
             "She moves before the world notices. She carries what others don't see. She is the woman who shows up, for everyone, and still finds a way to show up for herself. HHARA was made for her. From the very first stitch."
@@ -2579,7 +2579,7 @@ function StoresPage({ setRoute }) {
       </section>
 
       {/* IMPACT MAP SECTION */}
-      <section style={{ backgroundColor: "#14100b", padding: "100px var(--pad)" }}>
+      <section style={{ backgroundColor: "#14100b", padding: "clamp(60px, 8vh, 100px) var(--pad)" }}>
         <div className="gives-back-content-width" style={{ maxWidth: 1100 }}>
           <div style={{ textAlign: "center", marginBottom: "48px" }}>
             <span className="eyebrow" style={{ color: "rgba(247,243,237,0.45)", letterSpacing: "0.3em" }}>OUR GIVING · WHERE WONDER GIVES BACK</span>
