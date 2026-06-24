@@ -2607,7 +2607,7 @@ function StoresPage({ setRoute }) {
           </div>
 
           {/* Interactive Leaflet Map */}
-          <div style={{ borderRadius: 12, overflow: "hidden", border: "1px solid rgba(247,243,237,0.08)" }}>
+          <div style={{ borderRadius: 12, overflow: "hidden", border: "1px solid rgba(247,243,237,0.08)", isolation: "isolate" }}>
             <Suspense fallback={<div style={{ width: "100%", height: 460, background: "#1a1510" }} />}>
               <ImpactMap />
             </Suspense>
