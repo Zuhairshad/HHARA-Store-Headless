@@ -1212,31 +1212,31 @@ function Proclamation() {
 
 const TESTIMONIALS = [
   {
-    quote: "The Imara set went from morning yoga to a board meeting without a single second glance. I've worn luxury activewear from every label — nothing moves like this.",
+    quote: "The Imara set went from morning yoga to a board meeting without a single second glance. I've worn luxury activewear from every label and nothing moves like this. The fabric feels like a second skin and holds its shape through everything.",
     name: "Layla M.",
     location: "Dubai",
     product: "Imara Set · Bark Oxide",
   },
   {
-    quote: "I've been searching for years for something that doesn't ask me to choose between beauty and function. HHARA finally understood what my mornings actually look like.",
+    quote: "I've been searching for years for something that doesn't ask me to choose between beauty and function. HHARA finally understood what my mornings actually look like. It's the first brand that dressed me for the whole day, not just the gym.",
     name: "Amira K.",
     location: "Abu Dhabi",
     product: "Dalia Set · Zinc Crimson",
   },
   {
-    quote: "The craftsmanship on the Dalia Bra is extraordinary — soft against the skin but structured where it matters. Six hours later I forgot I was wearing activewear.",
+    quote: "The craftsmanship on the Dalia Bra is extraordinary, soft against the skin but structured where it matters. Six hours later I forgot I was wearing activewear. I've recommended it to every woman in my circle since.",
     name: "Nadia R.",
     location: "London",
     product: "Dalia Bra · Bark Oxide",
   },
   {
-    quote: "Finally activewear I'm proud to be seen in. The Bark Oxide colourway is richer and more considered in person than any photograph captures.",
+    quote: "Finally activewear I'm proud to be seen in. The Bark Oxide colourway is richer and more considered in person than any photograph captures. It photographs beautifully but wearing it is something else entirely.",
     name: "Fatima A.",
     location: "Dubai",
     product: "Imara Legging · Bark Oxide",
   },
   {
-    quote: "Worth every dirham. I bought the Dalia Short for the gym — I've worn it to dinner twice since. That says everything.",
+    quote: "Worth every dirham. I bought the Dalia Short for the gym and I've worn it to dinner twice since. That says everything. It pairs with almost anything and never looks like it's trying too hard.",
     name: "Sara H.",
     location: "Riyadh",
     product: "Dalia Short · Zinc Crimson",
