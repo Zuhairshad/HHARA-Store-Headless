@@ -2,7 +2,6 @@
 // @ts-nocheck
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, react/no-unescaped-entities */
 import React, { useState, useEffect, useRef, useContext, createContext, lazy, Suspense } from "react";
-import { motion, useScroll, useTransform, useMotionValueEvent, useMotionValue } from "framer-motion";
 import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount } from "@/lib/cart-actions";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
@@ -493,8 +492,38 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
 }
 
 function Footer({ setRoute }) {
+  const [email, setEmail] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [done, setDone] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || busy) return;
+    setBusy(true); setError(null);
+    const res = await serverSubscribe(email);
+    setBusy(false);
+    if (res.ok) setDone(true);
+    else setError(res.error || "Subscription failed");
+  };
   return (
-    <footer className="footer">
+    <footer className="footer" style={{ position: "relative", overflow: "hidden" }}>
+      <img
+        src="/images/monkey-peeking.png"
+        alt=""
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: 0,
+          right: "-120px",
+          height: "100%",
+          width: "auto",
+          objectFit: "contain",
+          objectPosition: "right center",
+          pointerEvents: "none",
+          transform: "rotate(-8deg)",
+          transformOrigin: "top right",
+        }}
+      />
       <div className="footer-inner">
         <div className="footer-top">
           <div className="footer-brand">
@@ -503,6 +532,20 @@ function Footer({ setRoute }) {
             </div>
             <div className="gold-rule"></div>
             <p>Sustainable luxury athleisure. Designed in the UAE. Worn around the world with intent. Every piece gives back.</p>
+            <form className="footer-newsletter" onSubmit={handleSubmit} style={{ marginTop: 20 }}>
+              <input
+                type="email"
+                placeholder="Your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={done || busy}
+                required
+              />
+              <button type="submit" disabled={done || busy}>
+                {done ? "✓" : busy ? "…" : "Subscribe"}
+              </button>
+            </form>
+            {error && <div style={{ marginTop: 8, fontSize: 11, color: "var(--sale)" }}>{error}</div>}
           </div>
           <div className="footer-col">
             <h4>The Collection</h4>
@@ -1006,8 +1049,12 @@ function Newsletter() {
     else setError(res.error || "Subscription failed");
   };
   return (
-    <section className="newsletter relative overflow-hidden group">
+    <section className="newsletter">
       <div className="newsletter-inner">
+        <div className="newsletter-logo">
+          <img src="/images/Text-PNG-02.png" alt="HHARA" style={{ height: 30, width: "auto", filter: "brightness(0) invert(1)", opacity: 0.8 }} />
+        </div>
+        <div className="newsletter-rule" />
         <h2><em>Stay close</em> to the collective.</h2>
         <p>Private dispatches from the HHARA studio: capsule drops, philanthropic updates, and editorial notes. No more than twice a month.</p>
         <form className="newsletter-form" onSubmit={handleSubmit}>
@@ -1025,106 +1072,53 @@ function Newsletter() {
         </form>
         {error && <div style={{ marginTop: 12, fontSize: 13, color: "#fbb" }}>{error}</div>}
       </div>
-      
-      {/* Peeking Monkey Asset */}
-      <div
-        className="absolute pointer-events-none z-10 aspect-[512/487] transform rotate-[-8deg] bottom-0 right-[-80px] h-[160px] md:top-0 md:bottom-auto md:right-[-180px] md:h-full"
-      >
-        <img
-          src="/images/monkey-peeking.png"
-          alt="HHARA Meditating Monkey"
-          className="w-full h-full object-contain object-right-bottom"
-        />
-      </div>
     </section>
   );
 }
 
-function Colourways() {
+function ManifestoColourways({ onShop }: { onShop: () => void }) {
   return (
-    <section className="gives-back-section alt-cream" style={{ backgroundColor: "#E8DFD2", padding: "clamp(60px, 8vh, 100px) 24px" }}>
-      <div className="gives-back-content-width" style={{ maxWidth: 960 }}>
-        {/* Eyebrow */}
-        <span className="eyebrow" style={{ color: "#B8892E", display: "inline-flex", alignItems: "center", gap: 12, justifyContent: "center", width: "100%", textAlign: "center" }}>
-          <span style={{ width: 24, height: 1, backgroundColor: "#B8892E" }}></span>
-          The Colourways
-          <span style={{ width: 24, height: 1, backgroundColor: "#B8892E" }}></span>
-        </span>
-
-        {/* Headline */}
-        <h2 className="gives-back-headline" style={{ fontSize: "clamp(32px, 4.5vw, 48px)", lineHeight: 1.15, margin: "24px 0 48px", textAlign: "center" }}>
-          We are very <em>intentional</em> about colour.
-        </h2>
-
-        {/* Grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 32 }}>
-          {/* Card 1: Chicory Coffee */}
-          <div style={{ backgroundColor: "#FAF7F2", padding: "48px 36px", display: "flex", flexDirection: "column", gap: 20, border: "1px solid rgba(184, 137, 46, 0.15)" }}>
-            {/* Color Swatch Circle */}
-            <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "#3D2B1F", border: "1px solid rgba(0,0,0,0.08)" }}></div>
-
-            <div>
-              <h3 style={{ fontFamily: "var(--serif, 'Cormorant Garamond', serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Chicory Coffee</h3>
-              <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", display: "block" }}>Deep Espresso Brown</span>
-            </div>
-
-            <p style={{ fontFamily: "var(--sans)", fontSize: 13.5, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
-              The colour of the first cup. Before the world begins. Before she has to be anything for anyone. Deep, warm, grounded, the colour she reaches for before the noise starts.
-            </p>
-
-            <p style={{ fontFamily: "var(--serif, 'Cormorant Garamond', serif)", fontStyle: "italic", fontSize: 15, color: "#B8892E", margin: "8px 0 0" }}>
-              Her colour. Before the day begins.
-            </p>
+    <section className="manifesto-colourways">
+      <span className="eyebrow" style={{ color: "#B8892E", display: "block", textAlign: "center", marginBottom: 16 }}>The Collection</span>
+      <h2 className="mc-headline">
+        Two sets.<br />Unapologetically<br />
+        <em style={{ fontFamily: "var(--display,'Cormorant Garamond',serif)", fontStyle: "italic", fontWeight: 300, color: "#B8892E" }}>You.</em>
+      </h2>
+      <p className="mc-lead">Four pieces. Two colourways. Every version of her day.</p>
+      <p className="mc-body">
+        Each piece is named from an African or Arabic language, chosen because she already is it.{" "}
+        <em>Dalia</em> from the Arabic: gentle, tender, delicate.{" "}
+        <em>Imara</em> from the Swahili: strong, firm, resolute. She wears both. Always.
+      </p>
+      <div className="mc-cards">
+        <div className="mc-card">
+          <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "#3D2B1F", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0, alignSelf: "center" }} />
+          <div>
+            <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Chicory Coffee</h3>
+            <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", display: "block" }}>Deep Espresso Brown</span>
           </div>
-
-          {/* Card 2: Olive Green */}
-          <div style={{ backgroundColor: "#FAF7F2", padding: "48px 36px", display: "flex", flexDirection: "column", gap: 20, border: "1px solid rgba(184, 137, 46, 0.15)" }}>
-            {/* Color Swatch Circle */}
-            <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "#5F6B4F", border: "1px solid rgba(0,0,0,0.08)" }}></div>
-
-            <div>
-              <h3 style={{ fontFamily: "var(--serif, 'Cormorant Garamond', serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Olive Green</h3>
-              <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", display: "block" }}>Deep Olive</span>
-            </div>
-
-            <p style={{ fontFamily: "var(--sans)", fontSize: 13.5, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
-              The colour of quiet resilience. A soft, mineral shade pulled from the heart of the desert oasis. Peaceful, steady, organic, a tone that does not seek attention, yet holds it completely.
-            </p>
-
-            <p style={{ fontFamily: "var(--serif, 'Cormorant Garamond', serif)", fontStyle: "italic", fontSize: 15, color: "#B8892E", margin: "8px 0 0" }}>
-              Grounded in nature. Quietly powerful.
-            </p>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 13.5, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
+            The colour of the first cup. Before the world begins. Before she has to be anything for anyone. Deep, warm, grounded — the colour she reaches for before the noise starts.
+          </p>
+          <p style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontStyle: "italic", fontSize: 15, color: "#B8892E", margin: "8px 0 0" }}>
+            Her colour. Before the day begins.
+          </p>
+        </div>
+        <div className="mc-card">
+          <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "#5F6B4F", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0, alignSelf: "center" }} />
+          <div>
+            <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Olive Green</h3>
+            <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", display: "block" }}>Deep Olive</span>
           </div>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 13.5, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
+            The colour of quiet resilience. A soft, mineral shade pulled from the heart of the desert oasis. Peaceful, steady, organic — a tone that does not seek attention, yet holds it completely.
+          </p>
+          <p style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontStyle: "italic", fontSize: 15, color: "#B8892E", margin: "8px 0 0" }}>
+            Grounded in nature. Quietly powerful.
+          </p>
         </div>
       </div>
-    </section>
-  );
-}
-
-function Manifesto({ onShop }: { onShop: () => void }) {
-  return (
-    <section className="section">
-      <div className="section-head" style={{ justifyContent: "center", textAlign: "center" }}>
-        <div className="section-head-stack" style={{ alignItems: "center" }}>
-          <span className="eyebrow">The Collection</span>
-          <h2 className="section-title" style={{ fontSize: "clamp(36px, 5vw, 56px)", lineHeight: 1.15 }}>
-            Two sets.<br />
-            Unapologetically<br />
-            <em style={{ fontFamily: "var(--display), 'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 300, color: "#B8892E" }}>You.</em>
-          </h2>
-        </div>
-      </div>
-      <div style={{ maxWidth: 640, margin: "0 auto", textAlign: "center", padding: "0 24px 12px" }}>
-        <p style={{ fontWeight: 500, marginBottom: 16, fontSize: 15, color: "var(--ink)" }}>
-          Four pieces. Two colourways. Every version of her day.
-        </p>
-        <p style={{ lineHeight: 2.0, opacity: 0.8, color: "var(--ink-soft)" }}>
-          Each piece is named from an African or Arabic language, chosen because she already is it.{" "}
-          <em style={{ fontStyle: "italic" }}>Dalia</em> from the Arabic: gentle, tender, delicate.{" "}
-          <em style={{ fontStyle: "italic" }}>Imara</em> from the Swahili: strong, firm, resolute. She wears both. Always.
-        </p>
-        <button className="btn btn-primary" style={{ marginTop: 32 }} onClick={onShop}>Shop All Pieces</button>
-      </div>
+      <button className="btn btn-primary" onClick={onShop}>Shop All Pieces</button>
     </section>
   );
 }
@@ -1196,13 +1190,13 @@ function Philanthropy() {
 
 function Proclamation() {
   return (
-    <section className="section" style={{ textAlign: "center" }}>
+    <section className="section" style={{ textAlign: "center", background: "var(--ink)", color: "var(--bg)" }}>
       <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 24px" }}>
-        <p style={{ fontFamily: "var(--serif, 'Cormorant Garamond', serif)", fontStyle: "italic", fontSize: 32, lineHeight: 1.4 }}>
+        <p style={{ fontFamily: "var(--serif, 'Cormorant Garamond', serif)", fontStyle: "italic", fontSize: 32, lineHeight: 1.4, color: "var(--bg)" }}>
           &ldquo;Silence is the most powerful of powers. It&apos;s the unwavering, measured silence of a woman
           who knows she has left behind her past, and is shaping her future, with absolute purpose.&rdquo;
         </p>
-        <p style={{ marginTop: 24, fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", opacity: 0.55 }}>
+        <p style={{ marginTop: 24, fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", opacity: 0.55, color: "var(--bg)" }}>
           The HHARA Collective
         </p>
       </div>
@@ -1259,152 +1253,84 @@ const TESTIMONIALS = [
     location: "Beirut",
     product: "Imara Bra · Zinc Crimson",
   },
+  {
+    quote: "The Imara Legging has outlasted every other pair I own. Three months of daily wear and it still looks brand new. The fabric is something else entirely.",
+    name: "Zara A.",
+    location: "Abu Dhabi",
+    product: "Imara Legging · Olive Green",
+  },
+  {
+    quote: "I wore the Dalia Set to a client dinner and not a single person knew it was activewear. That is the whole point, isn't it? HHARA gets it perfectly.",
+    name: "Lina M.",
+    location: "Beirut",
+    product: "Dalia Set · Bark Oxide",
+  },
+  {
+    quote: "The waistband on the Imara Legging is the best I have ever worn. No rolling, no digging. Just stays exactly where it should all day long.",
+    name: "Nour T.",
+    location: "Cairo",
+    product: "Imara Legging · Zinc Crimson",
+  },
+  {
+    quote: "Activewear I can wear to the gym, to coffee, and straight into a meeting without a second thought. HHARA solved a problem I didn't know could be solved.",
+    name: "Aisha R.",
+    location: "Riyadh",
+    product: "Imara Set · Olive Green",
+  },
 ];
 
-const CPV = 3;
-const GAP = 24;
-
-function TestiCard({ data, index, total, progress, cardWidth }) {
-  const transitions = total - CPV;
-  const exitStart = Math.min(index / transitions, 0.999);
-  const exitEnd = Math.min((index + 1) / transitions, 1.0);
-  const midExit = exitStart + (exitEnd - exitStart) * 0.55;
-
-  const rotate = useTransform(progress, [exitStart, exitEnd], [0, -5]);
-  const opacity = useTransform(progress, [midExit, exitEnd], [1, 0]);
-  const shouldExit = index <= transitions - 1;
-
-  return (
-    <motion.div
-      className="testi-card"
-      style={{
-        width: cardWidth > 0 ? cardWidth : undefined,
-        rotate: shouldExit ? rotate : 0,
-        opacity: shouldExit ? opacity : 1,
-        transformOrigin: "left bottom",
-        flexShrink: 0,
-      }}
-    >
-      <div className="testi-quote-mark">&ldquo;</div>
-      <blockquote className="testi-quote">{data.quote}</blockquote>
-      <div className="testi-divider" />
-      <div className="testi-byline">
-        <div>
-          <div className="testi-name">{data.name}</div>
-          <div className="testi-meta">{data.location} · {data.product}</div>
-        </div>
-        <div className="testi-stars">★★★★★</div>
-      </div>
-    </motion.div>
-  );
-}
-
 function Testimonials() {
-  const containerRef = useRef(null);
-  const stageRef = useRef(null);
-  const [stageW, setStageW] = useState(0);
-  const N = TESTIMONIALS.length;
-  const transitions = N - CPV;
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [canLeft, setCanLeft] = useState(false);
+  const [canRight, setCanRight] = useState(true);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
+  const syncButtons = () => {
+    const el = trackRef.current;
+    if (!el) return;
+    setCanLeft(el.scrollLeft > 2);
+    setCanRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 2);
+  };
 
   useEffect(() => {
-    function update() {
-      if (stageRef.current) setStageW((stageRef.current as HTMLElement).offsetWidth);
-    }
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+    const el = trackRef.current;
+    if (!el) return;
+    syncButtons();
+    el.addEventListener("scroll", syncButtons, { passive: true });
+    window.addEventListener("resize", syncButtons);
+    return () => {
+      el.removeEventListener("scroll", syncButtons);
+      window.removeEventListener("resize", syncButtons);
+    };
   }, []);
 
-  const cardWidth = stageW > 0 ? (stageW - GAP * (CPV - 1)) / CPV : 0;
-  const totalShiftRef = useRef(0);
-  totalShiftRef.current = transitions * (cardWidth + GAP);
-
-  const trackX = useMotionValue(0);
-
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    trackX.set(-v * totalShiftRef.current);
-  });
-
-  useEffect(() => {
-    trackX.set(-scrollYProgress.get() * totalShiftRef.current);
-  }, [stageW]);
-
-  const [activeIdx, setActiveIdx] = useState(0);
-  useMotionValueEvent(scrollYProgress, "change", (v) => {
-    setActiveIdx(Math.min(Math.round(v * transitions), transitions));
-  });
-
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  if (isMobile) {
-    return (
-      <section className="testi-mobile-section">
-        <div className="testi-mobile-head">
-          <span className="eyebrow" style={{ color: "#B8892E" }}>What She Says</span>
-          <h2 className="section-title">Worn &amp; Witnessed</h2>
-        </div>
-        <div className="testi-mobile-list">
-          {TESTIMONIALS.map((t, i) => (
-            <div key={i} className="testi-mobile-card">
-              <div className="testi-quote-mark">&ldquo;</div>
-              <blockquote className="testi-quote">{t.quote}</blockquote>
-              <div className="testi-divider" />
-              <div className="testi-byline">
-                <div>
-                  <div className="testi-name">{t.name}</div>
-                  <div className="testi-meta">{t.location} · {t.product}</div>
-                </div>
-                <div className="testi-stars">★★★★★</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-    );
-  }
+  const scroll = (dir: number) => {
+    const el = trackRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>(".review-card");
+    const step = card ? card.offsetWidth + 24 : 300;
+    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  };
 
   return (
-    <div ref={containerRef} className="testi-scroll-container">
-      <div className="testi-sticky">
-        <div className="testi-head">
-          <span className="eyebrow" style={{ color: "#B8892E" }}>What She Says</span>
-          <h2 className="section-title">Worn &amp; Witnessed</h2>
-        </div>
-        <div className="testi-stage" ref={stageRef}>
-          <motion.div className="testi-track-row" style={{ x: trackX }}>
-            {TESTIMONIALS.map((t, i) => (
-              <TestiCard
-                key={i}
-                data={t}
-                index={i}
-                total={N}
-                progress={scrollYProgress}
-                cardWidth={cardWidth}
-              />
-            ))}
-          </motion.div>
-        </div>
-        <div className="testi-progress">
-          {Array.from({ length: transitions + 1 }).map((_, i) => (
-            <div key={i} className={`testi-dot${i === activeIdx ? " active" : ""}`} />
-          ))}
-          <span className="testi-counter">
-            {String(activeIdx + 1).padStart(2, "0")} / {String(transitions + 1).padStart(2, "0")}
-          </span>
+    <section className="reviews-section">
+      <div className="reviews-header">
+        <h2 className="reviews-title">Customer Reviews</h2>
+        <div className="reviews-nav">
+          <button className="reviews-nav-btn" onClick={() => scroll(-1)} disabled={!canLeft} aria-label="Previous reviews">←</button>
+          <button className="reviews-nav-btn" onClick={() => scroll(1)} disabled={!canRight} aria-label="Next reviews">→</button>
         </div>
       </div>
-    </div>
+      <div className="reviews-track" ref={trackRef}>
+        {TESTIMONIALS.map((t, i) => (
+          <div key={i} className="review-card">
+            <div className="review-stars">★★★★★</div>
+            <blockquote className="review-quote">{t.quote}</blockquote>
+            <div className="review-author">{t.name}</div>
+            <div className="review-meta">{t.location} · {t.product}</div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -1413,8 +1339,7 @@ function Home(props) {
     <>
       <Hero openShop={() => props.setRoute("shop")} />
       <Marquee />
-      <Manifesto onShop={() => props.setRoute("shop")} />
-      <Colourways />
+      <ManifestoColourways onShop={() => props.setRoute("shop")} />
       <FeaturedGrid
         ids={HHRAA_DATA.FEATURED_IDS}
         title="The Capsule"
@@ -1429,7 +1354,6 @@ function Home(props) {
       <Proclamation />
       <Testimonials />
       <Callouts />
-      <Newsletter />
     </>
   );
 }

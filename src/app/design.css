@@ -917,6 +917,17 @@ img { display: block; max-width: 100%; }
   max-width: 640px;
   margin: 0 auto;
 }
+.newsletter-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+.newsletter-rule {
+  width: 44px;
+  height: 1px;
+  background: rgba(245, 242, 236, 0.22);
+  margin: 0 auto 32px;
+}
 .newsletter h2 {
   font-family: var(--display);
   font-size: clamp(40px, 4.5vw, 60px);
@@ -986,6 +997,32 @@ img { display: block; max-width: 100%; }
   color: var(--muted);
   line-height: 1.7;
   max-width: 320px;
+}
+.footer-newsletter {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+  max-width: 280px;
+}
+.footer-newsletter input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13px;
+  padding: 4px 0;
+}
+.footer-newsletter input::placeholder { color: var(--ink-soft); opacity: 0.6; }
+.footer-newsletter button {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 500;
+  white-space: nowrap;
 }
 .footer-col h4 {
   font-size: 11px;
@@ -3987,175 +4024,152 @@ img { display: block; max-width: 100%; }
    =================================================================== */
 
 /* scroll height = (N - CPV + 1) * 100vh = (8 - 3 + 1) * 100 = 600vh */
-.testi-scroll-container {
-  height: 600vh;
-  background: #FAF7F2;
-  position: relative;
-}
-
-.testi-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(20px, 3vh, 36px);
-  padding: clamp(48px, 6vh, 80px) clamp(32px, 5vw, 80px);
-  overflow: hidden;
-  background: #FAF7F2;
-}
-
-.testi-head {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* ====== Merged Manifesto + Colourways ====== */
+.manifesto-colourways {
+  background: var(--bg);
+  padding: clamp(60px, 9vh, 110px) clamp(24px, 5vw, 80px);
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mc-headline {
+  font-family: var(--display);
+  font-size: clamp(40px, 5.5vw, 64px);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+.mc-lead {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.mc-body {
+  font-size: 14px;
+  line-height: 2.0;
+  color: var(--ink-soft);
+  max-width: 680px;
+  margin-bottom: 48px;
+}
+.mc-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  width: 100%;
+  max-width: 960px;
+  margin-bottom: 48px;
+}
+.mc-card {
+  background: #FAF7F2;
+  padding: clamp(32px, 4vw, 48px) clamp(24px, 3vw, 36px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid rgba(184, 137, 46, 0.15);
+}
+
+/* ====== Reviews — TALA style ====== */
+.reviews-section {
+  background: var(--bg);
+  padding: clamp(56px, 8vh, 96px) clamp(24px, 5vw, 80px);
+  overflow: hidden;
+}
+.reviews-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: clamp(24px, 4vh, 44px);
+}
+.reviews-title {
+  font-family: var(--display);
+  font-size: clamp(30px, 4vw, 50px);
+  font-weight: 300;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.reviews-nav {
+  display: flex;
   gap: 8px;
   flex-shrink: 0;
 }
-
-.testi-stage {
-  position: relative;
-  width: 100%;
-  height: clamp(340px, 48vh, 500px);
-  flex-shrink: 0;
-  overflow: hidden;
-}
-
-.testi-track-row {
-  display: flex;
-  gap: 24px;
-  will-change: transform;
-}
-
-.testi-card {
-  flex-shrink: 0;
-  background: #FFFFFF;
-  padding: clamp(24px, 3vh, 40px) clamp(20px, 2.5vw, 36px);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  box-shadow: 0 8px 48px rgba(42, 31, 20, 0.09), 0 1px 6px rgba(42, 31, 20, 0.05);
-  box-sizing: border-box;
-}
-
-.testi-quote-mark {
-  font-family: var(--display), 'Cormorant Garamond', serif;
-  font-size: 72px;
-  line-height: 0.55;
-  color: #B8892E;
-  opacity: 0.28;
-  font-style: italic;
-  display: block;
-  flex-shrink: 0;
-}
-
-.testi-quote {
-  font-family: var(--display), 'Cormorant Garamond', serif;
-  font-size: clamp(18px, 1.55vw, 24px);
-  font-style: italic;
-  line-height: 1.75;
-  color: #2A1F14;
-  margin: 0;
-  font-weight: 300;
-  flex: 1;
-}
-
-.testi-divider {
-  width: 32px;
-  height: 1px;
-  background: #B8892E;
-  opacity: 0.4;
-  flex-shrink: 0;
-}
-
-.testi-byline {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex-shrink: 0;
-}
-
-.testi-name {
-  font-family: var(--sans), 'Montserrat', sans-serif;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: #2A1F14;
-  margin-bottom: 4px;
-}
-
-.testi-meta {
-  font-family: var(--sans);
-  font-size: 10px;
-  color: rgba(42, 31, 20, 0.45);
-  letter-spacing: 0.08em;
-}
-
-.testi-stars {
-  font-size: 11px;
-  color: #B8892E;
-  letter-spacing: 3px;
-  line-height: 1;
-}
-
-.testi-progress {
+.reviews-nav-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
+  justify-content: center;
+  font-size: 17px;
+  color: var(--ink);
+  cursor: pointer;
+  background: transparent;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+  line-height: 1;
 }
-
-.testi-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: rgba(42, 31, 20, 0.2);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  flex-shrink: 0;
+.reviews-nav-btn:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
 }
-
-.testi-dot.active {
-  background: #B8892E;
-  width: 22px;
-  border-radius: 3px;
+.reviews-nav-btn:disabled { opacity: 0.22; cursor: default; }
+.reviews-track {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
-
-.testi-counter {
-  font-family: var(--mono, 'Courier New', monospace);
+.reviews-track::-webkit-scrollbar { display: none; }
+.review-card {
+  flex: 0 0 clamp(230px, 22vw, 300px);
+  padding-right: clamp(20px, 2vw, 32px);
+  padding-bottom: 4px;
+  border-right: 1px solid var(--line-soft);
+  margin-right: clamp(20px, 2vw, 32px);
+  scroll-snap-align: start;
+}
+.review-card:last-child {
+  border-right: none;
+  margin-right: 0;
+  padding-right: 0;
+}
+.review-stars {
+  color: var(--accent);
+  font-size: 11px;
+  letter-spacing: 3px;
+  margin-bottom: 14px;
+}
+.review-quote {
+  font-family: var(--display), 'Cormorant Garamond', serif;
+  font-size: clamp(14px, 1.4vw, 17px);
+  font-style: italic;
+  line-height: 1.72;
+  color: var(--ink);
+  margin-bottom: 16px;
+  font-weight: 300;
+}
+.review-author {
+  font-family: var(--sans);
   font-size: 10px;
-  letter-spacing: 0.2em;
-  color: rgba(42, 31, 20, 0.35);
-  margin-left: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 3px;
 }
-
-/* Mobile — flat stacked list */
-.testi-mobile-section {
-  background: #FAF7F2;
-  padding: clamp(56px, 8vh, 96px) 24px;
+.review-meta {
+  font-family: var(--sans);
+  font-size: 10px;
+  color: var(--ink-soft);
+  letter-spacing: 0.06em;
 }
-
-.testi-mobile-head {
-  text-align: center;
-  margin-bottom: clamp(28px, 4vh, 48px);
-}
-
-.testi-mobile-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.testi-mobile-card {
-  background: #FFFFFF;
-  padding: 28px 24px;
-  box-shadow: 0 4px 24px rgba(42, 31, 20, 0.07);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+@media (max-width: 768px) {
+  .review-card { flex: 0 0 clamp(230px, 76vw, 300px); }
 }
