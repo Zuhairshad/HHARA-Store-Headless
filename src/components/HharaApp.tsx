@@ -491,7 +491,7 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
   );
 }
 
-function Footer({ setRoute }) {
+function Footer({ setRoute, route = "" }) {
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
@@ -506,19 +506,21 @@ function Footer({ setRoute }) {
     else setError(res.error || "Subscription failed");
   };
   return (
-    <footer className="footer">
+    <footer className="footer" data-route={route}>
       <div className="footer-inner">
         <div className="footer-top">
           <div className="footer-brand">
             <div className="footer-brand-logo" onClick={() => setRoute("home")} style={{ cursor: "pointer" }}>
-              <img src="/images/monkey-logo.jpg" alt="HHARA" className="footer-monkey-logo" />
-              <img src="/images/Text-PNG-02.png" alt="HHARA" className="footer-wordmark" />
-            </div>
-            <div className="footer-brand-desc">
-              <span>Sustainable luxury athleisure.</span>
-              <span>Designed in the UAE.</span>
-              <span>Worn around the world with intent.</span>
-              <span>Every piece gives back.</span>
+              <img src="/images/monkey-peeking.png" alt="HHARA" className="footer-monkey-logo" />
+              <div className="footer-brand-right">
+                <img src="/images/Text-PNG-02.png" alt="HHARA" className="footer-wordmark" />
+                <div className="footer-brand-desc">
+                  <span>Sustainable luxury athleisure.</span>
+                  <span>Designed in the UAE.</span>
+                  <span>Worn around the world with intent.</span>
+                  <span>Every piece gives back.</span>
+                </div>
+              </div>
             </div>
             <form className="footer-newsletter" onSubmit={handleSubmit}>
               <input
@@ -547,12 +549,11 @@ function Footer({ setRoute }) {
           <div className="footer-col">
             <h4>Customer Service</h4>
             <ul>
-              <li><a href="#">FAQ</a></li>
-              <li><a href="#">Shipping &amp; Delivery</a></li>
-              <li><a href="#">Returns &amp; Refunds</a></li>
-              <li><a href="#">Size Guide</a></li>
-              <li><a href="#">Track My Order</a></li>
-              <li><a href="mailto:contact@hhara.com">Contact</a></li>
+              <li><a onClick={() => setRoute("faq")} style={{ cursor: "pointer" }}>FAQ</a></li>
+              <li><a onClick={() => setRoute("shipping")} style={{ cursor: "pointer" }}>Shipping &amp; Delivery</a></li>
+              <li><a onClick={() => setRoute("returns")} style={{ cursor: "pointer" }}>Returns &amp; Refunds</a></li>
+              <li><a onClick={() => setRoute("size-guide")} style={{ cursor: "pointer" }}>Size Guide</a></li>
+              <li><a href="mailto:hello@hhara.com">Contact</a></li>
             </ul>
           </div>
           <div className="footer-col">
@@ -565,8 +566,8 @@ function Footer({ setRoute }) {
           <div className="footer-col">
             <h4>Legal</h4>
             <ul>
-              <li><a href="#">Privacy &amp; Cookie Policy</a></li>
-              <li><a href="#">Terms &amp; Conditions</a></li>
+              <li><a onClick={() => setRoute("privacy")} style={{ cursor: "pointer" }}>Privacy &amp; Cookie Policy</a></li>
+              <li><a onClick={() => setRoute("terms")} style={{ cursor: "pointer" }}>Terms &amp; Conditions</a></li>
             </ul>
           </div>
         </div>
@@ -576,6 +577,8 @@ function Footer({ setRoute }) {
             <a href="https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" target="_blank" rel="noreferrer">Instagram</a>
             <a href="https://www.tiktok.com/@thisishhara?_r=1&_t=ZS-97MsyT8wQps" target="_blank" rel="noreferrer">TikTok</a>
             <a href="#" target="_blank" rel="noreferrer">Facebook</a>
+            <a href="#" target="_blank" rel="noreferrer">Twitter</a>
+            <a href="#" target="_blank" rel="noreferrer">LinkedIn</a>
           </div>
         </div>
       </div>
@@ -2964,6 +2967,349 @@ function WishlistPage({ setRoute, openProduct, wishlist, quickAdd }) {
   );
 }
 
+// ============ POLICY PAGES ============
+function PolicyPage({ title, eyebrow, children, setRoute }: { title: string; eyebrow: string; children: React.ReactNode; setRoute: any }) {
+  return (
+    <div className="policy-page">
+      <div className="policy-hero">
+        <button className="policy-back" onClick={() => setRoute("home")}>← Back</button>
+        <span className="eyebrow" style={{ color: "var(--accent)" }}>{eyebrow}</span>
+        <h1 className="policy-title">{title}</h1>
+      </div>
+      <div className="policy-body">{children}</div>
+    </div>
+  );
+}
+
+function FAQPage({ setRoute }) {
+  const sections = [
+    {
+      heading: "The Collection",
+      items: [
+        { q: "How do I know which size to choose?", a: "We carry XS, S, M, L and XL. Visit our Size Guide for detailed measurements. Our pieces fit true to size. If you are between sizes and prefer a snug fit, we recommend sizing down." },
+        { q: "Will the colour on my screen match the real item?", a: "We aim to display our colourways as accurately as possible. Slight variations may occur due to lighting and individual screen settings." },
+        { q: "How should I care for my HHARA pieces?", a: "Machine wash cold on a gentle cycle. Do not tumble dry. Lay flat to dry. Do not bleach or iron. Wash with similar colours." },
+      ],
+    },
+    {
+      heading: "Orders & Payment",
+      items: [
+        { q: "How do I place an order?", a: "Browse and shop directly on site. Select your size and colourway, add to bag, and proceed to checkout. Payment is processed securely at checkout." },
+        { q: "What payment methods do you accept?", a: "We accept all major credit and debit cards. Payment is processed securely via Shopify Payments." },
+        { q: "Can I modify or cancel my order?", a: "Orders cannot be cancelled or modified once processed. If you need to make a change urgently, please contact us at hello@hhara.com within 24 hours of placing your order." },
+        { q: "Will I receive an order confirmation?", a: "Yes. You will receive an order confirmation email immediately after purchase, followed by a dispatch notification with your tracking link once shipped." },
+      ],
+    },
+    {
+      heading: "Account & Wishlist",
+      items: [
+        { q: "Do I need an account to place an order?", a: "No. You can check out as a guest. However, creating an account gives you access to order history, faster checkout, saved addresses, and your personal wishlist." },
+        { q: "Can I save pieces to a wishlist?", a: "Yes. Click the wishlist icon on any product to save it for later. Your wishlist is accessible from your account at any time." },
+        { q: "What if I forget my password?", a: "Click Forgot Password on the sign-in page. Enter your email address and we will send you a link to reset your password." },
+      ],
+    },
+    {
+      heading: "Shipping & Delivery",
+      items: [
+        { q: "Where do you ship?", a: "We ship worldwide: UAE, GCC, and internationally to over 200 countries." },
+        { q: "How long does UAE delivery take?", a: "UAE orders are delivered next day when placed before 2:00 pm on a working day. Orders placed after 2:00 pm or over the weekend will be dispatched the next working day." },
+        { q: "What are the UAE delivery charges?", a: "Delivery is free on all UAE orders of AED 400 and above. For orders below AED 400, a delivery fee of AED 22 applies. Remote area deliveries are subject to an AED 37 fee and serviced on Thursdays and Sundays only." },
+        { q: "How long does international delivery take?", a: "GCC (Saudi Arabia, Kuwait, Qatar, Oman, Bahrain): 3–5 working days. All other international destinations: 7–15 working days. Both subject to customs clearance." },
+        { q: "Who pays for customs and duties?", a: "All customs duties, import taxes, and clearance fees are the responsibility of the customer. These are not included in your order total." },
+      ],
+    },
+    {
+      heading: "Returns & Refunds",
+      items: [
+        { q: "What is your return policy?", a: "We accept returns within 7 days of delivery for UAE orders only. Items must be unworn, unwashed, in their original packaging, with all tags attached." },
+        { q: "How do I start a return?", a: "Email us at hello@hhara.com with the subject line Return: [Your Order Number]. Include your name, order number, and reason for return. We will respond within 2 business days." },
+        { q: "Can I exchange my order?", a: "Yes, exchanges are available for a different size or colourway, subject to availability. Each item can only be exchanged once." },
+        { q: "When will I receive my refund?", a: "Once we receive and inspect your return, refunds are processed within 5–7 business days to your original payment method. Original shipping fees are non-refundable." },
+      ],
+    },
+    {
+      heading: "Gives Back",
+      items: [
+        { q: "What is HHARA Gives Back?", a: "Giving back is built into the foundation of HHARA. With every purchase, HHARA directly supports orphanages and children in need, beginning in Kenya." },
+        { q: "Who does HHARA give to?", a: "We give directly, with no intermediaries. HHARA identifies and supports local orphanages. Our giving partners will be updated over time as our community and impact grow." },
+        { q: "How does the giving model work?", a: "A portion of every HHARA purchase goes directly toward our giving commitments. We are intentional about this, just as we are intentional about every other decision we make as a brand." },
+      ],
+    },
+  ];
+  return (
+    <PolicyPage title="Frequently Asked Questions" eyebrow="Support" setRoute={setRoute}>
+      {sections.map((s) => (
+        <div key={s.heading} className="policy-section">
+          <h2 className="policy-section-heading">{s.heading}</h2>
+          {s.items.map((item) => (
+            <div key={item.q} className="faq-item">
+              <h3 className="faq-q">{item.q}</h3>
+              <p className="faq-a">{item.a}</p>
+            </div>
+          ))}
+        </div>
+      ))}
+      <div className="policy-contact">
+        Still have questions? <a href="mailto:hello@hhara.com">hello@hhara.com</a>
+      </div>
+    </PolicyPage>
+  );
+}
+
+function ShippingPage({ setRoute }) {
+  return (
+    <PolicyPage title="Shipping & Delivery" eyebrow="Customer Service" setRoute={setRoute}>
+      <p className="policy-intro">We ship worldwide. Whether you are in Dubai or across the globe, every HHARA order is handled with care and delivered to your door.</p>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">UAE Delivery</h2>
+        <div className="policy-table">
+          <div className="policy-table-row"><span>Orders AED 400+</span><span>Free · Next Day</span></div>
+          <div className="policy-table-row"><span>Orders below AED 400</span><span>AED 22 · Next Day</span></div>
+          <div className="policy-table-row"><span>Remote areas (via Quiqup)</span><span>AED 37 · Thu & Sun only</span></div>
+          <div className="policy-table-row"><span>Free zones</span><span>Not supported</span></div>
+        </div>
+        <p className="policy-note">Orders placed before 2:00 pm on a working day are dispatched for next day delivery. Orders placed after 2:00 pm or over the weekend are dispatched the next working day.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">International Delivery</h2>
+        <div className="policy-table">
+          <div className="policy-table-row"><span>GCC (KSA, Kuwait, Qatar, Oman, Bahrain)</span><span>3–5 working days</span></div>
+          <div className="policy-table-row"><span>All other international destinations</span><span>7–15 working days</span></div>
+        </div>
+        <p className="policy-note">Delivery timeframes are estimates and may vary due to customs clearance, carrier availability, and destination country. Shipping costs are calculated at checkout.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Duties & Customs</h2>
+        <p>All duties, customs charges, and import taxes on international orders are the responsibility of the customer. These are not included in your order total or shipping fee and are determined by your local customs authority. HHARA is not responsible for delays caused by customs clearance.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Order Processing</h2>
+        <p>Orders are processed on working days (Monday to Friday, excluding UAE public holidays). Orders placed over the weekend or on a public holiday will be processed the next working day.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Failed Deliveries</h2>
+        <p>Please ensure your delivery address and contact details are accurate at checkout. Our courier will make up to 3 delivery attempts for UAE orders. After 3 failed attempts, the order will be returned to us. HHARA is not responsible for delays caused by incorrect address information.</p>
+      </div>
+
+      <div className="policy-contact">
+        Questions about your delivery? <a href="mailto:hello@hhara.com">hello@hhara.com</a>
+      </div>
+    </PolicyPage>
+  );
+}
+
+function ReturnsPage({ setRoute }) {
+  return (
+    <PolicyPage title="Returns & Refunds" eyebrow="Customer Service" setRoute={setRoute}>
+      <p className="policy-intro">We want you to love every piece you receive from HHARA. If something is not right, here is how we make it right.</p>
+      <p className="policy-note" style={{ marginTop: 0, marginBottom: 32 }}>Last updated: July 2025 · UAE orders only</p>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Eligibility</h2>
+        <p>To be eligible for a return or refund, your item must be unworn and unwashed, in its original packaging with all tags attached, and free from perfume, deodorant, or any signs of use. HHARA reserves the right to decline a return if the item does not meet these conditions upon inspection.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Return Window</h2>
+        <p>You have <strong>7 days</strong> from the date of delivery to request a return or exchange. Requests made after this period will not be accepted.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">How to Start a Return</h2>
+        <p>Email us at <a href="mailto:hello@hhara.com">hello@hhara.com</a> with the subject line <em>Return: [Your Order Number]</em>. Include your full name, order number, and reason for return. Our team will respond within 2 business days with next steps.</p>
+        <p style={{ marginTop: 16 }}>Once confirmed, pack your item securely in its original packaging. Our team will arrange a courier to collect the item from your delivery address. The collection fee is payable by the customer prior to pickup.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Exchanges</h2>
+        <p>Exchanges are available for a different size or colourway, subject to availability. Please mention your preference when submitting your return request. Each item can only be exchanged once.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Refunds</h2>
+        <p>Once we receive and inspect your return, refunds are processed within <strong>5–7 business days</strong> to your original payment method. Original shipping charges, customs, duties, or taxes are non-refundable.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Non-Returnable Items</h2>
+        <ul className="policy-list">
+          <li>Items purchased during a sale or marked as final sale</li>
+          <li>Items that have already been exchanged once</li>
+          <li>Gift cards</li>
+        </ul>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Cancellations</h2>
+        <p>Orders cannot be cancelled once processed. If you need to make a change, contact us at <a href="mailto:hello@hhara.com">hello@hhara.com</a> within 24 hours of placing your order and we will do our best to assist.</p>
+      </div>
+
+      <div className="policy-contact">
+        Questions? <a href="mailto:hello@hhara.com">hello@hhara.com</a>
+      </div>
+    </PolicyPage>
+  );
+}
+
+function SizeGuidePage({ setRoute }) {
+  const sizes = [
+    { size: "XS", uk: "UK 6", waist: "60–64", hips: "84–88", bust: "76–80" },
+    { size: "S",  uk: "UK 8", waist: "65–69", hips: "89–93", bust: "81–85" },
+    { size: "M",  uk: "UK 10", waist: "70–74", hips: "94–98", bust: "86–90" },
+    { size: "L",  uk: "UK 12", waist: "75–79", hips: "99–103", bust: "91–95" },
+    { size: "XL", uk: "UK 14", waist: "80–84", hips: "104–108", bust: "96–100" },
+  ];
+  return (
+    <PolicyPage title="Size Guide" eyebrow="Customer Service" setRoute={setRoute}>
+      <p className="policy-intro">Our sizing follows UK standards and is designed to fit true to size. All measurements are body measurements in centimetres, not garment measurements.</p>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">How to Choose Your Size</h2>
+        <p>Measure your natural waist, hips, and bust and compare against the table below.</p>
+        <div className="size-guide-tips">
+          <div className="size-tip"><strong>For a sculpted, close-to-body fit</strong><span>Size down</span></div>
+          <div className="size-tip"><strong>For a softer, more relaxed feel</strong><span>Size up</span></div>
+        </div>
+        <p className="policy-note" style={{ marginTop: 16 }}>Our pieces are designed with a gentle sculpting effect in mind. Supportive without restriction.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Measurements (cm)</h2>
+        <div className="size-table-wrap">
+          <table className="size-table">
+            <thead>
+              <tr>
+                <th>Size</th><th>UK</th><th>Waist</th><th>Hips</th><th>Bust</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sizes.map((r) => (
+                <tr key={r.size}>
+                  <td><strong>{r.size}</strong></td>
+                  <td>{r.uk}</td>
+                  <td>{r.waist}</td>
+                  <td>{r.hips}</td>
+                  <td>{r.bust}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="policy-contact">
+        Not sure which size is right for you? <a href="mailto:hello@hhara.com">hello@hhara.com</a>
+      </div>
+    </PolicyPage>
+  );
+}
+
+function PrivacyPage({ setRoute }) {
+  return (
+    <PolicyPage title="Privacy & Cookie Policy" eyebrow="Legal" setRoute={setRoute}>
+      <p className="policy-intro">At HHARA, your trust matters. This policy describes how Dahlia Moxie Trading LLC (trading as HHARA) collects, uses, and protects your personal information when you visit our site or interact with us.</p>
+      <p className="policy-note" style={{ marginTop: 0, marginBottom: 32 }}>Last updated: July 2026 · Dahlia Moxie Trading LLC, Business Bay, Dubai, UAE · Governed by UAE Federal Decree-Law No. 45 of 2021 (PDPL)</p>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Age of Consent</h2>
+        <p>You must be at least 18 years old to use our site or make a purchase. By accessing HHARA, you confirm that you meet this requirement.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Information We Collect</h2>
+        <ul className="policy-list">
+          <li>Contact details: name, email address, phone number</li>
+          <li>Delivery information: shipping address</li>
+          <li>Payment information, processed securely by third-party providers</li>
+          <li>Order history and size preferences</li>
+          <li>Browsing behaviour: products viewed, links clicked, time on site</li>
+          <li>Technical data: device type, browser, and IP address</li>
+          <li>Information shared with us via social media or direct messages</li>
+        </ul>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">How We Use Your Data</h2>
+        <ul className="policy-list">
+          <li>Process orders, manage payments, and fulfil shipments</li>
+          <li>Communicate with you, from delivery updates to new arrivals</li>
+          <li>Personalise your experience with relevant content and recommendations</li>
+          <li>Analyse trends and improve our collections and website</li>
+          <li>Maintain the safety and security of our site</li>
+          <li>Comply with our legal obligations under UAE law</li>
+        </ul>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Your Legal Rights</h2>
+        <p>Under the UAE PDPL, you have the right to access or correct your personal data, object to or withdraw consent for marketing communications at any time, and request deletion of your data where applicable. To exercise any of these rights, contact us at <a href="mailto:hello@hhara.com">hello@hhara.com</a>.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Third-Party Sharing</h2>
+        <p>We do not sell your personal data. Ever. We may securely share limited data with trusted partners including Shopify (e-commerce and payment), shipping and fulfilment providers, Klaviyo (email communications), analytics providers, and social media platforms where you engage with us directly.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Cookie Policy</h2>
+        <p style={{ marginBottom: 16 }}>Cookies are small text files stored in your browser that help our site recognise your device and deliver more relevant content. We use:</p>
+        <ul className="policy-list">
+          <li><strong>Essential:</strong> To enable core functions including your cart, account login, and secure checkout.</li>
+          <li><strong>Performance & Analytics:</strong> To understand how you use our website so we can continue improving your experience.</li>
+          <li><strong>Marketing & Personalisation:</strong> With your consent, to tailor content and recommendations to you.</li>
+        </ul>
+        <p style={{ marginTop: 16 }}>You can manage or disable cookies at any time through your browser settings. Disabling certain cookies may affect how the website functions.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Data Security</h2>
+        <p>We take reasonable technical and organisational measures to protect your information from unauthorised access, alteration, or misuse. Our site is hosted on Shopify, which is PCI-DSS compliant.</p>
+      </div>
+
+      <div className="policy-contact">
+        Questions? <a href="mailto:hello@hhara.com">hello@hhara.com</a>
+      </div>
+    </PolicyPage>
+  );
+}
+
+function TermsPage({ setRoute }) {
+  const clauses = [
+    { n: "1", title: "Eligibility", body: "You must be at least 18 years old to make a purchase on our site." },
+    { n: "2", title: "Products and Pricing", body: "We make every effort to display colours, fabrics, and pricing accurately. However, slight variations may occur, and we reserve the right to correct errors or decline orders where necessary." },
+    { n: "3", title: "Orders and Payment", body: "All orders placed through our website are subject to availability and acceptance. Payment is processed securely at checkout. We currently accept credit and debit cards." },
+    { n: "4", title: "Shipping and Delivery", body: "We ship within the UAE and internationally. For delivery timelines and related terms, please refer to our Shipping & Delivery policy." },
+    { n: "5", title: "Returns and Exchanges", body: "We accept returns within 7 days of delivery for UAE orders only. Return shipping is at the customer's cost. For full conditions and refund details, please refer to our Returns & Refunds policy." },
+    { n: "6", title: "Intellectual Property", body: "All content on this website, including text, product descriptions, imagery, brand assets, and design, is the property of Dahlia Moxie Trading LLC (HHARA). No reproduction or use of any content is permitted without prior written consent." },
+    { n: "7", title: "Limitation of Liability", body: "To the fullest extent permitted by law, HHARA is not liable for indirect, incidental, or consequential damages arising from the use of our products or website." },
+    { n: "8", title: "Governing Law", body: "These terms are governed by the laws of the United Arab Emirates. Any disputes will fall under the jurisdiction of the UAE courts." },
+    { n: "9", title: "Changes to These Terms", body: "We may update or amend these terms at any time. Any changes will be reflected on this page with a revised “Last updated” date." },
+    { n: "10", title: "Contact", body: "For questions regarding these terms, please contact us at hello@hhara.com." },
+  ];
+  return (
+    <PolicyPage title="Terms & Conditions" eyebrow="Legal" setRoute={setRoute}>
+      <p className="policy-intro">Welcome to HHARA. By accessing or using our site and purchasing from us, you agree to the following terms and conditions. Please read them carefully.</p>
+      <p className="policy-note" style={{ marginTop: 0, marginBottom: 32 }}>Last updated: July 2026 · Dahlia Moxie Trading LLC, Business Bay, Dubai, UAE</p>
+
+      {clauses.map((c) => (
+        <div key={c.n} className="policy-section">
+          <h2 className="policy-section-heading">{c.n}. {c.title}</h2>
+          <p>{c.body}</p>
+        </div>
+      ))}
+
+      <div className="policy-contact">
+        Questions? <a href="mailto:hello@hhara.com">hello@hhara.com</a>
+      </div>
+    </PolicyPage>
+  );
+}
+
 // ============ SEARCH OVERLAY ============
 function SearchOverlay({ open, onClose, openProduct }) {
   const PRODUCTS = useProducts();
@@ -3262,6 +3608,18 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     body = <AccountPage />;
   } else if (route === "wishlist") {
     body = <WishlistPage setRoute={setRouteState} openProduct={openProduct} wishlist={wishlist} quickAdd={quickAdd} />;
+  } else if (route === "faq") {
+    body = <FAQPage setRoute={setRouteState} />;
+  } else if (route === "shipping") {
+    body = <ShippingPage setRoute={setRouteState} />;
+  } else if (route === "returns") {
+    body = <ReturnsPage setRoute={setRouteState} />;
+  } else if (route === "size-guide") {
+    body = <SizeGuidePage setRoute={setRouteState} />;
+  } else if (route === "privacy") {
+    body = <PrivacyPage setRoute={setRouteState} />;
+  } else if (route === "terms") {
+    body = <TermsPage setRoute={setRouteState} />;
   } else {
     body = <Home setRoute={setRoute} quickAdd={quickAdd} />;
   }
@@ -3387,7 +3745,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
             <main style={{ flex: 1 }}>
               {body}
             </main>
-            <Footer setRoute={setRouteState} />
+            <Footer setRoute={setRouteState} route={route} />
             <CartDrawer
               open={cartOpen}
               onClose={() => setCartOpen(false)}
