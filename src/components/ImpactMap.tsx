@@ -26,6 +26,13 @@ export default function ImpactMap() {
         maxZoom: 19,
       }).addTo(map);
 
+      // Initial redraw after layout settles
+      const t = setTimeout(() => map.invalidateSize(), 100);
+
+      // Resize observer for dynamic size changes
+      const ro = new ResizeObserver(() => map.invalidateSize());
+      ro.observe(containerRef.current!);
+
       // Dubai — zinfandel red
       L.circleMarker([25.2048, 55.2708], {
         radius: 7,
@@ -60,12 +67,14 @@ export default function ImpactMap() {
           { className: "hhara-map-tooltip", direction: "top", offset: [0, -10] }
         );
 
-      instanceRef.current = map;
+      instanceRef.current = { map, ro, t };
     });
 
     return () => {
       if (instanceRef.current) {
-        instanceRef.current.remove();
+        clearTimeout(instanceRef.current.t);
+        instanceRef.current.ro?.disconnect();
+        instanceRef.current.map?.remove();
         instanceRef.current = null;
       }
     };

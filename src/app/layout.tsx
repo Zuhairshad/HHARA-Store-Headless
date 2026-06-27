@@ -20,14 +20,14 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "HHARA | Maison of Considered Luxury",
+  title: "HHARA | She is Wonder",
   description: "Conceived in Florence, engineered in the UAE. High-performance activewear crafted from recycled ocean plastic, designed for longevity.",
   keywords: ["HHARA", "Considered Luxury", "Activewear", "Recycled Performance Wear", "UAE Activewear", "Maison HHARA", "Imara Set", "Dalia Set"],
   icons: {
     icon: "/images/monkey-logo.jpg",
   },
   openGraph: {
-    title: "HHARA | Maison of Considered Luxury",
+    title: "HHARA | She is Wonder",
     description: "Conceived in Florence, engineered in the UAE. High-performance activewear crafted from recycled ocean plastic, designed for longevity.",
     url: "https://hhara-store-headless.vercel.app",
     siteName: "HHARA",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
         url: "/images/hero1.jpg",
         width: 1200,
         height: 630,
-        alt: "HHARA | Maison of Considered Luxury Capsule Collection",
+        alt: "HHARA | She is Wonder Capsule Collection",
       },
     ],
     locale: "en_US",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "HHARA | Maison of Considered Luxury",
+    title: "HHARA | She is Wonder",
     description: "Conceived in Florence, engineered in the UAE. High-performance activewear crafted from recycled ocean plastic, designed for longevity.",
     images: ["/images/hero1.jpg"],
   },

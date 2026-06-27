@@ -506,33 +506,21 @@ function Footer({ setRoute }) {
     else setError(res.error || "Subscription failed");
   };
   return (
-    <footer className="footer" style={{ position: "relative", overflow: "hidden" }}>
-      <img
-        src="/images/monkey-peeking.png"
-        alt=""
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: 0,
-          right: "-120px",
-          height: "100%",
-          width: "auto",
-          objectFit: "contain",
-          objectPosition: "right center",
-          pointerEvents: "none",
-          transform: "rotate(-8deg)",
-          transformOrigin: "top right",
-        }}
-      />
+    <footer className="footer">
       <div className="footer-inner">
         <div className="footer-top">
           <div className="footer-brand">
-            <div onClick={() => setRoute("home")} style={{ cursor: "pointer", marginBottom: "16px" }}>
-              <img src="/images/Text-PNG-02.png" alt="HHARA" style={{ height: "30px", width: "auto" }} />
+            <div className="footer-brand-logo" onClick={() => setRoute("home")} style={{ cursor: "pointer" }}>
+              <img src="/images/monkey-logo.jpg" alt="HHARA" className="footer-monkey-logo" />
+              <img src="/images/Text-PNG-02.png" alt="HHARA" className="footer-wordmark" />
             </div>
-            <div className="gold-rule"></div>
-            <p>Sustainable luxury athleisure. Designed in the UAE. Worn around the world with intent. Every piece gives back.</p>
-            <form className="footer-newsletter" onSubmit={handleSubmit} style={{ marginTop: 20 }}>
+            <div className="footer-brand-desc">
+              <span>Sustainable luxury athleisure.</span>
+              <span>Designed in the UAE.</span>
+              <span>Worn around the world with intent.</span>
+              <span>Every piece gives back.</span>
+            </div>
+            <form className="footer-newsletter" onSubmit={handleSubmit}>
               <input
                 type="email"
                 placeholder="Your email"
@@ -545,45 +533,49 @@ function Footer({ setRoute }) {
                 {done ? "✓" : busy ? "…" : "Subscribe"}
               </button>
             </form>
-            {error && <div style={{ marginTop: 8, fontSize: 11, color: "var(--sale)" }}>{error}</div>}
+            {error && <div style={{ marginTop: 8, fontSize: 11, color: "#faa" }}>{error}</div>}
           </div>
           <div className="footer-col">
             <h4>The Collection</h4>
             <ul>
               <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>Shop All</a></li>
-              <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Imara Set</a></li>
               <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Dalia Set</a></li>
+              <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Imara Set</a></li>
               <li><a onClick={() => setRoute("lookbook")} style={{ cursor: "pointer" }}>The Lookbook</a></li>
             </ul>
           </div>
           <div className="footer-col">
-            <h4>Corporate Responsibility</h4>
+            <h4>Customer Service</h4>
             <ul>
-              <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>About Us</a></li>
-              <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>Material Transparency</a></li>
-              <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>Social Impact · 10%</a></li>
-              <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>Carbon-Neutral Transit</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Shipping &amp; Delivery</a></li>
+              <li><a href="#">Returns &amp; Refunds</a></li>
+              <li><a href="#">Size Guide</a></li>
+              <li><a href="#">Track My Order</a></li>
+              <li><a href="mailto:contact@hhara.com">Contact</a></li>
             </ul>
           </div>
           <div className="footer-col">
-            <h4>Support</h4>
+            <h4>Information</h4>
             <ul>
-              <li><a href="#">Tailored Fit Analysis</a></li>
-              <li><a href="#">Regional Logistics</a></li>
-              <li><a href="#">International Duties &amp; Customs</a></li>
-              <li><a href="#">Care Guide</a></li>
-              <li><a href="mailto:contact@hhara.com">Contact</a></li>
+              <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>About Us</a></li>
+              <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>Gives Back</a></li>
+            </ul>
+          </div>
+          <div className="footer-col">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="#">Privacy &amp; Cookie Policy</a></li>
+              <li><a href="#">Terms &amp; Conditions</a></li>
             </ul>
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© HHARA Brands 2026 | UAE · Dahlia Moxie Trading L.L.C Company</span>
+          <span>© HHARA 2026 · UAE · Dahlia Moxie Trading LLC</span>
           <div className="pay">
             <a href="https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" target="_blank" rel="noreferrer">Instagram</a>
-            <a href="https://www.tiktok.com/@thisishhara?_r=1&_t=ZS-97MsyT8wQps" target="_blank" rel="noreferrer" style={{ marginLeft: 16 }}>TikTok</a>
-            <a href="#" target="_blank" rel="noreferrer" style={{ marginLeft: 16 }}>Facebook</a>
-            <a href="#" target="_blank" rel="noreferrer" style={{ marginLeft: 16 }}>Twitter</a>
-            <a href="#" target="_blank" rel="noreferrer" style={{ marginLeft: 16 }}>LinkedIn</a>
+            <a href="https://www.tiktok.com/@thisishhara?_r=1&_t=ZS-97MsyT8wQps" target="_blank" rel="noreferrer">TikTok</a>
+            <a href="#" target="_blank" rel="noreferrer">Facebook</a>
           </div>
         </div>
       </div>
@@ -2243,18 +2235,6 @@ function AtelierPage({ setRoute }) {
         </div>
       </section>
 
-      <section className="newsletter" style={{ backgroundColor: "var(--gold-pale)", color: "var(--ink)" }}>
-        <div className="newsletter-inner">
-          <h2><em>Join</em> the collective.</h2>
-          <p style={{ color: "var(--ink-soft)", opacity: 0.9 }}>Private dispatches from the HHARA studio: capsule drops, philanthropic updates, and editorial notes.</p>
-          <div style={{ marginTop: 36 }}>
-            <button className="btn btn-outline" onClick={() => setRoute("stores")}>
-              See Our Impact
-              <span className="btn-arrow"><Icon.Arrow /></span>
-            </button>
-          </div>
-        </div>
-      </section>
     </>
   );
 }
@@ -2703,7 +2683,7 @@ function StoresPage({ setRoute }) {
       </section>
 
       {/* IMPACT MAP SECTION */}
-      <section style={{ backgroundColor: "#14100b", padding: "clamp(60px, 8vh, 100px) var(--pad)" }}>
+      <section style={{ backgroundColor: "#2A1F14", padding: "clamp(60px, 8vh, 100px) var(--pad)" }}>
         <div className="gives-back-content-width" style={{ maxWidth: 1100 }}>
           <div style={{ textAlign: "center", marginBottom: "48px" }}>
             <span className="eyebrow" style={{ color: "rgba(247,243,237,0.45)", letterSpacing: "0.3em" }}>OUR GIVING · WHERE WONDER GIVES BACK</span>
