@@ -307,7 +307,7 @@ function Announce() {
   return (
     <div className="announce">
       <div className="announce-track">
-        <span>Complimentary Global Shipping From UAE</span>
+        <span>Free Shipping in UAE on Orders Over AED 400</span>
       </div>
       <div className="announce-locale">
         <span>EN</span>
@@ -1185,7 +1185,7 @@ function Philanthropy() {
 
 function Proclamation() {
   return (
-    <section className="section" style={{ textAlign: "center", background: "var(--ink)", color: "var(--bg)" }}>
+    <section className="section" style={{ textAlign: "center", background: "var(--bark)", color: "var(--bg)" }}>
       <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 24px" }}>
         <p style={{ fontFamily: "var(--serif, 'Cormorant Garamond', serif)", fontStyle: "italic", fontSize: 32, lineHeight: 1.4, color: "var(--bg)" }}>
           &ldquo;Silence is the most powerful of powers. It&apos;s the unwavering, measured silence of a woman
@@ -2590,51 +2590,27 @@ function StoresPage({ setRoute }) {
       </section>
 
       {/* WHAT YOUR PURCHASE SUPPORTS SECTION */}
-      <section className="gives-back-section" style={{ backgroundColor: "#3A2416" }}>
-        <div className="gives-back-content-width">
-          <span className="eyebrow">What Your Purchase Supports</span>
-          <div className="gives-back-grid">
-            {/* School Supplies */}
-            <div className="gives-back-card">
-              <svg className="gives-back-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-                <path d="m15 5 4 4" />
-              </svg>
-              <h3 className="gives-back-card-title">School Supplies</h3>
-              <p className="gives-back-card-text">
-                Books, learning materials and the everyday tools every child needs in the classroom.
-              </p>
+      <section className="pillars-section">
+        <div className="pillars-container">
+          <div className="section-head" style={{ borderBottom: "1px solid rgba(184, 137, 46, 0.12)", paddingBottom: 28, marginBottom: 48 }}>
+            <div className="section-head-stack">
+              <span className="eyebrow" style={{ color: "#B8892E" }}>Where Wonder Gives Back</span>
+              <h2 className="section-title" style={{ color: "#2A1F14", fontWeight: 300 }}>What your<br /><em>purchase supports.</em></h2>
             </div>
-            {/* Tuition Support */}
-            <div className="gives-back-card">
-              <svg className="gives-back-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M2.7 10.3a2.4 2.4 0 0 0 0 3.4l7.6 7.6a2.4 2.4 0 0 0 3.4 0l7.6-7.6a2.4 2.4 0 0 0 0-3.4L13.7 2.7a2.4 2.4 0 0 0-3.4 0Z" />
-              </svg>
-              <h3 className="gives-back-card-title">Tuition Support</h3>
-              <p className="gives-back-card-text">
-                Direct contribution to educational fees, removing barriers to consistent schooling.
-              </p>
-            </div>
-            {/* Uniforms & Essentials */}
-            <div className="gives-back-card">
-              <svg className="gives-back-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m12 3-1.912 5.886L4.2 9.076l4.957 3.6-1.894 5.824L12 14.85l4.737 3.65-1.894-5.824 4.957-3.6-5.888-.19Z" />
-              </svg>
-              <h3 className="gives-back-card-title">Uniforms &amp; Essentials</h3>
-              <p className="gives-back-card-text">
-                The basic necessities that allow every child to attend school with dignity.
-              </p>
-            </div>
-            {/* Long-Term Partnership */}
-            <div className="gives-back-card">
-              <svg className="gives-back-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-              </svg>
-              <h3 className="gives-back-card-title">Long-Term Partnership</h3>
-              <p className="gives-back-card-text">
-                Ongoing support, not one-time giving: a relationship that grows as HHARA grows.
-              </p>
-            </div>
+          </div>
+          <div className="pillars-grid">
+            {[
+              { n: "01", title: "School Supplies", body: "Books, learning materials and the everyday tools every child needs in the classroom." },
+              { n: "02", title: "Tuition Support", body: "Direct contribution to educational fees, removing barriers to consistent schooling." },
+              { n: "03", title: "Uniforms & Essentials", body: "The basic necessities that allow every child to attend school with dignity." },
+              { n: "04", title: "Long-Term Partnership", body: "Ongoing support, not one-time giving: a relationship that grows as HHARA grows." },
+            ].map((p) => (
+              <div key={p.n} className="pillar-card">
+                <div className="pillar-num">{p.n}</div>
+                <h3 className="pillar-title">{p.title}</h3>
+                <p className="pillar-body">{p.body}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -2673,7 +2649,7 @@ function StoresPage({ setRoute }) {
       </section>
 
       {/* FINAL QUOTE & CTA */}
-      <section className="gives-back-section" style={{ textAlign: "center" }}>
+      <section className="gives-back-section" style={{ textAlign: "center", backgroundColor: "#F0EAE0" }}>
         <div className="gives-back-content-width">
           <h2 className="gives-back-final-quote">
             "Being a wonder means creating the next generation of wonders."
@@ -2686,7 +2662,7 @@ function StoresPage({ setRoute }) {
       </section>
 
       {/* IMPACT MAP SECTION */}
-      <section style={{ backgroundColor: "#2A1F14", padding: "clamp(60px, 8vh, 100px) var(--pad)" }}>
+      <section style={{ backgroundColor: "#3A2416", padding: "clamp(60px, 8vh, 100px) var(--pad)" }}>
         <div className="gives-back-content-width" style={{ maxWidth: 1100 }}>
           <div style={{ textAlign: "center", marginBottom: "48px" }}>
             <span className="eyebrow" style={{ color: "rgba(247,243,237,0.45)", letterSpacing: "0.3em" }}>OUR GIVING · WHERE WONDER GIVES BACK</span>
@@ -3627,7 +3603,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
   const tweaksUI = (
     <>
       {signupPopupOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#2A1F14]/60 backdrop-blur-sm transition-opacity duration-500 animate-fade-in">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#3A2416]/60 backdrop-blur-sm transition-opacity duration-500 animate-fade-in">
           <div className="relative bg-[#F7F3ED] text-[#2A1F14] max-w-md w-full border border-[#2A1F14]/20 shadow-2xl p-8 md:p-12 overflow-hidden flex flex-col items-center">
             {/* Close Button */}
             <button 
@@ -3674,7 +3650,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                   <button
                     type="submit"
                     disabled={signupStatus === "loading"}
-                    className="w-full py-4 bg-[#2A1F14] text-[#F7F3ED] hover:bg-[#3A2416] transition-all tracking-widest text-xs uppercase font-medium disabled:opacity-50"
+                    className="w-full py-4 bg-[#3A2416] text-[#F7F3ED] hover:bg-[#2A1F14] transition-all tracking-widest text-xs uppercase font-medium disabled:opacity-50"
                   >
                     {signupStatus === "loading" ? "Creating Account..." : "Create Account"}
                   </button>
@@ -3706,7 +3682,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
       {!customer && (
         <button
           onClick={openSignupPopup}
-          className="fixed bottom-6 right-6 z-[99] bg-[#2A1F14] text-[#F7F3ED] hover:bg-[#3A2416] p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center border border-[#F7F3ED]/10 group"
+          className="fixed bottom-6 right-6 z-[99] bg-[#3A2416] text-[#F7F3ED] hover:bg-[#2A1F14] p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center border border-[#F7F3ED]/10 group"
           aria-label="Open signup invitation"
         >
           {/* Custom user/signup SVG */}
@@ -3721,7 +3697,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
             <circle cx="12" cy="7" r="4" />
           </svg>
           {/* Tooltip on hover */}
-          <span className="absolute right-14 bg-[#2A1F14] text-[#F7F3ED] text-[10px] uppercase tracking-widest px-3 py-1.5 border border-[#F7F3ED]/10 shadow-lg rounded-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+          <span className="absolute right-14 bg-[#3A2416] text-[#F7F3ED] text-[10px] uppercase tracking-widest px-3 py-1.5 border border-[#F7F3ED]/10 shadow-lg rounded-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
             Join HHARA
           </span>
         </button>

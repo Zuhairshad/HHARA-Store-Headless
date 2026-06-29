@@ -76,7 +76,7 @@ img { display: block; max-width: 100%; }
 
 /* ====== Announcement bar ====== */
 .announce {
-  background: var(--ink);
+  background: var(--bark);
   color: var(--bg);
   font-size: clamp(8px, 2.2vw, 11.5px);
   letter-spacing: clamp(0.08em, 1vw, 0.18em);
@@ -718,7 +718,7 @@ img { display: block; max-width: 100%; }
 
 /* ====== Marquee ====== */
 .marquee {
-  background: #1A1714;
+  background: var(--bark);
   border-top: none;
   border-bottom: none;
   overflow: hidden;
@@ -908,7 +908,7 @@ img { display: block; max-width: 100%; }
 
 /* ====== Newsletter ====== */
 .newsletter {
-  background: var(--ink);
+  background: var(--bark);
   color: var(--bg);
   padding: clamp(72px, 9vw, 120px) var(--pad);
   text-align: center;
@@ -971,7 +971,7 @@ img { display: block; max-width: 100%; }
 
 /* ====== Footer ====== */
 .footer {
-  background: var(--ink);
+  background: var(--bark);
   color: var(--accent);
   padding: 64px var(--pad) 32px;
 }
