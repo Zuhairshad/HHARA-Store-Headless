@@ -491,6 +491,28 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
   );
 }
 
+function CookieBanner({ setRoute }) {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    if (!localStorage.getItem("hhara_cookie_consent")) setVisible(true);
+  }, []);
+  if (!visible) return null;
+  const accept = () => { localStorage.setItem("hhara_cookie_consent", "accepted"); setVisible(false); };
+  const decline = () => { localStorage.setItem("hhara_cookie_consent", "declined"); setVisible(false); };
+  return (
+    <div className="cookie-banner">
+      <p>
+        We use cookies to enhance your browsing experience and analyse site traffic. By clicking "Accept", you consent to our use of cookies.{" "}
+        <a href="#" onClick={(e) => { e.preventDefault(); setRoute("privacy"); }}>Privacy Policy</a>
+      </p>
+      <div className="cookie-banner-actions">
+        <button className="cookie-decline" onClick={decline}>Decline</button>
+        <button className="cookie-accept" onClick={accept}>Accept</button>
+      </div>
+    </div>
+  );
+}
+
 function Footer({ setRoute, route = "" }) {
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
@@ -3739,6 +3761,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
               openProduct={openProduct}
             />
             {tweaksUI}
+            <CookieBanner setRoute={setRouteState} />
           </div>
         </CustomerContext.Provider>
       </ShopifyCartContext.Provider>
