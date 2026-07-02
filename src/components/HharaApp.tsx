@@ -3433,7 +3433,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     if (!hasSeen) {
       const timer = setTimeout(() => {
         setSignupPopupOpen(true);
-      }, 4000); // 4 seconds after landing
+      }, 6500);
       return () => clearTimeout(timer);
     }
   }, [customer]);

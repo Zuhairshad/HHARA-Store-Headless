@@ -2325,6 +2325,15 @@ img { display: block; max-width: 100%; }
   justify-content: center;
   max-width: 540px;
 }
+.auth-wrap .panel .btn-ghost {
+  border-color: rgba(42, 31, 20, 0.3);
+  color: var(--ink);
+}
+.auth-wrap .panel .btn-ghost:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
 .auth-tabs {
   display: flex;
   gap: 24px;
