@@ -1099,8 +1099,8 @@ img { display: block; max-width: 100%; }
 .footer[data-route="stores"] .footer-col h4 { color: var(--ink); }
 .footer[data-route="stores"] .footer-col a { color: rgba(42, 31, 20, 0.55); }
 .footer[data-route="stores"] .footer-col a:hover { color: var(--ink); }
-.footer[data-route="stores"] .footer-bottom { color: rgba(42, 31, 20, 0.35); }
-.footer[data-route="stores"] .footer-bottom .pay a { color: rgba(42, 31, 20, 0.35); }
+.footer[data-route="stores"] .footer-bottom { color: var(--ink-soft); opacity: 1; }
+.footer[data-route="stores"] .footer-bottom .pay a { color: var(--ink-soft); opacity: 1; }
 .footer[data-route="stores"] .footer-bottom .pay a:hover { color: var(--ink); }
 
 /* ====== Cookie Banner ====== */
