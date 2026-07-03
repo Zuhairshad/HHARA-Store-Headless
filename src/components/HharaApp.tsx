@@ -3813,7 +3813,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
       removeItem={removeItem}
       applyDiscount={applyDiscount}
       discountCodes={shopifyCart?.discountCodes}
-      setRoute={setRouteState}
+      setRoute={setRoute}
       addToCart={addToCart}
     />;
   } else {
