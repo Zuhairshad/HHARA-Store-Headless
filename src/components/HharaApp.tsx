@@ -3180,7 +3180,7 @@ function FAQPage({ setRoute }) {
       heading: "Orders & Payment",
       items: [
         { q: "How do I place an order?", a: "Browse and shop directly on site. Select your size and colourway, add to bag, and proceed to checkout. Payment is processed securely at checkout." },
-        { q: "What payment methods do you accept?", a: "We accept all major credit and debit cards. We also offer Tabby and Tamara for buy now, pay later — split your purchase into instalments at no extra cost. All payments are processed securely at checkout." },
+        { q: "What payment methods do you accept?", a: "We accept all major credit and debit cards. We also offer Tabby and Tamara for buy now, pay later. Split your purchase into instalments at no extra cost. All payments are processed securely at checkout." },
         { q: "Can I modify or cancel my order?", a: "Orders cannot be cancelled or modified once processed. If you need to make a change urgently, please contact us at hello@hhara.com within 24 hours of placing your order." },
         { q: "Will I receive an order confirmation?", a: "Yes. You will receive an order confirmation email immediately after purchase, followed by a dispatch notification with your tracking link once shipped." },
       ],
