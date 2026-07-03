@@ -491,6 +491,192 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
   );
 }
 
+function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscount, discountCodes, setRoute, addToCart }) {
+  const products = useProducts() as any[];
+  const [promo, setPromo] = useState("");
+  const [promoBusy, setPromoBusy] = useState(false);
+  const [promoError, setPromoError] = useState("");
+  const [upsellSizes, setUpsellSizes] = useState<Record<string, string>>({});
+
+  const cartIds = new Set(cart.map((i: any) => i.id));
+  const upsells = products.filter((p: any) => !cartIds.has(p.id));
+
+  const activeDiscount = discountCodes?.find((d: any) => d.applicable);
+  const subtotal = cart.reduce((a: number, i: any) => a + i.price * i.qty, 0);
+  const togo = Math.max(0, 800 - subtotal);
+
+  const handlePromo = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (promoBusy) return;
+    setPromoBusy(true); setPromoError("");
+    try { await applyDiscount(promo.trim()); setPromo(""); }
+    catch { setPromoError("Invalid or expired code"); }
+    finally { setPromoBusy(false); }
+  };
+
+  if (cart.length === 0) {
+    return (
+      <div style={{ textAlign: "center", padding: "120px var(--pad)" }}>
+        <p style={{ marginBottom: 24, opacity: 0.6 }}>Your bag is empty.</p>
+        <button className="btn btn-primary" onClick={() => setRoute("shop")}>Explore the Collection <span className="btn-arrow"><Icon.Arrow /></span></button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="pco-wrap">
+      {/* ── LEFT: order review ── */}
+      <div className="pco-left">
+        <div className="pco-left-inner">
+          <button className="pco-back" onClick={() => setRoute("shop")}>
+            <svg viewBox="0 0 24 24" className="icon"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Continue Shopping
+          </button>
+          <h2 className="pco-page-title">Order Review</h2>
+          <div className="pco-items">
+            {cart.map((item: any) => (
+              <div className="pco-item" key={item.key}>
+                <div className={`pco-item-thumb ${item.tone}`}>
+                  {item.featuredImage
+                    ? <img src={item.featuredImage} alt={item.name} className="img-fill" />
+                    : <div className="ph">{item.name?.toLowerCase()}</div>}
+                </div>
+                <div className="pco-item-body">
+                  <div className="pco-item-row">
+                    <div>
+                      <div className="pco-item-name">{item.name}</div>
+                      <div className="pco-item-opts">{item.color} · {item.size}</div>
+                    </div>
+                    <div className="pco-item-price">AED {(item.price * item.qty).toLocaleString()}</div>
+                  </div>
+                  <div className="pco-item-controls">
+                    <div className="qty">
+                      <button onClick={() => updateQty(item.key, item.qty - 1)}><Icon.Minus /></button>
+                      <span>{item.qty}</span>
+                      <button onClick={() => updateQty(item.key, item.qty + 1)}><Icon.Plus /></button>
+                    </div>
+                    <button className="pco-remove" onClick={() => removeItem(item.key)}>Remove</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── RIGHT: summary + upsells + trust ── */}
+      <div className="pco-right">
+        <div className="pco-right-inner">
+
+          {/* Pairs Well With */}
+          {upsells.length > 0 && (
+            <div className="pco-section">
+              <h4 className="pco-section-label">Pairs Well With</h4>
+              {upsells.slice(0, 2).map((p: any) => {
+                const sel = upsellSizes[p.id] || p.sizes?.[0] || "";
+                return (
+                  <div className="pco-upsell-item" key={p.id}>
+                    <div className={`pco-upsell-thumb ${p.tone}`} onClick={() => setRoute("product", p.id)} style={{ cursor: "pointer" }}>
+                      {p.featuredImage?.url
+                        ? <img src={p.featuredImage.url} alt={p.name} className="img-fill" />
+                        : <div className="ph">{p.name?.toLowerCase()}</div>}
+                    </div>
+                    <div className="pco-upsell-body">
+                      <div className="pco-upsell-name" onClick={() => setRoute("product", p.id)} style={{ cursor: "pointer" }}>{p.name}</div>
+                      <div className="pco-upsell-price">AED {p.price?.toLocaleString()}</div>
+                      {p.sizes?.length > 0 && (
+                        <select className="pco-upsell-size" value={sel} onChange={(e) => setUpsellSizes(prev => ({ ...prev, [p.id]: e.target.value }))}>
+                          {p.sizes.map((s: string) => <option key={s} value={s}>{s} · AED {p.price?.toLocaleString()}</option>)}
+                        </select>
+                      )}
+                      <button className="pco-upsell-add" onClick={() => addToCart({ id: p.id, name: p.name, price: p.price, color: p.swatches?.[0]?.name, size: sel, tone: p.tone })}>
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Discount code */}
+          <div className="pco-section">
+            {!activeDiscount ? (
+              <form onSubmit={handlePromo} className="pco-promo-form">
+                <input type="text" placeholder="Discount Code" value={promo} onChange={(e) => setPromo(e.target.value)} disabled={promoBusy} className="pco-promo-input" />
+                <button type="submit" disabled={promoBusy || !promo} className="pco-promo-btn">{promoBusy ? "..." : "Apply"}</button>
+              </form>
+            ) : (
+              <div className="pco-discount-applied">
+                <span>Code: <strong>{activeDiscount.code}</strong></span>
+                <button onClick={() => applyDiscount("")}>Remove</button>
+              </div>
+            )}
+            {promoError && <div className="pco-promo-error">{promoError}</div>}
+          </div>
+
+          {/* Order totals */}
+          <div className="pco-summary">
+            <div className="pco-summary-row"><span>Subtotal</span><span>AED {subtotal.toLocaleString()}</span></div>
+            <div className="pco-summary-row"><span>Shipping</span><span>{togo > 0 ? "Calculated at checkout" : "Complimentary"}</span></div>
+            <div className="pco-summary-row pco-total"><span>Total</span><span>AED {subtotal.toLocaleString()}</span></div>
+          </div>
+
+          {/* You May Also Like */}
+          {upsells.length > 2 && (
+            <div className="pco-section">
+              <h4 className="pco-section-label">You May Also Like</h4>
+              <div className="pco-also-grid">
+                {upsells.slice(2, 4).map((p: any) => (
+                  <div key={p.id} className="pco-also-card" onClick={() => setRoute("product", p.id)}>
+                    <div className={`pco-also-thumb ${p.tone}`}>
+                      {p.featuredImage?.url ? <img src={p.featuredImage.url} alt={p.name} className="img-fill" /> : <div className="ph">{p.name?.toLowerCase()}</div>}
+                    </div>
+                    <div className="pco-also-name">{p.name}</div>
+                    <div className="pco-also-price">AED {p.price?.toLocaleString()}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Trust badges */}
+          <div className="pco-trust">
+            <div className="pco-trust-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="pco-trust-icon"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+              <div>
+                <div className="pco-trust-title">Crafted With Intention</div>
+                <div className="pco-trust-body">Conceived in Florence, engineered in the UAE. Every piece is made to outlast trends.</div>
+              </div>
+            </div>
+            <div className="pco-trust-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="pco-trust-icon"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              <div>
+                <div className="pco-trust-title">No Hidden Costs</div>
+                <div className="pco-trust-body">Duties & taxes are calculated transparently. No surprise charges on delivery.</div>
+              </div>
+            </div>
+            <div className="pco-trust-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="pco-trust-icon"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+              <div>
+                <div className="pco-trust-title">Every Order Gives Back</div>
+                <div className="pco-trust-body">10% of every purchase funds children's education in underserved communities.</div>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <button className="btn btn-primary btn-block" disabled={!checkoutUrl} onClick={() => { if (checkoutUrl) window.open(checkoutUrl, "_self"); }}>
+            Proceed to Checkout
+            <span className="btn-arrow"><Icon.Arrow /></span>
+          </button>
+          <p className="micro" style={{ textAlign: "center", marginTop: 12 }}>Secure checkout · SSL encrypted · 10% gives back</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function CookieBanner({ setRoute }) {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -739,11 +925,12 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
                 disabled={!checkoutUrl}
                 onClick={() => {
                   if (checkoutUrl) {
-                    window.open(checkoutUrl, "_self");
+                    setRoute("pre-checkout");
+                    onClose();
                   }
                 }}
               >
-                Proceed to Checkout
+                Review Order
                 <span className="btn-arrow"><Icon.Arrow /></span>
               </button>
               <div className="micro">Taxes &amp; duties calculated at checkout · 10% of every order funds women-led initiatives</div>
@@ -3618,6 +3805,17 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     body = <PrivacyPage setRoute={setRouteState} />;
   } else if (route === "terms") {
     body = <TermsPage setRoute={setRouteState} />;
+  } else if (route === "pre-checkout") {
+    body = <PreCheckoutPage
+      cart={cart}
+      checkoutUrl={shopifyCart?.checkoutUrl}
+      updateQty={updateQty}
+      removeItem={removeItem}
+      applyDiscount={applyDiscount}
+      discountCodes={shopifyCart?.discountCodes}
+      setRoute={setRouteState}
+      addToCart={addToCart}
+    />;
   } else {
     body = <Home setRoute={setRoute} quickAdd={quickAdd} />;
   }
