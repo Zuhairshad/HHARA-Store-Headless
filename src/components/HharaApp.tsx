@@ -3189,8 +3189,10 @@ function FAQPage({ setRoute }) {
       heading: "Account & Wishlist",
       items: [
         { q: "Do I need an account to place an order?", a: "No. You can check out as a guest. However, creating an account gives you access to order history, faster checkout, saved addresses, and your personal wishlist." },
-        { q: "Can I save pieces to a wishlist?", a: "Yes. Click the wishlist icon on any product to save it for later. Your wishlist is accessible from your account at any time." },
+        { q: "How do I create an account?", a: "Click Sign In at the top of any page and select Create Account. Enter your name, email address, and a password. You will receive a confirmation email to verify your account." },
+        { q: "Can I save pieces to a wishlist?", a: "Yes. Click the wishlist icon on any product to save it for later. Your wishlist is accessible from your account at any time. You will need to be logged in to save and view your wishlist." },
         { q: "What if I forget my password?", a: "Click Forgot Password on the sign-in page. Enter your email address and we will send you a link to reset your password." },
+        { q: "Can I update my account details?", a: "Yes. Log in to your account and navigate to Account Settings to update your name, email address, password, or saved delivery addresses." },
       ],
     },
     {
@@ -3201,6 +3203,7 @@ function FAQPage({ setRoute }) {
         { q: "What are the UAE delivery charges?", a: "Delivery is free on all UAE orders of AED 400 and above. For orders below AED 400, a delivery fee of AED 22 applies. Remote area deliveries are subject to an AED 37 fee and serviced on Thursdays and Sundays only." },
         { q: "How long does international delivery take?", a: "GCC (Saudi Arabia, Kuwait, Qatar, Oman, Bahrain): 3–5 working days. All other international destinations: 7–15 working days. Both subject to customs clearance." },
         { q: "Who pays for customs and duties?", a: "All customs duties, import taxes, and clearance fees are the responsibility of the customer. These are not included in your order total." },
+        { q: "How do I track my order?", a: "You will receive a tracking link by email once your order has been dispatched. If you have any issues tracking your order, contact us at hello@hhara.com." },
       ],
     },
     {
@@ -3210,6 +3213,7 @@ function FAQPage({ setRoute }) {
         { q: "How do I start a return?", a: "Email us at hello@hhara.com with the subject line Return: [Your Order Number]. Include your name, order number, and reason for return. We will respond within 2 business days." },
         { q: "Can I exchange my order?", a: "Yes, exchanges are available for a different size or colourway, subject to availability. Each item can only be exchanged once." },
         { q: "When will I receive my refund?", a: "Once we receive and inspect your return, refunds are processed within 5–7 business days to your original payment method. Original shipping fees are non-refundable." },
+        { q: "Can I return sale items?", a: "No. All items purchased during a sale or marked as final sale are non-returnable and non-refundable." },
       ],
     },
     {
@@ -3218,6 +3222,7 @@ function FAQPage({ setRoute }) {
         { q: "What is HHARA Gives Back?", a: "Giving back is built into the foundation of HHARA. With every purchase, HHARA directly supports orphanages and children in need, beginning in Kenya." },
         { q: "Who does HHARA give to?", a: "We give directly, with no intermediaries. HHARA identifies and supports local orphanages. Our giving partners will be updated over time as our community and impact grow." },
         { q: "How does the giving model work?", a: "A portion of every HHARA purchase goes directly toward our giving commitments. We are intentional about this, just as we are intentional about every other decision we make as a brand." },
+        { q: "Where can I learn more about HHARA Gives Back?", a: "Visit the Gives Back page on hhara.com for updates on our current giving partners and impact." },
       ],
     },
   ];
