@@ -170,7 +170,6 @@ img { display: block; max-width: 100%; }
 .brandmark-text {
   height: 24px;
   width: auto;
-  filter: brightness(0) invert(1);
 }
 .header-actions {
   display: flex;
