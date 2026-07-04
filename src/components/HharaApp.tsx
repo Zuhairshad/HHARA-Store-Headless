@@ -421,7 +421,7 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
             </button>
           </nav>
           <div className="brandmark" onClick={() => setRoute("home")}>
-            <img src="/images/hhara-logo.jpeg" alt="HHARA Wordmark" className="brandmark-text" />
+            <img src="/images/hhara-logo.png" alt="HHARA Wordmark" className="brandmark-text" />
           </div>
           <div className="header-actions">
             <button onClick={openSearch}><Icon.Search /><span>Search</span></button>
