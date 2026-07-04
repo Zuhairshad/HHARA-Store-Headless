@@ -986,39 +986,28 @@ function ProductCard({ product, onClick, onQuickAdd }: { product: any; onClick: 
 
 function Hero({ openShop }) {
   const { HEROES } = HHRAA_DATA;
-
-  const heroImgs = [IMGS.hero1, IMGS.hero2, IMGS.hero3];
-  const [idx, setIdx] = useState(0);
-  const slide = HEROES[idx];
-  const textSlide = HEROES[0];
-
-  useEffect(() => {
-    const t = setInterval(() => setIdx((i) => (i + 1) % HEROES.length), 7000);
-    return () => clearInterval(t);
-  }, [HEROES.length]);
+  const slide = HEROES[0];
 
   return (
     <section className="hero">
-      <div className={`hero-media ${slide.tone}`} key={idx}>
-        {heroImgs[idx] && (
-          <img src={heroImgs[idx]} alt="" className="img-fill motion" />
-        )}
+      <div className={`hero-media ${slide.tone}`}>
+        <img src="/images/HHara.png" alt="" className="img-fill motion" />
       </div>
       <div className="hero-overlay"></div>
       <div className="hero-content">
-        {textSlide.eyebrow && <div className="hero-eyebrow">{textSlide.eyebrow}</div>}
+        {slide.eyebrow && <div className="hero-eyebrow">{slide.eyebrow}</div>}
         <h1 className="hero-title">
-          {textSlide.title.split("\n").map((line, i, arr) => (
+          {slide.title.split("\n").map((line, i, arr) => (
             <span key={i}>
               {i === arr.length - 1 ? <em>{line}</em> : line}
               {i < arr.length - 1 && <br />}
             </span>
           ))}
         </h1>
-        <p className="hero-sub">{textSlide.sub}</p>
+        <p className="hero-sub">{slide.sub}</p>
         <div className="hero-ctas">
           <button className="btn btn-light" onClick={openShop}>
-            {textSlide.cta}
+            {slide.cta}
             <span className="btn-arrow"><Icon.Arrow /></span>
           </button>
         </div>
@@ -1394,14 +1383,14 @@ function Philanthropy() {
 
 function Proclamation() {
   return (
-    <section className="section" style={{ textAlign: "center", background: "var(--bark)", color: "var(--bg)" }}>
+    <section className="section" style={{ textAlign: "center", background: "#F7F3ED", color: "#5C4632" }}>
       <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 24px" }}>
-        <p style={{ fontFamily: "var(--serif, 'Cormorant Garamond', serif)", fontStyle: "italic", fontSize: 32, lineHeight: 1.4, color: "var(--bg)" }}>
+        <p style={{ fontFamily: "var(--serif, 'Cormorant Garamond', serif)", fontStyle: "italic", fontSize: 32, lineHeight: 1.4, color: "#5C4632" }}>
           &ldquo;Silence is the most powerful of powers. It&apos;s the unwavering, measured silence of a woman
           who knows she has left behind her past, and is shaping her future, with absolute purpose.&rdquo;
         </p>
-        <p style={{ marginTop: 24, fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", opacity: 0.55, color: "var(--bg)" }}>
-          The HHARA Collective
+        <p style={{ marginTop: 24, fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", opacity: 0.7, color: "#5C4632" }}>
+          HHARA, WONDER, WORN.
         </p>
       </div>
     </section>
@@ -1553,10 +1542,10 @@ function Home(props) {
         quickAdd={props.quickAdd}
       />
       <Editorial openShop={() => props.setRoute("atelier")} />
-      <Pillars />
       <Lookbook openLookbook={() => props.setRoute("lookbook")} />
-      <Proclamation />
+      <Pillars />
       <Testimonials />
+      <Proclamation />
       <Callouts />
     </>
   );
@@ -2442,8 +2431,7 @@ function AtelierPage({ setRoute }) {
           <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: "clamp(22px, 3.2vw, 30px)", lineHeight: 1.7, marginBottom: 40, color: "#F7F3ED", fontFamily: "var(--display)", fontWeight: 300 }}>
             "She moves before the world notices. She carries what others don't see. She is the woman who shows up, for everyone, and still finds a way to show up for herself. HHARA was made for her. From the very first stitch."
           </blockquote>
-          <div className="eyebrow" style={{ color: "#B8892E", fontSize: 12, letterSpacing: "0.3em", marginBottom: 12, display: "block" }}>HHARA · ā-rā · Yoruba dialect for wonder</div>
-          <div style={{ color: "#F7F3ED", fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.8 }}>HHARA · Wonder, worn.</div>
+          <div style={{ color: "#F7F3ED", fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.8 }}>HHARA, WONDER, WORN.</div>
         </div>
       </section>
 

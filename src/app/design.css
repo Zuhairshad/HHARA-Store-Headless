@@ -76,8 +76,8 @@ img { display: block; max-width: 100%; }
 
 /* ====== Announcement bar ====== */
 .announce {
-  background: var(--bark);
-  color: var(--bg);
+  background: var(--bg);
+  color: var(--ink);
   font-size: clamp(8px, 2.2vw, 11.5px);
   letter-spacing: clamp(0.08em, 1vw, 0.18em);
   text-transform: uppercase;
@@ -98,7 +98,7 @@ img { display: block; max-width: 100%; }
 }
 .announce-dot {
   width: 3px; height: 3px; border-radius: 50%;
-  background: var(--bg);
+  background: var(--ink);
   opacity: 0.4;
 }
 .announce-locale {
@@ -112,16 +112,16 @@ img { display: block; max-width: 100%; }
   opacity: 0.7;
 }
 .announce-locale span { cursor: pointer; }
-.announce-locale span:hover { opacity: 1; color: var(--bg); }
+.announce-locale span:hover { opacity: 1; color: var(--ink); }
 
 /* ====== Header ====== */
 .header {
   position: sticky;
   top: 0;
   z-index: 60;
-  background: rgba(247, 243, 237, 0.96);
+  background: rgba(58, 36, 22, 0.97);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(184, 137, 46, 0.12);
+  border-bottom: 1px solid rgba(184, 137, 46, 0.18);
   transition: all 0.3s ease;
 }
 .header-inner {
@@ -142,7 +142,7 @@ img { display: block; max-width: 100%; }
   letter-spacing: 0.32em;
   text-transform: uppercase;
   font-weight: 400;
-  color: var(--ink);
+  color: var(--bg);
   position: relative;
   padding: 6px 0;
   transition: opacity 0.2s;
@@ -153,7 +153,7 @@ img { display: block; max-width: 100%; }
   position: absolute;
   left: 0; right: 0; bottom: 0;
   height: 1px;
-  background: var(--ink);
+  background: var(--bg);
 }
 .brandmark {
   display: flex;
@@ -170,6 +170,7 @@ img { display: block; max-width: 100%; }
 .brandmark-text {
   height: 24px;
   width: auto;
+  filter: brightness(0) invert(1);
 }
 .header-actions {
   display: flex;
@@ -184,8 +185,10 @@ img { display: block; max-width: 100%; }
   display: flex;
   align-items: center;
   gap: 8px;
+  color: var(--bg);
   transition: opacity 0.2s;
 }
+.header-actions button svg { color: var(--bg); }
 .header-actions button:hover { opacity: 0.6; }
 .cart-count {
   display: inline-flex;
@@ -194,8 +197,8 @@ img { display: block; max-width: 100%; }
   min-width: 18px;
   height: 18px;
   border-radius: 9px;
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--bg);
+  color: var(--ink);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0;
