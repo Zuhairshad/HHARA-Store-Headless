@@ -1711,10 +1711,11 @@ img { display: block; max-width: 100%; }
 .pdp-meta .row { display: flex; gap: 10px; align-items: center; }
 
 .pdp-tagline {
-  font-family: var(--display);
+  font-family: var(--sans);
   font-style: italic;
   font-weight: 300;
-  font-size: 15px;
+  font-size: 14px;
+  letter-spacing: 0.02em;
   color: var(--ink-soft);
   margin-top: -8px;
 }
@@ -1733,10 +1734,11 @@ img { display: block; max-width: 100%; }
 }
 .pdp-origin-head { display: flex; align-items: baseline; gap: 12px; }
 .pdp-origin-word {
-  font-family: var(--display);
+  font-family: var(--sans);
   font-style: italic;
   font-weight: 300;
-  font-size: 20px;
+  font-size: 18px;
+  letter-spacing: 0.02em;
   color: var(--accent);
 }
 .pdp-origin-tag {
