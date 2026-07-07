@@ -266,6 +266,64 @@ const PRODUCTS = [
   },
 ];
 
+// Name-meaning boxes shown on the PDP, keyed by capsule (product.cat)
+const ORIGIN_MEANING = {
+  "The Imara Set": {
+    word: "Imara",
+    tag: "Swahili Origin",
+    text: "Imara means strong, firm, resolute — a name carried by those who move through the world with quiet resilience. The Imara Set was made for her.",
+  },
+  "The Dalia Set": {
+    word: "Dalia",
+    tag: "Arabic Origin",
+    text: "Dalia means delicate — a name carried by those who move through the world with quiet precision and effortless grace. The Dalia Set was made for her.",
+  },
+};
+
+// Spec-table rows shown on the PDP, keyed by product name
+const PRODUCT_SPECS = {
+  "Imara Bra": [
+    { k: "Support", v: "High-impact scoop-neck structure" },
+    { k: "Coverage", v: "Full front coverage, moisture-wicking" },
+    { k: "Detail", v: "Brushed-gold structural hardware" },
+    { k: "Construction", v: "Hidden support band, capillary ventilation" },
+    { k: "Feel", v: "High-density double-knit" },
+    { k: "Pair With", v: "Imara Legging" },
+  ],
+  "Imara Legging": [
+    { k: "Support", v: "Zero-slip high-waisted stabilization" },
+    { k: "Coverage", v: "7/8 ankle-skimming length" },
+    { k: "Detail", v: "Chevron anatomical waistband" },
+    { k: "Construction", v: "Flatlock structural seaming" },
+    { k: "Feel", v: "Second-skin compression knit" },
+    { k: "Pair With", v: "Imara Bra" },
+  ],
+  "Dalia Bra": [
+    { k: "Support", v: "Medium-impact adaptive structure" },
+    { k: "Coverage", v: "Full front coverage, open back" },
+    { k: "Detail", v: "Cross-back straps, adjustable" },
+    { k: "Construction", v: "Flat seam, no-chafe finish" },
+    { k: "Feel", v: "Second-skin compression" },
+    { k: "Pair With", v: "Dalia Short" },
+  ],
+  "Dalia Short": [
+    { k: "Support", v: "Targeted muscular stabilization" },
+    { k: "Coverage", v: "5\" inseam, high-rise" },
+    { k: "Detail", v: "Hidden inner waistband pocket" },
+    { k: "Construction", v: "Omnidirectional 4-way mechanical stretch" },
+    { k: "Feel", v: "Second-skin compression" },
+    { k: "Pair With", v: "Dalia Bra" },
+  ],
+};
+
+// Tagline fallback for products loaded live from Shopify (which carry no tagline field)
+const PRODUCT_TAGLINES = {
+  "Imara Bra": "Sculpted scoop-neck support",
+  "Imara Legging": "Anatomical high-waist support",
+  "Dalia Bra": "Adaptive cross-back design",
+  "Dalia Short": "Omnidirectional stretch short",
+};
+
 // Featured / homepage subsets
 const FEATURED_IDS = ["p1", "p2", "p3", "p4"];
 const NEW_IDS = ["p1", "p2", "p3", "p4"];
@@ -307,7 +365,7 @@ function Announce() {
   return (
     <div className="announce">
       <div className="announce-track">
-        <span>Free Shipping in UAE on Orders Over AED 400</span>
+        <span>Free Next Day Delivery in UAE · Free Global Express Shipping Over AED 1,900</span>
       </div>
       <div className="announce-locale">
         <span>EN</span>
@@ -417,7 +475,7 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
               className={route === "stores" ? "active" : ""}
               onClick={() => setRoute("stores")}
             >
-              Gives Back
+              Impact
             </button>
           </nav>
           <div className="brandmark" onClick={() => setRoute("home")}>
@@ -474,7 +532,7 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
               className={route === "stores" ? "active" : ""}
               onClick={() => { setRoute("stores"); setMobileMenuOpen(false); }}
             >
-              Gives Back
+              Impact
             </button>
           </nav>
         </div>
@@ -503,7 +561,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
 
   const activeDiscount = discountCodes?.find((d: any) => d.applicable);
   const subtotal = cart.reduce((a: number, i: any) => a + i.price * i.qty, 0);
-  const togo = Math.max(0, 800 - subtotal);
+  const togo = Math.max(0, 1900 - subtotal);
 
   const handlePromo = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -671,6 +729,13 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
             <span className="btn-arrow"><Icon.Arrow /></span>
           </button>
           <p className="micro" style={{ textAlign: "center", marginTop: 12 }}>Secure checkout · SSL encrypted · 10% gives back</p>
+          <div className="pco-checkout-notes" style={{ marginTop: 24, padding: 16, background: "rgba(0,0,0,0.02)", borderRadius: 6, fontSize: 11, lineHeight: "1.6", border: "1px solid rgba(0,0,0,0.05)" }}>
+            <div style={{ fontWeight: 600, marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--ink)" }}>Shipping & Returns Summary</div>
+            <div style={{ marginBottom: 6 }}>• <strong>UAE Domestic:</strong> Free standard next-day shipping (no minimum). Same-day delivery upgrade available for AED 28 in Dubai, Abu Dhabi, Sharjah, and Ajman only.</div>
+            <div style={{ marginBottom: 6 }}>• <strong>GCC:</strong> AED 60 flat shipping, free on orders over AED 1,900. All duties & taxes are covered (DDP) — no fees at delivery.</div>
+            <div style={{ marginBottom: 6 }}>• <strong>International:</strong> Flat shipping fee (AED 80 UK/Europe/Rest of World, AED 120 North America), free on orders over AED 1,900. Duties and taxes at destination are the customer's responsibility. PO Box delivery addresses are disabled.</div>
+            <div>• <strong>Returns:</strong> Free returns within 14 days for UAE orders only. GCC and international orders are final sale and non-returnable.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -768,7 +833,8 @@ function Footer({ setRoute, route = "" }) {
             <h4>Information</h4>
             <ul>
               <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>About Us</a></li>
-              <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>Gives Back</a></li>
+              <li><a onClick={() => setRoute("stores")} style={{ cursor: "pointer" }}>Impact</a></li>
+              <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>Gift Card</a></li>
             </ul>
           </div>
           <div className="footer-col">
@@ -819,7 +885,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
 
   const activeDiscount = discountCodes?.find((d: any) => d.applicable);
   const subtotal = items.reduce((a, i) => a + i.price * i.qty, 0);
-  const freeThreshold = 800;
+  const freeThreshold = 1900;
   const progress = Math.min(subtotal / freeThreshold, 1);
   const togo = Math.max(0, freeThreshold - subtotal);
 
@@ -837,9 +903,9 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
         {items.length > 0 && (
           <div className="cart-prog">
             {togo > 0 ? (
-              <span>You are <em>AED {togo.toLocaleString()}</em> away from complimentary shipping</span>
+              <span>You're <em>AED {togo.toLocaleString()}</em> away from free shipping</span>
             ) : (
-              <span>Complimentary shipping unlocked</span>
+              <span>You've unlocked free shipping</span>
             )}
             <div className="bar"><div className="fill" style={{ width: `${progress * 100}%` }}></div></div>
           </div>
@@ -933,7 +999,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
                 Review Order
                 <span className="btn-arrow"><Icon.Arrow /></span>
               </button>
-              <div className="micro">Taxes &amp; duties calculated at checkout · 10% of every order funds women-led initiatives</div>
+              <div className="micro">Taxes &amp; duties calculated at checkout · 10% of every order funds children's education</div>
             </div>
           </>
         )}
@@ -1765,6 +1831,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const [added, setAdded] = useState(false);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [adding, setAdding] = useState(false);
+  const [activeShot, setActiveShot] = useState(0);
 
   // Floating Video & Reel Player States
   const [videoDismissed, setVideoDismissed] = useState(false);
@@ -1783,6 +1850,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
     setAdded(false);
     setReelOpen(false);
     setVideoDismissed(false);
+    setActiveShot(0);
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [productId]);
 
@@ -1908,6 +1976,10 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const fallback = PRODUCTS.filter((p) => p.id !== product.id).slice(0, 4);
   const list = related.length >= 3 ? related : fallback;
 
+  const origin = ORIGIN_MEANING[product.cat];
+  const specs = PRODUCT_SPECS[product.name] || [];
+  const tagline = product.tagline || PRODUCT_TAGLINES[product.name];
+
   return (
     <>
       <div className="pdp">
@@ -1922,25 +1994,32 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
         <div className="pdp-main">
           <div className="pdp-gallery">
             {(() => {
-
               const a = product.imgKey ? IMGS[product.imgKey + "a"] : (product.featuredImage?.url || product.images?.[0]?.url || null);
               const b = product.imgKey ? IMGS[product.imgKey + "b"] : (product.images?.[1]?.url || product.featuredImage?.url || null);
+              const shots = [
+                { src: a, style: {} },
+                { src: b, style: {} },
+                { src: a, style: { filter: "brightness(0.92) contrast(1.05)" } },
+                { src: b, style: { filter: "brightness(1.06)" } },
+              ];
+              const main = shots[activeShot] || shots[0];
               return (
                 <>
-                  <div className={`shot wide ${product.tone}`}>
-                    {a && <img src={a} alt="" className="img-fill" />}
+                  <div className={`pdp-gallery-main ${product.tone}`}>
+                    {main.src && <img src={main.src} alt="" className="img-fill" style={main.style} />}
+                    <div className="pdp-gallery-tag">{product.cat}</div>
                   </div>
-                  <div className={`shot ${product.altTone || product.tone}`}>
-                    {b && <img src={b} alt="" className="img-fill" />}
-                  </div>
-                  <div className={`shot ${product.tone}`}>
-                    {a && <img src={a} alt="" className="img-fill" style={{ filter: "brightness(0.92) contrast(1.05)" }} />}
-                  </div>
-                  <div className={`shot ${product.altTone || product.tone}`}>
-                    {b && <img src={b} alt="" className="img-fill" style={{ filter: "brightness(1.06)" }} />}
-                  </div>
-                  <div className={`shot wide ${product.tone}`}>
-                    <img src={IMGS.editAtelier} alt="" className="img-fill" />
+                  <div className="pdp-gallery-thumbs">
+                    {shots.map((s, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        className={`pdp-gallery-thumb ${activeShot === i ? "on" : ""}`}
+                        onClick={() => setActiveShot(i)}
+                      >
+                        {s.src && <img src={s.src} alt="" className="img-fill" style={s.style} />}
+                      </button>
+                    ))}
                   </div>
                 </>
               );
@@ -1950,20 +2029,29 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
           <div className="pdp-info">
             <div className="cat">{product.cat}</div>
             <h1>{product.name}</h1>
+            {tagline && <p className="pdp-tagline">{tagline}</p>}
             <div className="pdp-price">
               {product.priceWas && <span className="was">AED {product.priceWas.toLocaleString()}</span>}
               <span className="now">AED {product.price.toLocaleString()}</span>
-            </div>
-            <div className="pdp-rating">
-              <span className="stars">★ ★ ★ ★ ★</span>
-              <span>4.9 · 124 reviews</span>
+              <span className="pdp-vat-note">+ VAT at checkout</span>
             </div>
 
             <div className="pdp-divider"></div>
 
+            {origin && (
+              <div className="pdp-origin-box">
+                <div className="pdp-origin-head">
+                  <span className="pdp-origin-word">{origin.word}</span>
+                  <span className="pdp-origin-tag">{origin.tag}</span>
+                </div>
+                <p>{origin.text}</p>
+              </div>
+            )}
+
             <div className="pdp-option-row">
               <div className="lbl">
-                <span>Colour: <span style={{ color: "var(--muted)" }}>{color.name}</span></span>
+                <span>Colour</span>
+                <span>{color.name}</span>
               </div>
               <div className="pdp-swatches">
                 {product.swatches.map((s) => (
@@ -1980,8 +2068,8 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
             <div className="pdp-option-row">
               <div className="lbl">
-                <span>Size {size && <span style={{ color: "var(--muted)" }}>: {size}</span>}</span>
-                <span className="help" onClick={() => setSizeGuideOpen(true)} style={{ cursor: "pointer", textDecoration: "underline" }}>Size guide</span>
+                <span>Size</span>
+                <span>Select a size</span>
               </div>
               <div className="pdp-sizes">
                 {product.sizes.map((s) => {
@@ -2003,54 +2091,68 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   );
                 })}
               </div>
+              <span className="help" onClick={() => setSizeGuideOpen(true)} style={{ cursor: "pointer", textDecoration: "underline", fontSize: 11 }}>Not sure? View size guide</span>
             </div>
 
             <div className="pdp-actions">
-              <div className="pdp-actions-row">
-                <button className="btn btn-primary" onClick={handleAdd} disabled={adding}>
-                  {adding ? (
-                    <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-                      <span className="spinner" style={{ width: 12, height: 12, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }}></span>
-                      Adding...
-                    </span>
-                  ) : added ? (
-                    "Added to Bag ✓"
-                  ) : (
-                    `Add to Bag · AED ${product.price.toLocaleString()}`
-                  )}
-                </button>
-                <button className="pdp-iconbtn" onClick={() => onWishlistToggle?.(product.id)} title="Save to wishlist"><Icon.Heart /></button>
-              </div>
-              <button className="btn" style={{ borderColor: "var(--ink)" }} onClick={() => onWishlistToggle?.(product.id)}>
-                {wishlisted ? "Saved ✓" : "Add to Wishlist"}
+              <button className="btn btn-primary btn-block" onClick={handleAdd} disabled={adding}>
+                {adding ? (
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                    <span className="spinner" style={{ width: 12, height: 12, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", display: "inline-block", animation: "spin 0.8s linear infinite" }}></span>
+                    Adding...
+                  </span>
+                ) : added ? (
+                  "Added to Bag ✓"
+                ) : (
+                  `Add to Cart — AED ${product.price.toLocaleString()}`
+                )}
+              </button>
+              <button className="btn btn-outline btn-block" onClick={() => onWishlistToggle?.(product.id)}>
+                <Icon.Heart /> {wishlisted ? "Saved to Wishlist" : "Save to Wishlist"}
               </button>
             </div>
 
-            <div className="pdp-meta">
-              <div className="row"><Icon.Truck /><span>Carbon-neutral global shipping from the UAE, 3–5 business days</span></div>
-              <div className="row"><Icon.Box /><span>Free returns within 30 days · 10% of every order funds women-led initiatives</span></div>
-            </div>
-
-            <div className="pdp-accordions">
-              <Accordion title="Details & Composition" open={open === "details"} onToggle={() => setOpen(open === "details" ? "" : "details")}>
-                <p>{product.description || "Premium recycled performance knit, engineered for movement, structure, and longevity."}</p>
-                <ul>
-                  {(product.details || ["Premium recycled performance fabric", "Brushed-gold low-friction hardware", "Designed in the UAE", "Machine wash cold · do not tumble dry"]).map((d, i) => (
-                    <li key={i}>{d}</li>
-                  ))}
-                </ul>
-              </Accordion>
-              <Accordion title="Fit & Sizing" open={open === "fit"} onToggle={() => setOpen(open === "fit" ? "" : "fit")}>
-                <p>Model is 178cm and wears a size S. Engineered for second-skin compression with 4-way mechanical stretch. We recommend taking your usual size; size down for a closer compression fit.</p>
-              </Accordion>
-              <Accordion title="Care" open={open === "care"} onToggle={() => setOpen(open === "care" ? "" : "care")}>
-                <p>Machine wash cold with like colours. Do not tumble dry, do not bleach, do not iron. Lay flat to dry to preserve the recycled performance knit.</p>
-              </Accordion>
-              <Accordion title="Shipping & Returns" open={open === "ship"} onToggle={() => setOpen(open === "ship" ? "" : "ship")}>
-                <p>Complimentary global shipping from the UAE on orders over AED 800. Carbon-neutral express delivery within 3–5 business days. Returns accepted within 30 days in original condition; we provide a prepaid label.</p>
-              </Accordion>
+            <div className="pdp-trust-row">
+              <div className="pdp-trust-item"><Icon.Truck /><span>Free UAE Delivery</span></div>
+              <div className="pdp-trust-item"><Icon.Box /><span>Free Returns 14 Days (UAE)</span></div>
+              <div className="pdp-trust-item"><Icon.Leaf /><span>Recycled Materials</span></div>
             </div>
           </div>
+        </div>
+
+        <div className="pdp-description-section">
+          <div className="pdp-section-label">Description</div>
+          <p>{product.description || "Premium recycled performance knit, engineered for movement, structure, and longevity."}</p>
+          <p>Designed in the UAE for movement, structure, and longevity — with no compromise on how it feels against the skin.</p>
+          {specs.length > 0 && (
+            <div className="pdp-specs">
+              {specs.map((row) => (
+                <div className="pdp-spec-row" key={row.k}>
+                  <span className="k">{row.k}</span>
+                  <span className="v">{row.v}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="pdp-accordions">
+          <Accordion title="Size Guide" open={open === "fit"} onToggle={() => setOpen(open === "fit" ? "" : "fit")}>
+            <p>Model is 178cm and wears a size S. Engineered for second-skin compression with 4-way mechanical stretch. We recommend taking your usual size; size down for a closer compression fit.</p>
+          </Accordion>
+          <Accordion title="Fabric & Feel" open={open === "details"} onToggle={() => setOpen(open === "details" ? "" : "details")}>
+            <ul>
+              {(product.details || ["Premium recycled performance fabric", "Brushed-gold low-friction hardware", "Designed in the UAE", "Machine wash cold · do not tumble dry"]).map((d, i) => (
+                <li key={i}>{d}</li>
+              ))}
+            </ul>
+          </Accordion>
+          <Accordion title="Care Instructions" open={open === "care"} onToggle={() => setOpen(open === "care" ? "" : "care")}>
+            <p>Machine wash cold with like colours. Do not tumble dry, do not bleach, do not iron. Lay flat to dry to preserve the recycled performance knit.</p>
+          </Accordion>
+          <Accordion title="Shipping & Returns" open={open === "ship"} onToggle={() => setOpen(open === "ship" ? "" : "ship")}>
+            <p>Free standard next-day shipping within the UAE (no minimum). Same-day delivery upgrade available for AED 28 in Dubai, Abu Dhabi, Sharjah, and Ajman. International express shipping is free on orders over AED 1,900, with flat shipping rates below the threshold (AED 60 GCC, AED 80 UK/Europe/Rest of World, AED 120 North America). Returns are free within 14 days for UAE orders only; GCC and international sales are final.</p>
+          </Accordion>
         </div>
       </div>
 
@@ -2358,37 +2460,6 @@ function AtelierPage({ setRoute }) {
         </div>
       </section>
 
-      <div className="section-head" style={{ maxWidth: "var(--maxw)", margin: "80px auto 20px", padding: "0 var(--pad)" }}>
-        <div className="section-head-stack">
-          <span className="eyebrow">She Wears It Everywhere</span>
-          <h2 className="section-title" style={{ fontWeight: 300 }}>One piece.<br /><em>Every version of her day.</em></h2>
-        </div>
-      </div>
-
-      <section className="craft-grid three-cols" style={{ paddingTop: 0 }}>
-        <div className="craft-item">
-          <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>01</div>
-          <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>5am</h4>
-          <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
-            She is up before the world. HHARA is already on. She does not need to think about what to wear, it moves with her from the first alarm.
-          </p>
-        </div>
-        <div className="craft-item">
-          <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>09</div>
-          <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>Office. Dinner. Life.</h4>
-          <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
-            Clean silhouettes and considered design mean HHARA reads polished anywhere, from boardroom and restaurant to the school gate. She does not need to change. She was always ready.
-          </p>
-        </div>
-        <div className="craft-item">
-          <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>10</div>
-          <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>The Last Moment</h4>
-          <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
-            After everything. After everyone. The last quiet moment she calls her own. Still HHARA. Still wonder. Still completely, unapologetically herself.
-          </p>
-        </div>
-      </section>
-
       <section className="atelier-video">
         <img src={IMGS.atelierVideo} alt="" />
         <video
@@ -2426,12 +2497,12 @@ function AtelierPage({ setRoute }) {
         </div>
       </section>
 
-      <section className="gives-back-section dark" style={{ padding: "clamp(60px, 8vh, 100px) var(--pad)", backgroundColor: "#3A2416", textAlign: "center" }}>
+      <section className="gives-back-section" style={{ padding: "clamp(60px, 8vh, 100px) var(--pad)", backgroundColor: "#F0EAE0", textAlign: "center" }}>
         <div className="gives-back-content-width" style={{ maxWidth: 800, margin: "0 auto" }}>
-          <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: "clamp(22px, 3.2vw, 30px)", lineHeight: 1.7, marginBottom: 40, color: "#F7F3ED", fontFamily: "var(--display)", fontWeight: 300 }}>
+          <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: "clamp(22px, 3.2vw, 30px)", lineHeight: 1.7, marginBottom: 40, color: "var(--ink)", fontFamily: "var(--display)", fontWeight: 300 }}>
             "She moves before the world notices. She carries what others don't see. She is the woman who shows up, for everyone, and still finds a way to show up for herself. HHARA was made for her. From the very first stitch."
           </blockquote>
-          <div style={{ color: "#F7F3ED", fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.8 }}>HHARA, WONDER, WORN.</div>
+          <div style={{ color: "var(--ink-soft)", fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.8 }}>HHARA, WONDER, WORN.</div>
         </div>
       </section>
 
@@ -2722,7 +2793,7 @@ function StoresPage({ setRoute }) {
     <div className="gives-back-container">
       {/* HERO SECTION */}
       <section className="gives-back-hero">
-        <span className="eyebrow">◆ GIVES BACK ◆</span>
+        <span className="eyebrow">◆ IMPACT ◆</span>
         <h1>
           She is wonder.<br />
           <em>Empowering the next generation of wonders.</em>
@@ -2960,6 +3031,167 @@ function StoresPage({ setRoute }) {
   );
 }
 
+// ============ GIFT CARD ============
+const GIFT_CARD_AMOUNTS = [100, 150, 250, 350];
+
+function GiftCardPage({ setRoute }) {
+  const [amount, setAmount] = useState(GIFT_CARD_AMOUNTS[0]);
+  const [customAmount, setCustomAmount] = useState("");
+  const [qty, setQty] = useState(1);
+  const [recipientName, setRecipientName] = useState("");
+  const [recipientEmail, setRecipientEmail] = useState("");
+  const [senderName, setSenderName] = useState("");
+  const [note, setNote] = useState("");
+  const [unavailable, setUnavailable] = useState(false);
+
+  const activeAmount = customAmount ? Math.max(0, parseFloat(customAmount) || 0) : amount;
+  const total = activeAmount * qty;
+
+  const handleCheckout = (e: React.FormEvent) => {
+    e.preventDefault();
+    setUnavailable(true);
+  };
+
+  return (
+    <>
+      <div className="pdp-main" style={{ maxWidth: "var(--maxw)", margin: "0 auto", padding: "48px var(--pad) 0" }}>
+        <div>
+          <div className="pdp-gallery">
+            <div className="shot wide">
+              <img src={IMGS.lb1} alt="HHARA Gift Card" className="img-fill" loading="lazy" />
+            </div>
+          </div>
+          <p style={{ color: "var(--ink-soft)", fontSize: 13, lineHeight: 1.8, textAlign: "center", maxWidth: 420, margin: "24px auto 0" }}>
+            For the woman who already has everything, and the one still becoming who she's meant to be. Redeemable across every HHARA collection, delivered straight to her inbox.
+          </p>
+        </div>
+
+        <div className="pdp-info">
+          <div className="cat">The HHARA Gift Card</div>
+          <h1>Give her the beginning of<br /><em>something.</em></h1>
+          <p style={{ fontFamily: "var(--display)", fontStyle: "italic", fontSize: 18, color: "var(--ink-soft)" }}>A gift for wherever her day takes her.</p>
+          <div className="pdp-price"><span className="now">From AED {GIFT_CARD_AMOUNTS[0]}.00</span></div>
+          <div className="pdp-divider"></div>
+
+          <form onSubmit={handleCheckout} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            <div className="pdp-option-row">
+              <div className="lbl"><span>Choose an Amount</span></div>
+              <div className="pdp-sizes">
+                {GIFT_CARD_AMOUNTS.map((a) => (
+                  <button
+                    key={a}
+                    type="button"
+                    className={!customAmount && amount === a ? "on" : ""}
+                    onClick={() => { setAmount(a); setCustomAmount(""); }}
+                  >
+                    AED {a}
+                  </button>
+                ))}
+              </div>
+              <div className="field">
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Enter a custom amount (AED)"
+                  value={customAmount}
+                  onChange={(e) => setCustomAmount(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="pdp-option-row">
+              <div className="lbl"><span>Quantity</span></div>
+              <div className="qty">
+                <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))}><Icon.Minus /></button>
+                <span>{qty}</span>
+                <button type="button" onClick={() => setQty((q) => q + 1)}><Icon.Plus /></button>
+              </div>
+            </div>
+
+            <div className="field">
+              <label>Recipient's Name</label>
+              <input type="text" required placeholder="Her name" value={recipientName} onChange={(e) => setRecipientName(e.target.value)} />
+            </div>
+            <div className="field">
+              <label>Recipient's Email</label>
+              <input type="email" required placeholder="Where it should arrive" value={recipientEmail} onChange={(e) => setRecipientEmail(e.target.value)} />
+            </div>
+            <div className="field">
+              <label>Your Name</label>
+              <input type="text" required placeholder="From" value={senderName} onChange={(e) => setSenderName(e.target.value)} />
+            </div>
+            <div className="field">
+              <label>A Personal Note (Optional)</label>
+              <textarea rows={3} placeholder="Write a few words for her…" value={note} onChange={(e) => setNote(e.target.value)} />
+            </div>
+
+            <div className="pdp-divider"></div>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "var(--ink-soft)" }}>
+              <span>Quantity</span><span>{qty}</span>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15, fontWeight: 500 }}>
+              <span>Total</span><span>AED {total.toLocaleString()}</span>
+            </div>
+
+            <button className="btn btn-primary btn-block" type="submit" disabled={activeAmount <= 0}>
+              Add to Bag — Checkout
+              <span className="btn-arrow"><Icon.Arrow /></span>
+            </button>
+            {unavailable && (
+              <p style={{ fontSize: 12, color: "var(--ink-soft)", textAlign: "center" }}>
+                Gift cards are launching soon. In the meantime, email <a href="mailto:hello@hhara.com" style={{ textDecoration: "underline" }}>hello@hhara.com</a> and we'll arrange one for you directly.
+              </p>
+            )}
+            <p style={{ fontSize: 11, color: "var(--ink-soft)", textAlign: "center", opacity: 0.8 }}>
+              Delivered instantly by email · Valid for 12 months from the date of purchase · Redeemable on hhara.com
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <div className="section-head" style={{ maxWidth: "var(--maxw)", margin: "100px auto 20px", padding: "0 var(--pad)" }}>
+        <div className="section-head-stack">
+          <span className="eyebrow">How It Works</span>
+          <h2 className="section-title" style={{ fontWeight: 300 }}>Simple, <em>by design.</em></h2>
+        </div>
+      </div>
+
+      <section className="craft-grid three-cols" style={{ paddingTop: 0 }}>
+        <div className="craft-item">
+          <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>I.</div>
+          <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>Choose an amount</h4>
+          <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
+            Select one of ours, or set your own, whatever feels right for the occasion.
+          </p>
+        </div>
+        <div className="craft-item">
+          <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>II.</div>
+          <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>Add her details</h4>
+          <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
+            Checkout like any other order. We'll deliver it straight to her inbox, with your note attached.
+          </p>
+        </div>
+        <div className="craft-item">
+          <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>III.</div>
+          <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>She chooses her piece</h4>
+          <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
+            Redeemable across every HHARA collection, so she can decide what she needs, in her own time.
+          </p>
+        </div>
+      </section>
+
+      <section className="gives-back-section" style={{ padding: "clamp(60px, 8vh, 100px) var(--pad)", backgroundColor: "#F0EAE0", textAlign: "center", marginTop: 80 }}>
+        <div className="gives-back-content-width" style={{ maxWidth: 800, margin: "0 auto" }}>
+          <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: "clamp(22px, 3.2vw, 30px)", lineHeight: 1.7, marginBottom: 16, color: "var(--ink)", fontFamily: "var(--display)", fontWeight: 300 }}>
+            "She shouldn't have to choose. HHARA was built so she never has to."
+          </blockquote>
+          <div style={{ color: "var(--accent)", fontStyle: "italic", fontFamily: "var(--display)", fontSize: 16 }}>She is wonder. She is HHARA.</div>
+        </div>
+      </section>
+    </>
+  );
+}
+
 // ============ ACCOUNT / LOGIN ============
 function AccountPage({ onAuthenticated }: { onAuthenticated?: () => void }) {
   const customer = useCustomer();
@@ -3187,30 +3419,30 @@ function FAQPage({ setRoute }) {
       heading: "Shipping & Delivery",
       items: [
         { q: "Where do you ship?", a: "We ship worldwide: UAE, GCC, and internationally to over 200 countries." },
-        { q: "How long does UAE delivery take?", a: "UAE orders are delivered next day when placed before 2:00 pm on a working day. Orders placed after 2:00 pm or over the weekend will be dispatched the next working day." },
-        { q: "What are the UAE delivery charges?", a: "Delivery is free on all UAE orders of AED 400 and above. For orders below AED 400, a delivery fee of AED 22 applies. Remote area deliveries are subject to an AED 37 fee and serviced on Thursdays and Sundays only." },
-        { q: "How long does international delivery take?", a: "GCC (Saudi Arabia, Kuwait, Qatar, Oman, Bahrain): 3–5 working days. All other international destinations: 7–15 working days. Both subject to customs clearance." },
-        { q: "Who pays for customs and duties?", a: "All customs duties, import taxes, and clearance fees are the responsibility of the customer. These are not included in your order total." },
+        { q: "How long does UAE delivery take?", a: "Standard next-day delivery takes 1 day for orders placed before 10:00pm. Same-day delivery is available for Dubai (placed before 3:00pm) and Abu Dhabi, Sharjah, Ajman (placed before 1:00pm)." },
+        { q: "What are the UAE delivery charges?", a: "Standard next-day delivery is completely free with no minimum purchase. Same-day delivery upgrade is available at checkout for AED 28." },
+        { q: "How long does international delivery take?", a: "GCC: 2–3 business days. UK & Europe: 5–7 business days. North America: 5–7 business days. Rest of World: 7–14 business days. All shipments are subject to customs clearance." },
+        { q: "Who pays for customs and duties?", a: "For GCC orders, customs duties and taxes are fully covered by HHARA (Delivered Duty Paid). For other international orders, customs charges and import duties are the customer's responsibility." },
         { q: "How do I track my order?", a: "You will receive a tracking link by email once your order has been dispatched. If you have any issues tracking your order, contact us at hello@hhara.com." },
       ],
     },
     {
       heading: "Returns & Refunds",
       items: [
-        { q: "What is your return policy?", a: "We accept returns within 7 days of delivery for UAE orders only. Items must be unworn, unwashed, in their original packaging, with all tags attached." },
-        { q: "How do I start a return?", a: "Email us at hello@hhara.com with the subject line Return: [Your Order Number]. Include your name, order number, and reason for return. We will respond within 2 business days." },
-        { q: "Can I exchange my order?", a: "Yes, exchanges are available for a different size or colourway, subject to availability. Each item can only be exchanged once." },
+        { q: "What is your return policy?", a: "We offer free returns within 14 days of delivery for UAE orders only. GCC and international orders are final sale and cannot be returned. Returned items must be unworn, unwashed, and in their original packaging." },
+        { q: "How do I start a return?", a: "For UAE orders, email hello@hhara.com with your order number. We will arrange a Quiqup courier to collect the return parcel from your address free of charge." },
+        { q: "Can I exchange my order?", a: "For UAE orders, exchanges are available for a different size or colourway, subject to availability. Each item can only be exchanged once." },
         { q: "When will I receive my refund?", a: "Once we receive and inspect your return, refunds are processed within 5–7 business days to your original payment method. Original shipping fees are non-refundable." },
         { q: "Can I return sale items?", a: "No. All items purchased during a sale or marked as final sale are non-returnable and non-refundable." },
       ],
     },
     {
-      heading: "Gives Back",
+      heading: "Impact",
       items: [
-        { q: "What is HHARA Gives Back?", a: "Giving back is built into the foundation of HHARA. With every purchase, HHARA directly supports orphanages and children in need, beginning in Kenya." },
+        { q: "What is HHARA Impact?", a: "Giving back is built into the foundation of HHARA. With every purchase, HHARA directly supports orphanages and children in need, beginning in Kenya." },
         { q: "Who does HHARA give to?", a: "We give directly, with no intermediaries. HHARA identifies and supports local orphanages. Our giving partners will be updated over time as our community and impact grow." },
         { q: "How does the giving model work?", a: "A portion of every HHARA purchase goes directly toward our giving commitments. We are intentional about this, just as we are intentional about every other decision we make as a brand." },
-        { q: "Where can I learn more about HHARA Gives Back?", a: "Visit the Gives Back page on hhara.com for updates on our current giving partners and impact." },
+        { q: "Where can I learn more about HHARA Impact?", a: "Visit the Impact page on hhara.com for updates on our current giving partners and impact." },
       ],
     },
   ];
@@ -3242,36 +3474,43 @@ function ShippingPage({ setRoute }) {
       <div className="policy-section">
         <h2 className="policy-section-heading">UAE Delivery</h2>
         <div className="policy-table">
-          <div className="policy-table-row"><span>Orders AED 400+</span><span>Free · Next Day</span></div>
-          <div className="policy-table-row"><span>Orders below AED 400</span><span>AED 22 · Next Day</span></div>
-          <div className="policy-table-row"><span>Remote areas (via Quiqup)</span><span>AED 37 · Thu & Sun only</span></div>
-          <div className="policy-table-row"><span>Free zones</span><span>Not supported</span></div>
+          <div className="policy-table-row"><span>Standard Next Day</span><span>FREE · No Minimum</span></div>
+          <div className="policy-table-row"><span>Same Day Delivery</span><span>AED 28 · Upgrade at checkout</span></div>
         </div>
-        <p className="policy-note">Orders placed before 2:00 pm on a working day are dispatched for next day delivery. Orders placed after 2:00 pm or over the weekend are dispatched the next working day.</p>
+        <p className="policy-note">
+          <strong>Standard Next Day:</strong> Free next day delivery to all 7 Emirates (excluding freezones) for orders placed by 10:00pm. Delivery window: 9am–10pm next day.
+        </p>
+        <p className="policy-note" style={{ marginTop: 8 }}>
+          <strong>Same Day Delivery:</strong> Available for Dubai (cut-off 3:00pm) and Abu Dhabi, Sharjah, Ajman (cut-off 1:00pm). Delivery window: 4pm–10pm same day.
+        </p>
       </div>
 
       <div className="policy-section">
-        <h2 className="policy-section-heading">International Delivery</h2>
+        <h2 className="policy-section-heading">GCC Delivery (Delivered Duty Paid)</h2>
+        <p className="policy-note">Delivered via Quiqup/Naqel. All duties and taxes are included — no fees at delivery.</p>
         <div className="policy-table">
-          <div className="policy-table-row"><span>GCC (KSA, Kuwait, Qatar, Oman, Bahrain)</span><span>3–5 working days</span></div>
-          <div className="policy-table-row"><span>All other international destinations</span><span>7–15 working days</span></div>
+          <div className="policy-table-row"><span>Saudi Arabia, Kuwait, Bahrain, Qatar, Oman</span><span>AED 60 (Free on orders AED 1,900+) · 2–3 business days</span></div>
         </div>
-        <p className="policy-note">Delivery timeframes are estimates and may vary due to customs clearance, carrier availability, and destination country. Shipping costs are calculated at checkout.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">International Delivery (Delivered Duty Unpaid)</h2>
+        <p className="policy-note">Delivered via Quiqup/DHL. Duties and taxes at destination are the customer's responsibility. PO Box delivery addresses are not supported.</p>
+        <div className="policy-table">
+          <div className="policy-table-row"><span>UK & Europe (Inc. EU states)</span><span>AED 80 (Free on orders AED 1,900+) · 5–7 business days</span></div>
+          <div className="policy-table-row"><span>North America (United States, Canada)</span><span>AED 120 (Free on orders AED 1,900+) · 5–7 business days</span></div>
+          <div className="policy-table-row"><span>Rest of World</span><span>AED 80 (Free on orders AED 1,900+) · 7–14 business days</span></div>
+        </div>
       </div>
 
       <div className="policy-section">
         <h2 className="policy-section-heading">Duties & Customs</h2>
-        <p>All duties, customs charges, and import taxes on international orders are the responsibility of the customer. These are not included in your order total or shipping fee and are determined by your local customs authority. HHARA is not responsible for delays caused by customs clearance.</p>
-      </div>
-
-      <div className="policy-section">
-        <h2 className="policy-section-heading">Order Processing</h2>
-        <p>Orders are processed on working days (Monday to Friday, excluding UAE public holidays). Orders placed over the weekend or on a public holiday will be processed the next working day.</p>
+        <p>For GCC orders, all customs duties and taxes are fully covered by HHARA at delivery. For all other international orders, any customs charges, import taxes, and clearance fees are the customer's responsibility and are determined by your local customs authority. HHARA is not responsible for delays caused by customs clearance.</p>
       </div>
 
       <div className="policy-section">
         <h2 className="policy-section-heading">Failed Deliveries</h2>
-        <p>Please ensure your delivery address and contact details are accurate at checkout. Our courier will make up to 3 delivery attempts for UAE orders. After 3 failed attempts, the order will be returned to us. HHARA is not responsible for delays caused by incorrect address information.</p>
+        <p>Please ensure your delivery address and contact details are accurate at checkout. Our courier will make up to 3 delivery attempts. After 3 failed attempts, the order will be returned to us.</p>
       </div>
 
       <div className="policy-contact">
@@ -3285,26 +3524,28 @@ function ReturnsPage({ setRoute }) {
   return (
     <PolicyPage title="Returns & Refunds" eyebrow="Customer Service" setRoute={setRoute}>
       <p className="policy-intro">We want you to love every piece you receive from HHARA. If something is not right, here is how we make it right.</p>
-      <p className="policy-note" style={{ marginTop: 0, marginBottom: 32 }}>Last updated: July 2025 · UAE orders only</p>
+      <p className="policy-note" style={{ marginTop: 0, marginBottom: 32 }}>Last updated: July 2026 · UAE orders only</p>
 
       <div className="policy-section">
-        <h2 className="policy-section-heading">Eligibility</h2>
-        <p>To be eligible for a return or refund, your item must be unworn and unwashed, in its original packaging with all tags attached, and free from perfume, deodorant, or any signs of use. HHARA reserves the right to decline a return if the item does not meet these conditions upon inspection.</p>
+        <h2 className="policy-section-heading">UAE Return Policy</h2>
+        <p>We offer <strong>Free returns within 14 days</strong> of delivery for orders within the UAE.</p>
+        <p style={{ marginTop: 12 }}>To be eligible for a return, your item must be unworn and unwashed, in its original packaging with all tags attached, and free from perfume, deodorant, or any signs of use. HHARA reserves the right to decline a return if the item does not meet these conditions upon inspection.</p>
       </div>
 
       <div className="policy-section">
-        <h2 className="policy-section-heading">Return Window</h2>
-        <p>You have <strong>7 days</strong> from the date of delivery to request a return or exchange. Requests made after this period will not be accepted.</p>
+        <h2 className="policy-section-heading">How to Start a Return (UAE)</h2>
+        <p>Email us at <a href="mailto:hello@hhara.com">hello@hhara.com</a> with your order number to request a return. Once approved, HHARA will arrange a Quiqup courier to collect the return parcel directly from your address at no cost to you.</p>
       </div>
 
       <div className="policy-section">
-        <h2 className="policy-section-heading">How to Start a Return</h2>
-        <p>Email us at <a href="mailto:hello@hhara.com">hello@hhara.com</a> with the subject line <em>Return: [Your Order Number]</em>. Include your full name, order number, and reason for return. Our team will respond within 2 business days with next steps.</p>
-        <p style={{ marginTop: 16 }}>Once confirmed, pack your item securely in its original packaging. Our team will arrange a courier to collect the item from your delivery address. The collection fee is payable by the customer prior to pickup.</p>
+        <h2 className="policy-section-heading">GCC & International Returns</h2>
+        <p className="policy-note" style={{ color: "var(--ink)", background: "rgba(0,0,0,0.03)", padding: "16px", borderRadius: "4px" }}>
+          <strong>Please note:</strong> We do not accept returns on GCC or international orders. Please consult our size guide before ordering.
+        </p>
       </div>
 
       <div className="policy-section">
-        <h2 className="policy-section-heading">Exchanges</h2>
+        <h2 className="policy-section-heading">Exchanges (UAE Only)</h2>
         <p>Exchanges are available for a different size or colourway, subject to availability. Please mention your preference when submitting your return request. Each item can only be exchanged once.</p>
       </div>
 
@@ -3316,6 +3557,7 @@ function ReturnsPage({ setRoute }) {
       <div className="policy-section">
         <h2 className="policy-section-heading">Non-Returnable Items</h2>
         <ul className="policy-list">
+          <li>All GCC and International orders</li>
           <li>Items purchased during a sale or marked as final sale</li>
           <li>Items that have already been exchanged once</li>
           <li>Gift cards</li>
@@ -3462,7 +3704,7 @@ function TermsPage({ setRoute }) {
     { n: "2", title: "Products and Pricing", body: "We make every effort to display colours, fabrics, and pricing accurately. However, slight variations may occur, and we reserve the right to correct errors or decline orders where necessary." },
     { n: "3", title: "Orders and Payment", body: "All orders placed through our website are subject to availability and acceptance. Payment is processed securely at checkout. We accept all major credit and debit cards, as well as Tabby and Tamara for buy now, pay later." },
     { n: "4", title: "Shipping and Delivery", body: "We ship within the UAE and internationally. For delivery timelines and related terms, please refer to our Shipping & Delivery policy." },
-    { n: "5", title: "Returns and Exchanges", body: "We accept returns within 7 days of delivery for UAE orders only. Return shipping is at the customer's cost. For full conditions and refund details, please refer to our Returns & Refunds policy." },
+    { n: "5", title: "Returns and Exchanges", body: "We offer free returns within 14 days of delivery for UAE orders only. GCC and international orders are final sale and non-returnable. For full conditions and refund details, please refer to our Returns & Refunds policy." },
     { n: "6", title: "Intellectual Property", body: "All content on this website, including text, product descriptions, imagery, brand assets, and design, is the property of Dahlia Moxie Trading LLC (HHARA). No reproduction or use of any content is permitted without prior written consent." },
     { n: "7", title: "Limitation of Liability", body: "To the fullest extent permitted by law, HHARA is not liable for indirect, incidental, or consequential damages arising from the use of our products or website." },
     { n: "8", title: "Governing Law", body: "These terms are governed by the laws of the United Arab Emirates. Any disputes will fall under the jurisdiction of the UAE courts." },
@@ -3782,6 +4024,8 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     body = <LookbookPage setRoute={setRouteState} openProduct={openProduct} />;
   } else if (route === "stores") {
     body = <StoresPage setRoute={setRouteState} />;
+  } else if (route === "gift-card") {
+    body = <GiftCardPage setRoute={setRouteState} />;
   } else if (route === "account") {
     body = <AccountPage />;
   } else if (route === "wishlist") {
