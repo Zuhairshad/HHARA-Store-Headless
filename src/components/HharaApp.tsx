@@ -3057,7 +3057,7 @@ function GiftCardPage({ setRoute }) {
       <div className="pdp-main" style={{ maxWidth: "var(--maxw)", margin: "0 auto", padding: "48px var(--pad) 0" }}>
         <div>
           <div className="pdp-gallery">
-            <div className="shot wide">
+            <div className="pdp-gallery-main">
               <img src={IMGS.lb1} alt="HHARA Gift Card" className="img-fill" loading="lazy" />
             </div>
           </div>
