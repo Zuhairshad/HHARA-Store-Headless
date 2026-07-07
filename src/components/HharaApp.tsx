@@ -3054,95 +3054,145 @@ function GiftCardPage({ setRoute }) {
 
   return (
     <>
-      <div className="pdp-main" style={{ maxWidth: "var(--maxw)", margin: "0 auto", padding: "48px var(--pad) 0" }}>
-        <div>
-          <div className="pdp-gallery">
-            <div className="pdp-gallery-main">
-              <img src={IMGS.lb1} alt="HHARA Gift Card" className="img-fill" loading="lazy" />
+      <div className="gc-main">
+        {/* Left Column: Image/Placeholder */}
+        <div className="gc-gallery">
+          <div className="gc-placeholder">
+            <div className="gc-placeholder-star">✦</div>
+            <div className="gc-placeholder-title">Image Placeholder</div>
+            <div className="gc-placeholder-desc">
+              Lifestyle or product photo — e.g. model holding the card, or styled flat-lay with the Dalia / Imara Set
             </div>
           </div>
-          <p style={{ color: "var(--ink-soft)", fontSize: 13, lineHeight: 1.8, textAlign: "center", maxWidth: 420, margin: "24px auto 0" }}>
+          <p className="gc-intro-text">
             For the woman who already has everything, and the one still becoming who she's meant to be. Redeemable across every HHARA collection, delivered straight to her inbox.
           </p>
         </div>
 
-        <div className="pdp-info">
-          <div className="cat">The HHARA Gift Card</div>
-          <h1>Give her the beginning of<br /><em>something.</em></h1>
-          <p style={{ fontFamily: "var(--display)", fontStyle: "italic", fontSize: 18, color: "var(--ink-soft)" }}>A gift for wherever her day takes her.</p>
-          <div className="pdp-price"><span className="now">From AED {GIFT_CARD_AMOUNTS[0]}.00</span></div>
-          <div className="pdp-divider"></div>
+        {/* Right Column: Form Info */}
+        <div className="gc-info">
+          <div className="gc-eyebrow">The HHARA Gift Card</div>
+          <h1 className="gc-title">Give her the beginning of{"\n"}something.</h1>
+          <p className="gc-subtitle">A gift for wherever her day takes her.</p>
+          <div className="gc-price">From ${GIFT_CARD_AMOUNTS[0]}.00</div>
 
           <form onSubmit={handleCheckout} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            <div className="pdp-option-row">
-              <div className="lbl"><span>Choose an Amount</span></div>
-              <div className="pdp-sizes">
-                {GIFT_CARD_AMOUNTS.map((a) => (
-                  <button
-                    key={a}
-                    type="button"
-                    className={!customAmount && amount === a ? "on" : ""}
-                    onClick={() => { setAmount(a); setCustomAmount(""); }}
-                  >
-                    AED {a}
-                  </button>
-                ))}
-              </div>
-              <div className="field">
-                <input
-                  type="number"
-                  min="1"
-                  placeholder="Enter a custom amount (AED)"
-                  value={customAmount}
-                  onChange={(e) => setCustomAmount(e.target.value)}
-                />
-              </div>
+            {/* Amounts Grid */}
+            <div className="gc-amounts-grid">
+              {GIFT_CARD_AMOUNTS.map((a) => (
+                <button
+                  key={a}
+                  type="button"
+                  className={`gc-amount-btn ${!customAmount && amount === a ? "on" : ""}`}
+                  onClick={() => {
+                    setAmount(a);
+                    setCustomAmount("");
+                  }}
+                >
+                  ${a}
+                </button>
+              ))}
             </div>
 
-            <div className="pdp-option-row">
-              <div className="lbl"><span>Quantity</span></div>
-              <div className="qty">
-                <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))}><Icon.Minus /></button>
+            {/* Custom Amount Wrapper */}
+            <div className="gc-custom-amount-wrapper">
+              <span className="gc-custom-amount-symbol">$</span>
+              <input
+                className="gc-custom-amount-input"
+                type="number"
+                min="1"
+                placeholder="Enter a custom amount"
+                value={customAmount}
+                onChange={(e) => setCustomAmount(e.target.value)}
+              />
+            </div>
+
+            {/* Quantity Selector */}
+            <div className="gc-qty-row">
+              <label className="gc-qty-label">Quantity</label>
+              <div className="gc-qty-selector">
+                <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))}>
+                  <Icon.Minus />
+                </button>
                 <span>{qty}</span>
-                <button type="button" onClick={() => setQty((q) => q + 1)}><Icon.Plus /></button>
+                <button type="button" onClick={() => setQty((q) => q + 1)}>
+                  <Icon.Plus />
+                </button>
               </div>
             </div>
 
-            <div className="field">
+            {/* Recipient's Name */}
+            <div className="gc-field">
               <label>Recipient's Name</label>
-              <input type="text" required placeholder="Her name" value={recipientName} onChange={(e) => setRecipientName(e.target.value)} />
-            </div>
-            <div className="field">
-              <label>Recipient's Email</label>
-              <input type="email" required placeholder="Where it should arrive" value={recipientEmail} onChange={(e) => setRecipientEmail(e.target.value)} />
-            </div>
-            <div className="field">
-              <label>Your Name</label>
-              <input type="text" required placeholder="From" value={senderName} onChange={(e) => setSenderName(e.target.value)} />
-            </div>
-            <div className="field">
-              <label>A Personal Note (Optional)</label>
-              <textarea rows={3} placeholder="Write a few words for her…" value={note} onChange={(e) => setNote(e.target.value)} />
+              <input
+                type="text"
+                required
+                placeholder="Her name"
+                value={recipientName}
+                onChange={(e) => setRecipientName(e.target.value)}
+              />
             </div>
 
-            <div className="pdp-divider"></div>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "var(--ink-soft)" }}>
-              <span>Quantity</span><span>{qty}</span>
+            {/* Recipient's Email */}
+            <div className="gc-field">
+              <label>Recipient's Email</label>
+              <input
+                type="email"
+                required
+                placeholder="Where it should arrive"
+                value={recipientEmail}
+                onChange={(e) => setRecipientEmail(e.target.value)}
+              />
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 15, fontWeight: 500 }}>
-              <span>Total</span><span>AED {total.toLocaleString()}</span>
+
+            {/* Your Name */}
+            <div className="gc-field">
+              <label>Your Name</label>
+              <input
+                type="text"
+                required
+                placeholder="From"
+                value={senderName}
+                onChange={(e) => setSenderName(e.target.value)}
+              />
+            </div>
+
+            {/* Personal Note */}
+            <div className="gc-field">
+              <label>A Personal Note (Optional)</label>
+              <textarea
+                rows={3}
+                placeholder="Write a few words for her..."
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+              />
+            </div>
+
+            {/* Checkout Info & Button */}
+            <div className="pdp-divider" style={{ margin: "8px 0 0 0" }}></div>
+            
+            <div className="gc-summary-row">
+              <span style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--ink)" }}>Gift card value</span>
+              <span style={{ fontSize: 15, fontWeight: 500 }}>${total.toLocaleString()}.00</span>
             </div>
 
             <button className="btn btn-primary btn-block" type="submit" disabled={activeAmount <= 0}>
-              Add to Bag — Checkout
-              <span className="btn-arrow"><Icon.Arrow /></span>
+              Add to Bag
+              <span className="btn-arrow">
+                <Icon.Arrow />
+              </span>
             </button>
+
             {unavailable && (
-              <p style={{ fontSize: 12, color: "var(--ink-soft)", textAlign: "center" }}>
-                Gift cards are launching soon. In the meantime, email <a href="mailto:hello@hhara.com" style={{ textDecoration: "underline" }}>hello@hhara.com</a> and we'll arrange one for you directly.
+              <p style={{ fontSize: 12, color: "var(--ink-soft)", textAlign: "center", marginTop: 8 }}>
+                Gift cards are launching soon. In the meantime, email{" "}
+                <a href="mailto:hello@hhara.com" style={{ textDecoration: "underline" }}>
+                  hello@hhara.com
+                </a>{" "}
+                and we'll arrange one for you directly.
               </p>
             )}
-            <p style={{ fontSize: 11, color: "var(--ink-soft)", textAlign: "center", opacity: 0.8 }}>
+            <p style={{ fontSize: 11, color: "var(--ink-soft)", textAlign: "center", opacity: 0.8, marginTop: 4 }}>
               Delivered instantly by email · Valid for 12 months from the date of purchase · Redeemable on hhara.com
             </p>
           </form>
@@ -3192,7 +3242,6 @@ function GiftCardPage({ setRoute }) {
   );
 }
 
-// ============ ACCOUNT / LOGIN ============
 function AccountPage({ onAuthenticated }: { onAuthenticated?: () => void }) {
   const customer = useCustomer();
   const [tab, setTab] = useState("signin");

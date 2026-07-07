@@ -1935,6 +1935,7 @@ img { display: block; max-width: 100%; }
 .qty {
   display: inline-flex;
   align-items: stretch;
+  align-self: flex-start;
   border: 1px solid var(--line);
   height: 36px;
 }
@@ -5026,3 +5027,289 @@ img { display: block; max-width: 100%; }
   .qty button          { width: 30px; height: 30px; font-size: 10px; }
   .qty span            { min-width: 26px; font-size: 10.5px; }
 }
+
+/* ── Gift Card Page Styles ── */
+.gc-main {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 80px;
+  align-items: flex-start;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 64px var(--pad);
+}
+
+@media (max-width: 1024px) {
+  .gc-main {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    padding: 32px var(--pad);
+  }
+}
+
+.gc-gallery {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.gc-placeholder {
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 3 / 4;
+  border: 1px dashed rgba(42, 31, 20, 0.3);
+  background-color: #F7F3ED;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.gc-placeholder-star {
+  font-size: 24px;
+  color: #B8892E;
+  margin-bottom: 16px;
+}
+
+.gc-placeholder-title {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.gc-placeholder-desc {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 280px;
+}
+
+.gc-intro-text {
+  font-family: var(--display);
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink-soft);
+  text-align: center;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+.gc-info {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.gc-eyebrow {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 9.5px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #B8892E;
+  margin-bottom: -12px;
+}
+
+.gc-title {
+  font-family: var(--display);
+  font-size: clamp(32px, 3vw, 42px);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+  white-space: pre-line;
+}
+
+.gc-subtitle {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-soft);
+  margin: -12px 0 0 0;
+}
+
+.gc-price {
+  font-family: var(--display);
+  font-size: 18px;
+  color: #B8892E;
+  margin: -12px 0 0 0;
+}
+
+.gc-amounts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+.gc-amount-btn {
+  background: #F7F3ED;
+  border: 1px solid rgba(42, 31, 20, 0.08);
+  padding: 16px 8px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.gc-amount-btn:hover {
+  border-color: var(--ink);
+}
+
+.gc-amount-btn.on {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+.gc-custom-amount-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.gc-custom-amount-symbol {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.gc-custom-amount-input {
+  width: 100%;
+  background: #F7F3ED;
+  border: 1px solid rgba(42, 31, 20, 0.08);
+  padding: 16px 16px 16px 32px;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink);
+  box-sizing: border-box;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.gc-custom-amount-input:focus {
+  border-color: var(--ink);
+  background: var(--bg);
+}
+
+.gc-qty-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gc-qty-label {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.gc-qty-selector {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(42, 31, 20, 0.08);
+  background: #F7F3ED;
+  height: 44px;
+  width: fit-content;
+}
+
+.gc-qty-selector button {
+  background: transparent;
+  border: none;
+  width: 44px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--ink);
+  transition: opacity 0.2s;
+}
+
+.gc-qty-selector button:hover {
+  opacity: 0.6;
+}
+
+.gc-qty-selector span {
+  font-family: var(--sans);
+  font-size: 13px;
+  min-width: 32px;
+  text-align: center;
+  color: var(--ink);
+}
+
+.gc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.gc-field label {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.gc-field input,
+.gc-field textarea {
+  border: none;
+  border-bottom: 1px solid rgba(42, 31, 20, 0.14);
+  background: transparent;
+  padding: 12px 0;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 13px;
+  color: var(--ink);
+  outline: none;
+  transition: border-bottom-color 0.2s ease;
+  width: 100%;
+}
+
+.gc-field input:focus,
+.gc-field textarea:focus {
+  border-bottom-color: #B8892E;
+}
+
+.gc-field textarea {
+  resize: vertical;
+}
+
+.gc-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.gc-summary-row.total {
+  border-top: 1px solid rgba(42, 31, 20, 0.08);
+  padding-top: 16px;
+  margin-top: 8px;
+}
+
