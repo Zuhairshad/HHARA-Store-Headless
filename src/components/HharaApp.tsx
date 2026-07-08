@@ -2510,6 +2510,214 @@ function AtelierPage({ setRoute }) {
   );
 }
 
+function GiftCardPage({ setRoute }) {
+  const [amount, setAmount] = useState(GIFT_CARD_AMOUNTS[0]);
+  const [customAmount, setCustomAmount] = useState("");
+  const [qty, setQty] = useState(1);
+  const [recipientName, setRecipientName] = useState("");
+  const [recipientEmail, setRecipientEmail] = useState("");
+  const [senderName, setSenderName] = useState("");
+  const [note, setNote] = useState("");
+  const [unavailable, setUnavailable] = useState(false);
+
+  const activeAmount = customAmount ? Math.max(0, parseFloat(customAmount) || 0) : amount;
+  const total = activeAmount * qty;
+
+  const handleCheckout = (e: React.FormEvent) => {
+    e.preventDefault();
+    setUnavailable(true);
+  };
+
+  return (
+    <>
+      <div className="gc-main">
+        {/* Left Column: Image/Placeholder */}
+        <div className="gc-gallery">
+          <div className="gc-placeholder">
+            <div className="gc-placeholder-star">✦</div>
+            <div className="gc-placeholder-title">Image Placeholder</div>
+            <div className="gc-placeholder-desc">
+              Lifestyle or product photo - e.g. model holding the card, or styled flat-lay with the Dalia / Imara Set
+            </div>
+          </div>
+          <p className="gc-intro-text">
+            For the woman who already has everything, and the one still becoming who she's meant to be. Redeemable across every HHARA collection, delivered straight to her inbox.
+          </p>
+        </div>
+
+        {/* Right Column: Form Info */}
+        <div className="gc-info">
+          <div className="gc-eyebrow">The HHARA Gift Card</div>
+          <h1 className="gc-title">Give her the beginning of{"\n"}something.</h1>
+          <p className="gc-subtitle">A gift for wherever her day takes her.</p>
+          <div className="gc-price">From ${GIFT_CARD_AMOUNTS[0]}.00</div>
+
+          <form onSubmit={handleCheckout} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {/* Amounts Grid */}
+            <div className="gc-amounts-grid">
+              {GIFT_CARD_AMOUNTS.map((a) => (
+                <button
+                  key={a}
+                  type="button"
+                  className={`gc-amount-btn ${!customAmount && amount === a ? "on" : ""}`}
+                  onClick={() => {
+                    setAmount(a);
+                    setCustomAmount("");
+                  }}
+                >
+                  ${a}
+                </button>
+              ))}
+            </div>
+
+            {/* Custom Amount Wrapper */}
+            <div className="gc-custom-amount-wrapper">
+              <span className="gc-custom-amount-symbol">$</span>
+              <input
+                className="gc-custom-amount-input"
+                type="number"
+                min="1"
+                placeholder="Enter a custom amount"
+                value={customAmount}
+                onChange={(e) => setCustomAmount(e.target.value)}
+              />
+            </div>
+
+            {/* Quantity Selector */}
+            <div className="gc-qty-row">
+              <label className="gc-qty-label">Quantity</label>
+              <div className="gc-qty-selector">
+                <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))}>
+                  <Icon.Minus />
+                </button>
+                <span>{qty}</span>
+                <button type="button" onClick={() => setQty((q) => q + 1)}>
+                  <Icon.Plus />
+                </button>
+              </div>
+            </div>
+
+            {/* Recipient's Name */}
+            <div className="gc-field">
+              <label>Recipient's Name</label>
+              <input
+                type="text"
+                required
+                placeholder="Her name"
+                value={recipientName}
+                onChange={(e) => setRecipientName(e.target.value)}
+              />
+            </div>
+
+            {/* Recipient's Email */}
+            <div className="gc-field">
+              <label>Recipient's Email</label>
+              <input
+                type="email"
+                required
+                placeholder="Where it should arrive"
+                value={recipientEmail}
+                onChange={(e) => setRecipientEmail(e.target.value)}
+              />
+            </div>
+
+            {/* Your Name */}
+            <div className="gc-field">
+              <label>Your Name</label>
+              <input
+                type="text"
+                required
+                placeholder="From"
+                value={senderName}
+                onChange={(e) => setSenderName(e.target.value)}
+              />
+            </div>
+
+            {/* Personal Note */}
+            <div className="gc-field">
+              <label>A Personal Note (Optional)</label>
+              <textarea
+                rows={3}
+                placeholder="Write a few words for her..."
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+              />
+            </div>
+
+            {/* Checkout Info & Button */}
+            <div className="pdp-divider" style={{ margin: "8px 0 0 0" }}></div>
+            
+            <div className="gc-summary-row">
+              <span style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--ink)" }}>Gift card value</span>
+              <span style={{ fontSize: 15, fontWeight: 500 }}>${total.toLocaleString()}.00</span>
+            </div>
+
+            <button className="btn btn-primary btn-block" type="submit" disabled={activeAmount <= 0}>
+              Add to Bag
+              <span className="btn-arrow">
+                <Icon.Arrow />
+              </span>
+            </button>
+
+            {unavailable && (
+              <p style={{ fontSize: 12, color: "var(--ink-soft)", textAlign: "center", marginTop: 8 }}>
+                Gift cards are launching soon. In the meantime, email{" "}
+                <a href="mailto:hello@hhara.com" style={{ textDecoration: "underline" }}>
+                  hello@hhara.com
+                </a>{" "}
+                and we'll arrange one for you directly.
+              </p>
+            )}
+            <p style={{ fontSize: 11, color: "var(--ink-soft)", textAlign: "center", opacity: 0.8, marginTop: 4 }}>
+              Delivered instantly by email · Valid for 12 months from the date of purchase · Redeemable on hhara.com
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <div className="section-head" style={{ maxWidth: "var(--maxw)", margin: "100px auto 20px", padding: "0 var(--pad)" }}>
+        <div className="section-head-stack">
+          <span className="eyebrow">How It Works</span>
+          <h2 className="section-title" style={{ fontWeight: 300 }}>Simple, <em>by design.</em></h2>
+        </div>
+      </div>
+
+      <section className="craft-grid three-cols" style={{ paddingTop: 0 }}>
+        <div className="craft-item">
+          <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>I.</div>
+          <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>Choose an amount</h4>
+          <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
+            Select one of ours, or set your own, whatever feels right for the occasion.
+          </p>
+        </div>
+        <div className="craft-item">
+          <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>II.</div>
+          <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>Add her details</h4>
+          <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
+            Checkout like any other order. We'll deliver it straight to her inbox, with your note attached.
+          </p>
+        </div>
+        <div className="craft-item">
+          <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>III.</div>
+          <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>She chooses her piece</h4>
+          <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
+            Redeemable across every HHARA collection, so she can decide what she needs, in her own time.
+          </p>
+        </div>
+      </section>
+
+      <section className="gives-back-section" style={{ padding: "clamp(60px, 8vh, 100px) var(--pad)", backgroundColor: "#F0EAE0", textAlign: "center", marginTop: 80 }}>
+        <div className="gives-back-content-width" style={{ maxWidth: 800, margin: "0 auto" }}>
+          <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: "clamp(22px, 3.2vw, 30px)", lineHeight: 1.7, marginBottom: 16, color: "var(--ink)", fontFamily: "var(--display)", fontWeight: 300 }}>
+            "She shouldn't have to choose. HHARA was built so she never has to."
+          </blockquote>
+          <div style={{ color: "var(--accent)", fontStyle: "italic", fontFamily: "var(--display)", fontSize: 16 }}>She is wonder. She is HHARA.</div>
+        </div>
+      </section>
+    </>
+  );
+}
+
 const JOURNAL = [
   { id: "j1", title: "From plastic waste to performance grade", excerpt: "Inside the regenerative knit: how ocean and industrial plastic become a sensory-grade fabric.", date: "26 May 2026", cat: "Material Transparency", img: "j1" },
   { id: "j2", title: "On Bark Oxides and Zinc Crimson", excerpt: "Two colorways, two languages. Choosing pigments that capture mineral earth and inner energy.", date: "14 May 2026", cat: "The Palette", img: "j2" },
