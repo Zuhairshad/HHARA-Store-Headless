@@ -2791,56 +2791,26 @@ function StoresPage({ setRoute }) {
     <div className="gives-back-container">
       {/* HERO SECTION */}
       <section className="gives-back-hero">
-        <span className="eyebrow">◆ IMPACT ◆</span>
         <h1>
           She is wonder.<br />
           <em>Empowering the next generation of wonders.</em>
         </h1>
-        <p className="sub">
-          Every HHARA piece carries a name and a meaning. We believe every child deserves the same.
-        </p>
       </section>
 
-      {/* BACKGROUND SECTION WITH SIDE TEXT */}
-      <section className="gives-back-section children-bg-section" style={{
-        backgroundColor: "var(--bark)", // brand's brown color
-        padding: "120px var(--pad)",
-        display: "flex",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        minHeight: "500px",
-        position: "relative"
-      }}>
-        <div className="gives-back-content-width" style={{
-          position: "relative",
-          zIndex: 2,
-          maxWidth: "540px",
-          backgroundColor: "var(--bg)",
-          padding: "48px 40px",
-          borderRadius: 0,
-        }}>
-          <h2 style={{
-            fontFamily: "var(--display)",
-            fontSize: "clamp(30px, 3.5vw, 44px)",
-            fontWeight: 300,
-            color: "var(--ink)",
-            lineHeight: 1.15,
-            letterSpacing: "-0.015em",
-            marginBottom: 24
-          }}>
-            Every piece is the beginning of <em style={{ fontStyle: "italic", color: "var(--accent)" }}>something bigger.</em>
-          </h2>
-          <p style={{
-            fontFamily: "var(--sans)",
-            fontSize: "13.5px",
-            lineHeight: "2.0",
-            color: "var(--ink-soft)",
-            letterSpacing: "0.04em",
-            margin: 0,
-            fontWeight: 400
-          }}>
-            Being seen shouldn't be a privilege. Some children lose their parents. Some lose their homes to conflict. Some are simply born into less than they deserve. Whatever they've lost, we believe their sense of wonder should never be one of those things. That belief is why HHARA gives back locally - funding education for children in orphanages, for those displaced by war, and for those growing up without enough. Not through a foundation. Not as a distant campaign. Child by child, close to home, by design.
-          </p>
+      {/* IMPACT SPLIT SECTION */}
+      <section className="gives-back-section">
+        <div className="gives-back-content-width gives-back-split">
+          <div>
+            <span className="eyebrow">Impact</span>
+            <h2 className="gives-back-headline" style={{ marginBottom: 0 }}>
+              Every piece is the beginning of <em>something bigger.</em>
+            </h2>
+          </div>
+          <div>
+            <p className="gives-back-body" style={{ marginBottom: 0 }}>
+              Being seen shouldn't be a privilege. Some children lose their parents. Some lose their homes to conflict. Some are simply born into less than they deserve. Whatever they've lost, we believe their sense of wonder should never be one of those things. That belief is why HHARA gives back locally - funding education for children in orphanages, for those displaced by war, and for those growing up without enough. Not through a foundation. Not as a distant campaign. Child by child, close to home, by design.
+            </p>
+          </div>
         </div>
       </section>
 
