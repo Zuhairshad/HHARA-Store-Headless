@@ -1157,6 +1157,42 @@ function Editorial({ openShop }) {
             Built to move with <em>every version of you.</em>
           </h2>
 
+          <div style={{ display: "flex", flexDirection: "column", gap: "14px", margin: "10px 0", maxWidth: "480px" }}>
+            <p style={{
+              fontFamily: "var(--sans)",
+              fontSize: "13.5px",
+              lineHeight: "1.9",
+              color: "var(--ink-soft)",
+              letterSpacing: "0.04em",
+              margin: 0
+            }}>
+              From the first stretch of morning to the last quiet moment she calls her own, HHARA moves with her - through every version of her day, without asking her to change.
+            </p>
+
+            <p style={{
+              fontFamily: "var(--display)",
+              fontStyle: "italic",
+              fontSize: "17px",
+              lineHeight: "1.5",
+              color: "var(--ink)",
+              margin: 0
+            }}>
+              Morning run to afternoon plans. Yoga to Pilates. Office to dinner. Studio to street.
+            </p>
+
+            <p style={{
+              fontFamily: "var(--sans)",
+              textTransform: "uppercase",
+              fontSize: "9px",
+              letterSpacing: "0.3em",
+              fontWeight: 600,
+              color: "var(--accent)",
+              margin: 0
+            }}>
+              No changing in between. Just her.
+            </p>
+          </div>
+
           <div>
             <button className="btn btn-outline" onClick={openShop}>
               Explore the Technology
