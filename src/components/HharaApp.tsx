@@ -2510,6 +2510,8 @@ function AtelierPage({ setRoute }) {
   );
 }
 
+const GIFT_CARD_AMOUNTS = [100, 150, 250, 350];
+
 function GiftCardPage({ setRoute }) {
   const [amount, setAmount] = useState(GIFT_CARD_AMOUNTS[0]);
   const [customAmount, setCustomAmount] = useState("");
