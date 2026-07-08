@@ -3000,11 +3000,47 @@ function StoresPage({ setRoute }) {
   return (
     <div className="gives-back-container">
       {/* HERO SECTION */}
-      <section className="gives-back-hero">
-        <h1>
-          She is wonder.<br />
-          <em>Empowering the next generation of wonders.</em>
-        </h1>
+      <section className="gives-back-hero" style={{
+        backgroundImage: "url('/images/gives-back-hero.jpg')", // children/background image placeholder
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        padding: "120px var(--pad)",
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        minHeight: "500px",
+        position: "relative",
+        textAlign: "left"
+      }}>
+        {/* Overlay to ensure text readability */}
+        <div style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(42, 31, 20, 0.45)",
+          zIndex: 1
+        }}></div>
+
+        <div className="gives-back-content-width" style={{
+          position: "relative",
+          zIndex: 2,
+          maxWidth: "640px",
+          margin: 0
+        }}>
+          <h1 style={{
+            fontFamily: "var(--display)",
+            fontSize: "clamp(38px, 5.5vw, 64px)",
+            lineHeight: 1.15,
+            fontWeight: 300,
+            color: "#FAF7F2",
+            margin: 0
+          }}>
+            She is wonder.<br />
+            <em style={{ fontStyle: "italic", color: "#B8892E" }}>Empowering the next generation of wonders.</em>
+          </h1>
+        </div>
       </section>
 
       {/* IMPACT SPLIT SECTION */}
