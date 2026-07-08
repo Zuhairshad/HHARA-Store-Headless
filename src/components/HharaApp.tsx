@@ -271,12 +271,12 @@ const ORIGIN_MEANING = {
   "The Imara Set": {
     word: "Imara",
     tag: "Swahili Origin",
-    text: "Imara means strong, firm, resolute — a name carried by those who move through the world with quiet resilience. The Imara Set was made for her.",
+    text: "Imara means strong, firm, resolute - a name carried by those who move through the world with quiet resilience. The Imara Set was made for her.",
   },
   "The Dalia Set": {
     word: "Dalia",
     tag: "Arabic Origin",
-    text: "Dalia means delicate — a name carried by those who move through the world with quiet precision and effortless grace. The Dalia Set was made for her.",
+    text: "Dalia means delicate - a name carried by those who move through the world with quiet precision and effortless grace. The Dalia Set was made for her.",
   },
 };
 
@@ -337,7 +337,7 @@ const HEROES = [
   {
     eyebrow: "",
     title: "She Is\nWonder.",
-    sub: "She walks through the world before anyone else will, with quiet, untapped resilience. HHARA is designed to the last detail for her, and unapologetic in the process. Elegant, purposeful, and sustainable by design.",
+    sub: "She doesn’t wait for wonder - she creates it. Designed for women who move with quiet confidence and purpose.",
     cta: "explore collection",
     tone: "tone-4",
   },
@@ -732,7 +732,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
           <div className="pco-checkout-notes" style={{ marginTop: 24, padding: 16, background: "rgba(0,0,0,0.02)", borderRadius: 6, fontSize: 11, lineHeight: "1.6", border: "1px solid rgba(0,0,0,0.05)" }}>
             <div style={{ fontWeight: 600, marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--ink)" }}>Shipping & Returns Summary</div>
             <div style={{ marginBottom: 6 }}>• <strong>UAE Domestic:</strong> Free standard next-day shipping (no minimum). Same-day delivery upgrade available for AED 28 in Dubai, Abu Dhabi, Sharjah, and Ajman only.</div>
-            <div style={{ marginBottom: 6 }}>• <strong>GCC:</strong> AED 60 flat shipping, free on orders over AED 1,900. All duties & taxes are covered (DDP) — no fees at delivery.</div>
+            <div style={{ marginBottom: 6 }}>• <strong>GCC:</strong> AED 60 flat shipping, free on orders over AED 1,900. All duties & taxes are covered (DDP) - no fees at delivery.</div>
             <div style={{ marginBottom: 6 }}>• <strong>International:</strong> Flat shipping fee (AED 80 UK/Europe/Rest of World, AED 120 North America), free on orders over AED 1,900. Duties and taxes at destination are the customer's responsibility. PO Box delivery addresses are disabled.</div>
             <div>• <strong>Returns:</strong> Free returns within 14 days for UAE orders only. GCC and international orders are final sale and non-returnable.</div>
           </div>
@@ -788,8 +788,7 @@ function Footer({ setRoute, route = "" }) {
               <div className="footer-brand-right">
                 <img src="/images/Text-PNG-02.png" alt="HHARA" className="footer-wordmark" />
                 <div className="footer-brand-desc">
-                  <span>Sustainable luxury athleisure.</span>
-                  <span>Designed in the UAE.</span>
+                  <span>Consciously Made luxury athleisure.</span>
                   <span>Worn around the world with intent.</span>
                   <span>Every piece gives back.</span>
                 </div>
@@ -1142,54 +1141,27 @@ function FeaturedGrid({ ids, title, eyebrow, link, openProduct, quickAdd }) {
 function Editorial({ openShop }) {
   return (
     <section className="section-full" style={{ padding: 0 }}>
-      <div className="editorial">
+      <div className="editorial" style={{ minHeight: "60vh" }}>
         <div className="editorial-media tone-5">
           <picture style={{ width: "100%", height: "100%" }}>
             <source media="(max-width: 768px)" srcSet="/images/tala_cocoon_mobile.png" />
             <img src="/images/tala_cocoon_desktop.png" alt="HHARA CLOUD" className="img-fill" loading="lazy" />
           </picture>
         </div>
-        <div className="editorial-body" style={{ gap: "20px" }}>
+        <div className="editorial-body" style={{ gap: "20px", alignSelf: "center" }}>
           <span className="editorial-eyebrow" style={{ color: "#B8892E", textTransform: "uppercase", fontSize: 9, letterSpacing: "0.45em", fontWeight: 600, display: "block" }}>
             HHARA CLOUD™
           </span>
 
-          <h2 className="editorial-title">
-            Built to move with<br />
-            <em>every version of you.</em>
+          <h2 className="editorial-title" style={{ margin: 0 }}>
+            Built to move with <em>every version of you.</em>
           </h2>
 
-          <p style={{ margin: 0 }}>
-            From the 5am alarm to the boardroom to the school run to the last quiet moment she calls her own, HHARA moves with her through every version of her day without asking her to change.
-          </p>
-
-          <p style={{ margin: 0, color: "#7A6555" }}>
-            Yoga to office. Studio to street. Morning run to afternoon meeting. One piece. No compromises. No changing in between.
-          </p>
-
-          <div className="gives-back-callout-box" style={{ margin: "10px 0", borderLeft: "2px solid #B8892E", padding: "16px 20px", backgroundColor: "rgba(255, 255, 255, 0.45)" }}>
-            <p style={{ fontSize: 13, lineHeight: 1.8, color: "#7A6555" }}>
-              Made responsibly: we believe she deserves both luxury and a planet worth living on. Thoughtfully crafted so you can shop with a clear conscience.
-            </p>
-          </div>
-
-          <div className="gives-back-grid" style={{ marginTop: 10, gap: "12px" }}>
-            <div className="gives-back-card" style={{ padding: "16px", backgroundColor: "rgba(255, 255, 255, 0.45)", border: "1px solid rgba(184, 137, 46, 0.12)", gap: "6px" }}>
-              <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", marginBottom: 0, display: "block" }}>Four-Way Stretch</span>
-              <p style={{ fontSize: 13, color: "#2A1F14", margin: 0, lineHeight: 1.4 }}>Moves in every direction without pulling</p>
-            </div>
-            <div className="gives-back-card" style={{ padding: "16px", backgroundColor: "rgba(255, 255, 255, 0.45)", border: "1px solid rgba(184, 137, 46, 0.12)", gap: "6px" }}>
-              <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", marginBottom: 0, display: "block" }}>Buttery Soft</span>
-              <p style={{ fontSize: 13, color: "#2A1F14", margin: 0, lineHeight: 1.4 }}>Feels like a second skin all day long</p>
-            </div>
-            <div className="gives-back-card" style={{ padding: "16px", backgroundColor: "rgba(255, 255, 255, 0.45)", border: "1px solid rgba(184, 137, 46, 0.12)", gap: "6px" }}>
-              <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", marginBottom: 0, display: "block" }}>Sculpts Without Gripping</span>
-              <p style={{ fontSize: 13, color: "#2A1F14", margin: 0, lineHeight: 1.4 }}>Holds her without constraining her</p>
-            </div>
-            <div className="gives-back-card" style={{ padding: "16px", backgroundColor: "rgba(255, 255, 255, 0.45)", border: "1px solid rgba(184, 137, 46, 0.12)", gap: "6px" }}>
-              <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", marginBottom: 0, display: "block" }}>Pilling Resistant</span>
-              <p style={{ fontSize: 13, color: "#2A1F14", margin: 0, lineHeight: 1.4 }}>Built to last, not to wear out</p>
-            </div>
+          <div>
+            <button className="btn btn-outline" onClick={openShop}>
+              Explore the Technology
+              <span className="btn-arrow"><Icon.Arrow /></span>
+            </button>
           </div>
         </div>
       </div>
@@ -1338,16 +1310,16 @@ function Newsletter() {
 function ManifestoColourways({ onShop }: { onShop: () => void }) {
   return (
     <section className="manifesto-colourways">
-      <span className="eyebrow" style={{ color: "#B8892E", display: "block", textAlign: "center", marginBottom: 16 }}>The Collection</span>
+      <span className="eyebrow" style={{ color: "#B8892E", display: "block", textAlign: "center", marginBottom: 16 }}>THE COLLECTION</span>
       <h2 className="mc-headline">
-        Two sets.<br />Unapologetically<br />
+        Unapologetically<br />
         <em style={{ fontFamily: "var(--display,'Cormorant Garamond',serif)", fontStyle: "italic", fontWeight: 300, color: "#B8892E" }}>You.</em>
       </h2>
-      <p className="mc-lead">Four pieces. Two colourways. Every version of her day.</p>
+      <p className="mc-lead">Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.</p>
       <p className="mc-body">
-        Each piece is named from an African or Arabic language, chosen because she already is it.{" "}
-        <em>Dalia</em> from the Arabic: gentle, tender, delicate.{" "}
-        <em>Imara</em> from the Swahili: strong, firm, resolute. She wears both. Always.
+        Every piece carries a name with meaning. Each was chosen to celebrate the strength and softness that exist within every woman.{" "}
+        <em>Dalia (Arabic)</em> - Gentle. Tender. Delicate.{" "}
+        <em>Imara (Swahili)</em> - Strong. Firm. Resolute. She is both. Always.
       </p>
       <div className="mc-cards">
         <div className="mc-card">
@@ -1357,7 +1329,7 @@ function ManifestoColourways({ onShop }: { onShop: () => void }) {
             <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", display: "block" }}>Deep Espresso Brown</span>
           </div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 13.5, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
-            The colour of the first cup. Before the world begins. Before she has to be anything for anyone. Deep, warm, grounded — the colour she reaches for before the noise starts.
+            The colour of the first cup. Before the world awakens. Deep, warm, and grounding - a quiet ritual before everything else begins.
           </p>
           <p style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontStyle: "italic", fontSize: 15, color: "#B8892E", margin: "8px 0 0" }}>
             Her colour. Before the day begins.
@@ -1370,7 +1342,7 @@ function ManifestoColourways({ onShop }: { onShop: () => void }) {
             <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", display: "block" }}>Deep Olive</span>
           </div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 13.5, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
-            The colour of quiet resilience. A soft, mineral shade pulled from the heart of the desert oasis. Peaceful, steady, organic — a tone that does not seek attention, yet holds it completely.
+            The colour of quiet resilience. A soft, mineral shade pulled from the heart of the desert oasis. Peaceful, steady, organic - a tone that does not seek attention, yet holds it completely.
           </p>
           <p style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontStyle: "italic", fontSize: 15, color: "#B8892E", margin: "8px 0 0" }}>
             Grounded in nature. Quietly powerful.
@@ -1681,8 +1653,7 @@ function CollectionPage({ setRoute, openProduct, quickAdd }) {
         </div>
         <h1>The Collection</h1>
         <p className="cph-desc">
-          Four essential technical pieces, two capsules. Designed in the UAE,
-          engineered in recycled performance fabrics. Crafted with purpose; every acquisition gives back.
+          A thoughtfully curated collection of elevated essentials, designed in the U.S.A and crafted from premium recycled performance fabrics. Every piece balance comfort, confidence, and timeless style.
         </p>
       </div>
 
@@ -2104,7 +2075,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                 ) : added ? (
                   "Added to Bag ✓"
                 ) : (
-                  `Add to Cart — AED ${product.price.toLocaleString()}`
+                  "Add to Bag"
                 )}
               </button>
               <button className="btn btn-outline btn-block" onClick={() => onWishlistToggle?.(product.id)}>
@@ -2123,7 +2094,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
         <div className="pdp-description-section">
           <div className="pdp-section-label">Description</div>
           <p>{product.description || "Premium recycled performance knit, engineered for movement, structure, and longevity."}</p>
-          <p>Designed in the UAE for movement, structure, and longevity — with no compromise on how it feels against the skin.</p>
+          <p>Designed in the UAE for movement, structure, and longevity - with no compromise on how it feels against the skin.</p>
           {specs.length > 0 && (
             <div className="pdp-specs">
               {specs.map((row) => (
@@ -2427,9 +2398,9 @@ function AtelierPage({ setRoute }) {
           From the Yoruba dialect. It means wonder. Not the gasp of surprise, but the deep, quiet recognition of something extraordinary that was always there.
         </p>
         <p style={{ fontSize: 16, lineHeight: 1.8, opacity: 0.85, color: "var(--ink-soft)", maxWidth: 680, margin: "0 auto 36px" }}>
-          We named it HHARA because of the women in our lives who gave everything and were never truly seen for it. The ones who showed up before anyone else and stayed after everyone left. The ones who carried whole worlds in their hands and still found a way to smile at the end of it.
+          HHARA is the women who gave everything and were never truly seen for it. Who showed up before anyone else and stayed after everyone left. Who carried the weight on their shoulders and still found a way to smile at the end of the day.
         </p>
-        <div className="sig" style={{ fontFamily: "var(--display)", fontSize: 24, fontStyle: "italic", color: "var(--accent)", marginBottom: 36 }}>She does not have wonder. She is wonder.</div>
+        <div className="sig" style={{ fontFamily: "var(--display)", fontSize: 24, fontStyle: "italic", color: "var(--accent)", marginBottom: 36 }}>She does not have Wonder. She is Wonder.</div>
         <div>
           <button className="btn btn-outline" onClick={() => setRoute("shop")}>
             Shop the Collection
@@ -2446,16 +2417,13 @@ function AtelierPage({ setRoute }) {
           <span className="eyebrow" style={{ marginBottom: 18, display: "block" }}>Built For Real Life</span>
           <h2>We have got your back.<br /><em>And your legs. And your day.</em></h2>
           <p>
-            What started as a vision for activewear has grown into something much bigger, an entire active-inspired wardrobe for every on-the-go lifestyle. Whether you are running errands, running marathons, or both on the same Tuesday, HHARA was designed to move with you.
+            What began as a vision for movement has grown into something more - a wardrobe for the woman who is always, quietly, doing everything at once. HHARA was designed to move the way she does: without pause, without compromise.
           </p>
           <p>
-            We design effortless, flattering, high-quality pieces that support you wherever you go and whatever you are doing. Yoga to office. Studio to dinner date. Morning run to boardroom. School run to supper. No changing in between. That is not laziness, that is intelligence.
-          </p>
-          <p>
-            From material to fit to multi-wear designs, we are constantly evolving so that you continue to turn heads for all the right reasons. All day. Everyday.
+            Effortless. Flattering. Considered in every detail. Every fabric is chosen with intention. Every piece is made to move seamlessly through her day.
           </p>
           <p style={{ fontStyle: "italic", color: "var(--accent)", fontWeight: 500, marginTop: 24 }}>
-            She should not have to choose. HHARA was built so she never has to.
+            She shouldn't have to choose. HHARA was built so she never has to.
           </p>
         </div>
       </section>
@@ -2481,36 +2449,31 @@ function AtelierPage({ setRoute }) {
         </div>
         <div className="body">
           <span className="eyebrow" style={{ marginBottom: 18, display: "block" }}>Our Responsibility</span>
-          <h2>She deserves luxury<br /><em>and a planet.</em></h2>
+          <h2>She deserves luxury.<br /><em>And a planet worth protecting.</em></h2>
           <p>
-            We exist to disrupt the current market by offering more responsibly made options, because we believe you should not have to choose between looking extraordinary and caring about your impact.
+            We believe she should never have to choose between the two.
           </p>
           <p>
-            Of course, the most sustainable option is to not shop. But that is not always realistic: leggings wear out, stains happen, and birthday girls deserve to be treated. Whatever your reasons for shopping, our purpose is to be your next best thing, because we care.
+            Our pieces are made from responsibly sourced materials.
           </p>
           <p>
-            From material selection to production choices, every HHARA decision starts with the same question: can we do this better? Most of the time, the answer is yes.
-          </p>
-          <p style={{ fontStyle: "italic", color: "var(--accent)", fontWeight: 500, marginTop: 24, display: "flex", alignItems: "center", gap: "6px" }}>
-            <span>♻</span> We make less, we make better. Thoughtfully crafted, because she and the planet deserve it.
+            Thoughtfully crafted, because she - and the planet - deserve both.
           </p>
         </div>
       </section>
 
-      <section className="gives-back-section" style={{ padding: "clamp(60px, 8vh, 100px) var(--pad)", backgroundColor: "#F0EAE0", textAlign: "center" }}>
+      <section className="gives-back-section dark" style={{ padding: "clamp(60px, 8vh, 100px) var(--pad)", backgroundColor: "var(--bark)", textAlign: "center" }}>
         <div className="gives-back-content-width" style={{ maxWidth: 800, margin: "0 auto" }}>
-          <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: "clamp(22px, 3.2vw, 30px)", lineHeight: 1.7, marginBottom: 40, color: "var(--ink)", fontFamily: "var(--display)", fontWeight: 300 }}>
+          <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: "clamp(22px, 3.2vw, 30px)", lineHeight: 1.7, marginBottom: 16, color: "#FAF7F2", fontFamily: "var(--display)", fontWeight: 300 }}>
             "She moves before the world notices. She carries what others don't see. She is the woman who shows up, for everyone, and still finds a way to show up for herself. HHARA was made for her. From the very first stitch."
           </blockquote>
-          <div style={{ color: "var(--ink-soft)", fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.8 }}>HHARA, WONDER, WORN.</div>
+          <div style={{ color: "#B8892E", fontStyle: "italic", fontFamily: "var(--display)", fontSize: 16 }}>She is wonder. She is HHARA.</div>
         </div>
       </section>
-
     </>
   );
 }
 
-// ============ JOURNAL ============
 const JOURNAL = [
   { id: "j1", title: "From plastic waste to performance grade", excerpt: "Inside the regenerative knit: how ocean and industrial plastic become a sensory-grade fabric.", date: "26 May 2026", cat: "Material Transparency", img: "j1" },
   { id: "j2", title: "On Bark Oxides and Zinc Crimson", excerpt: "Two colorways, two languages. Choosing pigments that capture mineral earth and inner energy.", date: "14 May 2026", cat: "The Palette", img: "j2" },
@@ -2680,8 +2643,7 @@ function LookbookPage({ setRoute, openProduct }) {
         <span className="eyebrow">The HHARA Capsule</span>
         <h1>The <em>Lookbook</em></h1>
         <p className="lead">
-          Four pieces. Two sets. Two colorways. Photographed across the UAE with no styling beyond the fabric itself.
-          Click any look to shop the piece within.
+          Four pieces. Two sets. Two colourways. Styled the way she'd wear them into the world - moving through her day with the same Bold intention HHARA was built on. Every look is a starting point, not a rule.
         </p>
       </div>
       <div className="lb-full">
@@ -2803,62 +2765,75 @@ function StoresPage({ setRoute }) {
         </p>
       </section>
 
-      {/* WHY WE EXIST SECTION */}
-      <section className="gives-back-section">
-        <div className="gives-back-content-width gives-back-split">
-          <div>
-            <span className="eyebrow">Why We Exist</span>
-            <h2 className="gives-back-headline" style={{ marginBottom: 0 }}>
-              Fashion was never the whole <em>point.</em>
-            </h2>
-          </div>
-          <div>
-            <p className="gives-back-body">
-              HHARA exists beyond fashion. The name means wonder: not the gasp of surprise, but the deep, quiet recognition of something extraordinary that was always there. We believe that recognition belongs to every child, not just the ones fortunate enough to be seen.
-            </p>
-            <p className="gives-back-body" style={{ marginBottom: 0 }}>
-              That belief is the reason every HHARA purchase contributes directly to children's education worldwide. Not as a campaign. Not as an afterthought. As the founding principle.
-            </p>
-          </div>
+      {/* BACKGROUND SECTION WITH SIDE TEXT */}
+      <section className="gives-back-section children-bg-section" style={{
+        backgroundColor: "var(--bark)", // brand's brown color
+        padding: "120px var(--pad)",
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        minHeight: "500px",
+        position: "relative"
+      }}>
+        <div className="gives-back-content-width" style={{
+          position: "relative",
+          zIndex: 2,
+          maxWidth: "540px",
+          backgroundColor: "var(--bg)",
+          padding: "48px 40px",
+          borderRadius: 0,
+        }}>
+          <h2 style={{
+            fontFamily: "var(--display)",
+            fontSize: "clamp(30px, 3.5vw, 44px)",
+            fontWeight: 300,
+            color: "var(--ink)",
+            lineHeight: 1.15,
+            letterSpacing: "-0.015em",
+            marginBottom: 24
+          }}>
+            Every piece is the beginning of <em style={{ fontStyle: "italic", color: "var(--accent)" }}>something bigger.</em>
+          </h2>
+          <p style={{
+            fontFamily: "var(--sans)",
+            fontSize: "13.5px",
+            lineHeight: "2.0",
+            color: "var(--ink-soft)",
+            letterSpacing: "0.04em",
+            margin: 0,
+            fontWeight: 400
+          }}>
+            Being seen shouldn't be a privilege. Some children lose their parents. Some lose their homes to conflict. Some are simply born into less than they deserve. Whatever they've lost, we believe their sense of wonder should never be one of those things. That belief is why HHARA gives back locally - funding education for children in orphanages, for those displaced by war, and for those growing up without enough. Not through a foundation. Not as a distant campaign. Child by child, close to home, by design.
+          </p>
         </div>
       </section>
 
-      {/* QUOTE BANNER SECTION */}
-      <section className="gives-back-section dark">
+      {/* QUOTE BANNER SECTION (Without brown background) */}
+      <section className="gives-back-section" style={{ backgroundColor: "#F7F3ED", textAlign: "center", padding: "80px var(--pad)" }}>
         <div className="gives-back-content-width">
-          <blockquote className="gives-back-quote-banner">
+          <blockquote className="gives-back-quote-banner" style={{ color: "var(--ink)", fontFamily: "var(--display)", fontStyle: "italic", fontSize: "clamp(20px, 2.8vw, 26px)", lineHeight: 1.6, maxWidth: 800, margin: "0 auto" }}>
             "We didn't choose the partner with the biggest reach. We chose the ones closest to where we could actually see the difference being made."
           </blockquote>
         </div>
       </section>
 
-      {/* THE CHOICE WE MADE SECTION */}
-      <section className="gives-back-section">
-        <div className="gives-back-content-width gives-back-split">
-          <div>
-            <span className="eyebrow">The Choice We Made</span>
-            <h2 className="gives-back-headline" style={{ marginBottom: 0 }}>
-              Small. Local.<br />
-              <em>Overlooked.</em>
-            </h2>
+      {/* LARGE STAT BANNER SECTION (Moved here, without brown background) */}
+      <section className="gives-back-section" style={{ backgroundColor: "#F0EAE0", textAlign: "center", padding: "80px var(--pad)" }}>
+        <div className="gives-back-content-width">
+          <div className="gives-back-large-number" style={{ color: "var(--bark)", fontSize: "clamp(64px, 10vw, 120px)", fontWeight: 300, fontFamily: "var(--display)", marginBottom: 12 }}>
+            <span>273</span><span className="gives-back-large-number-m" style={{ fontSize: "0.5em", marginLeft: 4 }}>M</span>
           </div>
-          <div>
-            <p className="gives-back-body">
-              HHARA partners directly with small, local orphanages and children's homes: the ones that don't have the visibility or resources of larger organizations, and are too often overlooked.
-            </p>
-            <p className="gives-back-body">
-              Every purchase you make contributes directly to their education: school supplies, tuition support, uniforms, the basic foundations every child needs to learn and grow.
-            </p>
-            <div className="gives-back-divider-line"></div>
-            <p className="gives-back-highlight" style={{ marginBottom: 0 }}>
-              This isn't a percentage disappearing into a fund. It's specific. It's local. It's real.
-            </p>
+          <div className="gives-back-large-number-eyebrow" style={{ color: "#B8892E", textTransform: "uppercase", fontSize: 9, letterSpacing: "0.45em", fontWeight: 600, marginBottom: 20 }}>
+            Children out of school worldwide
           </div>
+          <p className="gives-back-large-number-text" style={{ color: "var(--ink-soft)", maxWidth: 640, margin: "0 auto", lineHeight: 1.8, fontSize: 14 }}>
+            A number that has risen for seven consecutive years. We cannot change that number alone. But we can change it for the children closest to us: the ones nobody else was looking for.
+          </p>
         </div>
       </section>
 
-      {/* WHAT YOUR PURCHASE SUPPORTS SECTION */}
-      <section className="pillars-section">
+      {/* WHAT YOUR PURCHASE SUPPORTS SECTION (Pillars) */}
+      <section className="pillars-section" style={{ padding: "80px var(--pad)", backgroundColor: "#F7F3ED" }}>
         <div className="pillars-container">
           <div className="section-head" style={{ borderBottom: "1px solid rgba(184, 137, 46, 0.12)", paddingBottom: 28, marginBottom: 48 }}>
             <div className="section-head-stack">
@@ -2866,66 +2841,22 @@ function StoresPage({ setRoute }) {
               <h2 className="section-title" style={{ color: "#2A1F14", fontWeight: 300 }}>What your<br /><em>purchase supports.</em></h2>
             </div>
           </div>
-          <div className="pillars-grid">
+          <div className="pillars-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 24 }}>
             {[
               { n: "01", title: "School Supplies", body: "Books, learning materials and the everyday tools every child needs in the classroom." },
               { n: "02", title: "Tuition Support", body: "Direct contribution to educational fees, removing barriers to consistent schooling." },
               { n: "03", title: "Uniforms & Essentials", body: "The basic necessities that allow every child to attend school with dignity." },
               { n: "04", title: "Long-Term Partnership", body: "Ongoing support, not one-time giving: a relationship that grows as HHARA grows." },
             ].map((p) => (
-              <div key={p.n} className="pillar-card">
-                <div className="pillar-num">{p.n}</div>
-                <h3 className="pillar-title">{p.title}</h3>
-                <p className="pillar-body">{p.body}</p>
+              <div key={p.n} className="pillar-card" style={{ display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-between" }}>
+                <div>
+                  <div className="pillar-num">{p.n}</div>
+                  <h3 className="pillar-title">{p.title}</h3>
+                </div>
+                <p className="pillar-body" style={{ margin: 0 }}>{p.body}</p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* WHY WE KEEP IT QUIET SECTION */}
-      <section className="gives-back-section">
-        <div className="gives-back-content-width gives-back-split">
-          <div>
-            <span className="eyebrow">Why We Keep It Quiet</span>
-            <h2 className="gives-back-headline" style={{ marginBottom: 0 }}>
-              Their privacy <em>comes first.</em>
-            </h2>
-          </div>
-          <div>
-            <p className="gives-back-body dark-text">
-              You won't see photos of the children we support. That's intentional.
-            </p>
-            <div className="gives-back-callout-box" style={{ marginBottom: 0 }}>
-              <p>
-                Their privacy and dignity matter more to us than a campaign. What you will see is where the story goes: supplies delivered, classrooms equipped, the tangible difference your purchase makes. <span style={{ color: "var(--gold)" }}>The story is theirs to tell, if and when they choose to, not ours to use.</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* LARGE STAT BANNER SECTION */}
-      <section className="gives-back-section" style={{ backgroundColor: "#3A2416", textAlign: "center" }}>
-        <div className="gives-back-content-width">
-          <div className="gives-back-large-number"><span>273</span><span className="gives-back-large-number-m">M</span></div>
-          <div className="gives-back-large-number-eyebrow">Children out of school worldwide</div>
-          <p className="gives-back-large-number-text" style={{ color: "#FAF7F2" }}>
-            A number that has risen for seven consecutive years. We cannot change that number alone. But we can change it for the children closest to us: the ones nobody else was looking for.
-          </p>
-        </div>
-      </section>
-
-      {/* FINAL QUOTE & CTA */}
-      <section className="gives-back-section" style={{ textAlign: "center", backgroundColor: "#F0EAE0" }}>
-        <div className="gives-back-content-width">
-          <h2 className="gives-back-final-quote">
-            "Being a wonder means creating the next generation of wonders."
-          </h2>
-          <button className="gives-back-btn-outline" onClick={() => setRoute("shop")}>
-            Shop the Collection
-            <span className="btn-arrow"><Icon.Arrow /></span>
-          </button>
         </div>
       </section>
 
@@ -2953,7 +2884,7 @@ function StoresPage({ setRoute }) {
               lineHeight: 1.75,
               fontWeight: 300,
             }}>
-              HHARA is built on circular luxury — beauty that gives back. Our first giving chapter sponsors children's education in Kenya, one purchase at a time.
+              HHARA is built on circular luxury - beauty that gives back. Our first giving chapter sponsors children's education in Kenya, one purchase at a time.
             </p>
           </div>
 
@@ -2973,272 +2904,14 @@ function StoresPage({ setRoute }) {
               <span className="stats-num-brand" style={{ color: "#B8892E" }}>Dubai</span>
               <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>WHERE WE'RE BUILT</span>
             </div>
-            <div className="stats-col-brand col-children" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
-              <span className="stats-num-brand" style={{ color: "#F7F3ED" }}>—</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>CHILDREN SUPPORTED</span>
-            </div>
-            <div className="stats-col-brand col-perunit" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
-              <span className="stats-num-brand" style={{ color: "#F7F3ED" }}>Per Unit</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>GIVING MODEL</span>
-            </div>
-            <div className="stats-col-brand col-kenya" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
-              <span className="stats-num-brand" style={{ color: "#F7F3ED" }}>Kenya</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>OUR FIRST CHAPTER</span>
-            </div>
-          </div>
-
-          {/* Impact heading */}
-          <div className="gives-back-impact-heading-brand">
-            <span className="heading-text" style={{ color: "rgba(247,243,237,0.4)" }}>IMPACT · NAIROBI, KENYA</span>
-            <div className="heading-line" style={{ background: "rgba(247,243,237,0.08)" }}></div>
-          </div>
-
-          {/* Vertically stacked cards */}
-          <div className="gives-back-impact-cards-brand">
-            <div className="impact-card-brand">
-              <span className="impact-card-num-brand" style={{ color: "rgba(247,243,237,0.2)" }}>01</span>
-              <div className="impact-card-content-brand">
-                <h3 className="impact-card-title-brand" style={{ color: "#F7F3ED" }}>Education Access</h3>
-                <p className="impact-card-body-brand" style={{ color: "rgba(247,243,237,0.55)" }}>
-                  Every HHARA piece sold contributes directly to sponsoring a child's education in Kenya. Fashion with a future.
-                </p>
-              </div>
-            </div>
-
-            <div className="impact-card-brand">
-              <span className="impact-card-num-brand" style={{ color: "rgba(247,243,237,0.2)" }}>02</span>
-              <div className="impact-card-content-brand">
-                <h3 className="impact-card-title-brand" style={{ color: "#F7F3ED" }}>Per-Unit Giving</h3>
-                <p className="impact-card-body-brand" style={{ color: "rgba(247,243,237,0.55)" }}>
-                  A portion of every purchase flows directly into our Kenya education fund. The more she wears wonder, the more wonder spreads.
-                </p>
-              </div>
-            </div>
-
-            <div className="impact-card-brand">
-              <span className="impact-card-num-brand" style={{ color: "rgba(247,243,237,0.2)" }}>03</span>
-              <div className="impact-card-content-brand">
-                <h3 className="impact-card-title-brand" style={{ color: "#F7F3ED" }}>Circular Luxury</h3>
-                <p className="impact-card-body-brand" style={{ color: "rgba(247,243,237,0.55)" }}>
-                  We believe luxury should leave something behind. HHARA's giving model is built into our DNA, not an afterthought.
-                </p>
-              </div>
+            <div className="stats-col-brand col-nairobi" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
+              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Nairobi</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>WHERE WE GIVE BACK</span>
             </div>
           </div>
         </div>
       </section>
     </div>
-  );
-}
-
-// ============ GIFT CARD ============
-const GIFT_CARD_AMOUNTS = [100, 150, 250, 350];
-
-function GiftCardPage({ setRoute }) {
-  const [amount, setAmount] = useState(GIFT_CARD_AMOUNTS[0]);
-  const [customAmount, setCustomAmount] = useState("");
-  const [qty, setQty] = useState(1);
-  const [recipientName, setRecipientName] = useState("");
-  const [recipientEmail, setRecipientEmail] = useState("");
-  const [senderName, setSenderName] = useState("");
-  const [note, setNote] = useState("");
-  const [unavailable, setUnavailable] = useState(false);
-
-  const activeAmount = customAmount ? Math.max(0, parseFloat(customAmount) || 0) : amount;
-  const total = activeAmount * qty;
-
-  const handleCheckout = (e: React.FormEvent) => {
-    e.preventDefault();
-    setUnavailable(true);
-  };
-
-  return (
-    <>
-      <div className="gc-main">
-        {/* Left Column: Image/Placeholder */}
-        <div className="gc-gallery">
-          <div className="gc-placeholder">
-            <div className="gc-placeholder-star">✦</div>
-            <div className="gc-placeholder-title">Image Placeholder</div>
-            <div className="gc-placeholder-desc">
-              Lifestyle or product photo — e.g. model holding the card, or styled flat-lay with the Dalia / Imara Set
-            </div>
-          </div>
-          <p className="gc-intro-text">
-            For the woman who already has everything, and the one still becoming who she's meant to be. Redeemable across every HHARA collection, delivered straight to her inbox.
-          </p>
-        </div>
-
-        {/* Right Column: Form Info */}
-        <div className="gc-info">
-          <div className="gc-eyebrow">The HHARA Gift Card</div>
-          <h1 className="gc-title">Give her the beginning of{"\n"}something.</h1>
-          <p className="gc-subtitle">A gift for wherever her day takes her.</p>
-          <div className="gc-price">From ${GIFT_CARD_AMOUNTS[0]}.00</div>
-
-          <form onSubmit={handleCheckout} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            {/* Amounts Grid */}
-            <div className="gc-amounts-grid">
-              {GIFT_CARD_AMOUNTS.map((a) => (
-                <button
-                  key={a}
-                  type="button"
-                  className={`gc-amount-btn ${!customAmount && amount === a ? "on" : ""}`}
-                  onClick={() => {
-                    setAmount(a);
-                    setCustomAmount("");
-                  }}
-                >
-                  ${a}
-                </button>
-              ))}
-            </div>
-
-            {/* Custom Amount Wrapper */}
-            <div className="gc-custom-amount-wrapper">
-              <span className="gc-custom-amount-symbol">$</span>
-              <input
-                className="gc-custom-amount-input"
-                type="number"
-                min="1"
-                placeholder="Enter a custom amount"
-                value={customAmount}
-                onChange={(e) => setCustomAmount(e.target.value)}
-              />
-            </div>
-
-            {/* Quantity Selector */}
-            <div className="gc-qty-row">
-              <label className="gc-qty-label">Quantity</label>
-              <div className="gc-qty-selector">
-                <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))}>
-                  <Icon.Minus />
-                </button>
-                <span>{qty}</span>
-                <button type="button" onClick={() => setQty((q) => q + 1)}>
-                  <Icon.Plus />
-                </button>
-              </div>
-            </div>
-
-            {/* Recipient's Name */}
-            <div className="gc-field">
-              <label>Recipient's Name</label>
-              <input
-                type="text"
-                required
-                placeholder="Her name"
-                value={recipientName}
-                onChange={(e) => setRecipientName(e.target.value)}
-              />
-            </div>
-
-            {/* Recipient's Email */}
-            <div className="gc-field">
-              <label>Recipient's Email</label>
-              <input
-                type="email"
-                required
-                placeholder="Where it should arrive"
-                value={recipientEmail}
-                onChange={(e) => setRecipientEmail(e.target.value)}
-              />
-            </div>
-
-            {/* Your Name */}
-            <div className="gc-field">
-              <label>Your Name</label>
-              <input
-                type="text"
-                required
-                placeholder="From"
-                value={senderName}
-                onChange={(e) => setSenderName(e.target.value)}
-              />
-            </div>
-
-            {/* Personal Note */}
-            <div className="gc-field">
-              <label>A Personal Note (Optional)</label>
-              <textarea
-                rows={3}
-                placeholder="Write a few words for her..."
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-              />
-            </div>
-
-            {/* Checkout Info & Button */}
-            <div className="pdp-divider" style={{ margin: "8px 0 0 0" }}></div>
-            
-            <div className="gc-summary-row">
-              <span style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--ink)" }}>Gift card value</span>
-              <span style={{ fontSize: 15, fontWeight: 500 }}>${total.toLocaleString()}.00</span>
-            </div>
-
-            <button className="btn btn-primary btn-block" type="submit" disabled={activeAmount <= 0}>
-              Add to Bag
-              <span className="btn-arrow">
-                <Icon.Arrow />
-              </span>
-            </button>
-
-            {unavailable && (
-              <p style={{ fontSize: 12, color: "var(--ink-soft)", textAlign: "center", marginTop: 8 }}>
-                Gift cards are launching soon. In the meantime, email{" "}
-                <a href="mailto:hello@hhara.com" style={{ textDecoration: "underline" }}>
-                  hello@hhara.com
-                </a>{" "}
-                and we'll arrange one for you directly.
-              </p>
-            )}
-            <p style={{ fontSize: 11, color: "var(--ink-soft)", textAlign: "center", opacity: 0.8, marginTop: 4 }}>
-              Delivered instantly by email · Valid for 12 months from the date of purchase · Redeemable on hhara.com
-            </p>
-          </form>
-        </div>
-      </div>
-
-      <div className="section-head" style={{ maxWidth: "var(--maxw)", margin: "100px auto 20px", padding: "0 var(--pad)" }}>
-        <div className="section-head-stack">
-          <span className="eyebrow">How It Works</span>
-          <h2 className="section-title" style={{ fontWeight: 300 }}>Simple, <em>by design.</em></h2>
-        </div>
-      </div>
-
-      <section className="craft-grid three-cols" style={{ paddingTop: 0 }}>
-        <div className="craft-item">
-          <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>I.</div>
-          <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>Choose an amount</h4>
-          <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
-            Select one of ours, or set your own, whatever feels right for the occasion.
-          </p>
-        </div>
-        <div className="craft-item">
-          <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>II.</div>
-          <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>Add her details</h4>
-          <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
-            Checkout like any other order. We'll deliver it straight to her inbox, with your note attached.
-          </p>
-        </div>
-        <div className="craft-item">
-          <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>III.</div>
-          <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>She chooses her piece</h4>
-          <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
-            Redeemable across every HHARA collection, so she can decide what she needs, in her own time.
-          </p>
-        </div>
-      </section>
-
-      <section className="gives-back-section" style={{ padding: "clamp(60px, 8vh, 100px) var(--pad)", backgroundColor: "#F0EAE0", textAlign: "center", marginTop: 80 }}>
-        <div className="gives-back-content-width" style={{ maxWidth: 800, margin: "0 auto" }}>
-          <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: "clamp(22px, 3.2vw, 30px)", lineHeight: 1.7, marginBottom: 16, color: "var(--ink)", fontFamily: "var(--display)", fontWeight: 300 }}>
-            "She shouldn't have to choose. HHARA was built so she never has to."
-          </blockquote>
-          <div style={{ color: "var(--accent)", fontStyle: "italic", fontFamily: "var(--display)", fontSize: 16 }}>She is wonder. She is HHARA.</div>
-        </div>
-      </section>
-    </>
   );
 }
 
@@ -3536,7 +3209,7 @@ function ShippingPage({ setRoute }) {
 
       <div className="policy-section">
         <h2 className="policy-section-heading">GCC Delivery (Delivered Duty Paid)</h2>
-        <p className="policy-note">Delivered via Quiqup/Naqel. All duties and taxes are included — no fees at delivery.</p>
+        <p className="policy-note">Delivered via Quiqup/Naqel. All duties and taxes are included - no fees at delivery.</p>
         <div className="policy-table">
           <div className="policy-table-row"><span>Saudi Arabia, Kuwait, Bahrain, Qatar, Oman</span><span>AED 60 (Free on orders AED 1,900+) · 2–3 business days</span></div>
         </div>

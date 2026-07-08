@@ -33,7 +33,7 @@ export default function ImpactMap() {
       const ro = new ResizeObserver(() => map.invalidateSize());
       ro.observe(containerRef.current!);
 
-      // Dubai — zinfandel red
+      // Dubai - zinfandel red
       L.circleMarker([25.2048, 55.2708], {
         radius: 7,
         fillColor: "#6B2737",
@@ -46,11 +46,11 @@ export default function ImpactMap() {
         .bindTooltip(
           `<span class="mtt-label">WHERE WE'RE BUILT</span>
            <span class="mtt-title">Dubai, UAE</span>
-           <span class="mtt-body">Conceived and engineered in the UAE — HHARA's home, where every design decision is made with intention.</span>`,
+           <span class="mtt-body">Conceived and engineered in the UAE - HHARA's home, where every design decision is made with intention.</span>`,
           { className: "hhara-map-tooltip", direction: "top", offset: [0, -10] }
         );
 
-      // Nairobi, Kenya — forest green
+      // Nairobi, Kenya - forest green
       L.circleMarker([-1.2921, 36.8219], {
         radius: 7,
         fillColor: "#3d6b4a",

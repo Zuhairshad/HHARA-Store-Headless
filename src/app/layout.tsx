@@ -21,14 +21,14 @@ const jetbrains = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "HHARA | She is Wonder",
-  description: "Conceived in Florence, engineered in the UAE. High-performance activewear crafted from recycled ocean plastic, designed for longevity.",
+  description: "A thoughtfully curated collection of elevated essentials, designed in the U.S.A and crafted from premium recycled performance fabrics.",
   keywords: ["HHARA", "Considered Luxury", "Activewear", "Recycled Performance Wear", "UAE Activewear", "Maison HHARA", "Imara Set", "Dalia Set"],
   icons: {
     icon: "/images/monkey-logo.jpg",
   },
   openGraph: {
     title: "HHARA | She is Wonder",
-    description: "Conceived in Florence, engineered in the UAE. High-performance activewear crafted from recycled ocean plastic, designed for longevity.",
+    description: "A thoughtfully curated collection of elevated essentials, designed in the U.S.A and crafted from premium recycled performance fabrics.",
     url: "https://hhara-store-headless.vercel.app",
     siteName: "HHARA",
     images: [
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "HHARA | She is Wonder",
-    description: "Conceived in Florence, engineered in the UAE. High-performance activewear crafted from recycled ocean plastic, designed for longevity.",
+    description: "A thoughtfully curated collection of elevated essentials, designed in the U.S.A and crafted from premium recycled performance fabrics.",
     images: ["/images/hero1.jpg"],
   },
   robots: {
