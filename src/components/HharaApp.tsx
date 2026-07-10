@@ -3495,14 +3495,14 @@ function StoresPage({ setRoute }) {
       <section className="gives-back-hero" style={{
         backgroundImage: "url('/images/gives-back-hero.jpg')", // children/background image placeholder
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition: "center 20%",
         padding: "120px var(--pad)",
         display: "flex",
-        justifyContent: "flex-start",
+        justifyContent: "center",
         alignItems: "center",
-        minHeight: "500px",
+        minHeight: "clamp(560px, 78vh, 780px)",
         position: "relative",
-        textAlign: "left"
+        textAlign: "center"
       }}>
         {/* Overlay to ensure text readability */}
         <div style={{
@@ -3518,12 +3518,12 @@ function StoresPage({ setRoute }) {
         <div className="gives-back-content-width" style={{
           position: "relative",
           zIndex: 2,
-          maxWidth: "640px",
-          margin: 0
+          maxWidth: "760px",
+          margin: "0 auto"
         }}>
           <h1 style={{
             fontFamily: "var(--display)",
-            fontSize: "clamp(38px, 5.5vw, 64px)",
+            fontSize: "clamp(44px, 7.5vw, 88px)",
             lineHeight: 1.15,
             fontWeight: 300,
             color: "#FAF7F2",
@@ -4513,66 +4513,69 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     <>
       {signupPopupOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#3A2416]/60 backdrop-blur-sm transition-opacity duration-500 animate-fade-in">
-          <div className="relative bg-[#F7F3ED] text-[#2A1F14] max-w-4xl w-full shadow-2xl overflow-hidden flex flex-row h-[340px] md:h-[420px]">
+          <div className="relative text-[#F7F3ED] max-w-4xl w-full shadow-2xl overflow-hidden h-[420px] md:h-[460px]">
+            {/* Full-bleed image */}
+            <img
+              src={IMGS.p1a}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            {/* Scrim for text legibility, darker toward the right */}
+            <div
+              className="absolute inset-0"
+              style={{ background: "linear-gradient(90deg, rgba(42,31,20,0.05) 0%, rgba(42,31,20,0.55) 45%, rgba(42,31,20,0.82) 100%)" }}
+            ></div>
+
             {/* Close Button */}
             <button
-              className="absolute top-3 right-3 z-10 p-2 text-[#F7F3ED] hover:opacity-70 transition-opacity md:text-[#2A1F14]/60 md:hover:text-[#2A1F14]"
+              className="absolute top-3 right-3 z-10 p-2 text-[#F7F3ED] hover:opacity-70 transition-opacity"
               onClick={closeSignupPopup}
               aria-label="Close signup invitation"
             >
               <Icon.Close />
             </button>
 
-            {/* Image side */}
-            <div className="hidden sm:block sm:w-1/2 relative shrink-0">
-              <img
-                src={IMGS.p1a}
-                alt=""
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            </div>
-
-            {/* Content side */}
-            <div className="flex-1 flex flex-col justify-center p-6 md:p-10">
+            {/* Content overlaid on image */}
+            <div className="relative z-[2] h-full flex flex-col justify-center items-end p-6 md:p-12">
               {signupStatus !== "success" ? (
-                <>
-                  <h3 className="display text-xl md:text-2xl mb-2 font-serif font-light tracking-wide uppercase">Stay In The Know</h3>
-                  <p className="text-xs md:text-sm text-[#7A6555] mb-5 leading-relaxed font-light max-w-sm">
+                <div className="w-full max-w-sm text-right">
+                  <h3 className="display text-2xl md:text-3xl mb-2 font-serif font-light tracking-wide uppercase">Stay In The Know</h3>
+                  <p className="text-xs md:text-sm text-[#F7F3ED]/80 mb-5 leading-relaxed font-light">
                     Sign up for early access to new drops and stories from the atelier.
                   </p>
-                  <form onSubmit={handleNewsletterSignup} className="w-full max-w-sm">
+                  <form onSubmit={handleNewsletterSignup} className="w-full">
                     <input
                       type="email"
                       required
                       placeholder="Email Address"
                       value={newsletterEmail}
                       onChange={(e) => setNewsletterEmail(e.target.value)}
-                      className="w-full bg-white border border-[#2A1F14]/20 focus:border-[#B8892E] outline-none py-3 px-4 text-sm placeholder-[#7A6555]/50 mb-3 font-light transition-all"
+                      className="w-full bg-[#F7F3ED] text-[#2A1F14] border border-[#F7F3ED]/40 focus:border-[#B8892E] outline-none py-3 px-4 text-sm placeholder-[#7A6555]/60 mb-3 font-light transition-all text-left"
                     />
                     <button
                       type="submit"
                       disabled={signupStatus === "loading"}
-                      className="w-full py-3 bg-[#3A2416] text-[#F7F3ED] hover:bg-[#2A1F14] transition-all tracking-widest text-xs uppercase font-medium disabled:opacity-50"
+                      className="w-full py-3 bg-[#F7F3ED] text-[#2A1F14] hover:bg-white transition-all tracking-widest text-xs uppercase font-medium disabled:opacity-50"
                     >
                       {signupStatus === "loading" ? "Submitting..." : "Continue"}
                     </button>
                   </form>
                   {signupStatus === "error" && (
-                    <p className="text-xs text-red-700 mt-3">{signupError}</p>
+                    <p className="text-xs text-red-300 mt-3">{signupError}</p>
                   )}
-                  <p className="text-[10px] text-[#7A6555]/70 mt-4 leading-relaxed max-w-sm">
+                  <p className="text-[10px] text-[#F7F3ED]/70 mt-4 leading-relaxed">
                     By signing up, you agree to receive marketing emails from HHARA. You can unsubscribe at any time. See our{" "}
-                    <button type="button" onClick={() => { closeSignupPopup(); setRoute("privacy", null); }} className="underline hover:text-[#2A1F14]">Privacy Policy</button>.
+                    <button type="button" onClick={() => { closeSignupPopup(); setRoute("privacy", null); }} className="underline hover:text-white">Privacy Policy</button>.
                   </p>
-                </>
+                </div>
               ) : (
-                <div className="flex flex-col items-start text-left max-w-sm">
-                  <div className="w-10 h-10 rounded-full border border-green-600 flex items-center justify-center mb-4">
-                    <svg className="w-5 h-5 stroke-green-600 fill-none" viewBox="0 0 24 24" strokeWidth="2">
+                <div className="flex flex-col items-end text-right max-w-sm">
+                  <div className="w-10 h-10 rounded-full border border-[#F7F3ED] flex items-center justify-center mb-4">
+                    <svg className="w-5 h-5 stroke-[#F7F3ED] fill-none" viewBox="0 0 24 24" strokeWidth="2">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   </div>
-                  <p className="text-sm text-[#7A6555] leading-relaxed font-light">
+                  <p className="text-sm text-[#F7F3ED]/90 leading-relaxed font-light">
                     You're on the list. Welcome to HHARA.
                   </p>
                 </div>
