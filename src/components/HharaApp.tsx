@@ -477,6 +477,12 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
             >
               Impact
             </button>
+            <button
+              className={route === "gift-card" ? "active" : ""}
+              onClick={() => setRoute("gift-card")}
+            >
+              Gift Card
+            </button>
           </nav>
           <div className="brandmark" onClick={() => setRoute("home")}>
             <img src="/images/hhara-logo.png" alt="HHARA Wordmark" className="brandmark-text" />
@@ -533,6 +539,12 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
               onClick={() => { setRoute("stores"); setMobileMenuOpen(false); }}
             >
               Impact
+            </button>
+            <button
+              className={route === "gift-card" ? "active" : ""}
+              onClick={() => { setRoute("gift-card"); setMobileMenuOpen(false); }}
+            >
+              Gift Card
             </button>
           </nav>
         </div>
@@ -1688,9 +1700,20 @@ function CollectionPage({ setRoute, openProduct, quickAdd }) {
           <span>The Collection</span>
         </div>
         <h1>The Collection</h1>
-        <p className="cph-desc">
-          A thoughtfully curated collection of elevated essentials, designed in the U.S.A and crafted from premium recycled performance fabrics. Every piece balance comfort, confidence, and timeless style.
-        </p>
+        <div className="cph-desc" style={{ maxWidth: "680px", margin: "16px auto 0", display: "flex", flexDirection: "column", gap: "16px", fontSize: "14px", lineHeight: "1.8", color: "var(--ink-soft)" }}>
+          <p style={{ fontFamily: "var(--display)", fontSize: "20px", fontStyle: "italic", color: "var(--accent)", margin: 0 }}>
+            Unapologetically You.
+          </p>
+          <p style={{ fontWeight: 500, color: "var(--ink)" }}>
+            Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.
+          </p>
+          <p>
+            Every piece carries a name with meaning. Each was chosen to celebrate the strength and softness that exist within every woman.
+          </p>
+          <p style={{ fontSize: "12px", borderTop: "1px solid var(--line-soft)", paddingTop: "12px", marginTop: "8px" }}>
+            <strong>Dalia (Arabic)</strong> — Gentle. Tender. Delicate. &nbsp;·&nbsp; <strong>Imara (Swahili)</strong> — Strong. Firm. Resolute. &nbsp;·&nbsp; <em>She is both. Always.</em>
+          </p>
+        </div>
       </div>
 
       <div className="ctoolbar">
@@ -1828,6 +1851,44 @@ function CollectionPage({ setRoute, openProduct, quickAdd }) {
 
 // === FILE 08-e9225b26-2c70-44a6-bc85-2bb315cd399e.jsx ===
 
+// Helper sub-components for Product Detail Page (PDP) reviews
+function ReviewSlider({ label, value, position }: { label: string, value: string, position: number }) {
+  return (
+    <div style={{ marginBottom: "16px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "6px", color: "var(--ink)" }}>
+        <span>{label}</span>
+      </div>
+      <div style={{ position: "relative", height: "3px", backgroundColor: "#E6DFD5", borderRadius: "2px", margin: "10px 0" }}>
+        <div style={{
+          position: "absolute",
+          top: "-3px",
+          left: `${position}%`,
+          width: "9px",
+          height: "9px",
+          borderRadius: "50%",
+          backgroundColor: "var(--ink)",
+          transform: "translateX(-50%)"
+        }} />
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "10px", color: "var(--ink-soft)", marginTop: "6px" }}>
+        <span>{value}</span>
+      </div>
+    </div>
+  );
+}
+
+function StarRow({ stars, percentage, count }: { stars: number, percentage: number, count: number }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: "12px", fontSize: "12px", color: "var(--ink-soft)" }}>
+      <span style={{ minWidth: "24px" }}>{stars}★</span>
+      <div style={{ flex: 1, height: "3px", backgroundColor: "#E6DFD5", borderRadius: "2px", position: "relative" }}>
+        <div style={{ width: `${percentage}%`, height: "100%", backgroundColor: "var(--ink)", borderRadius: "2px" }} />
+      </div>
+      <span style={{ minWidth: "12px", textAlign: "right" }}>{count}</span>
+    </div>
+  );
+}
+
 function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wishlist }) {
   const PRODUCTS = useProducts();
   const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS[0];
@@ -1839,6 +1900,142 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [adding, setAdding] = useState(false);
   const [activeShot, setActiveShot] = useState(0);
+
+  // Reviews and Interactive Form States
+  const [reviews, setReviews] = useState([
+    {
+      id: "r1",
+      avatar: "S",
+      name: "Sarah M.",
+      verified: true,
+      location: "UAE",
+      rating: 5,
+      title: "Finally, a bra that does something",
+      body: "Finally a bra that actually holds. Activity is easy, side roll is gone, structured. I wore it straight from class to lunch and felt completely put together.",
+      date: "01/08/26",
+      quality: "Excellent",
+      qualityPos: 100,
+      fit: "True to size",
+      fitPos: 100,
+      upVotes: 0,
+      downVotes: 0,
+      voted: null as 'up' | 'down' | null
+    },
+    {
+      id: "r2",
+      avatar: "N",
+      name: "Nour A.",
+      verified: true,
+      location: "Abu Dhabi",
+      rating: 5,
+      title: "The fabric is genuinely buttery",
+      body: "The fabric is genuinely buttery — I wasn't expecting it to feel this luxurious. The cross-cross back is stunning. Already ordered the legging!",
+      date: "15/09/26",
+      quality: "Excellent",
+      qualityPos: 100,
+      fit: "True to size",
+      fitPos: 100,
+      upVotes: 0,
+      downVotes: 0,
+      voted: null as 'up' | 'down' | null
+    },
+    {
+      id: "r3",
+      avatar: "L",
+      name: "Layla K.",
+      verified: true,
+      location: "Riyadh",
+      rating: 4,
+      title: "Beautiful — sized up and it was perfect",
+      body: "Sizing is true to guide. I have a fuller bust and sized up as advised — perfect fit. The Olive Green colour is even more beautiful in person.",
+      date: "22/09/26",
+      quality: "Great",
+      qualityPos: 80,
+      fit: "Good",
+      fitPos: 70,
+      upVotes: 0,
+      downVotes: 0,
+      voted: null as 'up' | 'down' | null
+    }
+  ]);
+  const [writeReviewOpen, setWriteReviewOpen] = useState(false);
+  const [newReview, setNewReview] = useState({
+    name: "",
+    location: "",
+    rating: 5,
+    title: "",
+    body: "",
+    quality: 80,
+    fit: 80
+  });
+  const [reviewSubmitted, setReviewSubmitted] = useState(false);
+
+  const handleVote = (reviewId: string, type: 'up' | 'down') => {
+    setReviews(prev => prev.map(r => {
+      if (r.id !== reviewId) return r;
+      if (r.voted === type) {
+        return {
+          ...r,
+          voted: null,
+          upVotes: type === 'up' ? r.upVotes - 1 : r.upVotes,
+          downVotes: type === 'down' ? r.downVotes - 1 : r.downVotes
+        };
+      }
+      if (r.voted && r.voted !== type) {
+        return {
+          ...r,
+          voted: type,
+          upVotes: type === 'up' ? r.upVotes + 1 : r.upVotes - 1,
+          downVotes: type === 'down' ? r.downVotes + 1 : r.downVotes - 1
+        };
+      }
+      return {
+        ...r,
+        voted: type,
+        upVotes: type === 'up' ? r.upVotes + 1 : r.upVotes,
+        downVotes: type === 'down' ? r.downVotes + 1 : r.downVotes
+      };
+    }));
+  };
+
+  const submitReview = (e: React.FormEvent) => {
+    e.preventDefault();
+    const qualityLabel = newReview.quality >= 90 ? "Excellent" : newReview.quality >= 70 ? "Great" : newReview.quality >= 50 ? "Good" : "Fair";
+    const fitLabel = newReview.fit >= 80 ? "True to size" : newReview.fit >= 60 ? "Good" : "Runs small";
+    const addedReview = {
+      id: "r-" + Date.now(),
+      avatar: newReview.name ? newReview.name.charAt(0).toUpperCase() : "A",
+      name: newReview.name || "Anonymous",
+      verified: true,
+      location: newReview.location || "UAE",
+      rating: newReview.rating,
+      title: newReview.title || "Highly recommended",
+      body: newReview.body || "No text description left.",
+      date: new Date().toLocaleDateString("en-GB"),
+      quality: qualityLabel,
+      qualityPos: newReview.quality,
+      fit: fitLabel,
+      fitPos: newReview.fit,
+      upVotes: 0,
+      downVotes: 0,
+      voted: null as 'up' | 'down' | null
+    };
+    setReviews(prev => [addedReview, ...prev]);
+    setNewReview({ name: "", location: "", rating: 5, title: "", body: "", quality: 80, fit: 80 });
+    setWriteReviewOpen(false);
+    setReviewSubmitted(true);
+    setTimeout(() => setReviewSubmitted(false), 3000);
+  };
+
+  const totalReviews = reviews.length;
+  const averageRating = (reviews.reduce((acc, r) => acc + r.rating, 0) / totalReviews).toFixed(1);
+  const starsCount = (num: number) => reviews.filter(r => r.rating === num).length;
+  const starsPercentage = (num: number) => totalReviews ? (starsCount(num) / totalReviews) * 100 : 0;
+  
+  const avgQualityPos = reviews.reduce((acc, r) => acc + r.qualityPos, 0) / totalReviews;
+  const avgFitPos = reviews.reduce((acc, r) => acc + r.fitPos, 0) / totalReviews;
+  const avgQualityVal = avgQualityPos >= 90 ? "Excellent" : avgQualityPos >= 70 ? "Great" : avgQualityPos >= 50 ? "Good" : "Fair";
+  const avgFitVal = avgFitPos >= 80 ? "True to size" : avgFitPos >= 60 ? "Good" : "Runs small";
 
   // Floating Video & Reel Player States
   const [videoDismissed, setVideoDismissed] = useState(false);
@@ -2034,7 +2231,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
           </div>
 
           <div className="pdp-info">
-            <div className="cat">{product.cat}</div>
+            <div className="pdp-info-cat">{product.cat}</div>
             <h1>{product.name}</h1>
             {tagline && <p className="pdp-tagline">{tagline}</p>}
             <div className="pdp-price">
@@ -2124,46 +2321,341 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               <div className="pdp-trust-item"><Icon.Box /><span>Free Returns 14 Days (UAE)</span></div>
               <div className="pdp-trust-item"><Icon.Leaf /><span>Recycled Materials</span></div>
             </div>
-          </div>
-        </div>
 
-        <div className="pdp-description-section">
-          <div className="pdp-section-label">Description</div>
-          <p>{product.description || "Premium recycled performance knit, engineered for movement, structure, and longevity."}</p>
-          <p>Designed in the UAE for movement, structure, and longevity - with no compromise on how it feels against the skin.</p>
-          {specs.length > 0 && (
-            <div className="pdp-specs">
-              {specs.map((row) => (
-                <div className="pdp-spec-row" key={row.k}>
-                  <span className="k">{row.k}</span>
-                  <span className="v">{row.v}</span>
+            <div className="pdp-description-section" style={{ marginTop: "40px" }}>
+              <div className="pdp-section-label">Description</div>
+              <p>{product.description || "Premium recycled performance knit, engineered for movement, structure, and longevity."}</p>
+              <p>Designed in the UAE for movement, structure, and longevity - with no compromise on how it feels against the skin.</p>
+              {specs.length > 0 && (
+                <div className="pdp-specs">
+                  {specs.map((row) => (
+                    <div className="pdp-spec-row" key={row.k}>
+                      <span className="k">{row.k}</span>
+                      <span className="v">{row.v}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
             </div>
-          )}
-        </div>
 
-        <div className="pdp-accordions">
-          <Accordion title="Size Guide" open={open === "fit"} onToggle={() => setOpen(open === "fit" ? "" : "fit")}>
-            <p>Model is 178cm and wears a size S. Engineered for second-skin compression with 4-way mechanical stretch. We recommend taking your usual size; size down for a closer compression fit.</p>
-          </Accordion>
-          <Accordion title="Fabric & Feel" open={open === "details"} onToggle={() => setOpen(open === "details" ? "" : "details")}>
-            <ul>
-              {(product.details || ["Premium recycled performance fabric", "Brushed-gold low-friction hardware", "Designed in the UAE", "Machine wash cold · do not tumble dry"]).map((d, i) => (
-                <li key={i}>{d}</li>
-              ))}
-            </ul>
-          </Accordion>
-          <Accordion title="Care Instructions" open={open === "care"} onToggle={() => setOpen(open === "care" ? "" : "care")}>
-            <p>Machine wash cold with like colours. Do not tumble dry, do not bleach, do not iron. Lay flat to dry to preserve the recycled performance knit.</p>
-          </Accordion>
-          <Accordion title="Shipping & Returns" open={open === "ship"} onToggle={() => setOpen(open === "ship" ? "" : "ship")}>
-            <p>Free standard next-day shipping within the UAE (no minimum). Same-day delivery upgrade available for AED 28 in Dubai, Abu Dhabi, Sharjah, and Ajman. International express shipping is free on orders over AED 1,900, with flat shipping rates below the threshold (AED 60 GCC, AED 80 UK/Europe/Rest of World, AED 120 North America). Returns are free within 14 days for UAE orders only; GCC and international sales are final.</p>
-          </Accordion>
+            <div className="pdp-accordions" style={{ marginTop: "32px" }}>
+              <Accordion title="Size Guide" open={open === "fit"} onToggle={() => setOpen(open === "fit" ? "" : "fit")}>
+                <p>Model is 178cm and wears a size S. Engineered for second-skin compression with 4-way mechanical stretch. We recommend taking your usual size; size down for a closer compression fit.</p>
+              </Accordion>
+              <Accordion title="Fabric & Feel" open={open === "details"} onToggle={() => setOpen(open === "details" ? "" : "details")}>
+                <ul>
+                  {(product.details || ["Premium recycled performance fabric", "Brushed-gold low-friction hardware", "Designed in the UAE", "Machine wash cold · do not tumble dry"]).map((d, i) => (
+                    <li key={i}>{d}</li>
+                  ))}
+                </ul>
+              </Accordion>
+              <Accordion title="Care Instructions" open={open === "care"} onToggle={() => setOpen(open === "care" ? "" : "care")}>
+                <p>Machine wash cold with like colours. Do not tumble dry, do not bleach, do not iron. Lay flat to dry to preserve the recycled performance knit.</p>
+              </Accordion>
+              <Accordion title="Shipping & Returns" open={open === "ship"} onToggle={() => setOpen(open === "ship" ? "" : "ship")}>
+                <p>Free standard next-day shipping within the UAE (no minimum). Same-day delivery upgrade available for AED 28 in Dubai, Abu Dhabi, Sharjah, and Ajman. International express shipping is free on orders over AED 1,900, with flat shipping rates below the threshold (AED 60 GCC, AED 80 UK/Europe/Rest of World, AED 120 North America). Returns are free within 14 days for UAE orders only; GCC and international sales are final.</p>
+              </Accordion>
+            </div>
+          </div>
         </div>
       </div>
 
-      <section className="section">
+      {/* WHAT SHE SAYS: REVIEWS SECTION */}
+      <section className="section" style={{ borderTop: "1px solid var(--line-soft)", paddingTop: "80px", marginTop: "40px" }}>
+        <div className="gives-back-content-width" style={{ maxWidth: "1000px", margin: "0 auto", padding: "0 var(--pad)" }}>
+          <h2 style={{ fontFamily: "var(--display)", fontSize: "clamp(28px, 4vw, 36px)", fontWeight: 300, marginBottom: "40px", color: "var(--ink)", textAlign: "left" }}>What She Says</h2>
+
+          {/* SUMMARY BOX */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "1.2fr 2fr 1.2fr",
+            gap: "40px",
+            backgroundColor: "#FAF7F2",
+            border: "1px solid var(--line-soft)",
+            padding: "40px",
+            marginBottom: "48px",
+            alignItems: "center"
+          }} className="pdp-reviews-summary">
+            {/* Column 1: Rating summary */}
+            <div style={{ textAlign: "center", borderRight: "1px solid var(--line-soft)", paddingRight: "40px" }} className="pdp-reviews-col1">
+              <div style={{ fontSize: "56px", fontWeight: 300, fontFamily: "var(--display)", color: "var(--ink)", lineHeight: 1 }}>{averageRating}</div>
+              <div style={{ color: "#B8892E", fontSize: "16px", margin: "12px 0 6px" }}>
+                {"★".repeat(Math.round(parseFloat(averageRating))) + "☆".repeat(5 - Math.round(parseFloat(averageRating)))}
+              </div>
+              <div style={{ fontSize: "10px", letterSpacing: "0.15em", color: "var(--ink-soft)", textTransform: "uppercase" }}>Based on {totalReviews} reviews</div>
+            </div>
+
+            {/* Column 2: Star breakdown */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <StarRow stars={5} percentage={starsPercentage(5)} count={starsCount(5)} />
+              <StarRow stars={4} percentage={starsPercentage(4)} count={starsCount(4)} />
+              <StarRow stars={3} percentage={starsPercentage(3)} count={starsCount(3)} />
+              <StarRow stars={2} percentage={starsPercentage(2)} count={starsCount(2)} />
+              <StarRow stars={1} percentage={starsPercentage(1)} count={starsCount(1)} />
+            </div>
+
+            {/* Column 3: Quality & Fit sliders */}
+            <div style={{ borderLeft: "1px solid var(--line-soft)", paddingLeft: "40px" }} className="pdp-reviews-col3">
+              <ReviewSlider label="Quality" value={avgQualityVal} position={avgQualityPos} />
+              <ReviewSlider label="Fit" value={avgFitVal} position={avgFitPos} />
+            </div>
+          </div>
+
+          {/* REVIEWS LIST */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "32px", marginBottom: "48px" }}>
+            {reviews.map((r) => (
+              <div key={r.id} style={{
+                borderBottom: "1px solid var(--line-soft)",
+                paddingBottom: "32px",
+                display: "grid",
+                gridTemplateColumns: "200px 1fr",
+                gap: "32px"
+              }} className="pdp-review-row">
+                {/* User Meta */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "8px", textAlign: "left" }}>
+                  <div style={{
+                    width: "48px",
+                    height: "48px",
+                    borderRadius: "50%",
+                    backgroundColor: "var(--ink)",
+                    color: "#FAF7F2",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontFamily: "var(--display)",
+                    fontSize: "18px",
+                    fontWeight: 300
+                  }}>{r.avatar}</div>
+                  <div style={{ fontWeight: 500, fontSize: "14px", color: "var(--ink)" }}>{r.name}</div>
+                  {r.verified && (
+                    <div style={{ fontSize: "11px", color: "var(--ink-soft)", display: "flex", alignItems: "center", gap: "4px" }}>
+                      <span style={{ color: "#B8892E" }}>✓</span> Verified · {r.location}
+                    </div>
+                  )}
+                </div>
+
+                {/* Review Content */}
+                <div style={{ position: "relative", textAlign: "left" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                      <span style={{ color: "#B8892E", fontSize: "14px" }}>
+                        {"★".repeat(r.rating) + "☆".repeat(5 - r.rating)}
+                      </span>
+                      <h4 style={{ fontFamily: "var(--display)", fontSize: "16px", fontWeight: 400, margin: 0 }}>{r.title}</h4>
+                    </div>
+                    <span style={{ fontSize: "12px", color: "var(--ink-soft)" }}>{r.date}</span>
+                  </div>
+                  <p style={{ fontStyle: "italic", fontSize: "14px", lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: "20px", fontFamily: "var(--display)" }}>
+                    "{r.body}"
+                  </p>
+
+                  {/* Review Specific Sliders */}
+                  <div style={{ display: "flex", gap: "40px", maxWidth: "400px", marginBottom: "20px" }}>
+                    <div style={{ flex: 1 }}>
+                      <ReviewSlider label="Quality" value={r.quality} position={r.qualityPos} />
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <ReviewSlider label="Fit" value={r.fit} position={r.fitPos} />
+                    </div>
+                  </div>
+
+                  {/* Helpful count */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", fontSize: "12px", color: "var(--ink-soft)" }}>
+                    <span>Was this helpful?</span>
+                    <button 
+                      onClick={() => handleVote(r.id, 'up')}
+                      style={{ 
+                        background: r.voted === 'up' ? 'rgba(184,137,46,0.1)' : 'none', 
+                        border: "1px solid var(--line-soft)", 
+                        padding: "4px 10px", 
+                        borderRadius: "2px", 
+                        cursor: "pointer", 
+                        display: "inline-flex", 
+                        alignItems: "center", 
+                        gap: "6px",
+                        color: r.voted === 'up' ? 'var(--accent)' : 'var(--ink)'
+                      }}
+                    >
+                      👍 {r.upVotes}
+                    </button>
+                    <button 
+                      onClick={() => handleVote(r.id, 'down')}
+                      style={{ 
+                        background: r.voted === 'down' ? 'rgba(107,39,55,0.1)' : 'none', 
+                        border: "1px solid var(--line-soft)", 
+                        padding: "4px 10px", 
+                        borderRadius: "2px", 
+                        cursor: "pointer", 
+                        display: "inline-flex", 
+                        alignItems: "center", 
+                        gap: "6px",
+                        color: r.voted === 'down' ? 'var(--sale)' : 'var(--ink)'
+                      }}
+                    >
+                      👎 {r.downVotes}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* WRITE A REVIEW ACTION & FORM */}
+          {reviewSubmitted && (
+            <div style={{
+              backgroundColor: "rgba(184,137,46,0.08)",
+              border: "1px solid var(--accent)",
+              color: "var(--ink)",
+              padding: "16px",
+              textAlign: "center",
+              fontSize: "14px",
+              marginBottom: "24px",
+              fontFamily: "var(--sans)"
+            }}>
+              ✦ Thank you! Your review has been submitted successfully and added to the list.
+            </div>
+          )}
+
+          {writeReviewOpen ? (
+            <form onSubmit={submitReview} style={{
+              backgroundColor: "#FAF7F2",
+              border: "1px solid var(--line-soft)",
+              padding: "40px",
+              marginBottom: "48px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "24px",
+              textAlign: "left"
+            }}>
+              <h3 style={{ fontFamily: "var(--display)", fontSize: "20px", fontWeight: 300, color: "var(--ink)", margin: 0 }}>Write a Review</h3>
+              
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }} className="pdp-review-form-cols">
+                <div className="gc-field">
+                  <label>Your Name</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Enter your name"
+                    value={newReview.name}
+                    onChange={(e) => setNewReview(prev => ({ ...prev, name: e.target.value }))}
+                  />
+                </div>
+                <div className="gc-field">
+                  <label>Location (e.g. Dubai, UAE)</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Enter your location"
+                    value={newReview.location}
+                    onChange={(e) => setNewReview(prev => ({ ...prev, location: e.target.value }))}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }} className="pdp-review-form-cols">
+                <div className="gc-field">
+                  <label>Rating</label>
+                  <select
+                    value={newReview.rating}
+                    onChange={(e) => setNewReview(prev => ({ ...prev, rating: parseInt(e.target.value) }))}
+                    style={{
+                      width: "100%",
+                      padding: "10px 0",
+                      border: "none",
+                      borderBottom: "1px solid var(--line)",
+                      background: "transparent",
+                      fontFamily: "var(--sans)",
+                      fontSize: "14px",
+                      outline: "none",
+                      color: "var(--ink)"
+                    }}
+                  >
+                    <option value="5">★★★★★ (5 Stars)</option>
+                    <option value="4">★★★★☆ (4 Stars)</option>
+                    <option value="3">★★★☆☆ (3 Stars)</option>
+                    <option value="2">★★☆☆☆ (2 Stars)</option>
+                    <option value="1">★☆☆☆☆ (1 Star)</option>
+                  </select>
+                </div>
+                <div className="gc-field">
+                  <label>Review Title</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Summarize your experience"
+                    value={newReview.title}
+                    onChange={(e) => setNewReview(prev => ({ ...prev, title: e.target.value }))}
+                  />
+                </div>
+              </div>
+
+              <div className="gc-field">
+                <label>Review Body</label>
+                <textarea
+                  rows={4}
+                  required
+                  placeholder="Tell us what you think about the fabric, fit, and style..."
+                  value={newReview.body}
+                  onChange={(e) => setNewReview(prev => ({ ...prev, body: e.target.value }))}
+                />
+              </div>
+
+              {/* Sliders in Form */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px", marginTop: "12px" }} className="pdp-review-form-cols">
+                <div>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "6px" }}>
+                    <span>Quality</span>
+                    <span style={{ color: "var(--accent)" }}>{newReview.quality}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={newReview.quality}
+                    onChange={(e) => setNewReview(prev => ({ ...prev, quality: parseInt(e.target.value) }))}
+                    style={{ width: "100%", accentColor: "var(--ink)" }}
+                  />
+                </div>
+                <div>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "6px" }}>
+                    <span>Fit</span>
+                    <span style={{ color: "var(--accent)" }}>{newReview.fit}%</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={newReview.fit}
+                    onChange={(e) => setNewReview(prev => ({ ...prev, fit: parseInt(e.target.value) }))}
+                    style={{ width: "100%", accentColor: "var(--ink)" }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: "flex", gap: "16px", marginTop: "24px" }}>
+                <button type="submit" className="btn btn-primary" style={{ padding: "16px 32px" }}>
+                  Submit Review
+                </button>
+                <button type="button" className="btn btn-outline" onClick={() => setWriteReviewOpen(false)} style={{ padding: "16px 32px" }}>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <button 
+                className="btn btn-outline" 
+                onClick={() => setWriteReviewOpen(true)}
+                style={{ display: "inline-flex", alignItems: "center", gap: "8px", textTransform: "uppercase", letterSpacing: "0.2em", fontSize: "12px", padding: "16px 40px" }}
+              >
+                ✦ Write a Review
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="section" style={{ borderTop: "1px solid var(--line-soft)", paddingTop: "80px" }}>
         <div className="section-head">
           <div className="section-head-stack">
             <span className="eyebrow">You may also like</span>
@@ -2684,22 +3176,22 @@ function GiftCardPage({ setRoute }) {
         </div>
       </div>
 
-      <section className="craft-grid three-cols" style={{ paddingTop: 0 }}>
-        <div className="craft-item">
+      <section className="craft-grid three-cols" style={{ paddingTop: 0, gap: "24px" }}>
+        <div className="craft-item" style={{ backgroundColor: "#F0EAE0", padding: "40px 32px", display: "flex", flexDirection: "column", height: "100%" }}>
           <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>I.</div>
           <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>Choose an amount</h4>
           <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
             Select one of ours, or set your own, whatever feels right for the occasion.
           </p>
         </div>
-        <div className="craft-item">
+        <div className="craft-item" style={{ backgroundColor: "#F0EAE0", padding: "40px 32px", display: "flex", flexDirection: "column", height: "100%" }}>
           <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>II.</div>
           <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>Add her details</h4>
           <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
             Checkout like any other order. We'll deliver it straight to her inbox, with your note attached.
           </p>
         </div>
-        <div className="craft-item">
+        <div className="craft-item" style={{ backgroundColor: "#F0EAE0", padding: "40px 32px", display: "flex", flexDirection: "column", height: "100%" }}>
           <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>III.</div>
           <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>She chooses her piece</h4>
           <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
@@ -2708,7 +3200,7 @@ function GiftCardPage({ setRoute }) {
         </div>
       </section>
 
-      <section className="gives-back-section" style={{ padding: "clamp(60px, 8vh, 100px) var(--pad)", backgroundColor: "#F0EAE0", textAlign: "center", marginTop: 80 }}>
+      <section className="gives-back-section" style={{ padding: "clamp(60px, 8vh, 100px) var(--pad)", backgroundColor: "transparent", textAlign: "center", marginTop: 40 }}>
         <div className="gives-back-content-width" style={{ maxWidth: 800, margin: "0 auto" }}>
           <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: "clamp(22px, 3.2vw, 30px)", lineHeight: 1.7, marginBottom: 16, color: "var(--ink)", fontFamily: "var(--display)", fontWeight: 300 }}>
             "She shouldn't have to choose. HHARA was built so she never has to."

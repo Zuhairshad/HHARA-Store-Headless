@@ -78,8 +78,8 @@ img { display: block; max-width: 100%; }
 .announce {
   background: var(--bg);
   color: var(--ink);
-  font-size: clamp(8px, 2.2vw, 11.5px);
-  letter-spacing: clamp(0.08em, 1vw, 0.18em);
+  font-size: 9px;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
   padding: 9px var(--pad);
   display: flex;
@@ -138,8 +138,8 @@ img { display: block; max-width: 100%; }
 }
 .header-nav button {
   font-family: var(--sans);
-  font-size: 9px;
-  letter-spacing: 0.32em;
+  font-size: clamp(8px, 2.2vw, 11.5px);
+  letter-spacing: clamp(0.08em, 1vw, 0.18em);
   text-transform: uppercase;
   font-weight: 400;
   color: var(--ink);
@@ -1583,7 +1583,7 @@ img { display: block; max-width: 100%; }
   gap: 24px;
   padding-top: 6px;
 }
-.pdp-info .cat {
+.pdp-info .pdp-info-cat {
   font-size: 11px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -1665,14 +1665,10 @@ img { display: block; max-width: 100%; }
 }
 
 .pdp-accordions {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  column-gap: 64px;
-  row-gap: 0;
-  margin-top: 40px;
+  display: block;
+  margin-top: 32px;
 }
 .pdp-accordion {
-  grid-column: 2;
   border-bottom: 1px solid rgba(42,31,20,0.08);
 }
 .pdp-accordion:first-child { border-top: 1px solid rgba(42,31,20,0.08); }
@@ -1783,14 +1779,8 @@ img { display: block; max-width: 100%; }
   line-height: 1.5;
 }
 .pdp-description-section {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  column-gap: 64px;
-  row-gap: 0;
-  margin-top: 96px;
-}
-.pdp-description-section > * {
-  grid-column: 2;
+  display: block;
+  margin-top: 40px;
 }
 .pdp-section-label {
   font-family: var(--sans);
@@ -2074,10 +2064,6 @@ img { display: block; max-width: 100%; }
   .cmain { grid-template-columns: 200px 1fr; gap: 32px; }
   .pdp-main { grid-template-columns: 1fr; gap: 40px; }
   .pdp-info { position: static; }
-  .pdp-description-section { grid-template-columns: 1fr; gap: 0; }
-  .pdp-description-section > * { grid-column: 1; }
-  .pdp-accordions { grid-template-columns: 1fr; gap: 0; }
-  .pdp-accordion { grid-column: 1; }
   .footer-top { grid-template-columns: 1fr 1fr 1fr; }
   .cats { grid-template-columns: 1fr 1fr; }
 }
@@ -5311,5 +5297,30 @@ img { display: block; max-width: 100%; }
   border-top: 1px solid rgba(42, 31, 20, 0.08);
   padding-top: 16px;
   margin-top: 8px;
+}
+
+/* ====== Reviews Responsiveness ====== */
+@media (max-width: 768px) {
+  .pdp-reviews-summary {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    padding: 24px !important;
+  }
+  .pdp-reviews-col1 {
+    border-right: none !important;
+    border-bottom: 1px solid var(--line-soft) !important;
+    padding-right: 0 !important;
+    padding-bottom: 24px !important;
+  }
+  .pdp-reviews-col3 {
+    border-left: none !important;
+    border-top: 1px solid var(--line-soft) !important;
+    padding-left: 0 !important;
+    padding-top: 24px !important;
+  }
+  .pdp-review-row {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
 }
 
