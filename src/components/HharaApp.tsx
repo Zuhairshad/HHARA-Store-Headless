@@ -1700,7 +1700,7 @@ function CollectionPage({ setRoute, openProduct, quickAdd }) {
           <span>The Collection</span>
         </div>
         <h1>The Collection</h1>
-        <div className="cph-desc" style={{ maxWidth: "680px", margin: "16px auto 0", display: "flex", flexDirection: "column", gap: "16px", fontSize: "14px", lineHeight: "1.8", color: "var(--ink-soft)" }}>
+        <div className="cph-desc" style={{ maxWidth: "680px", margin: "16px 0 0", display: "flex", flexDirection: "column", gap: "16px", fontSize: "14px", lineHeight: "1.8", color: "var(--ink-soft)" }}>
           <p style={{ fontFamily: "var(--display)", fontSize: "20px", fontStyle: "italic", color: "var(--accent)", margin: 0 }}>
             Unapologetically You.
           </p>
@@ -4308,7 +4308,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
   };
 
   const [signupPopupOpen, setSignupPopupOpen] = useState(false);
-  const [signupForm, setSignupForm] = useState({ name: "", email: "", password: "" });
+  const [newsletterEmail, setNewsletterEmail] = useState("");
   const [signupStatus, setSignupStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [signupError, setSignupError] = useState("");
 
@@ -4326,36 +4326,22 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     }
   }, [customer]);
 
-  const handleAccountSignUp = async (e: React.FormEvent) => {
+  const handleNewsletterSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setSignupStatus("loading");
     setSignupError("");
-    
-    const parts = signupForm.name.trim().split(/\s+/);
-    const firstName = parts[0] || "";
-    const lastName = parts.slice(1).join(" ") || "";
 
     try {
-      const res = await serverSignUp({
-        email: signupForm.email,
-        password: signupForm.password,
-        firstName,
-        lastName,
-        acceptsMarketing: true
-      });
+      const res = await serverSubscribe(newsletterEmail);
       if (res.ok) {
         setSignupStatus("success");
         localStorage.setItem("hhara_signup_seen", "true");
-        // Reload after 1.5s to show authenticated state
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
       } else {
         setSignupStatus("error");
         setSignupError(res.error || "Sign up failed");
       }
     } catch (err: any) {
-      console.error("Popup signup error:", err);
+      console.error("Popup newsletter signup error:", err);
       setSignupStatus("error");
       setSignupError(err.message || "An unexpected error occurred");
     }
@@ -4527,76 +4513,71 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     <>
       {signupPopupOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#3A2416]/60 backdrop-blur-sm transition-opacity duration-500 animate-fade-in">
-          <div className="relative bg-[#F7F3ED] text-[#2A1F14] max-w-md w-full border border-[#2A1F14]/20 shadow-2xl p-8 md:p-12 overflow-hidden flex flex-col items-center">
+          <div className="relative bg-[#F7F3ED] text-[#2A1F14] max-w-4xl w-full shadow-2xl overflow-hidden flex flex-row h-[340px] md:h-[420px]">
             {/* Close Button */}
-            <button 
-              className="absolute top-4 right-4 p-2 text-[#2A1F14]/60 hover:text-[#2A1F14] transition-colors"
+            <button
+              className="absolute top-3 right-3 z-10 p-2 text-[#F7F3ED] hover:opacity-70 transition-opacity md:text-[#2A1F14]/60 md:hover:text-[#2A1F14]"
               onClick={closeSignupPopup}
               aria-label="Close signup invitation"
             >
               <Icon.Close />
             </button>
 
-            <span className="eyebrow mb-3 block text-xs tracking-widest text-[#7A6555] text-center">Exclusive Invitation</span>
-            <h3 className="display text-3xl mb-4 font-serif font-light text-center">Create Your Account</h3>
-            
-            {signupStatus !== "success" ? (
-              <>
-                <p className="text-sm text-[#7A6555] mb-8 leading-relaxed font-light text-center">
-                  Join HHARA to unlock order history, express checkout, and exclusive updates.
-                </p>
-                <form onSubmit={handleAccountSignUp} className="w-full">
-                  <input
-                    type="text"
-                    required
-                    placeholder="First & Last Name"
-                    value={signupForm.name}
-                    onChange={(e) => setSignupForm({ ...signupForm, name: e.target.value })}
-                    className="w-full bg-transparent border-b border-[#2A1F14]/20 focus:border-[#B8892E] outline-none py-3 text-center text-sm placeholder-[#7A6555]/40 mb-4 font-light transition-all"
-                  />
-                  <input
-                    type="email"
-                    required
-                    placeholder="Email Address"
-                    value={signupForm.email}
-                    onChange={(e) => setSignupForm({ ...signupForm, email: e.target.value })}
-                    className="w-full bg-transparent border-b border-[#2A1F14]/20 focus:border-[#B8892E] outline-none py-3 text-center text-sm placeholder-[#7A6555]/40 mb-4 font-light transition-all"
-                  />
-                  <input
-                    type="password"
-                    required
-                    placeholder="Password"
-                    value={signupForm.password}
-                    onChange={(e) => setSignupForm({ ...signupForm, password: e.target.value })}
-                    className="w-full bg-transparent border-b border-[#2A1F14]/20 focus:border-[#B8892E] outline-none py-3 text-center text-sm placeholder-[#7A6555]/40 mb-6 font-light transition-all"
-                  />
-                  <button
-                    type="submit"
-                    disabled={signupStatus === "loading"}
-                    className="w-full py-4 bg-[#3A2416] text-[#F7F3ED] hover:bg-[#2A1F14] transition-all tracking-widest text-xs uppercase font-medium disabled:opacity-50"
-                  >
-                    {signupStatus === "loading" ? "Creating Account..." : "Create Account"}
-                  </button>
-                </form>
-                {signupStatus === "error" && (
-                  <p className="text-xs text-red-700 mt-4 text-center">{signupError}</p>
-                )}
-              </>
-            ) : (
-              <div className="flex flex-col items-center text-center">
-                <div className="w-12 h-12 rounded-full border border-green-600 flex items-center justify-center mb-6">
-                  <svg className="w-6 h-6 stroke-green-600 fill-none" viewBox="0 0 24 24" strokeWidth="2">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
+            {/* Image side */}
+            <div className="hidden sm:block sm:w-1/2 relative shrink-0">
+              <img
+                src={IMGS.p1a}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Content side */}
+            <div className="flex-1 flex flex-col justify-center p-6 md:p-10">
+              {signupStatus !== "success" ? (
+                <>
+                  <h3 className="display text-xl md:text-2xl mb-2 font-serif font-light tracking-wide uppercase">Stay In The Know</h3>
+                  <p className="text-xs md:text-sm text-[#7A6555] mb-5 leading-relaxed font-light max-w-sm">
+                    Sign up for early access to new drops and stories from the atelier.
+                  </p>
+                  <form onSubmit={handleNewsletterSignup} className="w-full max-w-sm">
+                    <input
+                      type="email"
+                      required
+                      placeholder="Email Address"
+                      value={newsletterEmail}
+                      onChange={(e) => setNewsletterEmail(e.target.value)}
+                      className="w-full bg-white border border-[#2A1F14]/20 focus:border-[#B8892E] outline-none py-3 px-4 text-sm placeholder-[#7A6555]/50 mb-3 font-light transition-all"
+                    />
+                    <button
+                      type="submit"
+                      disabled={signupStatus === "loading"}
+                      className="w-full py-3 bg-[#3A2416] text-[#F7F3ED] hover:bg-[#2A1F14] transition-all tracking-widest text-xs uppercase font-medium disabled:opacity-50"
+                    >
+                      {signupStatus === "loading" ? "Submitting..." : "Continue"}
+                    </button>
+                  </form>
+                  {signupStatus === "error" && (
+                    <p className="text-xs text-red-700 mt-3">{signupError}</p>
+                  )}
+                  <p className="text-[10px] text-[#7A6555]/70 mt-4 leading-relaxed max-w-sm">
+                    By signing up, you agree to receive marketing emails from HHARA. You can unsubscribe at any time. See our{" "}
+                    <button type="button" onClick={() => { closeSignupPopup(); setRoute("privacy", null); }} className="underline hover:text-[#2A1F14]">Privacy Policy</button>.
+                  </p>
+                </>
+              ) : (
+                <div className="flex flex-col items-start text-left max-w-sm">
+                  <div className="w-10 h-10 rounded-full border border-green-600 flex items-center justify-center mb-4">
+                    <svg className="w-5 h-5 stroke-green-600 fill-none" viewBox="0 0 24 24" strokeWidth="2">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <p className="text-sm text-[#7A6555] leading-relaxed font-light">
+                    You're on the list. Welcome to HHARA.
+                  </p>
                 </div>
-                <p className="text-sm text-[#7A6555] mb-6 leading-relaxed font-light">
-                  Your account has been created successfully. Welcome to HHARA.
-                </p>
-                <p className="text-xs text-[#B8892E] tracking-widest uppercase">
-                  Logging you in...
-                </p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -4621,7 +4602,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
           </svg>
           {/* Tooltip on hover */}
           <span className="absolute right-14 bg-[#3A2416] text-[#F7F3ED] text-[10px] uppercase tracking-widest px-3 py-1.5 border border-[#F7F3ED]/10 shadow-lg rounded-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
-            Join HHARA
+            Stay In The Know
           </span>
         </button>
       )}
