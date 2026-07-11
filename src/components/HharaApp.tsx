@@ -180,8 +180,8 @@ const PRODUCTS = [
     cat: "The Imara Set",
     price: 0,
     swatches: [
-      { name: "Bark Oxides", hex: "#5C4632" },
-      { name: "Zinc Crimson", hex: "#7A2E3A" },
+      { name: "Chicory Coffee", hex: "#3D2B1F" },
+      { name: "Olive Green", hex: "#5F6B4F" },
     ],
     sizes: ["XS", "S", "M", "L", "XL"],
     tone: "tone-2",
@@ -203,8 +203,8 @@ const PRODUCTS = [
     cat: "The Imara Set",
     price: 0,
     swatches: [
-      { name: "Bark Oxides", hex: "#5C4632" },
-      { name: "Zinc Crimson", hex: "#7A2E3A" },
+      { name: "Chicory Coffee", hex: "#3D2B1F" },
+      { name: "Olive Green", hex: "#5F6B4F" },
     ],
     sizes: ["XS", "S", "M", "L", "XL"],
     tone: "tone-1",
@@ -226,8 +226,8 @@ const PRODUCTS = [
     cat: "The Dalia Set",
     price: 0,
     swatches: [
-      { name: "Bark Oxides", hex: "#5C4632" },
-      { name: "Zinc Crimson", hex: "#7A2E3A" },
+      { name: "Chicory Coffee", hex: "#3D2B1F" },
+      { name: "Olive Green", hex: "#5F6B4F" },
     ],
     sizes: ["XS", "S", "M", "L", "XL"],
     tone: "tone-7",
@@ -248,8 +248,8 @@ const PRODUCTS = [
     cat: "The Dalia Set",
     price: 0,
     swatches: [
-      { name: "Bark Oxides", hex: "#5C4632" },
-      { name: "Zinc Crimson", hex: "#7A2E3A" },
+      { name: "Chicory Coffee", hex: "#3D2B1F" },
+      { name: "Olive Green", hex: "#5F6B4F" },
     ],
     sizes: ["XS", "S", "M", "L", "XL"],
     tone: "tone-6",
@@ -362,10 +362,33 @@ const HHRAA_DATA = { PRODUCTS, FEATURED_IDS, NEW_IDS, CATEGORIES, HEROES };
 // === FILE 04-af48d016-3e9e-4c3b-ac6a-19f515101d8e.jsx ===
 
 function Announce() {
+  const [index, setIndex] = useState(0);
+  const messages = [
+    "Free Next Day Delivery in UAE",
+    "Free Global Express Shipping Over AED 1,900"
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % messages.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="announce">
-      <div className="announce-track">
-        <span>Free Next Day Delivery in UAE · Free Global Express Shipping Over AED 1,900</span>
+      <div className="announce-track" style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%", position: "relative", height: "100%" }}>
+        <span
+          key={index}
+          style={{
+            animation: "announceFade 0.6s ease-in-out forwards",
+            display: "inline-block",
+            textAlign: "center",
+            width: "100%"
+          }}
+        >
+          {messages[index]}
+        </span>
       </div>
       <div className="announce-locale">
         <span>EN</span>
@@ -740,7 +763,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
             Proceed to Checkout
             <span className="btn-arrow"><Icon.Arrow /></span>
           </button>
-          <p className="micro" style={{ textAlign: "center", marginTop: 12 }}>Secure checkout · SSL encrypted · 10% gives back</p>
+          <p className="micro" style={{ textAlign: "center", marginTop: 12 }}>Secure checkout · SSL encrypted</p>
           <div className="pco-checkout-notes" style={{ marginTop: 24, padding: 16, background: "rgba(0,0,0,0.02)", borderRadius: 6, fontSize: 11, lineHeight: "1.6", border: "1px solid rgba(0,0,0,0.05)" }}>
             <div style={{ fontWeight: 600, marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--ink)" }}>Shipping & Returns Summary</div>
             <div style={{ marginBottom: 6 }}>• <strong>UAE Domestic:</strong> Free standard next-day shipping (no minimum). Same-day delivery upgrade available for AED 28 in Dubai, Abu Dhabi, Sharjah, and Ajman only.</div>
@@ -837,7 +860,7 @@ function Footer({ setRoute, route = "" }) {
               <li><a onClick={() => setRoute("shipping")} style={{ cursor: "pointer" }}>Shipping &amp; Delivery</a></li>
               <li><a onClick={() => setRoute("returns")} style={{ cursor: "pointer" }}>Returns &amp; Refunds</a></li>
               <li><a onClick={() => setRoute("size-guide")} style={{ cursor: "pointer" }}>Size Guide</a></li>
-              <li><a href="mailto:hello@hhara.com">Contact</a></li>
+              <li><a onClick={() => setRoute("contact")} style={{ cursor: "pointer" }}>Contact</a></li>
             </ul>
           </div>
           <div className="footer-col">
@@ -1068,7 +1091,7 @@ function Hero({ openShop }) {
   return (
     <section className="hero">
       <div className={`hero-media ${slide.tone}`}>
-        <img src="/images/HHara.png" alt="" className="img-fill motion" />
+        <img src="/images/HHara.png" alt="" className="img-fill" />
       </div>
       <div className="hero-overlay"></div>
       <div className="hero-content">
@@ -1124,27 +1147,52 @@ function Categories({ onPick }) {
   );
 }
 
-function FeaturedGrid({ ids, title, eyebrow, link, openProduct, quickAdd }) {
-  const PRODUCTS = useProducts();
-  const list = ids.map((id) => PRODUCTS.find((p) => p.id === id)).filter(Boolean);
+function FeaturedGrid({ setRoute }: { setRoute: (route: string, payload?: any) => void }) {
   return (
-    <section className="section">
-      <div className="section-head">
-        <div className="section-head-stack">
-          <span className="eyebrow">{eyebrow}</span>
-          <h2 className="section-title">{title}</h2>
+    <section className="manifesto-colourways" style={{ paddingTop: "60px", paddingBottom: "60px" }}>
+      <span className="eyebrow" style={{ color: "#B8892E", display: "block", textAlign: "center", marginBottom: 16 }}>THE PALETTE</span>
+      <h2 className="mc-headline" style={{ marginBottom: 12 }}>
+        Timeless<br />
+        <em style={{ fontFamily: "var(--display,'Cormorant Garamond',serif)", fontStyle: "italic", fontWeight: 300, color: "#B8892E" }}>Tones.</em>
+      </h2>
+      <p className="mc-lead" style={{ marginBottom: 40, maxWidth: "640px", textAlign: "center" }}>
+        Chicory Coffee and Olive Green. Two signature colorways grounded in raw mineral earth and quiet oases, designed to anchor your movement and your days.
+      </p>
+      <div className="mc-cards" style={{ cursor: "default" }}>
+        <div 
+          className="mc-card mc-card-clickable" 
+          onClick={() => setRoute("shop", "Chicory Coffee")}
+          style={{ textAlign: "left" }}
+        >
+          <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "#3D2B1F", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0 }} />
+          <div>
+            <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Chicory Coffee</h3>
+            <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", display: "block" }}>Deep Espresso Brown</span>
+          </div>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 13.5, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
+            The colour of the first cup. Before the world awakens. Deep, warm, and grounding - a quiet ritual before everything else begins.
+          </p>
+          <p style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontStyle: "italic", fontSize: 15, color: "#B8892E", margin: "8px 0 0" }}>
+            Her colour. Before the day begins.
+          </p>
         </div>
-        <span className="section-link">{link} →</span>
-      </div>
-      <div className="pgrid">
-        {list.map((p) => (
-          <ProductCard
-            key={p.id}
-            product={p}
-            onClick={() => openProduct(p.id)}
-            onQuickAdd={quickAdd}
-          />
-        ))}
+        <div 
+          className="mc-card mc-card-clickable" 
+          onClick={() => setRoute("shop", "Olive Green")}
+          style={{ textAlign: "left" }}
+        >
+          <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "#5F6B4F", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0 }} />
+          <div>
+            <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Olive Green</h3>
+            <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", display: "block" }}>Deep Olive</span>
+          </div>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 13.5, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
+            The colour of quiet resilience. A soft, mineral shade pulled from the heart of the desert oasis. Peaceful, steady, organic - a tone that does not seek attention, yet holds it completely.
+          </p>
+          <p style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontStyle: "italic", fontSize: 15, color: "#B8892E", margin: "8px 0 0" }}>
+            Grounded in nature. Quietly powerful.
+          </p>
+        </div>
       </div>
     </section>
   );
@@ -1161,10 +1209,6 @@ function Editorial({ openShop }) {
           </picture>
         </div>
         <div className="editorial-body" style={{ gap: "20px", alignSelf: "center" }}>
-          <span className="editorial-eyebrow" style={{ color: "#B8892E", textTransform: "uppercase", fontSize: 9, letterSpacing: "0.45em", fontWeight: 600, display: "block" }}>
-            HHARA CLOUD™
-          </span>
-
           <h2 className="editorial-title" style={{ margin: 0 }}>
             Built to move with <em>every version of you.</em>
           </h2>
@@ -1204,13 +1248,6 @@ function Editorial({ openShop }) {
               No changing in between. Just her.
             </p>
           </div>
-
-          <div>
-            <button className="btn btn-outline" onClick={openShop}>
-              Explore the Technology
-              <span className="btn-arrow"><Icon.Arrow /></span>
-            </button>
-          </div>
         </div>
       </div>
     </section>
@@ -1248,7 +1285,7 @@ function Lookbook({ openLookbook }) {
 
   const tiles = [IMGS.lb1, IMGS.lb2, IMGS.lb3, IMGS.lb4, IMGS.lb5, IMGS.lb6];
   const tones = ["tone-3", "tone-1", "tone-5", "tone-7", "tone-2", "tone-6"];
-  const tags = ["Imara Bra", "Imara Legging", "Dalia Bra", "Dalia Short", "Bark Oxides", "Zinc Crimson"];
+  const tags = ["Imara Bra", "Imara Legging", "Dalia Bra", "Dalia Short", "Chicory Coffee", "Olive Green"];
   return (
     <section className="section">
       <div className="section-head">
@@ -1355,7 +1392,9 @@ function Newsletter() {
   );
 }
 
-function ManifestoColourways({ onShop }: { onShop: () => void }) {
+function ManifestoColourways({ ids, openProduct, quickAdd, onShop }: { ids: string[]; openProduct: (id: string) => void; quickAdd: any; onShop: () => void }) {
+  const PRODUCTS = useProducts();
+  const list = ids.map((id) => PRODUCTS.find((p) => p.id === id)).filter(Boolean);
   return (
     <section className="manifesto-colourways">
       <span className="eyebrow" style={{ color: "#B8892E", display: "block", textAlign: "center", marginBottom: 16 }}>THE COLLECTION</span>
@@ -1364,39 +1403,23 @@ function ManifestoColourways({ onShop }: { onShop: () => void }) {
         <em style={{ fontFamily: "var(--display,'Cormorant Garamond',serif)", fontStyle: "italic", fontWeight: 300, color: "#B8892E" }}>You.</em>
       </h2>
       <p className="mc-lead">Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.</p>
-      <p className="mc-body">
+      <p className="mc-body" style={{ marginBottom: 48 }}>
         Every piece carries a name with meaning. Each was chosen to celebrate the strength and softness that exist within every woman.{" "}
         <em>Dalia (Arabic)</em> - Gentle. Tender. Delicate.{" "}
         <em>Imara (Swahili)</em> - Strong. Firm. Resolute. She is both. Always.
       </p>
-      <div className="mc-cards">
-        <div className="mc-card">
-          <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "#3D2B1F", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0, alignSelf: "center" }} />
-          <div>
-            <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Chicory Coffee</h3>
-            <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", display: "block" }}>Deep Espresso Brown</span>
-          </div>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 13.5, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
-            The colour of the first cup. Before the world awakens. Deep, warm, and grounding - a quiet ritual before everything else begins.
-          </p>
-          <p style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontStyle: "italic", fontSize: 15, color: "#B8892E", margin: "8px 0 0" }}>
-            Her colour. Before the day begins.
-          </p>
-        </div>
-        <div className="mc-card">
-          <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "#5F6B4F", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0, alignSelf: "center" }} />
-          <div>
-            <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Olive Green</h3>
-            <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", display: "block" }}>Deep Olive</span>
-          </div>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 13.5, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
-            The colour of quiet resilience. A soft, mineral shade pulled from the heart of the desert oasis. Peaceful, steady, organic - a tone that does not seek attention, yet holds it completely.
-          </p>
-          <p style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontStyle: "italic", fontSize: 15, color: "#B8892E", margin: "8px 0 0" }}>
-            Grounded in nature. Quietly powerful.
-          </p>
-        </div>
+      
+      <div className="pgrid" style={{ width: "100%", maxWidth: "var(--maxw)", marginBottom: 48 }}>
+        {list.map((p) => (
+          <ProductCard
+            key={p.id}
+            product={p}
+            onClick={() => openProduct(p.id)}
+            onQuickAdd={quickAdd}
+          />
+        ))}
       </div>
+
       <button className="btn btn-primary" onClick={onShop}>Shop All Pieces</button>
     </section>
   );
@@ -1430,7 +1453,6 @@ function Pillars() {
       <div className="pillars-container">
         <div className="section-head" style={{ borderBottom: "1px solid rgba(184, 137, 46, 0.12)", paddingBottom: 28, marginBottom: 48 }}>
           <div className="section-head-stack">
-            <span className="eyebrow" style={{ color: "#B8892E" }}>The Four Pillars</span>
             <h2 className="section-title" style={{ color: "#2A1F14", fontWeight: 300 }}>Luxury within<br /><em>intention.</em></h2>
           </div>
         </div>
@@ -1488,49 +1510,49 @@ const TESTIMONIALS = [
     quote: "The Imara set went from morning yoga to a board meeting without a single second glance. I've worn luxury activewear from every label and nothing moves like this. The fabric feels like a second skin and holds its shape through everything.",
     name: "Layla M.",
     location: "Dubai",
-    product: "Imara Set · Bark Oxide",
+    product: "Imara Set · Chicory Coffee",
   },
   {
     quote: "I've been searching for years for something that doesn't ask me to choose between beauty and function. HHARA finally understood what my mornings actually look like. It's the first brand that dressed me for the whole day, not just the gym.",
     name: "Amira K.",
     location: "Abu Dhabi",
-    product: "Dalia Set · Zinc Crimson",
+    product: "Dalia Set · Olive Green",
   },
   {
     quote: "The craftsmanship on the Dalia Bra is extraordinary, soft against the skin but structured where it matters. Six hours later I forgot I was wearing activewear. I've recommended it to every woman in my circle since.",
     name: "Nadia R.",
     location: "London",
-    product: "Dalia Bra · Bark Oxide",
+    product: "Dalia Bra · Chicory Coffee",
   },
   {
-    quote: "Finally activewear I'm proud to be seen in. The Bark Oxide colourway is richer and more considered in person than any photograph captures. It photographs beautifully but wearing it is something else entirely.",
+    quote: "Finally activewear I'm proud to be seen in. The Chicory Coffee colourway is richer and more considered in person than any photograph captures. It photographs beautifully but wearing it is something else entirely.",
     name: "Fatima A.",
     location: "Dubai",
-    product: "Imara Legging · Bark Oxide",
+    product: "Imara Legging · Chicory Coffee",
   },
   {
     quote: "Worth every dirham. I bought the Dalia Short for the gym and I've worn it to dinner twice since. That says everything. It pairs with almost anything and never looks like it's trying too hard.",
     name: "Sara H.",
     location: "Riyadh",
-    product: "Dalia Short · Zinc Crimson",
+    product: "Dalia Short · Olive Green",
   },
   {
     quote: "I wore the Imara Set to a gallery opening and three women stopped to ask what I was wearing. HHARA moves with you and speaks for you without trying.",
     name: "Hessa O.",
     location: "Doha",
-    product: "Imara Set · Zinc Crimson",
+    product: "Imara Set · Olive Green",
   },
   {
     quote: "The Dalia Legging is the most precise piece of activewear I own. The waistband doesn't roll, the fabric holds its shape after forty washes. Nothing comes close.",
     name: "Mariam S.",
     location: "Kuwait City",
-    product: "Dalia Legging · Bark Oxide",
+    product: "Dalia Legging · Chicory Coffee",
   },
   {
     quote: "I train four days a week and spend the other three in meetings. HHARA is the only thing I own that moves seamlessly between both worlds without compromise.",
     name: "Rania B.",
     location: "Beirut",
-    product: "Imara Bra · Zinc Crimson",
+    product: "Imara Bra · Olive Green",
   },
   {
     quote: "The Imara Legging has outlasted every other pair I own. Three months of daily wear and it still looks brand new. The fabric is something else entirely.",
@@ -1542,13 +1564,13 @@ const TESTIMONIALS = [
     quote: "I wore the Dalia Set to a client dinner and not a single person knew it was activewear. That is the whole point, isn't it? HHARA gets it perfectly.",
     name: "Lina M.",
     location: "Beirut",
-    product: "Dalia Set · Bark Oxide",
+    product: "Dalia Set · Chicory Coffee",
   },
   {
     quote: "The waistband on the Imara Legging is the best I have ever worn. No rolling, no digging. Just stays exactly where it should all day long.",
     name: "Nour T.",
     location: "Cairo",
-    product: "Imara Legging · Zinc Crimson",
+    product: "Imara Legging · Olive Green",
   },
   {
     quote: "Activewear I can wear to the gym, to coffee, and straight into a meeting without a second thought. HHARA solved a problem I didn't know could be solved.",
@@ -1617,16 +1639,13 @@ function Home(props) {
   return (
     <>
       <Hero openShop={() => props.setRoute("shop")} />
-      <Marquee />
-      <ManifestoColourways onShop={() => props.setRoute("shop")} />
-      <FeaturedGrid
+      <ManifestoColourways
         ids={HHRAA_DATA.FEATURED_IDS}
-        title="The Capsule"
-        eyebrow="Four Pieces · Two Sets"
-        link="Shop All"
         openProduct={(id) => props.setRoute("product", id)}
         quickAdd={props.quickAdd}
+        onShop={() => props.setRoute("shop")}
       />
+      <FeaturedGrid setRoute={props.setRoute} />
       <Editorial openShop={() => props.setRoute("atelier")} />
       <Lookbook openLookbook={() => props.setRoute("lookbook")} />
       <Pillars />
@@ -1640,10 +1659,22 @@ function Home(props) {
 
 // === FILE 07-9214c1d3-74f7-4bc2-bccb-7476bbfce9dc.jsx ===
 
-function CollectionPage({ setRoute, openProduct, quickAdd }) {
+function CollectionPage({ setRoute, openProduct, quickAdd, initialColorFilter }: { setRoute: any; openProduct: any; quickAdd: any; initialColorFilter?: string | null }) {
   const PRODUCTS = useProducts();
   const [sort, setSort] = useState("Featured");
-  const [filters, setFilters] = useState({ size: [], color: [], cat: [], price: [] });
+  const [filters, setFilters] = useState({ 
+    size: [], 
+    color: initialColorFilter ? [initialColorFilter] : [], 
+    cat: [], 
+    price: [] 
+  });
+
+  useEffect(() => {
+    setFilters(f => ({
+      ...f,
+      color: initialColorFilter ? [initialColorFilter] : []
+    }));
+  }, [initialColorFilter]);
 
   const PRICE_RANGES = [
     { label: "Under AED 500", min: 0, max: 500 },
@@ -1900,142 +1931,23 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [adding, setAdding] = useState(false);
   const [activeShot, setActiveShot] = useState(0);
+  const [writeReviewOpen, setWriteReviewOpen] = useState(false);
+  const [reviewForm, setReviewForm] = useState({ name: "", location: "", rating: 5, quote: "", product: "" });
 
   // Reviews and Interactive Form States
   const [reviews, setReviews] = useState([
-    {
-      id: "r1",
-      avatar: "S",
-      name: "Sarah M.",
-      verified: true,
-      location: "UAE",
-      rating: 5,
-      title: "Finally, a bra that does something",
-      body: "Finally a bra that actually holds. Activity is easy, side roll is gone, structured. I wore it straight from class to lunch and felt completely put together.",
-      date: "01/08/26",
-      quality: "Excellent",
-      qualityPos: 100,
-      fit: "True to size",
-      fitPos: 100,
-      upVotes: 0,
-      downVotes: 0,
-      voted: null as 'up' | 'down' | null
-    },
-    {
-      id: "r2",
-      avatar: "N",
-      name: "Nour A.",
-      verified: true,
-      location: "Abu Dhabi",
-      rating: 5,
-      title: "The fabric is genuinely buttery",
-      body: "The fabric is genuinely buttery — I wasn't expecting it to feel this luxurious. The cross-cross back is stunning. Already ordered the legging!",
-      date: "15/09/26",
-      quality: "Excellent",
-      qualityPos: 100,
-      fit: "True to size",
-      fitPos: 100,
-      upVotes: 0,
-      downVotes: 0,
-      voted: null as 'up' | 'down' | null
-    },
-    {
-      id: "r3",
-      avatar: "L",
-      name: "Layla K.",
-      verified: true,
-      location: "Riyadh",
-      rating: 4,
-      title: "Beautiful — sized up and it was perfect",
-      body: "Sizing is true to guide. I have a fuller bust and sized up as advised — perfect fit. The Olive Green colour is even more beautiful in person.",
-      date: "22/09/26",
-      quality: "Great",
-      qualityPos: 80,
-      fit: "Good",
-      fitPos: 70,
-      upVotes: 0,
-      downVotes: 0,
-      voted: null as 'up' | 'down' | null
-    }
+    { id: "r1", name: "Sarah M.", location: "UAE", rating: 5, quote: "Finally a bra that actually holds. Activity is easy, side roll is gone, structured. I wore it straight from class to lunch and felt completely put together.", product: "Imara Bra · Chicory Coffee" },
+    { id: "r2", name: "Nour A.", location: "Abu Dhabi", rating: 5, quote: "The fabric is genuinely buttery — I wasn't expecting it to feel this luxurious. The cross-cross back is stunning. Already ordered the legging!", product: "Dalia Bra · Olive Green" },
+    { id: "r3", name: "Layla K.", location: "Riyadh", rating: 4, quote: "Sizing is true to guide. I have a fuller bust and sized up as advised — perfect fit. The Olive Green colour is even more beautiful in person.", product: "Dalia Bra · Olive Green" },
+    { id: "r4", name: "Amira H.", location: "Dubai", rating: 5, quote: "I wore the Imara Set from morning yoga straight to a client lunch. Not once did I feel underdressed. HHARA genuinely gets the way we move through our days.", product: "Imara Set · Chicory Coffee" },
+    { id: "r5", name: "Fatima R.", location: "Doha", rating: 5, quote: "The waistband doesn't roll, the fabric doesn't pill, and the colour is even richer in person. Worth every dirham and then some.", product: "Dalia Legging · Olive Green" },
+    { id: "r6", name: "Hessa O.", location: "Kuwait City", rating: 5, quote: "Three months of wear and it still looks brand new. I've stopped buying from everywhere else. HHARA is the only activewear I trust now.", product: "Imara Legging · Chicory Coffee" },
   ]);
-  const [writeReviewOpen, setWriteReviewOpen] = useState(false);
-  const [newReview, setNewReview] = useState({
-    name: "",
-    location: "",
-    rating: 5,
-    title: "",
-    body: "",
-    quality: 80,
-    fit: 80
-  });
-  const [reviewSubmitted, setReviewSubmitted] = useState(false);
-
-  const handleVote = (reviewId: string, type: 'up' | 'down') => {
-    setReviews(prev => prev.map(r => {
-      if (r.id !== reviewId) return r;
-      if (r.voted === type) {
-        return {
-          ...r,
-          voted: null,
-          upVotes: type === 'up' ? r.upVotes - 1 : r.upVotes,
-          downVotes: type === 'down' ? r.downVotes - 1 : r.downVotes
-        };
-      }
-      if (r.voted && r.voted !== type) {
-        return {
-          ...r,
-          voted: type,
-          upVotes: type === 'up' ? r.upVotes + 1 : r.upVotes - 1,
-          downVotes: type === 'down' ? r.downVotes + 1 : r.downVotes - 1
-        };
-      }
-      return {
-        ...r,
-        voted: type,
-        upVotes: type === 'up' ? r.upVotes + 1 : r.upVotes,
-        downVotes: type === 'down' ? r.downVotes + 1 : r.downVotes
-      };
-    }));
-  };
-
-  const submitReview = (e: React.FormEvent) => {
-    e.preventDefault();
-    const qualityLabel = newReview.quality >= 90 ? "Excellent" : newReview.quality >= 70 ? "Great" : newReview.quality >= 50 ? "Good" : "Fair";
-    const fitLabel = newReview.fit >= 80 ? "True to size" : newReview.fit >= 60 ? "Good" : "Runs small";
-    const addedReview = {
-      id: "r-" + Date.now(),
-      avatar: newReview.name ? newReview.name.charAt(0).toUpperCase() : "A",
-      name: newReview.name || "Anonymous",
-      verified: true,
-      location: newReview.location || "UAE",
-      rating: newReview.rating,
-      title: newReview.title || "Highly recommended",
-      body: newReview.body || "No text description left.",
-      date: new Date().toLocaleDateString("en-GB"),
-      quality: qualityLabel,
-      qualityPos: newReview.quality,
-      fit: fitLabel,
-      fitPos: newReview.fit,
-      upVotes: 0,
-      downVotes: 0,
-      voted: null as 'up' | 'down' | null
-    };
-    setReviews(prev => [addedReview, ...prev]);
-    setNewReview({ name: "", location: "", rating: 5, title: "", body: "", quality: 80, fit: 80 });
-    setWriteReviewOpen(false);
-    setReviewSubmitted(true);
-    setTimeout(() => setReviewSubmitted(false), 3000);
-  };
 
   const totalReviews = reviews.length;
   const averageRating = (reviews.reduce((acc, r) => acc + r.rating, 0) / totalReviews).toFixed(1);
   const starsCount = (num: number) => reviews.filter(r => r.rating === num).length;
   const starsPercentage = (num: number) => totalReviews ? (starsCount(num) / totalReviews) * 100 : 0;
-  
-  const avgQualityPos = reviews.reduce((acc, r) => acc + r.qualityPos, 0) / totalReviews;
-  const avgFitPos = reviews.reduce((acc, r) => acc + r.fitPos, 0) / totalReviews;
-  const avgQualityVal = avgQualityPos >= 90 ? "Excellent" : avgQualityPos >= 70 ? "Great" : avgQualityPos >= 50 ? "Good" : "Fair";
-  const avgFitVal = avgFitPos >= 80 ? "True to size" : avgFitPos >= 60 ? "Good" : "Runs small";
 
   // Floating Video & Reel Player States
   const [videoDismissed, setVideoDismissed] = useState(false);
@@ -2237,6 +2149,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
             <div className="pdp-price">
               {product.priceWas && <span className="was">AED {product.priceWas.toLocaleString()}</span>}
               <span className="now">AED {product.price.toLocaleString()}</span>
+              <span style={{ color: "#B8892E", fontSize: "18px", letterSpacing: "3px", marginLeft: "14px", lineHeight: 1 }}>★★★★★</span>
               <span className="pdp-vat-note">+ VAT at checkout</span>
             </div>
 
@@ -2326,28 +2239,18 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               <div className="pdp-section-label">Description</div>
               <p>{product.description || "Premium recycled performance knit, engineered for movement, structure, and longevity."}</p>
               <p>Designed in the UAE for movement, structure, and longevity - with no compromise on how it feels against the skin.</p>
-              {specs.length > 0 && (
-                <div className="pdp-specs">
-                  {specs.map((row) => (
-                    <div className="pdp-spec-row" key={row.k}>
-                      <span className="k">{row.k}</span>
-                      <span className="v">{row.v}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
 
             <div className="pdp-accordions" style={{ marginTop: "32px" }}>
-              <Accordion title="Size Guide" open={open === "fit"} onToggle={() => setOpen(open === "fit" ? "" : "fit")}>
-                <p>Model is 178cm and wears a size S. Engineered for second-skin compression with 4-way mechanical stretch. We recommend taking your usual size; size down for a closer compression fit.</p>
-              </Accordion>
               <Accordion title="Fabric & Feel" open={open === "details"} onToggle={() => setOpen(open === "details" ? "" : "details")}>
                 <ul>
                   {(product.details || ["Premium recycled performance fabric", "Brushed-gold low-friction hardware", "Designed in the UAE", "Machine wash cold · do not tumble dry"]).map((d, i) => (
                     <li key={i}>{d}</li>
                   ))}
                 </ul>
+              </Accordion>
+              <Accordion title="Size Guide" open={open === "fit"} onToggle={() => setOpen(open === "fit" ? "" : "fit")}>
+                <p>Model is 178cm and wears a size S. Engineered for second-skin compression with 4-way mechanical stretch. We recommend taking your usual size; size down for a closer compression fit.</p>
               </Accordion>
               <Accordion title="Care Instructions" open={open === "care"} onToggle={() => setOpen(open === "care" ? "" : "care")}>
                 <p>Machine wash cold with like colours. Do not tumble dry, do not bleach, do not iron. Lay flat to dry to preserve the recycled performance knit.</p>
@@ -2356,220 +2259,99 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                 <p>Free standard next-day shipping within the UAE (no minimum). Same-day delivery upgrade available for AED 28 in Dubai, Abu Dhabi, Sharjah, and Ajman. International express shipping is free on orders over AED 1,900, with flat shipping rates below the threshold (AED 60 GCC, AED 80 UK/Europe/Rest of World, AED 120 North America). Returns are free within 14 days for UAE orders only; GCC and international sales are final.</p>
               </Accordion>
             </div>
+
+            {specs.length > 0 && (
+              <div className="pdp-specs" style={{ marginTop: "32px" }}>
+                {specs.map((row) => (
+                  <div className="pdp-spec-row" key={row.k}>
+                    <span className="k">{row.k}</span>
+                    <span className="v">{row.v}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       {/* WHAT SHE SAYS: REVIEWS SECTION */}
-      <section className="section" style={{ borderTop: "1px solid var(--line-soft)", paddingTop: "80px", marginTop: "40px" }}>
-        <div className="gives-back-content-width" style={{ maxWidth: "1000px", margin: "0 auto", padding: "0 var(--pad)" }}>
-          <h2 style={{ fontFamily: "var(--display)", fontSize: "clamp(28px, 4vw, 36px)", fontWeight: 300, marginBottom: "40px", color: "var(--ink)", textAlign: "left" }}>What She Says</h2>
-
-          {/* SUMMARY BOX */}
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "1.2fr 2fr 1.2fr",
-            gap: "40px",
-            backgroundColor: "#FAF7F2",
-            border: "1px solid var(--line-soft)",
-            padding: "40px",
-            marginBottom: "48px",
-            alignItems: "center"
-          }} className="pdp-reviews-summary">
-            {/* Column 1: Rating summary */}
-            <div style={{ textAlign: "center", borderRight: "1px solid var(--line-soft)", paddingRight: "40px" }} className="pdp-reviews-col1">
-              <div style={{ fontSize: "56px", fontWeight: 300, fontFamily: "var(--display)", color: "var(--ink)", lineHeight: 1 }}>{averageRating}</div>
-              <div style={{ color: "#B8892E", fontSize: "16px", margin: "12px 0 6px" }}>
-                {"★".repeat(Math.round(parseFloat(averageRating))) + "☆".repeat(5 - Math.round(parseFloat(averageRating)))}
-              </div>
-              <div style={{ fontSize: "10px", letterSpacing: "0.15em", color: "var(--ink-soft)", textTransform: "uppercase" }}>Based on {totalReviews} reviews</div>
-            </div>
-
-            {/* Column 2: Star breakdown */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <StarRow stars={5} percentage={starsPercentage(5)} count={starsCount(5)} />
-              <StarRow stars={4} percentage={starsPercentage(4)} count={starsCount(4)} />
-              <StarRow stars={3} percentage={starsPercentage(3)} count={starsCount(3)} />
-              <StarRow stars={2} percentage={starsPercentage(2)} count={starsCount(2)} />
-              <StarRow stars={1} percentage={starsPercentage(1)} count={starsCount(1)} />
-            </div>
-
-            {/* Column 3: Quality & Fit sliders */}
-            <div style={{ borderLeft: "1px solid var(--line-soft)", paddingLeft: "40px" }} className="pdp-reviews-col3">
-              <ReviewSlider label="Quality" value={avgQualityVal} position={avgQualityPos} />
-              <ReviewSlider label="Fit" value={avgFitVal} position={avgFitPos} />
-            </div>
+      <section className="reviews-section" style={{ borderTop: "1px solid var(--line-soft)", marginTop: "40px" }}>
+        <div className="reviews-header">
+          <h2 className="reviews-title" style={{ textAlign: "center", width: "100%", fontSize: "clamp(38px, 5vw, 62px)" }}>What She Says</h2>
+          <div className="reviews-nav">
+            <button className="reviews-nav-btn" onClick={() => {
+              const el = document.querySelector('.pdp-reviews-track');
+              if (!el) return;
+              const card = el.querySelector<HTMLElement>('.review-card');
+              const step = card ? card.offsetWidth + 24 : 300;
+              el.scrollBy({ left: -step, behavior: 'smooth' });
+            }} aria-label="Previous reviews">←</button>
+            <button className="reviews-nav-btn" onClick={() => {
+              const el = document.querySelector('.pdp-reviews-track');
+              if (!el) return;
+              const card = el.querySelector<HTMLElement>('.review-card');
+              const step = card ? card.offsetWidth + 24 : 300;
+              el.scrollBy({ left: step, behavior: 'smooth' });
+            }} aria-label="Next reviews">→</button>
           </div>
+        </div>
 
-          {/* REVIEWS LIST */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "32px", marginBottom: "48px" }}>
-            {reviews.map((r) => (
-              <div key={r.id} style={{
-                borderBottom: "1px solid var(--line-soft)",
-                paddingBottom: "32px",
-                display: "grid",
-                gridTemplateColumns: "200px 1fr",
-                gap: "32px"
-              }} className="pdp-review-row">
-                {/* User Meta */}
-                <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: "8px", textAlign: "left" }}>
-                  <div style={{
-                    width: "48px",
-                    height: "48px",
-                    borderRadius: "50%",
-                    backgroundColor: "var(--ink)",
-                    color: "#FAF7F2",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontFamily: "var(--display)",
-                    fontSize: "18px",
-                    fontWeight: 300
-                  }}>{r.avatar}</div>
-                  <div style={{ fontWeight: 500, fontSize: "14px", color: "var(--ink)" }}>{r.name}</div>
-                  {r.verified && (
-                    <div style={{ fontSize: "11px", color: "var(--ink-soft)", display: "flex", alignItems: "center", gap: "4px" }}>
-                      <span style={{ color: "#B8892E" }}>✓</span> Verified · {r.location}
-                    </div>
-                  )}
-                </div>
-
-                {/* Review Content */}
-                <div style={{ position: "relative", textAlign: "left" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                      <span style={{ color: "#B8892E", fontSize: "14px" }}>
-                        {"★".repeat(r.rating) + "☆".repeat(5 - r.rating)}
-                      </span>
-                      <h4 style={{ fontFamily: "var(--display)", fontSize: "16px", fontWeight: 400, margin: 0 }}>{r.title}</h4>
-                    </div>
-                    <span style={{ fontSize: "12px", color: "var(--ink-soft)" }}>{r.date}</span>
-                  </div>
-                  <p style={{ fontStyle: "italic", fontSize: "14px", lineHeight: "1.7", color: "var(--ink-soft)", marginBottom: "20px", fontFamily: "var(--display)" }}>
-                    "{r.body}"
-                  </p>
-
-                  {/* Review Specific Sliders */}
-                  <div style={{ display: "flex", gap: "40px", maxWidth: "400px", marginBottom: "20px" }}>
-                    <div style={{ flex: 1 }}>
-                      <ReviewSlider label="Quality" value={r.quality} position={r.qualityPos} />
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <ReviewSlider label="Fit" value={r.fit} position={r.fitPos} />
-                    </div>
-                  </div>
-
-                  {/* Helpful count */}
-                  <div style={{ display: "flex", alignItems: "center", gap: "12px", fontSize: "12px", color: "var(--ink-soft)" }}>
-                    <span>Was this helpful?</span>
-                    <button 
-                      onClick={() => handleVote(r.id, 'up')}
-                      style={{ 
-                        background: r.voted === 'up' ? 'rgba(184,137,46,0.1)' : 'none', 
-                        border: "1px solid var(--line-soft)", 
-                        padding: "4px 10px", 
-                        borderRadius: "2px", 
-                        cursor: "pointer", 
-                        display: "inline-flex", 
-                        alignItems: "center", 
-                        gap: "6px",
-                        color: r.voted === 'up' ? 'var(--accent)' : 'var(--ink)'
-                      }}
-                    >
-                      👍 {r.upVotes}
-                    </button>
-                    <button 
-                      onClick={() => handleVote(r.id, 'down')}
-                      style={{ 
-                        background: r.voted === 'down' ? 'rgba(107,39,55,0.1)' : 'none', 
-                        border: "1px solid var(--line-soft)", 
-                        padding: "4px 10px", 
-                        borderRadius: "2px", 
-                        cursor: "pointer", 
-                        display: "inline-flex", 
-                        alignItems: "center", 
-                        gap: "6px",
-                        color: r.voted === 'down' ? 'var(--sale)' : 'var(--ink)'
-                      }}
-                    >
-                      👎 {r.downVotes}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+        {/* Rating summary: avg score · star bars */}
+        <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "32px var(--pad)", display: "grid", gridTemplateColumns: "auto 1fr", gap: "48px", alignItems: "center", borderBottom: "1px solid var(--line-soft)" }}>
+          <div style={{ textAlign: "center", minWidth: "120px" }}>
+            <div style={{ fontFamily: "var(--display)", fontSize: "56px", fontWeight: 300, lineHeight: 1, color: "var(--ink)" }}>{averageRating}</div>
+            <div style={{ color: "var(--accent)", fontSize: "18px", letterSpacing: "2px", margin: "6px 0" }}>{"★".repeat(Math.round(parseFloat(averageRating)))}</div>
+            <div style={{ fontFamily: "var(--sans)", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--ink-soft)" }}>BASED ON {totalReviews} REVIEWS</div>
           </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            {[5,4,3,2,1].map(n => <StarRow key={n} stars={n} percentage={starsPercentage(n)} count={starsCount(n)} />)}
+          </div>
+        </div>
 
-          {/* WRITE A REVIEW ACTION & FORM */}
-          {reviewSubmitted && (
-            <div style={{
-              backgroundColor: "rgba(184,137,46,0.08)",
-              border: "1px solid var(--accent)",
-              color: "var(--ink)",
-              padding: "16px",
-              textAlign: "center",
-              fontSize: "14px",
-              marginBottom: "24px",
-              fontFamily: "var(--sans)"
-            }}>
-              ✦ Thank you! Your review has been submitted successfully and added to the list.
+        <div className="reviews-track pdp-reviews-track">
+          {reviews.map((r) => (
+            <div key={r.id} className="review-card">
+              <div className="review-stars">{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</div>
+              <blockquote className="review-quote">{r.quote}</blockquote>
+              <div className="review-author">{r.name}</div>
+              <div className="review-meta">{r.location} · {r.product}</div>
             </div>
-          )}
+          ))}
+        </div>
 
-          {writeReviewOpen ? (
-            <form onSubmit={submitReview} style={{
-              backgroundColor: "#FAF7F2",
-              border: "1px solid var(--line-soft)",
-              padding: "40px",
-              marginBottom: "48px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "24px",
-              textAlign: "left"
-            }}>
+        <div style={{ maxWidth: "1000px", margin: "48px auto 0", padding: "0 var(--pad)" }}>
+          {!writeReviewOpen ? (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <button className="btn btn-outline" onClick={() => setWriteReviewOpen(true)} style={{ display: "inline-flex", alignItems: "center", gap: "8px", textTransform: "uppercase", letterSpacing: "0.2em", fontSize: "12px", padding: "16px 40px" }}>
+                ✦ Write a Review
+              </button>
+            </div>
+          ) : (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const body = [`Name: ${reviewForm.name}`, `Location: ${reviewForm.location}`, `Rating: ${"★".repeat(reviewForm.rating)}`, `Product: ${reviewForm.product || product.name}`, ``, reviewForm.quote].join("\n");
+                window.location.href = `mailto:hello@hhara.com?subject=Product Review – ${encodeURIComponent(reviewForm.product || product.name)}&body=${encodeURIComponent(body)}`;
+                setWriteReviewOpen(false);
+                setReviewForm({ name: "", location: "", rating: 5, quote: "", product: "" });
+              }}
+              style={{ backgroundColor: "#FAF7F2", border: "1px solid var(--line-soft)", padding: "40px", marginBottom: "48px", display: "flex", flexDirection: "column", gap: "24px", textAlign: "left" }}
+            >
               <h3 style={{ fontFamily: "var(--display)", fontSize: "20px", fontWeight: 300, color: "var(--ink)", margin: 0 }}>Write a Review</h3>
-              
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }} className="pdp-review-form-cols">
                 <div className="gc-field">
                   <label>Your Name</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Enter your name"
-                    value={newReview.name}
-                    onChange={(e) => setNewReview(prev => ({ ...prev, name: e.target.value }))}
-                  />
+                  <input type="text" required placeholder="Enter your name" value={reviewForm.name} onChange={e => setReviewForm(p => ({ ...p, name: e.target.value }))} />
                 </div>
                 <div className="gc-field">
                   <label>Location (e.g. Dubai, UAE)</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Enter your location"
-                    value={newReview.location}
-                    onChange={(e) => setNewReview(prev => ({ ...prev, location: e.target.value }))}
-                  />
+                  <input type="text" required placeholder="Enter your location" value={reviewForm.location} onChange={e => setReviewForm(p => ({ ...p, location: e.target.value }))} />
                 </div>
               </div>
-
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }} className="pdp-review-form-cols">
                 <div className="gc-field">
                   <label>Rating</label>
-                  <select
-                    value={newReview.rating}
-                    onChange={(e) => setNewReview(prev => ({ ...prev, rating: parseInt(e.target.value) }))}
-                    style={{
-                      width: "100%",
-                      padding: "10px 0",
-                      border: "none",
-                      borderBottom: "1px solid var(--line)",
-                      background: "transparent",
-                      fontFamily: "var(--sans)",
-                      fontSize: "14px",
-                      outline: "none",
-                      color: "var(--ink)"
-                    }}
-                  >
+                  <select value={reviewForm.rating} onChange={e => setReviewForm(p => ({ ...p, rating: parseInt(e.target.value) }))} style={{ width: "100%", padding: "10px 0", border: "none", borderBottom: "1px solid var(--line)", background: "transparent", fontFamily: "var(--sans)", fontSize: "14px", outline: "none", color: "var(--ink)" }}>
                     <option value="5">★★★★★ (5 Stars)</option>
                     <option value="4">★★★★☆ (4 Stars)</option>
                     <option value="3">★★★☆☆ (3 Stars)</option>
@@ -2578,81 +2360,22 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   </select>
                 </div>
                 <div className="gc-field">
-                  <label>Review Title</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Summarize your experience"
-                    value={newReview.title}
-                    onChange={(e) => setNewReview(prev => ({ ...prev, title: e.target.value }))}
-                  />
+                  <label>Product</label>
+                  <input type="text" placeholder="e.g. Imara Bra · Chicory Coffee" value={reviewForm.product} onChange={e => setReviewForm(p => ({ ...p, product: e.target.value }))} />
                 </div>
               </div>
-
               <div className="gc-field">
-                <label>Review Body</label>
-                <textarea
-                  rows={4}
-                  required
-                  placeholder="Tell us what you think about the fabric, fit, and style..."
-                  value={newReview.body}
-                  onChange={(e) => setNewReview(prev => ({ ...prev, body: e.target.value }))}
-                />
+                <label>Your Review</label>
+                <textarea rows={4} required placeholder="Tell us what you think about the fabric, fit, and style..." value={reviewForm.quote} onChange={e => setReviewForm(p => ({ ...p, quote: e.target.value }))} />
               </div>
-
-              {/* Sliders in Form */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "40px", marginTop: "12px" }} className="pdp-review-form-cols">
-                <div>
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "6px" }}>
-                    <span>Quality</span>
-                    <span style={{ color: "var(--accent)" }}>{newReview.quality}%</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={newReview.quality}
-                    onChange={(e) => setNewReview(prev => ({ ...prev, quality: parseInt(e.target.value) }))}
-                    style={{ width: "100%", accentColor: "var(--ink)" }}
-                  />
-                </div>
-                <div>
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "6px" }}>
-                    <span>Fit</span>
-                    <span style={{ color: "var(--accent)" }}>{newReview.fit}%</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={newReview.fit}
-                    onChange={(e) => setNewReview(prev => ({ ...prev, fit: parseInt(e.target.value) }))}
-                    style={{ width: "100%", accentColor: "var(--ink)" }}
-                  />
-                </div>
-              </div>
-
-              <div style={{ display: "flex", gap: "16px", marginTop: "24px" }}>
-                <button type="submit" className="btn btn-primary" style={{ padding: "16px 32px" }}>
-                  Submit Review
-                </button>
-                <button type="button" className="btn btn-outline" onClick={() => setWriteReviewOpen(false)} style={{ padding: "16px 32px" }}>
-                  Cancel
-                </button>
+              <div style={{ display: "flex", gap: "16px", marginTop: "8px" }}>
+                <button type="submit" className="btn btn-primary" style={{ padding: "16px 32px" }}>Submit Review</button>
+                <button type="button" className="btn btn-outline" onClick={() => setWriteReviewOpen(false)} style={{ padding: "16px 32px" }}>Cancel</button>
               </div>
             </form>
-          ) : (
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <button 
-                className="btn btn-outline" 
-                onClick={() => setWriteReviewOpen(true)}
-                style={{ display: "inline-flex", alignItems: "center", gap: "8px", textTransform: "uppercase", letterSpacing: "0.2em", fontSize: "12px", padding: "16px 40px" }}
-              >
-                ✦ Write a Review
-              </button>
-            </div>
           )}
         </div>
+
       </section>
 
       <section className="section" style={{ borderTop: "1px solid var(--line-soft)", paddingTop: "80px" }}>
@@ -2914,23 +2637,18 @@ function AtelierPage({ setRoute }) {
         <img src={IMGS.atelierHero} alt="" className="img-fill motion" />
         <div className="ovr"></div>
         <div className="copy">
-          <div className="eyebrow" style={{ color: "var(--bg)", opacity: 0.85, marginBottom: 24 }}>Our Story</div>
           <h1>She is not just enough.<br /><em>She is extraordinary.</em></h1>
         </div>
       </section>
 
       <section className="atelier-intro" style={{ maxWidth: 840 }}>
-        <span className="eyebrow" style={{ color: "var(--accent)", marginBottom: 16, display: "block" }}>The Name</span>
         <h2 style={{ fontFamily: "var(--display)", fontSize: "clamp(38px, 4.5vw, 56px)", fontWeight: 300, marginBottom: 24, letterSpacing: "-0.015em", color: "var(--ink)" }}>HHARA <em>(ā-rā)</em></h2>
         <p style={{ fontFamily: "var(--display)", fontSize: "clamp(20px, 2.2vw, 28px)", lineHeight: 1.45, fontStyle: "italic", marginBottom: 32, color: "var(--ink)" }}>
           From the Yoruba dialect. It means wonder. Not the gasp of surprise, but the deep, quiet recognition of something extraordinary that was always there.
         </p>
-        <p style={{ fontSize: 16, lineHeight: 1.8, opacity: 0.85, color: "var(--ink-soft)", maxWidth: 680, margin: "0 auto 36px" }}>
-          HHARA is the women who gave everything and were never truly seen for it. Who showed up before anyone else and stayed after everyone left. Who carried the weight on their shoulders and still found a way to smile at the end of the day.
-        </p>
         <div className="sig" style={{ fontFamily: "var(--display)", fontSize: 24, fontStyle: "italic", color: "var(--accent)", marginBottom: 36 }}>She does not have Wonder. She is Wonder.</div>
         <div>
-          <button className="btn btn-outline" onClick={() => setRoute("shop")}>
+          <button className="btn btn-primary" onClick={() => setRoute("shop")}>
             Shop the Collection
             <span className="btn-arrow"><Icon.Arrow /></span>
           </button>
@@ -2942,7 +2660,6 @@ function AtelierPage({ setRoute }) {
           <img src={IMGS.atelierFlorence} alt="" className="img-fill" loading="lazy" />
         </div>
         <div className="body">
-          <span className="eyebrow" style={{ marginBottom: 18, display: "block" }}>Built For Real Life</span>
           <h2>We have got your back.<br /><em>And your legs. And your day.</em></h2>
           <p>
             What began as a vision for movement has grown into something more - a wardrobe for the woman who is always, quietly, doing everything at once. HHARA was designed to move the way she does: without pause, without compromise.
@@ -2976,7 +2693,6 @@ function AtelierPage({ setRoute }) {
           <img src={IMGS.atelierCloth} alt="" className="img-fill" loading="lazy" />
         </div>
         <div className="body">
-          <span className="eyebrow" style={{ marginBottom: 18, display: "block" }}>Our Responsibility</span>
           <h2>She deserves luxury.<br /><em>And a planet worth protecting.</em></h2>
           <p>
             We believe she should never have to choose between the two.
@@ -3004,7 +2720,7 @@ function AtelierPage({ setRoute }) {
 
 const GIFT_CARD_AMOUNTS = [100, 150, 250, 350];
 
-function GiftCardPage({ setRoute }) {
+function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
   const [amount, setAmount] = useState(GIFT_CARD_AMOUNTS[0]);
   const [customAmount, setCustomAmount] = useState("");
   const [qty, setQty] = useState(1);
@@ -3017,9 +2733,28 @@ function GiftCardPage({ setRoute }) {
   const activeAmount = customAmount ? Math.max(0, parseFloat(customAmount) || 0) : amount;
   const total = activeAmount * qty;
 
-  const handleCheckout = (e: React.FormEvent) => {
+  const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
-    setUnavailable(true);
+    if (addToCart) {
+      for (let i = 0; i < qty; i++) {
+        await addToCart({
+          id: "gift-card",
+          name: `HHARA Gift Card – AED ${activeAmount}`,
+          price: activeAmount,
+          color: "-",
+          size: "-",
+          tone: "tone-4",
+          isGiftCard: true,
+          recipientName,
+          recipientEmail,
+          senderName,
+          note,
+        });
+      }
+      if (setCartOpen) setCartOpen(true);
+    } else {
+      setUnavailable(true);
+    }
   };
 
   return (
@@ -3178,34 +2913,22 @@ function GiftCardPage({ setRoute }) {
 
       <section className="craft-grid three-cols" style={{ paddingTop: 0, gap: "24px" }}>
         <div className="craft-item" style={{ backgroundColor: "#F0EAE0", padding: "40px 32px", display: "flex", flexDirection: "column", height: "100%" }}>
-          <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>I.</div>
           <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>Choose an amount</h4>
           <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
             Select one of ours, or set your own, whatever feels right for the occasion.
           </p>
         </div>
         <div className="craft-item" style={{ backgroundColor: "#F0EAE0", padding: "40px 32px", display: "flex", flexDirection: "column", height: "100%" }}>
-          <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>II.</div>
           <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>Add her details</h4>
           <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
             Checkout like any other order. We'll deliver it straight to her inbox, with your note attached.
           </p>
         </div>
         <div className="craft-item" style={{ backgroundColor: "#F0EAE0", padding: "40px 32px", display: "flex", flexDirection: "column", height: "100%" }}>
-          <div className="n" style={{ color: "var(--accent)", fontStyle: "italic", fontSize: 20, marginBottom: 8 }}>III.</div>
           <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>She chooses her piece</h4>
           <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
             Redeemable across every HHARA collection, so she can decide what she needs, in her own time.
           </p>
-        </div>
-      </section>
-
-      <section className="gives-back-section" style={{ padding: "clamp(60px, 8vh, 100px) var(--pad)", backgroundColor: "transparent", textAlign: "center", marginTop: 40 }}>
-        <div className="gives-back-content-width" style={{ maxWidth: 800, margin: "0 auto" }}>
-          <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: "clamp(22px, 3.2vw, 30px)", lineHeight: 1.7, marginBottom: 16, color: "var(--ink)", fontFamily: "var(--display)", fontWeight: 300 }}>
-            "She shouldn't have to choose. HHARA was built so she never has to."
-          </blockquote>
-          <div style={{ color: "var(--accent)", fontStyle: "italic", fontFamily: "var(--display)", fontSize: 16 }}>She is wonder. She is HHARA.</div>
         </div>
       </section>
     </>
@@ -3214,7 +2937,7 @@ function GiftCardPage({ setRoute }) {
 
 const JOURNAL = [
   { id: "j1", title: "From plastic waste to performance grade", excerpt: "Inside the regenerative knit: how ocean and industrial plastic become a sensory-grade fabric.", date: "26 May 2026", cat: "Material Transparency", img: "j1" },
-  { id: "j2", title: "On Bark Oxides and Zinc Crimson", excerpt: "Two colorways, two languages. Choosing pigments that capture mineral earth and inner energy.", date: "14 May 2026", cat: "The Palette", img: "j2" },
+  { id: "j2", title: "On Chicory Coffee and Olive Green", excerpt: "Two colorways, two languages. Choosing pigments that capture mineral earth and inner energy.", date: "14 May 2026", cat: "The Palette", img: "j2" },
   { id: "j3", title: "Why we make only four pieces", excerpt: "The case for minimalist production: fewer SKUs, lower waste, garments engineered to outlast.", date: "02 May 2026", cat: "Our Ethos", img: "j3" },
   { id: "j4", title: "Wonder, Worn", excerpt: "Three women, two sets: the Imara and Dalia, photographed across the UAE.", date: "21 April 2026", cat: "The Capsule", img: "j4" },
   { id: "j5", title: "Carbon-neutral, from the UAE", excerpt: "How optimised smart-freight from our regional base offsets every single shipment.", date: "08 April 2026", cat: "Circular Luxury", img: "j5" },
@@ -3288,8 +3011,8 @@ function ArticlePage({ articleId, setRoute, openArticle }) {
         </p>
 
         <p>
-          Each colourway is calibrated in small batches. Bark Oxides, a deep, mineral neutral pulled from raw
-          earth pigment, is set first; Zinc Crimson, the muted jewel, is reserved for the second pass. Both are
+          Each colourway is calibrated in small batches. Chicory Coffee, a deep, mineral neutral pulled from raw
+          earth pigment, is set first; Olive Green, the muted jewel, is reserved for the second pass. Both are
           designed to absorb, not reflect, to be worn quietly, not announced.
         </p>
 
@@ -3422,7 +3145,7 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb3} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">Bark Oxides</div></div>
+            <div className="caption"><div className="ttl">Chicory Coffee</div></div>
           </div>
           <div className="lb-tile">
             <img src={IMGS.lb4} alt="" className="img-fill" loading="lazy" />
@@ -3435,7 +3158,7 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb5} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">Zinc Crimson</div></div>
+            <div className="caption"><div className="ttl">Olive Green</div></div>
           </div>
         </div>
 
@@ -3515,23 +3238,37 @@ function StoresPage({ setRoute }) {
           zIndex: 1
         }}></div>
 
-        <div className="gives-back-content-width" style={{
-          position: "relative",
+        <div style={{
+          position: "absolute",
+          left: "var(--pad)",
+          bottom: "clamp(48px, 8vh, 96px)",
           zIndex: 2,
-          maxWidth: "760px",
-          margin: "0 auto"
+          maxWidth: "620px",
+          color: "#FAF7F2",
+          textAlign: "left"
         }}>
           <h1 style={{
             fontFamily: "var(--display)",
-            fontSize: "clamp(44px, 7.5vw, 88px)",
-            lineHeight: 1.15,
+            fontSize: "clamp(56px, 8vw, 112px)",
+            lineHeight: 0.95,
+            letterSpacing: "-0.015em",
             fontWeight: 300,
+            color: "#FAF7F2",
+            marginBottom: "28px"
+          }}>
+            She is <em style={{ fontStyle: "italic", color: "#FAF7F2" }}>wonder.</em>
+          </h1>
+          <p style={{
+            fontFamily: "var(--display)",
+            fontSize: "clamp(28px, 4vw, 56px)",
+            lineHeight: 1.1,
+            fontWeight: 300,
+            fontStyle: "italic",
             color: "#FAF7F2",
             margin: 0
           }}>
-            She is wonder.<br />
-            <em style={{ fontStyle: "italic", color: "#B8892E" }}>Empowering the next generation of wonders.</em>
-          </h1>
+            Empowering the next generation of wonders.
+          </p>
         </div>
       </section>
 
@@ -3539,15 +3276,14 @@ function StoresPage({ setRoute }) {
       <section className="gives-back-section">
         <div className="gives-back-content-width gives-back-split">
           <div>
-            <span className="eyebrow">Impact</span>
-            <h2 className="gives-back-headline" style={{ marginBottom: 0 }}>
-              Every piece is the beginning of <em>something bigger.</em>
-            </h2>
-          </div>
-          <div>
             <p className="gives-back-body" style={{ marginBottom: 0 }}>
               Being seen shouldn't be a privilege. Some children lose their parents. Some lose their homes to conflict. Some are simply born into less than they deserve. Whatever they've lost, we believe their sense of wonder should never be one of those things. That belief is why HHARA gives back locally - funding education for children in orphanages, for those displaced by war, and for those growing up without enough. Not through a foundation. Not as a distant campaign. Child by child, close to home, by design.
             </p>
+          </div>
+          <div>
+            <h2 className="gives-back-headline" style={{ marginBottom: 0 }}>
+              Every piece is the beginning of <em>something bigger.</em>
+            </h2>
           </div>
         </div>
       </section>
@@ -3561,41 +3297,24 @@ function StoresPage({ setRoute }) {
         </div>
       </section>
 
-      {/* LARGE STAT BANNER SECTION (Moved here, without brown background) */}
-      <section className="gives-back-section" style={{ backgroundColor: "#F0EAE0", textAlign: "center", padding: "80px var(--pad)" }}>
-        <div className="gives-back-content-width">
-          <div className="gives-back-large-number" style={{ color: "var(--bark)", fontSize: "clamp(64px, 10vw, 120px)", fontWeight: 300, fontFamily: "var(--display)", marginBottom: 12 }}>
-            <span>273</span><span className="gives-back-large-number-m" style={{ fontSize: "0.5em", marginLeft: 4 }}>M</span>
-          </div>
-          <div className="gives-back-large-number-eyebrow" style={{ color: "#B8892E", textTransform: "uppercase", fontSize: 9, letterSpacing: "0.45em", fontWeight: 600, marginBottom: 20 }}>
-            Children out of school worldwide
-          </div>
-          <p className="gives-back-large-number-text" style={{ color: "var(--ink-soft)", maxWidth: 640, margin: "0 auto", lineHeight: 1.8, fontSize: 14 }}>
-            A number that has risen for seven consecutive years. We cannot change that number alone. But we can change it for the children closest to us: the ones nobody else was looking for.
-          </p>
-        </div>
-      </section>
-
       {/* WHAT YOUR PURCHASE SUPPORTS SECTION (Pillars) */}
       <section className="pillars-section" style={{ padding: "80px var(--pad)", backgroundColor: "#F7F3ED" }}>
         <div className="pillars-container">
           <div className="section-head" style={{ borderBottom: "1px solid rgba(184, 137, 46, 0.12)", paddingBottom: 28, marginBottom: 48 }}>
             <div className="section-head-stack">
-              <span className="eyebrow" style={{ color: "#B8892E" }}>Where Wonder Gives Back</span>
               <h2 className="section-title" style={{ color: "#2A1F14", fontWeight: 300 }}>What your<br /><em>purchase supports.</em></h2>
             </div>
           </div>
-          <div className="pillars-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 24 }}>
+          <div className="pillars-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 28 }}>
             {[
-              { n: "01", title: "School Supplies", body: "Books, learning materials and the everyday tools every child needs in the classroom." },
-              { n: "02", title: "Tuition Support", body: "Direct contribution to educational fees, removing barriers to consistent schooling." },
-              { n: "03", title: "Uniforms & Essentials", body: "The basic necessities that allow every child to attend school with dignity." },
-              { n: "04", title: "Long-Term Partnership", body: "Ongoing support, not one-time giving: a relationship that grows as HHARA grows." },
-            ].map((p) => (
-              <div key={p.n} className="pillar-card" style={{ display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-between" }}>
+              { title: "School Supplies", body: "Books, learning materials and the everyday tools every child needs in the classroom." },
+              { title: "Tuition Support", body: "Direct contribution to educational fees, removing barriers to consistent schooling." },
+              { title: "Uniforms & Essentials", body: "The basic necessities that allow every child to attend school with dignity." },
+              { title: "Long-Term Partnership", body: "Ongoing support, not one-time giving: a relationship that grows as HHARA grows." },
+            ].map((p, idx) => (
+              <div key={idx} className="pillar-card" style={{ display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-between" }}>
                 <div>
-                  <div className="pillar-num">{p.n}</div>
-                  <h3 className="pillar-title">{p.title}</h3>
+                  <h3 className="pillar-title" style={{ marginTop: 0 }}>{p.title}</h3>
                 </div>
                 <p className="pillar-body" style={{ margin: 0 }}>{p.body}</p>
               </div>
@@ -3644,13 +3363,21 @@ function StoresPage({ setRoute }) {
             borderColor: "rgba(247,243,237,0.1)",
             margin: "48px auto",
           }}>
-            <div className="stats-col-brand col-dubai" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
-              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Dubai</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>WHERE WE'RE BUILT</span>
-            </div>
-            <div className="stats-col-brand col-nairobi" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
-              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Nairobi</span>
+            <div className="stats-col-brand col-kenya" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
+              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Kenya</span>
               <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>WHERE WE GIVE BACK</span>
+            </div>
+            <div className="stats-col-brand col-education" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
+              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Education</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>OUR FOCUS</span>
+            </div>
+            <div className="stats-col-brand col-giving" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
+              <span className="stats-num-brand" style={{ color: "#B8892E" }}>10%</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>REVENUE DONATED</span>
+            </div>
+            <div className="stats-col-brand col-materials" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
+              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Eco-Knit</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>SUSTAINABLE FABRIC</span>
             </div>
           </div>
         </div>
@@ -3659,7 +3386,17 @@ function StoresPage({ setRoute }) {
   );
 }
 
-function AccountPage({ onAuthenticated }: { onAuthenticated?: () => void }) {
+function AccountPage({
+  onAuthenticated,
+  setRoute,
+  checkoutUrl,
+  cartCount,
+}: {
+  onAuthenticated?: () => void;
+  setRoute?: (route: string, payload?: any) => void;
+  checkoutUrl?: string;
+  cartCount?: number;
+}) {
   const customer = useCustomer();
   const [tab, setTab] = useState("signin");
   const [form, setForm] = useState({ email: "", password: "", firstName: "", lastName: "", acceptsMarketing: false });
@@ -3770,6 +3507,30 @@ function AccountPage({ onAuthenticated }: { onAuthenticated?: () => void }) {
               {busy ? "Signing in…" : "Sign In"}
               <span className="btn-arrow"><Icon.Arrow /></span>
             </button>
+            <div style={{ display: "flex", alignItems: "center", margin: "24px 0 16px" }}>
+              <div style={{ flex: 1, height: 1, backgroundColor: "var(--line-soft)" }}></div>
+              <span style={{ padding: "0 12px", fontSize: 11, textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--ink-soft)" }}>or</span>
+              <div style={{ flex: 1, height: 1, backgroundColor: "var(--line-soft)" }}></div>
+            </div>
+            {cartCount && cartCount > 0 ? (
+              <button
+                type="button"
+                className="btn btn-outline btn-block"
+                onClick={() => { if (checkoutUrl) window.open(checkoutUrl, "_self"); }}
+              >
+                Checkout as Guest
+                <span className="btn-arrow"><Icon.Arrow /></span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-outline btn-block"
+                onClick={() => { if (setRoute) setRoute("shop", null); }}
+              >
+                Continue as Guest
+                <span className="btn-arrow"><Icon.Arrow /></span>
+              </button>
+            )}
           </form>
         ) : (
           <form className="auth-form" onSubmit={handleSignUp}>
@@ -4196,6 +3957,40 @@ function TermsPage({ setRoute }) {
   );
 }
 
+function ContactPage({ setRoute }) {
+  return (
+    <PolicyPage title="Contact Us" eyebrow="Support" setRoute={setRoute}>
+      <p className="policy-intro">We are here to assist you with order inquiries, sizing questions, or feedback.</p>
+      
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Email Support</h2>
+        <p>For customer service, order changes, returns, or general inquiries, email us at:</p>
+        <p style={{ fontSize: "20px", fontWeight: "400", marginTop: "8px", fontFamily: "var(--serif)" }}>
+          <a href="mailto:hello@hhara.com" style={{ textDecoration: "underline", color: "var(--ink)" }}>hello@hhara.com</a>
+        </p>
+        <p style={{ marginTop: "12px" }}>Our team typically responds within 24 hours, Monday to Friday.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">WhatsApp Support</h2>
+        <p>For quick assistance, message our support team on WhatsApp:</p>
+        <p style={{ fontSize: "20px", fontWeight: "400", marginTop: "8px", fontFamily: "var(--serif)" }}>
+          <a href="https://wa.me/971501234567" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline", color: "var(--ink)" }}>
+            +971 50 123 4567
+          </a>
+        </p>
+        <p style={{ marginTop: "12px" }}>Available daily from 9:00 AM to 6:00 PM (GST).</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Headquarters</h2>
+        <p><strong>Dahlia Moxie Trading LLC</strong></p>
+        <p>Business Bay, Dubai, United Arab Emirates</p>
+      </div>
+    </PolicyPage>
+  );
+}
+
 // ============ SEARCH OVERLAY ============
 function SearchOverlay({ open, onClose, openProduct }) {
   const PRODUCTS = useProducts();
@@ -4213,8 +4008,8 @@ function SearchOverlay({ open, onClose, openProduct }) {
   }, [open]);
 
   const results = q.trim() ? PRODUCTS.filter((p) => (p.name + p.cat).toLowerCase().includes(q.toLowerCase())) : PRODUCTS.slice(0, 6);
-  const suggestions = ["Imara Bra", "Imara Legging", "Dalia Bra", "Dalia Short", "Bark Oxides"];
-  const trending = ["The Imara Set", "The Dalia Set", "Zinc Crimson"];
+  const suggestions = ["Imara Bra", "Imara Legging", "Dalia Bra", "Dalia Short", "Chicory Coffee"];
+  const trending = ["The Imara Set", "The Dalia Set", "Olive Green"];
 
   return (
     <div className={`search-overlay ${open ? "open" : ""}`}>
@@ -4269,6 +4064,7 @@ function SearchOverlay({ open, onClose, openProduct }) {
 function App({ initialProducts, initialCart, initialCustomer }: { initialProducts?: any[]; initialCart?: any; initialCustomer?: any }) {
   const products = (initialProducts && initialProducts.length) ? initialProducts : PRODUCTS;
   const [shopifyCart, setShopifyCart] = useState<any>(initialCart || null);
+  const [localCartItems, setLocalCartItems] = useState<any[]>([]);
   const [customer, setCustomer] = useState<any>(initialCustomer || null);
   const [route, setRouteState] = useState("home");
   const [productId, setProductId] = useState("p1");
@@ -4277,6 +4073,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
   const [searchOpen, setSearchOpen] = useState(false);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [wishlistLoaded, setWishlistLoaded] = useState(false);
+  const [selectedColorFilter, setSelectedColorFilter] = useState<string | null>(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -4309,6 +4106,9 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
 
   const [signupPopupOpen, setSignupPopupOpen] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterName, setNewsletterName] = useState("");
+  const [newsletterPhone, setNewsletterPhone] = useState("");
+  const [newsletterCountryCode, setNewsletterCountryCode] = useState("+971");
   const [signupStatus, setSignupStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [signupError, setSignupError] = useState("");
 
@@ -4332,7 +4132,9 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     setSignupError("");
 
     try {
-      const res = await serverSubscribe(newsletterEmail);
+      const cleanPhone = newsletterPhone.trim().replace(/\D/g, "");
+      const fullPhone = cleanPhone ? `${newsletterCountryCode}${cleanPhone}` : undefined;
+      const res = await serverSubscribe(newsletterEmail, newsletterName, fullPhone);
       if (res.ok) {
         setSignupStatus("success");
         localStorage.setItem("hhara_signup_seen", "true");
@@ -4360,27 +4162,33 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     setRouteState(r);
     if (r === "product" && payload) setProductId(payload);
     if (r === "article" && payload) setArticleId(payload);
+    if (r === "shop") {
+      setSelectedColorFilter(payload || null);
+    }
     window.scrollTo({ top: 0, behavior: "instant" });
   };
 
   // Derive cart UI items from the Shopify cart structure
-  const cart = (shopifyCart?.lines || []).map((line: any) => {
-    const productMatch = products.find((p: any) => p.variants?.some((v: any) => v.id === line.merchandise.id));
-    const opts = Object.fromEntries(line.merchandise.selectedOptions.map((o: any) => [o.name.toLowerCase(), o.value]));
-    return {
-      key: line.id,
-      lineId: line.id,
-      variantId: line.merchandise.id,
-      id: productMatch?.id || line.merchandise.product.handle,
-      name: line.merchandise.product.title,
-      price: parseFloat(line.cost.totalAmount.amount) / Math.max(line.quantity, 1),
-      qty: line.quantity,
-      color: opts.color || opts.colour || opts.colorway || "-",
-      size: opts.size || "-",
-      tone: productMatch?.tone || "tone-2",
-      featuredImage: line.merchandise.image?.url || productMatch?.featuredImage?.url || null,
-    };
-  });
+  const cart = [
+    ...(shopifyCart?.lines || []).map((line: any) => {
+      const productMatch = products.find((p: any) => p.variants?.some((v: any) => v.id === line.merchandise.id));
+      const opts = Object.fromEntries(line.merchandise.selectedOptions.map((o: any) => [o.name.toLowerCase(), o.value]));
+      return {
+        key: line.id,
+        lineId: line.id,
+        variantId: line.merchandise.id,
+        id: productMatch?.id || line.merchandise.product.handle,
+        name: line.merchandise.product.title,
+        price: parseFloat(line.cost.totalAmount.amount) / Math.max(line.quantity, 1),
+        qty: line.quantity,
+        color: opts.color || opts.colour || opts.colorway || "-",
+        size: opts.size || "-",
+        tone: productMatch?.tone || "tone-2",
+        featuredImage: line.merchandise.image?.url || productMatch?.featuredImage?.url || null,
+      };
+    }),
+    ...localCartItems,
+  ];
 
   const findVariantId = (product: any, color: string, size: string) => {
     if (!product?.variants?.length) return null;
@@ -4394,6 +4202,25 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
   };
 
   const addToCart = async (item) => {
+    if (item.isGiftCard) {
+      const localId = `local-gc-${Date.now()}`;
+      setLocalCartItems(prev => [...prev, {
+        key: localId,
+        lineId: localId,
+        variantId: null,
+        id: "gift-card",
+        name: item.name,
+        price: item.price,
+        qty: 1,
+        color: "-",
+        size: "-",
+        tone: "tone-4",
+        featuredImage: null,
+        isGiftCard: true,
+      }]);
+      setCartOpen(true);
+      return;
+    }
     const product = products.find((p: any) => p.id === item.id);
     const variantId = item.variantId || findVariantId(product, item.color, item.size);
     if (!variantId) {
@@ -4430,6 +4257,11 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
   };
 
   const updateQty = async (lineId: string, qty: number) => {
+    if (lineId.startsWith("local-")) {
+      if (qty <= 0) setLocalCartItems(prev => prev.filter(i => i.lineId !== lineId));
+      else setLocalCartItems(prev => prev.map(i => i.lineId === lineId ? { ...i, qty } : i));
+      return;
+    }
     try {
       const next = await serverUpdateLine(lineId, qty);
       setShopifyCart(next);
@@ -4438,6 +4270,10 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     }
   };
   const removeItem = async (lineId: string) => {
+    if (lineId.startsWith("local-")) {
+      setLocalCartItems(prev => prev.filter(i => i.lineId !== lineId));
+      return;
+    }
     try {
       const next = await serverRemoveLine(lineId);
       setShopifyCart(next);
@@ -4463,7 +4299,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
 
   let body;
   if (route === "shop") {
-    body = <CollectionPage setRoute={setRouteState} openProduct={openProduct} quickAdd={quickAdd} />;
+    body = <CollectionPage setRoute={setRouteState} openProduct={openProduct} quickAdd={quickAdd} initialColorFilter={selectedColorFilter} />;
   } else if (route === "product") {
     body = <PDP productId={productId} setRoute={setRouteState} addToCart={addToCart} openProduct={openProduct} onWishlistToggle={toggleWishlist} wishlist={wishlist} />;
   } else if (route === "atelier") {
@@ -4477,9 +4313,9 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
   } else if (route === "stores") {
     body = <StoresPage setRoute={setRouteState} />;
   } else if (route === "gift-card") {
-    body = <GiftCardPage setRoute={setRouteState} />;
+    body = <GiftCardPage setRoute={setRouteState} addToCart={addToCart} setCartOpen={setCartOpen} />;
   } else if (route === "account") {
-    body = <AccountPage />;
+    body = <AccountPage setRoute={setRoute} checkoutUrl={shopifyCart?.checkoutUrl} cartCount={cartCount} />;
   } else if (route === "wishlist") {
     body = <WishlistPage setRoute={setRouteState} openProduct={openProduct} wishlist={wishlist} quickAdd={quickAdd} />;
   } else if (route === "faq") {
@@ -4494,6 +4330,8 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     body = <PrivacyPage setRoute={setRouteState} />;
   } else if (route === "terms") {
     body = <TermsPage setRoute={setRouteState} />;
+  } else if (route === "contact") {
+    body = <ContactPage setRoute={setRouteState} />;
   } else if (route === "pre-checkout") {
     body = <PreCheckoutPage
       cart={cart}
@@ -4513,7 +4351,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     <>
       {signupPopupOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#3A2416]/60 backdrop-blur-sm transition-opacity duration-500 animate-fade-in">
-          <div className="relative text-[#F7F3ED] max-w-4xl w-full shadow-2xl overflow-hidden h-[420px] md:h-[460px]">
+          <div className="signup-popup-inner relative text-[#F7F3ED] max-w-7xl w-full shadow-2xl overflow-hidden h-[540px] md:h-[540px]">
             {/* Full-bleed image */}
             <img
               src={IMGS.p1a}
@@ -4538,12 +4376,20 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
             {/* Content overlaid on image */}
             <div className="relative z-[2] h-full flex flex-col justify-center items-end p-6 md:p-12">
               {signupStatus !== "success" ? (
-                <div className="w-full max-w-sm text-right">
+                <div className="w-full max-w-md text-right">
                   <h3 className="display text-2xl md:text-3xl mb-2 font-serif font-light tracking-wide uppercase">Stay In The Know</h3>
                   <p className="text-xs md:text-sm text-[#F7F3ED]/80 mb-5 leading-relaxed font-light">
                     Sign up for early access to new drops and stories from the atelier.
                   </p>
                   <form onSubmit={handleNewsletterSignup} className="w-full">
+                    <input
+                      type="text"
+                      required
+                      placeholder="Your Name"
+                      value={newsletterName}
+                      onChange={(e) => setNewsletterName(e.target.value)}
+                      className="w-full bg-[#F7F3ED] text-[#2A1F14] border border-[#F7F3ED]/40 focus:border-[#B8892E] outline-none py-3 px-4 text-sm placeholder-[#7A6555]/60 mb-3 font-light transition-all text-left"
+                    />
                     <input
                       type="email"
                       required
@@ -4552,6 +4398,30 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                       onChange={(e) => setNewsletterEmail(e.target.value)}
                       className="w-full bg-[#F7F3ED] text-[#2A1F14] border border-[#F7F3ED]/40 focus:border-[#B8892E] outline-none py-3 px-4 text-sm placeholder-[#7A6555]/60 mb-3 font-light transition-all text-left"
                     />
+                    <div className="flex gap-2 mb-3">
+                      <select
+                        value={newsletterCountryCode}
+                        onChange={(e) => setNewsletterCountryCode(e.target.value)}
+                        className="bg-[#F7F3ED] text-[#2A1F14] border border-[#F7F3ED]/40 focus:border-[#B8892E] outline-none py-3 px-2 text-sm font-light transition-all cursor-pointer"
+                        style={{ width: "95px" }}
+                      >
+                        <option value="+971">🇦🇪 +971</option>
+                        <option value="+966">🇸🇦 +966</option>
+                        <option value="+974">🇶🇦 +974</option>
+                        <option value="+965">🇰🇼 +965</option>
+                        <option value="+973">🇧🇭 +973</option>
+                        <option value="+968">🇴🇲 +968</option>
+                        <option value="+44">🇬🇧 +44</option>
+                        <option value="+1">🇺🇸 +1</option>
+                      </select>
+                      <input
+                        type="tel"
+                        placeholder="Phone Number (Optional)"
+                        value={newsletterPhone}
+                        onChange={(e) => setNewsletterPhone(e.target.value)}
+                        className="flex-1 bg-[#F7F3ED] text-[#2A1F14] border border-[#F7F3ED]/40 focus:border-[#B8892E] outline-none py-3 px-4 text-sm placeholder-[#7A6555]/60 font-light transition-all text-left"
+                      />
+                    </div>
                     <button
                       type="submit"
                       disabled={signupStatus === "loading"}
@@ -4569,7 +4439,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                   </p>
                 </div>
               ) : (
-                <div className="flex flex-col items-end text-right max-w-sm">
+                <div className="flex flex-col items-end text-right max-w-md">
                   <div className="w-10 h-10 rounded-full border border-[#F7F3ED] flex items-center justify-center mb-4">
                     <svg className="w-5 h-5 stroke-[#F7F3ED] fill-none" viewBox="0 0 24 24" strokeWidth="2">
                       <polyline points="20 6 9 17 4 12" />

@@ -1,9 +1,14 @@
 import { getProducts, ShopifyProduct } from "./shopify";
 
 const COLOR_HEX: Record<string, string> = {
-  "Bark Oxides": "#5C4632",
-  "Zinc Crimson": "#7A2E3A",
+  "Chicory Coffee": "#3D2B1F",
+  "Olive Green": "#5F6B4F",
   "Default Title": "#888",
+};
+
+const COLOR_NAME_MAP: Record<string, string> = {
+  "Bark Oxides": "Chicory Coffee",
+  "Zinc Crimson": "Olive Green",
 };
 
 const TONE_CYCLE = ["tone-2", "tone-1", "tone-7", "tone-6", "tone-5", "tone-3"];
@@ -56,10 +61,10 @@ function mapShopifyProduct(p: ShopifyProduct, index: number): LocalProduct {
   const colorOpt = p.options.find((o) => /color|colour|colorway/i.test(o.name));
   const sizeOpt = p.options.find((o) => /size/i.test(o.name));
 
-  const swatches = (colorOpt?.values && colorOpt.values.length ? colorOpt.values : ["Default"]).map((v) => ({
-    name: v,
-    hex: COLOR_HEX[v] || "#5C4632",
-  }));
+  const swatches = (colorOpt?.values && colorOpt.values.length ? colorOpt.values : ["Default"]).map((v) => {
+    const displayName = COLOR_NAME_MAP[v] ?? v;
+    return { name: displayName, hex: COLOR_HEX[displayName] || COLOR_HEX[v] || "#3D2B1F" };
+  });
   const sizes = sizeOpt?.values?.length ? sizeOpt.values : ["One Size"];
 
   let featuredImage = p.featuredImage;
