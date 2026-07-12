@@ -4562,7 +4562,10 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                   onClick={e => e.stopPropagation()}
                 >
                   <button onClick={() => setSizePickerProduct(null)} style={{ position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer", color: "var(--ink)", opacity: 0.5 }}><Icon.Close /></button>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--accent)", marginBottom: 8 }}>Select Size</div>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+                    <div style={{ fontFamily: "var(--sans)", fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--accent)" }}>Select Size</div>
+                    <button onClick={() => { setSizePickerProduct(null); setRoute("size-guide"); }} style={{ fontFamily: "var(--sans)", fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--ink-soft)", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px", opacity: 0.6 }}>Size Guide</button>
+                  </div>
                   <div style={{ fontFamily: "var(--display)", fontSize: 22, fontWeight: 300, color: "var(--ink)", marginBottom: 24 }}>{sizePickerProduct.name}</div>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                     {(sizePickerProduct.sizes || []).map((size: string) => (
