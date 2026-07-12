@@ -430,6 +430,13 @@ function MegaMenu({ open, onClose, setRoute }) {
           </ul>
         </div>
         <div>
+          <h6>Accessories</h6>
+          <ul>
+            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Socks</a></li>
+            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Gift Card</a></li>
+          </ul>
+        </div>
+        <div>
           <h6>About Us</h6>
           <ul>
             <li><a onClick={() => { setRoute("atelier"); onClose(); }}>About Us</a></li>
