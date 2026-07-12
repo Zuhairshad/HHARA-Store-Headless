@@ -4067,6 +4067,15 @@ function SearchOverlay({ open, onClose, openProduct }) {
 
 
 
+const CART_COLOR_NAME_MAP: Record<string, string> = {
+  "Bark Oxides": "Chicory Coffee",
+  "Zinc Crimson": "Olive Green",
+};
+const CART_COLOR_REVERSE_MAP: Record<string, string> = {
+  "Chicory Coffee": "Bark Oxides",
+  "Olive Green": "Zinc Crimson",
+};
+
 // === FILE 10-180e2df1-7549-448a-8bbb-f6c3acb791f4.jsx ===
 
 function App({ initialProducts, initialCart, initialCustomer }: { initialProducts?: any[]; initialCart?: any; initialCustomer?: any }) {
@@ -4198,15 +4207,6 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     }),
     ...localCartItems,
   ];
-
-  const CART_COLOR_NAME_MAP: Record<string, string> = {
-    "Bark Oxides": "Chicory Coffee",
-    "Zinc Crimson": "Olive Green",
-  };
-  const CART_COLOR_REVERSE_MAP: Record<string, string> = {
-    "Chicory Coffee": "Bark Oxides",
-    "Olive Green": "Zinc Crimson",
-  };
 
   const findVariantId = (product: any, color: string, size: string) => {
     if (!product?.variants?.length) return null;
