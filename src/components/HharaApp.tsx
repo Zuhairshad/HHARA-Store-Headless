@@ -1676,8 +1676,9 @@ function Home(props) {
 function CollectionPage({ setRoute, openProduct, quickAdd, initialColorFilter }: { setRoute: any; openProduct: any; quickAdd: any; initialColorFilter?: string | null }) {
   const PRODUCTS = useProducts();
   const [sort, setSort] = useState("Featured");
-  const [filters, setFilters] = useState({ 
-    size: [], 
+  const [descExpanded, setDescExpanded] = useState(false);
+  const [filters, setFilters] = useState({
+    size: [],
     color: initialColorFilter ? [initialColorFilter] : [], 
     cat: [], 
     price: [] 
@@ -1750,14 +1751,26 @@ function CollectionPage({ setRoute, openProduct, quickAdd, initialColorFilter }:
             Unapologetically You.
           </p>
           <p style={{ fontWeight: 500, color: "var(--ink)" }}>
-            Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.
+            Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.{" "}
+            {!descExpanded && (
+              <button onClick={() => setDescExpanded(true)} style={{ fontFamily: "var(--sans)", fontSize: "13px", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
+                Read more
+              </button>
+            )}
           </p>
-          <p>
-            Every piece carries a name with meaning. Each was chosen to celebrate the strength and softness that exist within every woman.
-          </p>
-          <p style={{ fontSize: "12px", borderTop: "1px solid var(--line-soft)", paddingTop: "12px", marginTop: "8px" }}>
-            <strong>Dalia (Arabic)</strong> — Gentle. Tender. Delicate. &nbsp;·&nbsp; <strong>Imara (Swahili)</strong> — Strong. Firm. Resolute. &nbsp;·&nbsp; <em>She is both. Always.</em>
-          </p>
+          {descExpanded && (
+            <>
+              <p>
+                Every piece carries a name with meaning. Each was chosen to celebrate the strength and softness that exist within every woman.
+              </p>
+              <p style={{ fontSize: "12px", borderTop: "1px solid var(--line-soft)", paddingTop: "12px", marginTop: "8px" }}>
+                <strong>Dalia (Arabic)</strong> — Gentle. Tender. Delicate. &nbsp;·&nbsp; <strong>Imara (Swahili)</strong> — Strong. Firm. Resolute. &nbsp;·&nbsp; <em>She is both. Always.</em>{" "}
+                <button onClick={() => setDescExpanded(false)} style={{ fontFamily: "var(--sans)", fontSize: "12px", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
+                  Read less
+                </button>
+              </p>
+            </>
+          )}
         </div>
       </div>
 
