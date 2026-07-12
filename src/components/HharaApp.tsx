@@ -4577,10 +4577,10 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                       </button>
                     ))}
                   </div>
-                  <div style={{ marginTop: 20, borderTop: "1px solid var(--line-soft)", paddingTop: 16, display: "flex", flexDirection: "column", gap: 5 }}>
-                    {[["XXS","UK 4–6 · Bust 76–81cm"],["XS","UK 6–8 · Bust 81–86cm"],["S","UK 8–10 · Bust 86–91cm"],["M","UK 10–12 · Bust 91–96cm"],["L","UK 12–14 · Bust 96–102cm"],["XL","UK 14–16 · Bust 102–107cm"]].map(([s, hint]) => (
-                      <div key={s} style={{ display: "flex", gap: 10, fontFamily: "var(--sans)", fontSize: 10, color: "var(--ink-soft)", lineHeight: 1.4 }}>
-                        <span style={{ fontWeight: 600, color: "var(--ink)", minWidth: 28 }}>{s}</span>
+                  <div style={{ marginTop: 20, borderTop: "1px solid var(--line-soft)", paddingTop: 16, display: "flex", flexDirection: "column", gap: 7 }}>
+                    {[["XS","UK 6 · Bust 76–80cm · Waist 60–64cm"],["S","UK 8 · Bust 81–85cm · Waist 65–69cm"],["M","UK 10 · Bust 86–90cm · Waist 70–74cm"],["L","UK 12 · Bust 91–95cm · Waist 75–79cm"],["XL","UK 14 · Bust 96–100cm · Waist 80–84cm"]].map(([s, hint]) => (
+                      <div key={s} style={{ display: "flex", gap: 12, fontFamily: "var(--sans)", fontSize: 12, color: "var(--ink-soft)", lineHeight: 1.5 }}>
+                        <span style={{ fontWeight: 600, color: "var(--ink)", minWidth: 24 }}>{s}</span>
                         <span>{hint}</span>
                       </div>
                     ))}
