@@ -1403,7 +1403,6 @@ function Newsletter() {
 function ManifestoColourways({ ids, openProduct, quickAdd }: { ids: string[]; openProduct: (id: string) => void; quickAdd: any }) {
   const PRODUCTS = useProducts();
   const list = ids.map((id) => PRODUCTS.find((p) => p.id === id)).filter(Boolean);
-  const [expanded, setExpanded] = useState(false);
   return (
     <section className="manifesto-colourways">
       <span className="eyebrow" style={{ color: "#B8892E", display: "block", textAlign: "center", marginBottom: 16 }}>THE COLLECTION</span>
@@ -1411,24 +1410,7 @@ function ManifestoColourways({ ids, openProduct, quickAdd }: { ids: string[]; op
         Unapologetically<br />
         <em style={{ fontFamily: "var(--display,'Cormorant Garamond',serif)", fontStyle: "italic", fontWeight: 300, color: "#B8892E" }}>You.</em>
       </h2>
-      <p className="mc-lead">
-        Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.{" "}
-        {!expanded && (
-          <button onClick={() => setExpanded(true)} style={{ fontFamily: "var(--sans)", fontSize: "inherit", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
-            Read more
-          </button>
-        )}
-      </p>
-      {expanded && (
-        <p className="mc-body" style={{ marginBottom: 24 }}>
-          Every piece carries a name with meaning. Each was chosen to celebrate the strength and softness that exist within every woman.{" "}
-          <em>Dalia (Arabic)</em> - Gentle. Tender. Delicate.{" "}
-          <em>Imara (Swahili)</em> - Strong. Firm. Resolute. She is both. Always.{" "}
-          <button onClick={() => setExpanded(false)} style={{ fontFamily: "var(--sans)", fontSize: "inherit", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
-            Read less
-          </button>
-        </p>
-      )}
+      <p className="mc-lead">Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.</p>
       
       <div className="pgrid" style={{ width: "100%", maxWidth: "var(--maxw)", marginBottom: 48 }}>
         {list.map((p) => (
@@ -4207,7 +4189,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
         name: line.merchandise.product.title,
         price: parseFloat(line.cost.totalAmount.amount) / Math.max(line.quantity, 1),
         qty: line.quantity,
-        color: opts.color || opts.colour || opts.colorway || "-",
+        color: (() => { const raw = opts.color || opts.colour || opts.colorway || "-"; return CART_COLOR_NAME_MAP[raw] ?? raw; })(),
         size: opts.size || "-",
         tone: productMatch?.tone || "tone-2",
         featuredImage: line.merchandise.image?.url || productMatch?.featuredImage?.url || null,
@@ -4216,11 +4198,21 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     ...localCartItems,
   ];
 
+  const CART_COLOR_NAME_MAP: Record<string, string> = {
+    "Bark Oxides": "Chicory Coffee",
+    "Zinc Crimson": "Olive Green",
+  };
+  const CART_COLOR_REVERSE_MAP: Record<string, string> = {
+    "Chicory Coffee": "Bark Oxides",
+    "Olive Green": "Zinc Crimson",
+  };
+
   const findVariantId = (product: any, color: string, size: string) => {
     if (!product?.variants?.length) return null;
+    const rawColor = CART_COLOR_REVERSE_MAP[color] ?? color;
     const match = product.variants.find((v: any) => {
       const opts = Object.fromEntries(v.selectedOptions.map((o: any) => [o.name.toLowerCase(), o.value]));
-      const cOk = !color || Object.values(opts).includes(color);
+      const cOk = !color || Object.values(opts).includes(rawColor) || Object.values(opts).includes(color);
       const sOk = !size || Object.values(opts).includes(size);
       return cOk && sOk;
     });

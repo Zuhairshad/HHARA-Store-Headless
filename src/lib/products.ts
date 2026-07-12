@@ -129,10 +129,16 @@ export async function getStorefrontProducts(): Promise<LocalProduct[]> {
   }
 }
 
+const REVERSE_COLOR_MAP: Record<string, string> = {
+  "Chicory Coffee": "Bark Oxides",
+  "Olive Green": "Zinc Crimson",
+};
+
 export function findVariantId(product: LocalProduct, color: string, size: string): string | null {
+  const rawColor = REVERSE_COLOR_MAP[color] ?? color;
   const v = product.variants.find((v) => {
     const opts = Object.fromEntries(v.selectedOptions.map((o) => [o.name.toLowerCase(), o.value]));
-    const matchColor = !color || Object.values(opts).includes(color);
+    const matchColor = !color || Object.values(opts).includes(rawColor) || Object.values(opts).includes(color);
     const matchSize = !size || Object.values(opts).includes(size);
     return matchColor && matchSize;
   });
