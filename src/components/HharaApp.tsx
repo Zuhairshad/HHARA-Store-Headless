@@ -854,6 +854,13 @@ function Footer({ setRoute, route = "" }) {
             </ul>
           </div>
           <div className="footer-col">
+            <h4>Accessories</h4>
+            <ul>
+              <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>Socks</a></li>
+              <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>Gift Card</a></li>
+            </ul>
+          </div>
+          <div className="footer-col">
             <h4>Customer Service</h4>
             <ul>
               <li><a onClick={() => setRoute("faq")} style={{ cursor: "pointer" }}>FAQ</a></li>
@@ -929,7 +936,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
       <aside className={`cart-drawer ${open ? "open" : ""}`} aria-hidden={!open}>
         <div className="cart-head">
           <div>
-            <h3>The Bag<span className="ct">{items.length} item{items.length === 1 ? "" : "s"}</span></h3>
+            <h3>The Bag</h3>
           </div>
           <button onClick={onClose}><Icon.Close /></button>
         </div>
