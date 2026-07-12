@@ -1746,7 +1746,7 @@ function CollectionPage({ setRoute, openProduct, quickAdd, initialColorFilter }:
                 Every piece carries a name with meaning. Each was chosen to celebrate the strength and softness that exist within every woman.
               </p>
               <p style={{ fontSize: "12px", borderTop: "1px solid var(--line-soft)", paddingTop: "12px", marginTop: "8px" }}>
-                <strong>Dalia (Arabic)</strong> — Gentle. Tender. Delicate. &nbsp;·&nbsp; <strong>Imara (Swahili)</strong> — Strong. Firm. Resolute. &nbsp;·&nbsp; <em>She is both. Always.</em>{" "}
+                <strong>Dalia (Arabic)</strong> — Gentle | Tender | Delicate &nbsp;·&nbsp; <strong>Imara (Swahili)</strong> — Strong | Firm | Resolute &nbsp;·&nbsp; <em>She is both. Always.</em>{" "}
                 <button onClick={() => setDescExpanded(false)} style={{ fontFamily: "var(--sans)", fontSize: "12px", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
                   Read less
                 </button>
