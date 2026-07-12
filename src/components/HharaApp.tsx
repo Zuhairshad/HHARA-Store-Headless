@@ -4562,10 +4562,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                   onClick={e => e.stopPropagation()}
                 >
                   <button onClick={() => setSizePickerProduct(null)} style={{ position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer", color: "var(--ink)", opacity: 0.5 }}><Icon.Close /></button>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-                    <div style={{ fontFamily: "var(--sans)", fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--accent)" }}>Select Size</div>
-                    <button onClick={() => { setSizePickerProduct(null); setRoute("size-guide"); }} style={{ fontFamily: "var(--sans)", fontSize: 9, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--ink-soft)", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px", opacity: 0.6 }}>Size Guide</button>
-                  </div>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--accent)", marginBottom: 8 }}>Select Size</div>
                   <div style={{ fontFamily: "var(--display)", fontSize: 22, fontWeight: 300, color: "var(--ink)", marginBottom: 24 }}>{sizePickerProduct.name}</div>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
                     {(sizePickerProduct.sizes || []).map((size: string) => (
@@ -4578,6 +4575,14 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                       >
                         {size}
                       </button>
+                    ))}
+                  </div>
+                  <div style={{ marginTop: 20, borderTop: "1px solid var(--line-soft)", paddingTop: 16, display: "flex", flexDirection: "column", gap: 5 }}>
+                    {[["XXS","UK 4–6 · Bust 76–81cm"],["XS","UK 6–8 · Bust 81–86cm"],["S","UK 8–10 · Bust 86–91cm"],["M","UK 10–12 · Bust 91–96cm"],["L","UK 12–14 · Bust 96–102cm"],["XL","UK 14–16 · Bust 102–107cm"]].map(([s, hint]) => (
+                      <div key={s} style={{ display: "flex", gap: 10, fontFamily: "var(--sans)", fontSize: 10, color: "var(--ink-soft)", lineHeight: 1.4 }}>
+                        <span style={{ fontWeight: 600, color: "var(--ink)", minWidth: 28 }}>{s}</span>
+                        <span>{hint}</span>
+                      </div>
                     ))}
                   </div>
                 </div>
