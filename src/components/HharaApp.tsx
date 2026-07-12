@@ -4082,6 +4082,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [wishlistLoaded, setWishlistLoaded] = useState(false);
   const [selectedColorFilter, setSelectedColorFilter] = useState<string | null>(null);
+  const [sizePickerProduct, setSizePickerProduct] = useState<any>(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -4263,13 +4264,31 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     }
   };
 
-  const quickAdd = (product, size?: string) => {
+  const quickAdd = (product) => {
+    const sizes = product.sizes || [];
+    const hasChoice = sizes.length > 1 || (sizes.length === 1 && sizes[0] !== "One Size");
+    if (hasChoice) {
+      setSizePickerProduct(product);
+    } else {
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        color: product.swatches?.[0]?.name,
+        size: sizes[0] || "One Size",
+        tone: product.tone,
+      });
+    }
+  };
+
+  const quickAddWithSize = (product, size: string) => {
+    setSizePickerProduct(null);
     addToCart({
       id: product.id,
       name: product.name,
       price: product.price,
       color: product.swatches?.[0]?.name,
-      size: size || product.sizes?.[0],
+      size,
       tone: product.tone,
     });
   };
@@ -4533,6 +4552,34 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
               onClose={() => setSearchOpen(false)}
               openProduct={openProduct}
             />
+            {sizePickerProduct && (
+              <div
+                style={{ position: "fixed", inset: 0, zIndex: 1100, background: "rgba(42,31,20,0.45)", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}
+                onClick={() => setSizePickerProduct(null)}
+              >
+                <div
+                  style={{ background: "var(--bg)", maxWidth: 400, width: "100%", padding: "36px 32px", position: "relative" }}
+                  onClick={e => e.stopPropagation()}
+                >
+                  <button onClick={() => setSizePickerProduct(null)} style={{ position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer", color: "var(--ink)", opacity: 0.5 }}><Icon.Close /></button>
+                  <div style={{ fontFamily: "var(--sans)", fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--accent)", marginBottom: 8 }}>Select Size</div>
+                  <div style={{ fontFamily: "var(--display)", fontSize: 22, fontWeight: 300, color: "var(--ink)", marginBottom: 24 }}>{sizePickerProduct.name}</div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                    {(sizePickerProduct.sizes || []).map((size: string) => (
+                      <button
+                        key={size}
+                        onClick={() => quickAddWithSize(sizePickerProduct, size)}
+                        style={{ fontFamily: "var(--sans)", fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 500, border: "1px solid var(--line)", background: "transparent", color: "var(--ink)", padding: "12px 20px", cursor: "pointer", flex: "1 1 calc(33% - 8px)", minWidth: 60, transition: "all 0.2s" }}
+                        onMouseEnter={e => { (e.target as HTMLButtonElement).style.background = "var(--bark)"; (e.target as HTMLButtonElement).style.color = "var(--bg)"; (e.target as HTMLButtonElement).style.borderColor = "var(--bark)"; }}
+                        onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = "transparent"; (e.target as HTMLButtonElement).style.color = "var(--ink)"; (e.target as HTMLButtonElement).style.borderColor = "var(--line)"; }}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
             {tweaksUI}
             <CookieBanner setRoute={setRouteState} />
           </div>
