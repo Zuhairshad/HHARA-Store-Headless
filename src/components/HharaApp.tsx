@@ -1051,26 +1051,13 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
 
 // === FILE 06-ce7b1d96-f64b-4723-b417-6dfb0feade07.jsx ===
 
-const TONE_BG: Record<string, string> = {
-  "tone-1": "oklch(0.86 0.012 75)",
-  "tone-2": "oklch(0.78 0.015 60)",
-  "tone-3": "oklch(0.66 0.02 50)",
-  "tone-4": "oklch(0.48 0.025 40)",
-  "tone-5": "oklch(0.32 0.02 50)",
-  "tone-6": "oklch(0.92 0.008 80)",
-  "tone-7": "oklch(0.72 0.025 30)",
-};
-
 function ProductCard({ product, onClick, onQuickAdd }: { product: any; onClick: any; onQuickAdd?: any }) {
 
   const imgA = product.imgKey ? IMGS[product.imgKey + "a"] : (product.featuredImage?.url || product.images?.[0]?.url || null);
   const imgB = product.imgKey ? IMGS[product.imgKey + "b"] : (product.images?.[1]?.url || product.featuredImage?.url || null);
-  const sizes = product.sizes || [];
-  const hasMultipleSizes = sizes.length > 1 || (sizes.length === 1 && sizes[0] !== "One Size");
-  const hoverBg = TONE_BG[product.altTone || product.tone] || "#E8DFD2";
 
   return (
-    <div className="pcard" style={{ "--card-hover-bg": hoverBg } as React.CSSProperties} onClick={onClick}>
+    <div className="pcard" onClick={onClick}>
       <div className="pcard-media">
         {product.badge && (
           <div className={`pcard-badge ${product.badge === "New" ? "new" : ""}`}>{product.badge}</div>
@@ -1081,22 +1068,8 @@ function ProductCard({ product, onClick, onQuickAdd }: { product: any; onClick: 
         <div className={`alt ${product.altTone || product.tone}`} style={{ position: "absolute", inset: 0 }}>
           {imgB && <img src={imgB} alt={product.name} className="img-fill" loading="lazy" />}
         </div>
-        <div className="pcard-quickadd" onClick={(e) => e.stopPropagation()}>
-          {hasMultipleSizes ? (
-            <div className="pcard-size-add">
-              {sizes.map((size: string) => (
-                <button
-                  key={size}
-                  className="pcard-size-btn"
-                  onClick={() => onQuickAdd && onQuickAdd(product, size)}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-          ) : (
-            <button className="btn btn-primary" onClick={() => onQuickAdd && onQuickAdd(product)}>Add to Bag</button>
-          )}
+        <div className="pcard-quickadd" onClick={(e) => { e.stopPropagation(); onQuickAdd && onQuickAdd(product); }}>
+          <button className="btn btn-primary">Add to Bag</button>
         </div>
       </div>
       <div className="pcard-info">
