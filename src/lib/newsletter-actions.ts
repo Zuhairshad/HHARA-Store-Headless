@@ -4,7 +4,11 @@ import { shopifyFetch } from "./shopify";
 
 // Create a Shopify customer with marketing consent. Klaviyo (installed in the
 // store) will sync this customer automatically from the Shopify webhook.
-export async function subscribeNewsletter(email: string): Promise<{ ok: boolean; error?: string }> {
+export async function subscribeNewsletter(
+  email: string,
+  name?: string,
+  phone?: string
+): Promise<{ ok: boolean; error?: string }> {
   if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     return { ok: false, error: "Invalid email" };
   }
@@ -17,15 +21,24 @@ export async function subscribeNewsletter(email: string): Promise<{ ok: boolean;
     }
   `;
   try {
+    const input: any = {
+      email,
+      acceptsMarketing: true,
+      password: cryptoRandom(),
+    };
+    if (name) {
+      const parts = name.trim().split(/\s+/);
+      input.firstName = parts[0];
+      if (parts.length > 1) {
+        input.lastName = parts.slice(1).join(" ");
+      }
+    }
+    if (phone) {
+      input.phone = phone.trim();
+    }
+
     const data = await shopifyFetch<{ customerCreate: { customer: any; customerUserErrors: { code: string; message: string }[] } }>(query, {
-      input: {
-        email,
-        acceptsMarketing: true,
-        // No password - Shopify creates a "guest" / marketing-only customer record.
-        // If Shopify rejects this for missing password, we'll fall through and treat
-        // certain error codes as success (e.g. ALREADY_EXISTS).
-        password: cryptoRandom(),
-      },
+      input,
     });
     const errs = data.customerCreate.customerUserErrors;
     if (errs.length) {

@@ -1044,12 +1044,26 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
 
 // === FILE 06-ce7b1d96-f64b-4723-b417-6dfb0feade07.jsx ===
 
+const TONE_BG: Record<string, string> = {
+  "tone-1": "oklch(0.86 0.012 75)",
+  "tone-2": "oklch(0.78 0.015 60)",
+  "tone-3": "oklch(0.66 0.02 50)",
+  "tone-4": "oklch(0.48 0.025 40)",
+  "tone-5": "oklch(0.32 0.02 50)",
+  "tone-6": "oklch(0.92 0.008 80)",
+  "tone-7": "oklch(0.72 0.025 30)",
+};
+
 function ProductCard({ product, onClick, onQuickAdd }: { product: any; onClick: any; onQuickAdd?: any }) {
 
   const imgA = product.imgKey ? IMGS[product.imgKey + "a"] : (product.featuredImage?.url || product.images?.[0]?.url || null);
   const imgB = product.imgKey ? IMGS[product.imgKey + "b"] : (product.images?.[1]?.url || product.featuredImage?.url || null);
+  const sizes = product.sizes || [];
+  const hasMultipleSizes = sizes.length > 1 || (sizes.length === 1 && sizes[0] !== "One Size");
+  const hoverBg = TONE_BG[product.altTone || product.tone] || "#E8DFD2";
+
   return (
-    <div className="pcard" onClick={onClick}>
+    <div className="pcard" style={{ "--card-hover-bg": hoverBg } as React.CSSProperties} onClick={onClick}>
       <div className="pcard-media">
         {product.badge && (
           <div className={`pcard-badge ${product.badge === "New" ? "new" : ""}`}>{product.badge}</div>
@@ -1060,8 +1074,22 @@ function ProductCard({ product, onClick, onQuickAdd }: { product: any; onClick: 
         <div className={`alt ${product.altTone || product.tone}`} style={{ position: "absolute", inset: 0 }}>
           {imgB && <img src={imgB} alt={product.name} className="img-fill" loading="lazy" />}
         </div>
-        <div className="pcard-quickadd" onClick={(e) => { e.stopPropagation(); onQuickAdd && onQuickAdd(product); }}>
-          <button className="btn btn-primary">Add to Bag</button>
+        <div className="pcard-quickadd" onClick={(e) => e.stopPropagation()}>
+          {hasMultipleSizes ? (
+            <div className="pcard-size-add">
+              {sizes.map((size: string) => (
+                <button
+                  key={size}
+                  className="pcard-size-btn"
+                  onClick={() => onQuickAdd && onQuickAdd(product, size)}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <button className="btn btn-primary" onClick={() => onQuickAdd && onQuickAdd(product)}>Add to Bag</button>
+          )}
         </div>
       </div>
       <div className="pcard-info">
@@ -1392,7 +1420,7 @@ function Newsletter() {
   );
 }
 
-function ManifestoColourways({ ids, openProduct, quickAdd, onShop }: { ids: string[]; openProduct: (id: string) => void; quickAdd: any; onShop: () => void }) {
+function ManifestoColourways({ ids, openProduct, quickAdd }: { ids: string[]; openProduct: (id: string) => void; quickAdd: any }) {
   const PRODUCTS = useProducts();
   const list = ids.map((id) => PRODUCTS.find((p) => p.id === id)).filter(Boolean);
   return (
@@ -1420,7 +1448,6 @@ function ManifestoColourways({ ids, openProduct, quickAdd, onShop }: { ids: stri
         ))}
       </div>
 
-      <button className="btn btn-primary" onClick={onShop}>Shop All Pieces</button>
     </section>
   );
 }
@@ -1428,22 +1455,18 @@ function ManifestoColourways({ ids, openProduct, quickAdd, onShop }: { ids: stri
 function Pillars() {
   const pillars = [
     {
-      n: "01",
       title: "She is seen",
       body: "HHARA names what the world overlooks: the woman who gives everything and asks for nothing.",
     },
     {
-      n: "02",
       title: "Intentional",
       body: "She does not drift through her days. She inhabits them with purpose, grace and clarity.",
     },
     {
-      n: "03",
       title: "Every version",
       body: "From the first alarm to the last quiet moment she calls her own. One piece. Every role.",
     },
     {
-      n: "04",
       title: "Wonder",
       body: "From the Yoruba dialect. Her name. Her nature. She does not have wonder; she is wonder.",
     },
@@ -1458,8 +1481,7 @@ function Pillars() {
         </div>
         <div className="pillars-grid">
           {pillars.map((p) => (
-            <div key={p.n} className="pillar-card">
-              <div className="pillar-num">{p.n}</div>
+            <div key={p.title} className="pillar-card">
               <h3 className="pillar-title">{p.title}</h3>
               <p className="pillar-body">{p.body}</p>
             </div>
@@ -1643,7 +1665,6 @@ function Home(props) {
         ids={HHRAA_DATA.FEATURED_IDS}
         openProduct={(id) => props.setRoute("product", id)}
         quickAdd={props.quickAdd}
-        onShop={() => props.setRoute("shop")}
       />
       <FeaturedGrid setRoute={props.setRoute} />
       <Editorial openShop={() => props.setRoute("atelier")} />
@@ -2779,7 +2800,6 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
           <div className="gc-eyebrow">The HHARA Gift Card</div>
           <h1 className="gc-title">Give her the beginning of{"\n"}something.</h1>
           <p className="gc-subtitle">A gift for wherever her day takes her.</p>
-          <div className="gc-price">From ${GIFT_CARD_AMOUNTS[0]}.00</div>
 
           <form onSubmit={handleCheckout} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {/* Amounts Grid */}
@@ -3256,7 +3276,7 @@ function StoresPage({ setRoute }) {
             color: "#FAF7F2",
             marginBottom: "28px"
           }}>
-            She is <em style={{ fontStyle: "italic", color: "#FAF7F2" }}>wonder.</em>
+            She is <em style={{ fontStyle: "italic", color: "#FAF7F2" }}>Wonder.</em>
           </h1>
           <p style={{
             fontFamily: "var(--display)",
@@ -4245,13 +4265,13 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     }
   };
 
-  const quickAdd = (product) => {
+  const quickAdd = (product, size?: string) => {
     addToCart({
       id: product.id,
       name: product.name,
       price: product.price,
       color: product.swatches?.[0]?.name,
-      size: product.sizes?.[0],
+      size: size || product.sizes?.[0],
       tone: product.tone,
     });
   };
@@ -4459,7 +4479,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
       {!customer && (
         <button
           onClick={openSignupPopup}
-          className="fixed bottom-6 right-6 z-[99] bg-[#3A2416] text-[#F7F3ED] hover:bg-[#2A1F14] p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center border border-[#F7F3ED]/10 group"
+          className="fixed bottom-6 right-6 z-[99] bg-[#3A2416] text-[#F7F3ED] hover:bg-[#6B2F1A] p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center border border-[#F7F3ED]/10 group"
           aria-label="Open signup invitation"
         >
           {/* Custom user/signup SVG */}

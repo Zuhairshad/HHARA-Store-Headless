@@ -10,6 +10,7 @@
   --line-soft: rgba(42, 31, 20, 0.08);
   --accent: #B8892E;
   --bark: #3A2416;
+  --bark-hover: #6B2F1A;
   --zinfandel: #6B2737;
   --gold-pale: #F2E6C8;
   --sale: #6B2737;
@@ -140,7 +141,7 @@ img { display: block; max-width: 100%; }
   gap: clamp(18px, 2.4vw, 36px);
   align-items: center;
   justify-content: flex-start;
-  margin-left: calc(var(--pad) * -1 - 24px);
+  margin-left: calc(var(--pad) * -1 + 12px);
 }
 .header-nav button {
   font-family: var(--sans);
@@ -428,8 +429,8 @@ img { display: block; max-width: 100%; }
   border-color: var(--bark);
 }
 .btn-primary:hover {
-  background: var(--bark);
-  border-color: var(--bark);
+  background: var(--bark-hover);
+  border-color: var(--bark-hover);
   color: var(--bg);
 }
 .btn-light {
@@ -568,8 +569,9 @@ img { display: block; max-width: 100%; }
   background: #F0EAE0;
   cursor: pointer;
   position: relative;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.5s ease;
 }
+.pcard:hover { background-color: var(--card-hover-bg, #E8DFD2); }
 .pcard-media {
   position: relative;
   aspect-ratio: 3 / 4;
@@ -628,7 +630,37 @@ img { display: block; max-width: 100%; }
   min-height: 48px;
   padding: 12px;
 }
-.pcard-quickadd .btn:hover { background: var(--bark); border-color: var(--bark); }
+.pcard-quickadd .btn:hover { background: var(--bark-hover); border-color: var(--bark-hover); }
+.pcard-size-add {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  background: rgba(247, 243, 237, 0.96);
+  padding: 8px;
+  border-radius: 2px;
+}
+.pcard-size-btn {
+  font-family: var(--sans);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 7px 8px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 32px;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  min-height: 34px;
+  text-align: center;
+}
+.pcard-size-btn:hover {
+  background: var(--bark-hover);
+  color: var(--bg);
+  border-color: var(--bark-hover);
+}
 .pcard-info {
   padding: clamp(12px, 3vw, 24px);
   display: flex;
@@ -1337,7 +1369,7 @@ img { display: block; max-width: 100%; }
   transition: background 0.2s;
   margin-top: 4px;
 }
-.pco-upsell-add:hover { background: var(--bark); }
+.pco-upsell-add:hover { background: var(--bark-hover); }
 
 /* Promo */
 .pco-promo-form { display: flex; gap: 0; border-bottom: 1px solid var(--line); }
@@ -3465,14 +3497,6 @@ img { display: block; max-width: 100%; }
   flex-direction: column;
 }
 
-.pillar-num {
-  font-family: var(--display), 'Cormorant Garamond', serif;
-  font-size: 44px;
-  font-weight: 300;
-  color: rgba(42, 31, 20, 0.2);
-  line-height: 1;
-  margin-bottom: 14px;
-}
 
 .pillar-title {
   font-family: var(--sans), 'Montserrat', sans-serif;
@@ -4527,10 +4551,6 @@ img { display: block; max-width: 100%; }
   .pillar-card {
     padding: 28px 24px;
   }
-  .pillar-num {
-    font-size: 34px;
-    margin-bottom: 10px;
-  }
   .callout {
     padding: 40px 32px;
   }
@@ -4555,10 +4575,6 @@ img { display: block; max-width: 100%; }
   }
   .pillar-card {
     padding: 22px 20px;
-  }
-  .pillar-num {
-    font-size: 30px;
-    margin-bottom: 8px;
   }
   .callout {
     padding: 32px 24px;
