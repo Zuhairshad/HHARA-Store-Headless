@@ -439,9 +439,9 @@ img { display: block; max-width: 100%; }
   border-color: var(--bg);
 }
 .btn-light:hover {
-  background: var(--bg);
-  border-color: var(--bg);
-  color: var(--ink);
+  background: var(--bark-hover);
+  border-color: var(--bark-hover);
+  color: var(--bg);
 }
 .btn-outline {
   background: transparent;

@@ -1403,6 +1403,7 @@ function Newsletter() {
 function ManifestoColourways({ ids, openProduct, quickAdd }: { ids: string[]; openProduct: (id: string) => void; quickAdd: any }) {
   const PRODUCTS = useProducts();
   const list = ids.map((id) => PRODUCTS.find((p) => p.id === id)).filter(Boolean);
+  const [expanded, setExpanded] = useState(false);
   return (
     <section className="manifesto-colourways">
       <span className="eyebrow" style={{ color: "#B8892E", display: "block", textAlign: "center", marginBottom: 16 }}>THE COLLECTION</span>
@@ -1410,12 +1411,24 @@ function ManifestoColourways({ ids, openProduct, quickAdd }: { ids: string[]; op
         Unapologetically<br />
         <em style={{ fontFamily: "var(--display,'Cormorant Garamond',serif)", fontStyle: "italic", fontWeight: 300, color: "#B8892E" }}>You.</em>
       </h2>
-      <p className="mc-lead">Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.</p>
-      <p className="mc-body" style={{ marginBottom: 48 }}>
-        Every piece carries a name with meaning. Each was chosen to celebrate the strength and softness that exist within every woman.{" "}
-        <em>Dalia (Arabic)</em> - Gentle. Tender. Delicate.{" "}
-        <em>Imara (Swahili)</em> - Strong. Firm. Resolute. She is both. Always.
+      <p className="mc-lead">
+        Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.{" "}
+        {!expanded && (
+          <button onClick={() => setExpanded(true)} style={{ fontFamily: "var(--sans)", fontSize: "inherit", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
+            Read more
+          </button>
+        )}
       </p>
+      {expanded && (
+        <p className="mc-body" style={{ marginBottom: 24 }}>
+          Every piece carries a name with meaning. Each was chosen to celebrate the strength and softness that exist within every woman.{" "}
+          <em>Dalia (Arabic)</em> - Gentle. Tender. Delicate.{" "}
+          <em>Imara (Swahili)</em> - Strong. Firm. Resolute. She is both. Always.{" "}
+          <button onClick={() => setExpanded(false)} style={{ fontFamily: "var(--sans)", fontSize: "inherit", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
+            Read less
+          </button>
+        </p>
+      )}
       
       <div className="pgrid" style={{ width: "100%", maxWidth: "var(--maxw)", marginBottom: 48 }}>
         {list.map((p) => (
