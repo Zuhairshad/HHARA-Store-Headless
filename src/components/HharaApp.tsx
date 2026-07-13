@@ -3619,13 +3619,18 @@ function WishlistPage({ setRoute, openProduct, wishlist, quickAdd }) {
 }
 
 // ============ POLICY PAGES ============
-function PolicyPage({ title, eyebrow, children, setRoute }: { title: string; eyebrow: string; children: React.ReactNode; setRoute: any }) {
+function PolicyPage({ title, eyebrow, children, setRoute, headerRight }: { title: string; eyebrow: string; children: React.ReactNode; setRoute: any; headerRight?: React.ReactNode }) {
   return (
     <div className="policy-page">
       <div className="policy-hero">
-        <button className="policy-back" onClick={() => setRoute("home")}>← Back</button>
-        <span className="eyebrow" style={{ color: "var(--accent)" }}>{eyebrow}</span>
-        <h1 className="policy-title">{title}</h1>
+        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: "16px" }}>
+          <div>
+            <button className="policy-back" onClick={() => setRoute("home")}>← Back</button>
+            <span className="eyebrow" style={{ color: "var(--accent)" }}>{eyebrow}</span>
+            <h1 className="policy-title">{title}</h1>
+          </div>
+          {headerRight && <div>{headerRight}</div>}
+        </div>
       </div>
       <div className="policy-body">{children}</div>
     </div>
@@ -3633,6 +3638,18 @@ function PolicyPage({ title, eyebrow, children, setRoute }: { title: string; eye
 }
 
 function FAQPage({ setRoute }) {
+  const [openSections, setOpenSections] = useState<Set<string>>(new Set());
+  const [openItem, setOpenItem] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
+
+  const toggleSection = (heading: string) => {
+    setOpenSections(prev => {
+      const next = new Set(prev);
+      if (next.has(heading)) next.delete(heading); else next.add(heading);
+      return next;
+    });
+  };
+
   const sections = [
     {
       heading: "The Collection",
@@ -3692,19 +3709,55 @@ function FAQPage({ setRoute }) {
       ],
     },
   ];
+
+  const q = search.trim().toLowerCase();
+  const visibleSections = q
+    ? sections.map(s => ({ ...s, items: s.items.filter(i => i.q.toLowerCase().includes(q) || i.a.toLowerCase().includes(q)) })).filter(s => s.items.length > 0)
+    : sections;
+
+  function renderAnswer(a: string) {
+    if (!a.includes("Size Guide")) return a;
+    const parts = a.split("Size Guide");
+    return <>{parts[0]}<a onClick={() => setRoute("size-guide")} className="faq-link">Size Guide</a>{parts[1]}</>;
+  }
+
+  const searchBar = (
+    <div className="faq-search-wrap">
+      <input
+        className="faq-search"
+        type="text"
+        placeholder="Search questions…"
+        value={search}
+        onChange={e => { setSearch(e.target.value); setOpenItem(null); }}
+      />
+    </div>
+  );
+
   return (
-    <PolicyPage title="Frequently Asked Questions" eyebrow="Support" setRoute={setRoute}>
-      {sections.map((s) => (
-        <div key={s.heading} className="policy-section">
-          <h2 className="policy-section-heading">{s.heading}</h2>
-          {s.items.map((item) => (
-            <div key={item.q} className="faq-item">
-              <h3 className="faq-q">{item.q}</h3>
-              <p className="faq-a">{item.a}</p>
-            </div>
-          ))}
-        </div>
-      ))}
+    <PolicyPage title="Frequently Asked Questions" eyebrow="Support" setRoute={setRoute} headerRight={searchBar}>
+      {visibleSections.map((s) => {
+        const isOpen = q ? true : openSections.has(s.heading);
+        return (
+          <div key={s.heading} className="policy-section">
+            <button className="faq-section-btn" onClick={() => toggleSection(s.heading)}>
+              <span>{s.heading}</span>
+              <span className="faq-chevron">{isOpen ? "−" : "+"}</span>
+            </button>
+            {isOpen && s.items.map((item) => {
+              const itemOpen = q ? true : openItem === item.q;
+              return (
+                <div key={item.q} className="faq-item">
+                  <button className={`faq-q${itemOpen ? " open" : ""}`} onClick={() => setOpenItem(itemOpen ? null : item.q)}>
+                    <span>{item.q}</span>
+                    <span className="faq-chevron">{itemOpen ? "−" : "+"}</span>
+                  </button>
+                  {itemOpen && <p className="faq-a">{renderAnswer(item.a)}</p>}
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
       <div className="policy-contact">
         Still have questions? <a href="mailto:hello@hhara.com">hello@hhara.com</a>
       </div>

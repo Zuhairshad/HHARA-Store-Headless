@@ -4875,25 +4875,90 @@ img { display: block; max-width: 100%; }
 }
 
 /* FAQ */
+.faq-search-wrap {
+  margin-bottom: 8px;
+}
+.faq-search {
+  width: 100%;
+  max-width: 280px;
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--ink-soft);
+  padding: 8px 0;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.faq-search::placeholder { color: var(--ink-soft); }
+.faq-search:focus { border-bottom-color: var(--ink); }
+.faq-section-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(42,31,20,0.15);
+  padding: 18px 0;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0;
+  transition: color 0.2s;
+}
+.faq-section-btn:hover { color: var(--ink); }
 .faq-item {
-  padding: 24px 0;
-  border-bottom: 1px solid rgba(42,31,20,0.1);
+  border-bottom: 1px solid rgba(42,31,20,0.08);
 }
 .faq-item:last-child { border-bottom: none; }
 .faq-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 20px 0;
+  cursor: pointer;
   font-family: var(--serif);
-  font-size: 26px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 400;
   color: var(--ink);
-  margin: 0 0 10px;
+  text-align: left;
+  gap: 16px;
+  transition: color 0.2s;
+}
+.faq-q:hover, .faq-q.open { color: var(--bark); }
+.faq-chevron {
+  font-size: 20px;
+  font-weight: 300;
+  flex-shrink: 0;
+  line-height: 1;
+  color: var(--ink-soft);
 }
 .faq-a {
   font-family: var(--sans);
   font-size: 16px;
   color: var(--ink-soft);
   line-height: 1.8;
-  margin: 0;
+  margin: 0 0 20px;
+  padding-right: 40px;
 }
+.faq-link {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.faq-link:hover { color: var(--bark); }
 
 /* Size Guide */
 .size-guide-tips {
