@@ -3711,8 +3711,10 @@ function FAQPage({ setRoute }) {
   ];
 
   const q = search.trim().toLowerCase();
+  const words = q.split(/\s+/).filter(Boolean);
+  const matchesText = (text: string) => words.every(w => text.toLowerCase().includes(w));
   const visibleSections = q
-    ? sections.map(s => ({ ...s, items: s.items.filter(i => i.q.toLowerCase().includes(q) || i.a.toLowerCase().includes(q)) })).filter(s => s.items.length > 0)
+    ? sections.map(s => ({ ...s, items: s.items.filter(i => matchesText(i.q) || matchesText(i.a)) })).filter(s => s.items.length > 0)
     : sections;
 
   function renderAnswer(a: string) {
