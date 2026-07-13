@@ -3656,7 +3656,7 @@ function FAQPage({ setRoute }) {
       items: [
         { q: "How do I know which size to choose?", a: "We carry XS, S, M, L and XL. Visit our Size Guide for detailed measurements. Our pieces fit true to size. If you are between sizes and prefer a snug fit, we recommend sizing down." },
         { q: "Will the colour on my screen match the real item?", a: "We aim to display our colourways as accurately as possible. Slight variations may occur due to lighting and individual screen settings." },
-        { q: "How should I care for my HHARA pieces?", a: "Machine wash cold on a gentle cycle. Do not tumble dry. Lay flat to dry. Do not bleach or iron. Wash with similar colours." },
+        { q: "How should I care for my HHARA pieces?", a: "Machine wash cold on a gentle cycle. Do not tumble dry. Hang dry. Do not bleach or iron. Wash with similar colours." },
       ],
     },
     {
