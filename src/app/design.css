@@ -1583,6 +1583,19 @@ img { display: block; max-width: 100%; }
   padding: 8px 12px;
   z-index: 2;
 }
+.pdp-model-spec {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  background: rgba(42,31,20,0.72);
+  color: #FAF7F2;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 6px 12px;
+  z-index: 2;
+  backdrop-filter: blur(4px);
+}
 .pdp-gallery-thumbs {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -2871,6 +2884,23 @@ img { display: block; max-width: 100%; }
   grid-template-columns: repeat(4, 1fr);
   gap: 36px 20px;
 }
+.wish-remove-btn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  border-top: 1px solid rgba(42,31,20,0.1);
+  padding: 10px 0;
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.wish-remove-btn:hover { color: var(--bark-hover); }
 .wish-empty {
   text-align: center;
   padding: clamp(72px, 10vw, 140px) var(--pad);

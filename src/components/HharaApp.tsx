@@ -2140,6 +2140,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   <div className={`pdp-gallery-main ${product.tone}`}>
                     {main.src && <img src={main.src} alt="" className="img-fill" style={main.style} />}
                     <div className="pdp-gallery-tag">{product.cat}</div>
+                    <div className="pdp-model-spec">Model is 5'9 wearing S</div>
                   </div>
                   <div className="pdp-gallery-thumbs">
                     {shots.map((s, i) => (
@@ -2731,7 +2732,7 @@ function AtelierPage({ setRoute }) {
           <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: "clamp(22px, 3.2vw, 30px)", lineHeight: 1.7, marginBottom: 16, color: "#FAF7F2", fontFamily: "var(--display)", fontWeight: 300 }}>
             "She moves before the world notices. She carries what others don't see. She is the woman who shows up, for everyone, and still finds a way to show up for herself. HHARA was made for her. From the very first stitch."
           </blockquote>
-          <div style={{ color: "#B8892E", fontStyle: "italic", fontFamily: "var(--display)", fontSize: 16 }}>She is wonder. She is HHARA.</div>
+          <div style={{ color: "#B8892E", fontStyle: "italic", fontFamily: "var(--display)", fontSize: 16 }}>She is Wonder. She is HHARA.</div>
         </div>
       </section>
     </>
@@ -3586,7 +3587,7 @@ function AccountPage({
 }
 
 // ============ WISHLIST ============
-function WishlistPage({ setRoute, openProduct, wishlist, quickAdd }) {
+function WishlistPage({ setRoute, openProduct, wishlist, quickAdd, onWishlistToggle }) {
   const PRODUCTS = useProducts();
   const items = wishlist.map((id) => PRODUCTS.find((p) => p.id === id)).filter(Boolean);
   return (
@@ -3610,7 +3611,16 @@ function WishlistPage({ setRoute, openProduct, wishlist, quickAdd }) {
       ) : (
         <div className="wish-grid">
           {items.map((p) => (
-            <ProductCard key={p.id} product={p} onClick={() => openProduct(p.id)} onQuickAdd={quickAdd} />
+            <div key={p.id} style={{ position: "relative" }}>
+              <ProductCard product={p} onClick={() => openProduct(p.id)} onQuickAdd={quickAdd} />
+              <button
+                className="wish-remove-btn"
+                onClick={() => onWishlistToggle?.(p.id)}
+                aria-label="Remove from wishlist"
+              >
+                Remove
+              </button>
+            </div>
           ))}
         </div>
       )}
@@ -4420,7 +4430,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
   } else if (route === "account") {
     body = <AccountPage setRoute={setRoute} checkoutUrl={shopifyCart?.checkoutUrl} cartCount={cartCount} />;
   } else if (route === "wishlist") {
-    body = <WishlistPage setRoute={setRouteState} openProduct={openProduct} wishlist={wishlist} quickAdd={quickAdd} />;
+    body = <WishlistPage setRoute={setRouteState} openProduct={openProduct} wishlist={wishlist} quickAdd={quickAdd} onWishlistToggle={toggleWishlist} />;
   } else if (route === "faq") {
     body = <FAQPage setRoute={setRouteState} />;
   } else if (route === "shipping") {
