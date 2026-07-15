@@ -189,7 +189,7 @@ const PRODUCTS = [
     badge: "New",
     imgKey: "p1",
     tagline: "Sculpted scoop-neck support",
-    description: "Sculpted scoop-neck architecture with brushed-gold structural hardware. High-density double-knit with moisture-wicking construction, hidden ergonomic support band, and capillary ventilation channels.",
+    description: "A refined essential designed for movement, confidence, and everyday elegance.\n\nThe Imara Crisscross Bra embraces your natural shape with a smooth, supportive feel and a flattering fit that moves effortlessly with you. Designed with a balance of comfort and structure, it provides the confidence to flow from mindful workouts to elevated everyday moments.\n\nA timeless piece you'll reach for again and again.",
     details: [
       "Premium recycled performance knit",
       "Brushed-gold low-friction hardware",
@@ -270,13 +270,17 @@ const PRODUCTS = [
 const ORIGIN_MEANING = {
   "The Imara Set": {
     word: "Imara",
-    tag: "Swahili Origin",
+    tag: "Swahili",
     text: "Imara means strong, firm, resolute - a name carried by those who move through the world with quiet resilience. The Imara Set was made for her.",
+    tagline: "Strong • Firm • Resolute",
+    subtitle: "Created for the woman who carries her strength with quiet confidence.",
   },
   "The Dalia Set": {
     word: "Dalia",
-    tag: "Arabic Origin",
+    tag: "Arabic",
     text: "Dalia means delicate - a name carried by those who move through the world with quiet precision and effortless grace. The Dalia Set was made for her.",
+    tagline: "Gentle • Tender • Delicate",
+    subtitle: "Created for the woman who moves with quiet precision and effortless grace.",
   },
 };
 
@@ -441,8 +445,6 @@ function MegaMenu({ open, onClose, setRoute }) {
           <ul>
             <li><a onClick={() => { setRoute("atelier"); onClose(); }}>About Us</a></li>
             <li><a onClick={() => { setRoute("atelier"); onClose(); }}>Material Transparency</a></li>
-            <li><a onClick={() => { setRoute("atelier"); onClose(); }}>Social Impact · 10%</a></li>
-            <li><a onClick={() => { setRoute("atelier"); onClose(); }}>Carbon-Neutral Transit</a></li>
           </ul>
         </div>
       </div>
@@ -760,7 +762,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="pco-trust-icon"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
               <div>
                 <div className="pco-trust-title">Every Order Gives Back</div>
-                <div className="pco-trust-body">10% of every purchase funds children's education in underserved communities.</div>
+                <div className="pco-trust-body">Every purchase helps fund children's education in underserved communities.</div>
               </div>
             </div>
           </div>
@@ -1047,7 +1049,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
                 Review Order
                 <span className="btn-arrow"><Icon.Arrow /></span>
               </button>
-              <div className="micro">Taxes &amp; duties calculated at checkout · 10% of every order funds children's education</div>
+              <div className="micro">Taxes &amp; duties calculated at checkout · Every purchase helps fund children's education</div>
             </div>
           </>
         )}
@@ -1276,6 +1278,8 @@ function Marquee() {
     "Sustainable Luxury Athleisure",
     "Every Piece Gives Back",
     "Wonder, Worn.",
+    "Imara (Swahili) · Strong • Firm • Resolute",
+    "Created for the woman who carries her strength with quiet confidence",
   ];
   const row = (
     <span>
@@ -2173,12 +2177,13 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
             <div className="pdp-divider"></div>
 
             {origin && (
-              <div className="pdp-origin-box">
-                <div className="pdp-origin-head">
-                  <span className="pdp-origin-word">{origin.word}</span>
-                  <span className="pdp-origin-tag">{origin.tag}</span>
-                </div>
-                <p>{origin.text}</p>
+              <div style={{ marginBottom: "24px" }}>
+                <p style={{ fontFamily: "var(--sans)", fontStyle: "italic", fontWeight: 500, fontSize: "14px", color: "var(--ink)", margin: "0 0 6px" }}>
+                  {origin.word} ({origin.tag}): {origin.tagline}
+                </p>
+                <p style={{ fontFamily: "var(--sans)", fontStyle: "italic", fontWeight: 300, fontSize: "12px", color: "var(--ink-soft)", margin: 0, lineHeight: 1.7 }}>
+                  {origin.subtitle}
+                </p>
               </div>
             )}
 
@@ -2198,6 +2203,13 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   ></button>
                 ))}
               </div>
+            </div>
+
+            <div style={{ margin: "12px 0 16px" }}>
+              <div style={{ fontFamily: "var(--sans)", fontSize: "10px", letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 600, color: "var(--ink)", marginBottom: "6px" }}>Fit</div>
+              <ul style={{ margin: 0, paddingLeft: "16px", fontFamily: "var(--sans)", fontSize: "12px", color: "var(--ink-soft)", lineHeight: 1.7 }}>
+                <li>True to size, designed for a snug fit with medium-to-high compression.</li>
+              </ul>
             </div>
 
             <div className="pdp-option-row">
@@ -2254,8 +2266,9 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
             <div className="pdp-description-section" style={{ marginTop: "40px" }}>
               <div className="pdp-section-label">Description</div>
-              <p>{product.description || "Premium recycled performance knit, engineered for movement, structure, and longevity."}</p>
-              <p>Designed in the UAE for movement, structure, and longevity - with no compromise on how it feels against the skin.</p>
+              {(product.description || "Premium recycled performance knit, engineered for movement, structure, and longevity.").split("\n\n").map((para, i) => (
+                <p key={i}>{para}</p>
+              ))}
             </div>
 
             <div className="pdp-accordions" style={{ marginTop: "32px" }}>
@@ -2269,27 +2282,45 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               <Accordion title="Size Guide" open={open === "fit"} onToggle={() => setOpen(open === "fit" ? "" : "fit")}>
                 <p>Model is 178cm and wears a size S. Engineered for second-skin compression with 4-way mechanical stretch. We recommend taking your usual size; size down for a closer compression fit.</p>
               </Accordion>
-              <Accordion title="Care Instructions" open={open === "care"} onToggle={() => setOpen(open === "care" ? "" : "care")}>
-                <p>Machine wash cold with like colours. Do not tumble dry, do not bleach, do not iron. Lay flat to dry to preserve the recycled performance knit.</p>
+              <Accordion title="Care and Instruction" open={open === "care"} onToggle={() => setOpen(open === "care" ? "" : "care")}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px 32px", paddingTop: "4px" }}>
+                  {[
+                    { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18"><path d="M3 7h18l-1.5 12H4.5L3 7z"/><path d="M1 7h22"/><path d="M8 12c1-1.5 2-1.5 3 0s2 1.5 3 0"/><path d="M12 5v2"/></svg>, label: "Machine Wash Cold" },
+                    { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/><path d="M12 3L3 21h18L12 3z"/></svg>, label: "Do Not Bleach" },
+                    { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2"/></svg>, label: "Tumble Dry Low" },
+                    { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/><path d="M5 8h10l2 4H3l2-4z"/><path d="M3 12h18v2H3z"/><circle cx="8" cy="16" r="1.5"/><circle cx="16" cy="16" r="1.5"/></svg>, label: "Do Not Iron" },
+                    { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/><circle cx="12" cy="12" r="9"/><text x="9.5" y="16" fontSize="8" fontFamily="sans-serif" fill="currentColor" stroke="none">P</text></svg>, label: "Do Not Dry Clean" },
+                    { icon: null, label: "Wash With Like Colors" },
+                  ].map(({ icon, label }, i) => (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontFamily: "var(--sans)", fontSize: "12px", color: "var(--ink-soft)" }}>
+                      {icon ? <span style={{ flexShrink: 0, opacity: 0.7 }}>{icon}</span> : <span style={{ width: 18, height: 18, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", opacity: 0.5 }}>·</span>}
+                      {label}
+                    </div>
+                  ))}
+                </div>
               </Accordion>
               <Accordion title="Shipping & Returns" open={open === "ship"} onToggle={() => setOpen(open === "ship" ? "" : "ship")}>
                 <p>Free standard next-day shipping within the UAE (no minimum). Same-day delivery upgrade available for AED 28 in Dubai, Abu Dhabi, Sharjah, and Ajman. International express shipping is free on orders over AED 1,900, with flat shipping rates below the threshold (AED 60 GCC, AED 80 UK/Europe/Rest of World, AED 120 North America). Returns are free within 14 days for UAE orders only; GCC and international sales are final.</p>
               </Accordion>
             </div>
 
-            {specs.length > 0 && (
-              <div className="pdp-specs" style={{ marginTop: "32px" }}>
-                {specs.map((row) => (
-                  <div className="pdp-spec-row" key={row.k}>
-                    <span className="k">{row.k}</span>
-                    <span className="v">{row.v}</span>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </div>
+
+      <section className="section" style={{ borderTop: "1px solid var(--line-soft)", paddingTop: "80px" }}>
+        <div className="section-head">
+          <div className="section-head-stack">
+            <span className="eyebrow">You may also like</span>
+            <h2 className="section-title">Complete the look</h2>
+          </div>
+        </div>
+        <div className="pgrid">
+          {list.map((p) => (
+            <ProductCard key={p.id} product={p} onClick={() => openProduct(p.id)} />
+          ))}
+        </div>
+      </section>
 
       {/* WHAT SHE SAYS: REVIEWS SECTION */}
       <section className="reviews-section" style={{ borderTop: "1px solid var(--line-soft)", marginTop: "40px" }}>
@@ -2397,20 +2428,6 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
           )}
         </div>
 
-      </section>
-
-      <section className="section" style={{ borderTop: "1px solid var(--line-soft)", paddingTop: "80px" }}>
-        <div className="section-head">
-          <div className="section-head-stack">
-            <span className="eyebrow">You may also like</span>
-            <h2 className="section-title">Complete the look</h2>
-          </div>
-        </div>
-        <div className="pgrid">
-          {list.map((p) => (
-            <ProductCard key={p.id} product={p} onClick={() => openProduct(p.id)} />
-          ))}
-        </div>
       </section>
 
       {sizeGuideOpen && (
