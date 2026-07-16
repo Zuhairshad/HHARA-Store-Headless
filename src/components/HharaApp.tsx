@@ -1946,13 +1946,14 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const wishlisted = wishlist?.includes(product?.id);
   const [color, setColor] = useState(product.swatches[0]);
   const [size, setSize] = useState(null);
-  const [open, setOpen] = useState("details");
+  const [open, setOpen] = useState("");
   const [added, setAdded] = useState(false);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [adding, setAdding] = useState(false);
   const [activeShot, setActiveShot] = useState(0);
   const [writeReviewOpen, setWriteReviewOpen] = useState(false);
   const [reviewForm, setReviewForm] = useState({ name: "", location: "", rating: 5, quote: "", product: "" });
+  const [recentlyViewed, setRecentlyViewed] = useState<string[]>([]);
 
   // Reviews and Interactive Form States
   const [reviews, setReviews] = useState([
@@ -1977,6 +1978,62 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const [progress, setProgress] = useState(0);
   const reelVideoRef = useRef(null);
   const previewVideoRef = useRef(null);
+  const bubbleRef = useRef<HTMLDivElement>(null);
+  const [bubblePos, setBubblePos] = useState<{ x: number; y: number } | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragOrigin = useRef({ startX: 0, startY: 0, origX: 0, origY: 0, active: false });
+  const didDrag = useRef(false);
+
+  useEffect(() => {
+    const onMouseMove = (e: MouseEvent) => {
+      if (!dragOrigin.current.active) return;
+      const dx = e.clientX - dragOrigin.current.startX;
+      const dy = e.clientY - dragOrigin.current.startY;
+      if (!didDrag.current && Math.abs(dx) < 4 && Math.abs(dy) < 4) return;
+      didDrag.current = true;
+      setBubblePos({ x: dragOrigin.current.origX + dx, y: dragOrigin.current.origY + dy });
+    };
+    const onMouseUp = () => {
+      dragOrigin.current.active = false;
+      setIsDragging(false);
+      // reset didDrag after click event fires
+      setTimeout(() => { didDrag.current = false; }, 0);
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (!dragOrigin.current.active) return;
+      const t = e.touches[0];
+      const dx = t.clientX - dragOrigin.current.startX;
+      const dy = t.clientY - dragOrigin.current.startY;
+      didDrag.current = true;
+      setBubblePos({ x: dragOrigin.current.origX + dx, y: dragOrigin.current.origY + dy });
+    };
+    const onTouchEnd = () => {
+      dragOrigin.current.active = false;
+      setIsDragging(false);
+      setTimeout(() => { didDrag.current = false; }, 0);
+    };
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    window.addEventListener("touchend", onTouchEnd);
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
+    };
+  }, []);
+
+  const onBubbleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
+    if ((e.target as HTMLElement).closest(".close-btn")) return;
+    const rect = bubbleRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+    dragOrigin.current = { startX: clientX, startY: clientY, origX: rect.left, origY: rect.top, active: true };
+    setIsDragging(true);
+    if (!("touches" in e)) e.preventDefault();
+  };
 
   const videoUrl = product.floatingVideoUrl || "https://videos.pexels.com/video-files/5885664/5885664-sd_360_640_24fps.mp4";
 
@@ -1988,6 +2045,15 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
     setVideoDismissed(false);
     setActiveShot(0);
     window.scrollTo({ top: 0, behavior: "instant" });
+
+    // Track recently viewed in localStorage (max 8, deduplicated, current product first)
+    try {
+      const KEY = "hhara_recently_viewed";
+      const stored: string[] = JSON.parse(localStorage.getItem(KEY) || "[]");
+      const updated = [productId, ...stored.filter((id) => id !== productId)].slice(0, 8);
+      localStorage.setItem(KEY, JSON.stringify(updated));
+      setRecentlyViewed(updated.filter((id) => id !== productId));
+    } catch {}
   }, [productId]);
 
   // Sync preview play state
@@ -2108,9 +2174,10 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
     }
   };
 
-  const related = PRODUCTS.filter((p) => p.id !== product.id && p.cat === product.cat).slice(0, 4);
-  const fallback = PRODUCTS.filter((p) => p.id !== product.id).slice(0, 4);
-  const list = related.length >= 3 ? related : fallback;
+  // Same capsule partner(s) — e.g. Imara Bra → Imara Legging
+  const completeTheLook = PRODUCTS.filter((p) => p.id !== product.id && p.cat === product.cat);
+  // Other capsule products — "You may also like"
+  const youMayAlsoLike = PRODUCTS.filter((p) => p.cat !== product.cat);
 
   const origin = ORIGIN_MEANING[product.cat];
   const specs = PRODUCT_SPECS[product.name] || [];
@@ -2273,11 +2340,16 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
             <div className="pdp-accordions" style={{ marginTop: "32px" }}>
               <Accordion title="Fabric & Feel" open={open === "details"} onToggle={() => setOpen(open === "details" ? "" : "details")}>
-                <ul>
-                  {(product.details || ["Premium recycled performance fabric", "Brushed-gold low-friction hardware", "Designed in the UAE", "Machine wash cold · do not tumble dry"]).map((d, i) => (
-                    <li key={i}>{d}</li>
-                  ))}
-                </ul>
+                <p style={{ marginBottom: "16px", lineHeight: 1.7 }}>Buttery-soft and weightless recycled fabric feels almost like you're wearing nothing at all.</p>
+                <p style={{ marginBottom: "4px", fontFamily: "var(--sans)", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", opacity: 0.55 }}>OEKO-TEX certified</p>
+                <p style={{ marginBottom: "20px", fontFamily: "var(--sans)", fontSize: "13px", opacity: 0.8 }}>75% Recycled Nylon · 25% Spandex</p>
+
+                {/* Fabric property visuals */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <img src="/images/fabric-icons-1.jpg" alt="4 Ways Stretch · Body Enhancing" style={{ width: "100%", borderRadius: "10px", display: "block" }} />
+                  <img src="/images/fabric-icons-2.jpg" alt="Ultra Smooth · Excellent Flexibility · Breathable Properties" style={{ width: "100%", borderRadius: "10px", display: "block" }} />
+                  <img src="/images/fabric-icons-3.jpg" alt="4 Ways Stretch · Breathable Properties" style={{ width: "100%", borderRadius: "10px", display: "block" }} />
+                </div>
               </Accordion>
               <Accordion title="Size Guide" open={open === "fit"} onToggle={() => setOpen(open === "fit" ? "" : "fit")}>
                 <p>Model is 178cm and wears a size S. Engineered for second-skin compression with 4-way mechanical stretch. We recommend taking your usual size; size down for a closer compression fit.</p>
@@ -2300,7 +2372,38 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                 </div>
               </Accordion>
               <Accordion title="Shipping & Returns" open={open === "ship"} onToggle={() => setOpen(open === "ship" ? "" : "ship")}>
-                <p>Free standard next-day shipping within the UAE (no minimum). Same-day delivery upgrade available for AED 28 in Dubai, Abu Dhabi, Sharjah, and Ajman. International express shipping is free on orders over AED 1,900, with flat shipping rates below the threshold (AED 60 GCC, AED 80 UK/Europe/Rest of World, AED 120 North America). Returns are free within 14 days for UAE orders only; GCC and international sales are final.</p>
+                <div style={{ display: "flex", flexDirection: "column", gap: "20px", fontSize: "13px", lineHeight: 1.7 }}>
+                  <div>
+                    <p style={{ fontFamily: "var(--sans)", fontWeight: 600, fontSize: "13px", marginBottom: "8px", color: "var(--ink)" }}>Complimentary UAE Shipping</p>
+                    <ul style={{ paddingLeft: "16px", margin: 0, display: "flex", flexDirection: "column", gap: "4px" }}>
+                      <li>Complimentary next-day delivery across the UAE</li>
+                      <li>No minimum order</li>
+                      <li>Same-day delivery available for <strong>AED 28</strong> in Dubai, Abu Dhabi, Sharjah, and Ajman</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p style={{ fontFamily: "var(--sans)", fontWeight: 600, fontSize: "13px", marginBottom: "8px", color: "var(--ink)" }}>International Delivery</p>
+                    <ul style={{ paddingLeft: "16px", margin: 0, display: "flex", flexDirection: "column", gap: "4px" }}>
+                      <li>Complimentary Express Shipping on orders over <strong>AED 1,900</strong></li>
+                      <li>
+                        Flat-rate shipping:
+                        <ul style={{ paddingLeft: "16px", marginTop: "4px", display: "flex", flexDirection: "column", gap: "2px" }}>
+                          <li>GCC — AED 60</li>
+                          <li>UK &amp; Europe — AED 80</li>
+                          <li>Rest of World — AED 80</li>
+                          <li>North America — AED 120</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p style={{ fontFamily: "var(--sans)", fontWeight: 600, fontSize: "13px", marginBottom: "8px", color: "var(--ink)" }}>Returns</p>
+                    <ul style={{ paddingLeft: "16px", margin: 0, display: "flex", flexDirection: "column", gap: "4px" }}>
+                      <li>Complimentary returns within <strong>14 days</strong> for UAE orders</li>
+                      <li>GCC and international orders are final sale</li>
+                    </ul>
+                  </div>
+                </div>
               </Accordion>
             </div>
 
@@ -2308,19 +2411,36 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
         </div>
       </div>
 
-      <section className="section" style={{ borderTop: "1px solid var(--line-soft)", paddingTop: "80px" }}>
-        <div className="section-head">
-          <div className="section-head-stack">
-            <span className="eyebrow">You may also like</span>
-            <h2 className="section-title">Complete the look</h2>
+      {completeTheLook.length > 0 && (
+        <section className="section" style={{ borderTop: "1px solid var(--line-soft)", paddingTop: "80px" }}>
+          <div className="section-head">
+            <div className="section-head-stack">
+              <h2 className="section-title">Complete the look</h2>
+            </div>
           </div>
-        </div>
-        <div className="pgrid">
-          {list.map((p) => (
-            <ProductCard key={p.id} product={p} onClick={() => openProduct(p.id)} />
-          ))}
-        </div>
-      </section>
+          <div className="pgrid">
+            {completeTheLook.map((p) => (
+              <ProductCard key={p.id} product={p} onClick={() => openProduct(p.id)} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {youMayAlsoLike.length > 0 && (
+        <section className="section" style={{ borderTop: "1px solid var(--line-soft)", paddingTop: "80px" }}>
+          <div className="section-head">
+            <div className="section-head-stack">
+              <span className="eyebrow">From our other capsule</span>
+              <h2 className="section-title">You may also like</h2>
+            </div>
+          </div>
+          <div className="pgrid">
+            {youMayAlsoLike.map((p) => (
+              <ProductCard key={p.id} product={p} onClick={() => openProduct(p.id)} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* WHAT SHE SAYS: REVIEWS SECTION */}
       <section className="reviews-section" style={{ borderTop: "1px solid var(--line-soft)", marginTop: "40px" }}>
@@ -2430,6 +2550,27 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
       </section>
 
+      {/* Recently Viewed */}
+      {recentlyViewed.length > 0 && (() => {
+        const rvProducts = recentlyViewed.map((id) => PRODUCTS.find((p) => p.id === id)).filter(Boolean);
+        if (!rvProducts.length) return null;
+        return (
+          <section className="section" style={{ borderTop: "1px solid var(--line-soft)", paddingTop: "80px" }}>
+            <div className="section-head">
+              <div className="section-head-stack">
+                <span className="eyebrow">Your journey</span>
+                <h2 className="section-title">Recently viewed</h2>
+              </div>
+            </div>
+            <div className="pgrid">
+              {rvProducts.map((p) => (
+                <ProductCard key={p.id} product={p} onClick={() => openProduct(p.id)} />
+              ))}
+            </div>
+          </section>
+        );
+      })()}
+
       {sizeGuideOpen && (
         <>
           <div className="cart-backdrop open" onClick={() => setSizeGuideOpen(false)} style={{ zIndex: 1000 }}></div>
@@ -2473,12 +2614,16 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
       {/* Custom Floating Video Bubble */}
       {!videoDismissed && (
-        <div 
-          className="floating-video-bubble"
-          onClick={openReel}
+        <div
+          ref={bubbleRef}
+          className={`floating-video-bubble${isDragging ? " dragging" : ""}`}
+          onClick={() => { if (!didDrag.current) openReel(); }}
+          onMouseDown={onBubbleDragStart}
+          onTouchStart={onBubbleDragStart}
           aria-label="Watch styling video"
+          style={bubblePos ? { left: bubblePos.x, top: bubblePos.y, bottom: "auto", right: "auto" } : undefined}
         >
-          <button 
+          <button
             className="close-btn"
             onClick={(e) => {
               e.stopPropagation();
@@ -2499,6 +2644,19 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
           />
           <div className="tooltip">See it on model</div>
         </div>
+      )}
+
+      {/* Restore button shown after bubble is dismissed */}
+      {videoDismissed && (
+        <button
+          className="video-bubble-restore"
+          onClick={() => setVideoDismissed(false)}
+          title="Watch styling video"
+          aria-label="Restore styling video"
+        >
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Video
+        </button>
       )}
 
       {/* Expanded Reel Player Modal & Backdrop */}
@@ -2653,9 +2811,20 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 }
 
 function Accordion({ title, open, onToggle, children }) {
+  const headRef = useRef<HTMLDivElement>(null);
+
+  const handleToggle = () => {
+    const top = headRef.current?.getBoundingClientRect().top ?? 0;
+    onToggle();
+    requestAnimationFrame(() => {
+      const newTop = headRef.current?.getBoundingClientRect().top ?? 0;
+      window.scrollBy(0, newTop - top);
+    });
+  };
+
   return (
     <div className="pdp-accordion">
-      <div className="pdp-accordion-head" onClick={onToggle}>
+      <div ref={headRef} className="pdp-accordion-head" onClick={handleToggle}>
         <span>{title}</span>
         <span>{open ? <Icon.Minus /> : <Icon.Plus />}</span>
       </div>
@@ -4488,11 +4657,49 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
             />
-            {/* Scrim for text legibility, darker toward the right */}
-            <div
-              className="absolute inset-0"
-              style={{ background: "linear-gradient(90deg, rgba(42,31,20,0.05) 0%, rgba(42,31,20,0.55) 45%, rgba(42,31,20,0.82) 100%)" }}
-            ></div>
+            {/* Scrim — transparent left so image breathes, heavy right for form legibility */}
+            <div className="absolute inset-0" style={{ background: "linear-gradient(105deg, rgba(42,31,20,0.08) 0%, rgba(42,31,20,0.18) 30%, rgba(42,31,20,0.72) 55%, rgba(42,31,20,0.93) 100%)" }} />
+            {/* Bottom fade so left-side text sits cleanly */}
+            <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(42,31,20,0.7) 0%, transparent 45%)" }} />
+
+            {/* Left side — brand text overlay, vertically centred beside the form */}
+            <div className="absolute z-[3] pointer-events-none" style={{ left: "32%", top: "50%", transform: "translateY(-50%)", maxWidth: "44%" }}>
+              {/* HHARA — Montserrat bold */}
+              <div style={{
+                fontFamily: "var(--sans)",
+                fontWeight: 700,
+                fontSize: "clamp(32px, 4vw, 52px)",
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: "#F7F3ED",
+                lineHeight: 1,
+                marginBottom: "-0.12em",
+              }}>HHARA</div>
+
+              {/* Insiders — Cormorant Garamond italic, overlapping HHARA */}
+              <div style={{
+                fontFamily: "var(--display)",
+                fontStyle: "italic",
+                fontWeight: 400,
+                fontSize: "clamp(28px, 3.6vw, 46px)",
+                color: "#F7F3ED",
+                lineHeight: 1,
+                letterSpacing: "0.02em",
+                marginLeft: "2px",
+              }}>Insiders</div>
+
+              {/* Tagline — Cormorant Garamond italic */}
+              <div style={{
+                fontFamily: "var(--display)",
+                fontStyle: "italic",
+                fontWeight: 300,
+                fontSize: "clamp(12px, 1.2vw, 15px)",
+                color: "rgba(247,243,237,0.82)",
+                marginTop: "14px",
+                letterSpacing: "0.02em",
+                lineHeight: 1.5,
+              }}>Where Confidence Comes To Life.</div>
+            </div>
 
             {/* Close Button */}
             <button
@@ -4503,13 +4710,12 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
               <Icon.Close />
             </button>
 
-            {/* Content overlaid on image */}
+            {/* Right side — form */}
             <div className="relative z-[2] h-full flex flex-col justify-center items-end p-6 md:p-12">
               {signupStatus !== "success" ? (
                 <div className="w-full max-w-md text-right">
-                  <h3 className="display text-2xl md:text-3xl mb-2 font-serif font-light tracking-wide uppercase">Stay In The Know</h3>
                   <p className="text-xs md:text-sm text-[#F7F3ED]/80 mb-5 leading-relaxed font-light">
-                    Sign up for early access to new drops and stories from the atelier.
+                    Be the first to discover new collections, limited releases, surprise gifts and exclusive stories from the world of HHARA.
                   </p>
                   <form onSubmit={handleNewsletterSignup} className="w-full">
                     <input
@@ -4557,7 +4763,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                       disabled={signupStatus === "loading"}
                       className="w-full py-3 bg-[#F7F3ED] text-[#2A1F14] hover:bg-white transition-all tracking-widest text-xs uppercase font-medium disabled:opacity-50"
                     >
-                      {signupStatus === "loading" ? "Submitting..." : "Continue"}
+                      {signupStatus === "loading" ? "Submitting..." : "Join HHARA"}
                     </button>
                   </form>
                   {signupStatus === "error" && (
@@ -4605,7 +4811,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
           </svg>
           {/* Tooltip on hover */}
           <span className="absolute right-14 bg-[#3A2416] text-[#F7F3ED] text-[10px] uppercase tracking-widest px-3 py-1.5 border border-[#F7F3ED]/10 shadow-lg rounded-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
-            Stay In The Know
+            Become an Insider
           </span>
         </button>
       )}

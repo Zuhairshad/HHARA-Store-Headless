@@ -186,8 +186,8 @@ img { display: block; max-width: 100%; }
   align-items: center;
 }
 .header-actions button {
-  font-size: 12px;
-  letter-spacing: 0.1em;
+  font-size: clamp(11px, 2.2vw, 15px);
+  letter-spacing: clamp(0.06em, 0.8vw, 0.12em);
   text-transform: uppercase;
   display: flex;
   align-items: center;
@@ -3646,6 +3646,46 @@ img { display: block; max-width: 100%; }
 .floating-video-bubble:hover .tooltip {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+
+/* Suppress hover lift and animations while dragging */
+.floating-video-bubble.dragging {
+  cursor: grabbing;
+  transition: none;
+  animation: none;
+  transform: scale(1.03);
+  user-select: none;
+}
+.floating-video-bubble.dragging .tooltip {
+  display: none;
+}
+
+/* Restore pill shown after bubble is dismissed */
+.video-bubble-restore {
+  position: fixed;
+  bottom: 40px;
+  left: 40px;
+  z-index: 450;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #0c0a09;
+  border: 1.5px solid rgba(247, 243, 237, 0.7);
+  color: #FAF7F2;
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 7px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  transition: opacity 0.2s, transform 0.2s;
+  animation: bubbleSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.video-bubble-restore:hover {
+  opacity: 0.8;
+  transform: scale(1.04);
 }
 
 /* Pulse animation for bubble */
