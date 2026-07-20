@@ -3189,7 +3189,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
       <div className="section-head" style={{ maxWidth: "var(--maxw)", margin: "100px auto 20px", padding: "0 var(--pad)" }}>
         <div className="section-head-stack">
           <span className="eyebrow">How It Works</span>
-          <h2 className="section-title" style={{ fontWeight: 300 }}>Simple, <em>by design.</em></h2>
+          <h2 className="section-title" style={{ fontWeight: 300 }}>Simple, <em style={{ color: "var(--accent)" }}>by design.</em></h2>
         </div>
       </div>
 
