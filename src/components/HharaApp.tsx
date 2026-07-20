@@ -1749,7 +1749,7 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRout
           )}
         </div>
         <div className="ctoolbar-r">
-          <span style={{ color: "var(--muted)", fontSize: 14 }}>Sort:</span>
+          <span style={{ color: "var(--muted)", fontSize: 13 }}>Sort:</span>
           
           <div className="sort-select-wrapper">
             <select 
@@ -1769,7 +1769,7 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRout
               <button
                 key={s}
                 onClick={() => setSort(s)}
-                style={{ opacity: sort === s ? 1 : 0.5, fontWeight: sort === s ? 500 : 400 }}
+                style={{ opacity: sort === s ? 1 : 0.5 }}
               >
                 {s}
               </button>

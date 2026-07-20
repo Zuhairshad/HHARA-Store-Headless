@@ -982,7 +982,7 @@ img { display: block; max-width: 100%; }
 }
 .footer-top {
   display: grid;
-  grid-template-columns: 2.6fr repeat(4, minmax(0, 1fr));
+  grid-template-columns: 3.2fr repeat(4, minmax(0, 1fr));
   gap: clamp(24px, 3.5vw, 48px);
   padding-bottom: 48px;
   border-bottom: 1px solid rgba(184, 137, 46, 0.2);
@@ -994,8 +994,8 @@ img { display: block; max-width: 100%; }
   margin-bottom: 28px;
 }
 .footer-monkey-logo {
-  width: 68px;
-  height: 68px;
+  width: auto;
+  height: 110px;
   object-fit: contain;
   flex-shrink: 0;
   margin-top: 2px;
@@ -1005,10 +1005,10 @@ img { display: block; max-width: 100%; }
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  max-width: 240px;
+  max-width: 280px;
 }
 .footer-wordmark {
-  height: 25px;
+  height: 32px;
   width: auto;
   display: block;
 }
@@ -1028,7 +1028,7 @@ img { display: block; max-width: 100%; }
   gap: 0;
   border-bottom: 1px solid rgba(247, 243, 237, 0.25);
   padding-bottom: 10px;
-  max-width: 322px;
+  max-width: 360px;
 }
 .footer-newsletter input {
   flex: 1;
@@ -1087,8 +1087,7 @@ img { display: block; max-width: 100%; }
 }
 .footer-bottom .pay a {
   font-size: 11px;
-  color: var(--bg);
-  opacity: 0.5;
+  color: #E8D8C8;
   transition: opacity 0.2s;
 }
 .footer-bottom .pay a:hover { opacity: 1; }
@@ -4221,7 +4220,7 @@ img { display: block; max-width: 100%; }
   display: flex;
   gap: 20px;
 }
-.sort-buttons button { font-size: 14px; }
+.sort-buttons button { font-size: 13px; font-weight: 400; }
 
 @media (max-width: 768px) {
   .sort-buttons {
