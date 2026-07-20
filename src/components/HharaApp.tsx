@@ -3060,7 +3060,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
         {/* Right Column: Form Info */}
         <div className="gc-info">
           <div className="gc-eyebrow">The HHARA Gift Card</div>
-          <h1 className="gc-title">Give her the beginning of{"\n"}something.</h1>
+          <h1 className="gc-title">Give her the <span style={{ color: "var(--accent)" }}>beginning</span> of{"\n"}<span style={{ color: "var(--accent)" }}>something</span>.</h1>
           <p className="gc-subtitle">A gift for wherever her day takes her.</p>
 
           <form onSubmit={handleCheckout} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
