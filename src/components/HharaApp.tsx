@@ -2934,7 +2934,7 @@ function AtelierPage({ setRoute }) {
           <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: 32, lineHeight: 2.2, marginBottom: 16, color: "#FAF7F2", fontFamily: "var(--display)", fontWeight: 300 }}>
             "She moves before the world notices. She carries what others don't see. She is the woman who shows up, for everyone, and still finds a way to show up for herself. HHARA was made for her. From the very first stitch."
           </blockquote>
-          <div style={{ color: "#B8892E", fontFamily: "var(--display)", fontSize: 16, textTransform: "uppercase" }}>She is Wonder. She is HHARA.</div>
+          <div style={{ marginTop: 24, fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", color: "var(--accent)" }}>She is Wonder. She is HHARA.</div>
         </div>
       </section>
     </>
@@ -3580,7 +3580,7 @@ function StoresPage({ setRoute }) {
           <blockquote className="gives-back-quote-banner" style={{ color: "var(--ink)", fontFamily: "var(--display)", fontStyle: "italic", fontSize: "clamp(20px, 2.8vw, 26px)", lineHeight: 1.6, maxWidth: 800, margin: "0 auto" }}>
             "We didn't choose the partner with the biggest reach. We chose the ones closest to where we could actually see the difference being made."
           </blockquote>
-          <p style={{ marginTop: 24, fontFamily: "var(--sans)", fontWeight: 700, fontSize: "clamp(10px, 1vw, 12px)", letterSpacing: "0.28em", color: "#B8892E", textTransform: "uppercase" }}>
+          <p style={{ marginTop: 24, fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", color: "var(--accent)" }}>
             Every Wonder Begins Somewhere
           </p>
         </div>
