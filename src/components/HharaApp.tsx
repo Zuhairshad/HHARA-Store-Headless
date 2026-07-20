@@ -2301,7 +2301,6 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
             <div className="pdp-accordions" style={{ marginTop: "32px" }}>
               <Accordion title="Fabric & Feel" open={open === "details"} onToggle={() => setOpen(open === "details" ? "" : "details")}>
                 <p style={{ marginBottom: "16px", lineHeight: 1.7 }}>Buttery-soft and weightless recycled fabric feels almost like you're wearing nothing at all.</p>
-                <p style={{ marginBottom: "4px", fontFamily: "var(--sans)", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", opacity: 0.55 }}>OEKO-TEX certified</p>
                 <p style={{ marginBottom: "20px", fontFamily: "var(--sans)", fontSize: "13px", opacity: 0.8 }}>75% Recycled Nylon · 25% Spandex</p>
 
                 {/* Certifications */}
