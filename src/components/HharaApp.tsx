@@ -1288,7 +1288,7 @@ function Lookbook({ openLookbook }) {
         {tones.map((t, i) => (
           <div key={i} className={`lookbook-tile t${i + 1} ${t}`} onClick={openLookbook}>
             {tiles[i] && <img src={tiles[i]} alt={tags[i]} className="img-fill" loading="lazy" />}
-            <div className="lk-tag">{String(i + 1).padStart(2, "0")} · {tags[i]}</div>
+            <div className="lk-tag">{tags[i]}</div>
           </div>
         ))}
       </div>
