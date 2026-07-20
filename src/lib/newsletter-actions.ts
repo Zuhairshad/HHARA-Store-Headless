@@ -7,7 +7,8 @@ import { shopifyFetch } from "./shopify";
 export async function subscribeNewsletter(
   email: string,
   name?: string,
-  phone?: string
+  phone?: string,
+  dob?: string
 ): Promise<{ ok: boolean; error?: string }> {
   if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     return { ok: false, error: "Invalid email" };
@@ -35,6 +36,9 @@ export async function subscribeNewsletter(
     }
     if (phone) {
       input.phone = phone.trim();
+    }
+    if (dob) {
+      input.note = `DOB: ${dob}`;
     }
 
     const data = await shopifyFetch<{ customerCreate: { customer: any; customerUserErrors: { code: string; message: string }[] } }>(query, {

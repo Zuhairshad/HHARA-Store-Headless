@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Montserrat, JetBrains_Mono } from "next/font/google";
+import { Cormorant_Garamond, Montserrat, JetBrains_Mono, Mr_De_Haviland } from "next/font/google";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -18,11 +18,16 @@ const jetbrains = JetBrains_Mono({
   weight: ["400", "500"],
   variable: "--font-mono",
 });
+const mrDeHaviland = Mr_De_Haviland({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-signature",
+});
 
 export const metadata: Metadata = {
   title: "HHARA | She is Wonder",
   description: "Unapologetically You. Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.",
-  keywords: ["HHARA", "Considered Luxury", "Activewear", "Recycled Performance Wear", "UAE Activewear", "Maison HHARA", "Imara Set", "Dalia Set"],
+  keywords: ["HHARA", "Considered Luxury", "Activewear", "Recycled Performance Wear", "UAE Activewear", "Maison HHARA", "Imara Set", "Dahlia Set"],
   icons: {
     icon: "/images/monkey-logo.jpg",
   },
@@ -56,7 +61,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${montserrat.variable} ${jetbrains.variable}`}>
+    <html lang="en" className={`${cormorant.variable} ${montserrat.variable} ${jetbrains.variable} ${mrDeHaviland.variable}`}>
       <body>{children}</body>
     </html>
   );

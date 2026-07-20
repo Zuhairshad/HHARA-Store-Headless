@@ -222,8 +222,8 @@ const PRODUCTS = [
   },
   {
     id: "p3",
-    name: "Dalia Bra",
-    cat: "The Dalia Set",
+    name: "Dahlia Bra",
+    cat: "The Dahlia Set",
     price: 0,
     swatches: [
       { name: "Chicory Coffee", hex: "#3D2B1F" },
@@ -244,8 +244,8 @@ const PRODUCTS = [
   },
   {
     id: "p4",
-    name: "Dalia Short",
-    cat: "The Dalia Set",
+    name: "Dahlia Short",
+    cat: "The Dahlia Set",
     price: 0,
     swatches: [
       { name: "Chicory Coffee", hex: "#3D2B1F" },
@@ -275,10 +275,10 @@ const ORIGIN_MEANING = {
     tagline: "Strong • Firm • Resolute",
     subtitle: "Created for the woman who carries her strength with quiet confidence.",
   },
-  "The Dalia Set": {
-    word: "Dalia",
+  "The Dahlia Set": {
+    word: "Dahlia",
     tag: "Arabic",
-    text: "Dalia means delicate - a name carried by those who move through the world with quiet precision and effortless grace. The Dalia Set was made for her.",
+    text: "Dahlia means delicate - a name carried by those who move through the world with quiet precision and effortless grace. The Dahlia Set was made for her.",
     tagline: "Gentle • Tender • Delicate",
     subtitle: "Created for the woman who moves with quiet precision and effortless grace.",
   },
@@ -302,21 +302,21 @@ const PRODUCT_SPECS = {
     { k: "Feel", v: "Second-skin compression knit" },
     { k: "Pair With", v: "Imara Bra" },
   ],
-  "Dalia Bra": [
+  "Dahlia Bra": [
     { k: "Support", v: "Medium-impact adaptive structure" },
     { k: "Coverage", v: "Full front coverage, open back" },
     { k: "Detail", v: "Cross-back straps, adjustable" },
     { k: "Construction", v: "Flat seam, no-chafe finish" },
     { k: "Feel", v: "Second-skin compression" },
-    { k: "Pair With", v: "Dalia Short" },
+    { k: "Pair With", v: "Dahlia Short" },
   ],
-  "Dalia Short": [
+  "Dahlia Short": [
     { k: "Support", v: "Targeted muscular stabilization" },
     { k: "Coverage", v: "5\" inseam, high-rise" },
     { k: "Detail", v: "Hidden inner waistband pocket" },
     { k: "Construction", v: "Omnidirectional 4-way mechanical stretch" },
     { k: "Feel", v: "Second-skin compression" },
-    { k: "Pair With", v: "Dalia Bra" },
+    { k: "Pair With", v: "Dahlia Bra" },
   ],
 };
 
@@ -324,8 +324,8 @@ const PRODUCT_SPECS = {
 const PRODUCT_TAGLINES = {
   "Imara Bra": "Sculpted scoop-neck support",
   "Imara Legging": "Anatomical high-waist support",
-  "Dalia Bra": "Adaptive cross-back design",
-  "Dalia Short": "Omnidirectional stretch short",
+  "Dahlia Bra": "Adaptive cross-back design",
+  "Dahlia Short": "Omnidirectional stretch short",
 };
 
 // Featured / homepage subsets
@@ -334,30 +334,16 @@ const NEW_IDS = ["p1", "p2", "p3", "p4"];
 
 const CATEGORIES = [
   { id: "imara", name: "The Imara Set", count: 2, tone: "tone-3" },
-  { id: "dalia", name: "The Dalia Set", count: 2, tone: "tone-1" },
+  { id: "dahlia", name: "The Dahlia Set", count: 2, tone: "tone-1" },
 ];
 
 const HEROES = [
   {
     eyebrow: "",
-    title: "She Is\nWonder.",
+    title: "She Is |Wonder.",
     sub: "She doesn’t wait for wonder - she creates it. Designed for women who move with quiet confidence and purpose.",
     cta: "explore collection",
     tone: "tone-4",
-  },
-  {
-    eyebrow: "The Imara Set",
-    title: "Strength,\nIn Form.",
-    sub: "Scoop-neck architecture and a 7/8 chevron-waisted legging. Imara, from the Swahili: strong, firm, resolute. Not the performance of strength. The real thing.",
-    cta: "explore collection",
-    tone: "tone-5",
-  },
-  {
-    eyebrow: "The Dalia Set",
-    title: "Softness,\nIn Motion.",
-    sub: "A cross-back bra and high-rise short, engineered for unconstrained movement. Dalia, from the Arabic: gentle, tender, delicate. The quiet strength of a woman with nothing left to prove.",
-    cta: "explore collection",
-    tone: "tone-3",
   },
 ];
 
@@ -412,7 +398,7 @@ function MegaMenu({ open, onClose, setRoute }) {
         <ul>
           <li><a onClick={() => { setRoute("shop"); onClose(); }}>Shop All</a></li>
           <li><a onClick={() => { setRoute("shop"); onClose(); }}>The Imara Set</a></li>
-          <li><a onClick={() => { setRoute("shop"); onClose(); }}>The Dalia Set</a></li>
+          <li><a onClick={() => { setRoute("shop"); onClose(); }}>The Dahlia Set</a></li>
           <li><a onClick={() => { setRoute("lookbook"); onClose(); }}>The Lookbook</a></li>
         </ul>
       </div>
@@ -426,10 +412,10 @@ function MegaMenu({ open, onClose, setRoute }) {
           </ul>
         </div>
         <div>
-          <h6>The Dalia Set</h6>
+          <h6>The Dahlia Set</h6>
           <ul>
-            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Dalia Bra</a></li>
-            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Dalia Short</a></li>
+            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Dahlia Bra</a></li>
+            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Dahlia Short</a></li>
             <li><a onClick={() => { setRoute("shop"); onClose(); }}>Shop The Set</a></li>
           </ul>
         </div>
@@ -440,20 +426,13 @@ function MegaMenu({ open, onClose, setRoute }) {
             <li><a onClick={() => { setRoute("shop"); onClose(); }}>Gift Card</a></li>
           </ul>
         </div>
-        <div>
-          <h6>About Us</h6>
-          <ul>
-            <li><a onClick={() => { setRoute("atelier"); onClose(); }}>About Us</a></li>
-            <li><a onClick={() => { setRoute("atelier"); onClose(); }}>Material Transparency</a></li>
-          </ul>
-        </div>
       </div>
       <div className="feature" onClick={() => { setRoute("shop"); onClose(); }}>
         <img src={IMGS.mmShop} alt="" className="img-fill" />
         <div className="ovr"></div>
         <div className="lbl">
           <div className="e">Now Showing</div>
-          <div className="t">The Imara &amp; Dalia Sets</div>
+          <div className="t">The Imara &amp; Dahlia Sets</div>
         </div>
       </div>
     </div>
@@ -758,13 +737,6 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
                 <div className="pco-trust-body">Duties & taxes are calculated transparently. No surprise charges on delivery.</div>
               </div>
             </div>
-            <div className="pco-trust-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="pco-trust-icon"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-              <div>
-                <div className="pco-trust-title">Every Order Gives Back</div>
-                <div className="pco-trust-body">Every purchase helps fund children's education in underserved communities.</div>
-              </div>
-            </div>
           </div>
 
           {/* CTA */}
@@ -857,14 +829,9 @@ function Footer({ setRoute, route = "" }) {
             <h4>The Collection</h4>
             <ul>
               <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>Shop All</a></li>
-              <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Dalia Set</a></li>
+              <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Dahlia Set</a></li>
               <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Imara Set</a></li>
               <li><a onClick={() => setRoute("lookbook")} style={{ cursor: "pointer" }}>The Lookbook</a></li>
-            </ul>
-          </div>
-          <div className="footer-col">
-            <h4>Accessories</h4>
-            <ul>
               <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>Socks</a></li>
               <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>Gift Card</a></li>
             </ul>
@@ -964,7 +931,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
         {items.length === 0 ? (
           <div className="cart-empty">
             <h4>Your bag is empty</h4>
-            <p>Begin with a piece from The Imara or Dalia Set.</p>
+            <p>Begin with a piece from The Imara or Dahlia Set.</p>
             <button className="btn btn-primary" onClick={() => { setRoute?.("shop"); onClose(); }}>
               Explore the Collection
               <span className="btn-arrow"><Icon.Arrow /></span>
@@ -1060,7 +1027,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
 
 // === FILE 06-ce7b1d96-f64b-4723-b417-6dfb0feade07.jsx ===
 
-function ProductCard({ product, onClick, onQuickAdd }: { product: any; onClick: any; onQuickAdd?: any }) {
+function ProductCard({ product, onClick }: { product: any; onClick: any }) {
 
   const imgA = product.imgKey ? IMGS[product.imgKey + "a"] : (product.featuredImage?.url || product.images?.[0]?.url || null);
   const imgB = product.imgKey ? IMGS[product.imgKey + "b"] : (product.images?.[1]?.url || product.featuredImage?.url || null);
@@ -1077,12 +1044,8 @@ function ProductCard({ product, onClick, onQuickAdd }: { product: any; onClick: 
         <div className={`alt ${product.altTone || product.tone}`} style={{ position: "absolute", inset: 0 }}>
           {imgB && <img src={imgB} alt={product.name} className="img-fill" loading="lazy" />}
         </div>
-        <div className="pcard-quickadd" onClick={(e) => { e.stopPropagation(); onQuickAdd && onQuickAdd(product); }}>
-          <button className="btn btn-primary">Add to Bag</button>
-        </div>
       </div>
       <div className="pcard-info">
-        <div className="pcard-cat">{product.cat}</div>
         <div className="pcard-name">{product.name}</div>
         {product.tagline && <div className="pcard-tagline">{product.tagline}</div>}
         <div className="pcard-prices">
@@ -1114,12 +1077,19 @@ function Hero({ openShop }) {
       <div className="hero-content">
         {slide.eyebrow && <div className="hero-eyebrow">{slide.eyebrow}</div>}
         <h1 className="hero-title">
-          {slide.title.split("\n").map((line, i, arr) => (
-            <span key={i}>
-              {i === arr.length - 1 ? <em>{line}</em> : line}
-              {i < arr.length - 1 && <br />}
-            </span>
-          ))}
+          {slide.title.split("\n").map((line, i, arr) => {
+            const isLastLine = i === arr.length - 1;
+            const parts = line.split("|");
+            return (
+              <span key={i}>
+                {parts.map((part, pi) => {
+                  const isLastPart = pi === parts.length - 1;
+                  return isLastLine && isLastPart ? <em key={pi}>{part}</em> : <span key={pi}>{part}</span>;
+                })}
+                {!isLastLine && <br />}
+              </span>
+            );
+          })}
         </h1>
         <p className="hero-sub">{slide.sub}</p>
         <div className="hero-ctas">
@@ -1136,7 +1106,7 @@ function Hero({ openShop }) {
 function Categories({ onPick }) {
   const { CATEGORIES } = HHRAA_DATA;
 
-  const catImgs: Record<string, string> = { imara: IMGS.catOuter, dalia: IMGS.catRTW };
+  const catImgs: Record<string, string> = { imara: IMGS.catOuter, dahlia: IMGS.catRTW };
   return (
     <section className="section">
       <div className="section-head">
@@ -1184,9 +1154,9 @@ function FeaturedGrid({ setRoute }: { setRoute: (route: string, payload?: any) =
           <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "#3D2B1F", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0 }} />
           <div>
             <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Chicory Coffee</h3>
-            <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", display: "block" }}>Deep Espresso Brown</span>
+            <span className="eyebrow" style={{ letterSpacing: "0.20em", display: "block" }}>Deep Espresso Brown</span>
           </div>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 13.5, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
             The colour of the first cup. Before the world awakens. Deep, warm, and grounding - a quiet ritual before everything else begins.
           </p>
           <p style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontStyle: "italic", fontSize: 15, color: "#B8892E", margin: "8px 0 0" }}>
@@ -1201,9 +1171,9 @@ function FeaturedGrid({ setRoute }: { setRoute: (route: string, payload?: any) =
           <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "#5F6B4F", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0 }} />
           <div>
             <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Olive Green</h3>
-            <span className="eyebrow" style={{ fontSize: 8.5, letterSpacing: "0.20em", color: "#B8892E", display: "block" }}>Deep Olive</span>
+            <span className="eyebrow" style={{ letterSpacing: "0.20em", display: "block" }}>Deep Olive</span>
           </div>
-          <p style={{ fontFamily: "var(--sans)", fontSize: 13.5, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
+          <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
             The colour of quiet resilience. A soft, mineral shade pulled from the heart of the desert oasis. Peaceful, steady, organic - a tone that does not seek attention, yet holds it completely.
           </p>
           <p style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontStyle: "italic", fontSize: 15, color: "#B8892E", margin: "8px 0 0" }}>
@@ -1227,13 +1197,13 @@ function Editorial({ openShop }) {
         </div>
         <div className="editorial-body" style={{ gap: "20px", alignSelf: "center" }}>
           <h2 className="editorial-title" style={{ margin: 0 }}>
-            Built to move with <em>every version of you.</em>
+            Built to move with <em><span style={{ color: "var(--accent)" }}>every version</span> of you.</em>
           </h2>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "14px", margin: "10px 0", maxWidth: "480px" }}>
             <p style={{
               fontFamily: "var(--sans)",
-              fontSize: "13.5px",
+              fontSize: "15px",
               lineHeight: "1.9",
               color: "var(--ink-soft)",
               letterSpacing: "0.04em",
@@ -1304,13 +1274,13 @@ function Lookbook({ openLookbook }) {
 
   const tiles = [IMGS.lb1, IMGS.lb2, IMGS.lb3, IMGS.lb4, IMGS.lb5, IMGS.lb6];
   const tones = ["tone-3", "tone-1", "tone-5", "tone-7", "tone-2", "tone-6"];
-  const tags = ["Imara Bra", "Imara Legging", "Dalia Bra", "Dalia Short", "Chicory Coffee", "Olive Green"];
+  const tags = ["Imara Bra", "Imara Legging", "Dahlia Bra", "Dahlia Short", "Chicory Coffee", "Olive Green"];
   return (
     <section className="section">
       <div className="section-head">
         <div className="section-head-stack">
           <span className="eyebrow">The Capsule</span>
-          <h2 className="section-title">Wonder, Worn</h2>
+          <h2 className="section-title">Wonder, <span style={{ color: "var(--accent)" }}>Worn</span></h2>
         </div>
         <span className="section-link" onClick={openLookbook} style={{ cursor: "pointer" }}>View the Edit →</span>
       </div>
@@ -1411,7 +1381,7 @@ function Newsletter() {
   );
 }
 
-function ManifestoColourways({ ids, openProduct, quickAdd }: { ids: string[]; openProduct: (id: string) => void; quickAdd: any }) {
+function ManifestoColourways({ ids, openProduct }: { ids: string[]; openProduct: (id: string) => void }) {
   const PRODUCTS = useProducts();
   const list = ids.map((id) => PRODUCTS.find((p) => p.id === id)).filter(Boolean);
   return (
@@ -1429,8 +1399,7 @@ function ManifestoColourways({ ids, openProduct, quickAdd }: { ids: string[]; op
             key={p.id}
             product={p}
             onClick={() => openProduct(p.id)}
-            onQuickAdd={quickAdd}
-          />
+                     />
         ))}
       </div>
 
@@ -1462,7 +1431,7 @@ function Pillars() {
       <div className="pillars-container">
         <div className="section-head" style={{ borderBottom: "1px solid rgba(184, 137, 46, 0.12)", paddingBottom: 28, marginBottom: 48 }}>
           <div className="section-head-stack">
-            <h2 className="section-title" style={{ color: "#2A1F14", fontWeight: 300 }}>Luxury within<br /><em>intention.</em></h2>
+            <h2 className="section-title" style={{ color: "#2A1F14", fontWeight: 300 }}>Luxury within<br /><em style={{ color: "var(--accent)" }}>intention.</em></h2>
           </div>
         </div>
         <div className="pillars-grid">
@@ -1505,7 +1474,7 @@ function Proclamation() {
           &ldquo;Silence is the most powerful of powers. It&apos;s the unwavering, measured silence of a woman
           who knows she has left behind her past, and is shaping her future, with absolute purpose.&rdquo;
         </p>
-        <p style={{ marginTop: 24, fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", opacity: 0.7, color: "#5C4632" }}>
+        <p style={{ marginTop: 24, fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", color: "var(--accent)" }}>
           HHARA, WONDER, WORN.
         </p>
       </div>
@@ -1524,13 +1493,13 @@ const TESTIMONIALS = [
     quote: "I've been searching for years for something that doesn't ask me to choose between beauty and function. HHARA finally understood what my mornings actually look like. It's the first brand that dressed me for the whole day, not just the gym.",
     name: "Amira K.",
     location: "Abu Dhabi",
-    product: "Dalia Set · Olive Green",
+    product: "Dahlia Set · Olive Green",
   },
   {
-    quote: "The craftsmanship on the Dalia Bra is extraordinary, soft against the skin but structured where it matters. Six hours later I forgot I was wearing activewear. I've recommended it to every woman in my circle since.",
+    quote: "The craftsmanship on the Dahlia Bra is extraordinary, soft against the skin but structured where it matters. Six hours later I forgot I was wearing activewear. I've recommended it to every woman in my circle since.",
     name: "Nadia R.",
     location: "London",
-    product: "Dalia Bra · Chicory Coffee",
+    product: "Dahlia Bra · Chicory Coffee",
   },
   {
     quote: "Finally activewear I'm proud to be seen in. The Chicory Coffee colourway is richer and more considered in person than any photograph captures. It photographs beautifully but wearing it is something else entirely.",
@@ -1539,10 +1508,10 @@ const TESTIMONIALS = [
     product: "Imara Legging · Chicory Coffee",
   },
   {
-    quote: "Worth every dirham. I bought the Dalia Short for the gym and I've worn it to dinner twice since. That says everything. It pairs with almost anything and never looks like it's trying too hard.",
+    quote: "Worth every dirham. I bought the Dahlia Short for the gym and I've worn it to dinner twice since. That says everything. It pairs with almost anything and never looks like it's trying too hard.",
     name: "Sara H.",
     location: "Riyadh",
-    product: "Dalia Short · Olive Green",
+    product: "Dahlia Short · Olive Green",
   },
   {
     quote: "I wore the Imara Set to a gallery opening and three women stopped to ask what I was wearing. HHARA moves with you and speaks for you without trying.",
@@ -1551,10 +1520,10 @@ const TESTIMONIALS = [
     product: "Imara Set · Olive Green",
   },
   {
-    quote: "The Dalia Legging is the most precise piece of activewear I own. The waistband doesn't roll, the fabric holds its shape after forty washes. Nothing comes close.",
+    quote: "The Dahlia Legging is the most precise piece of activewear I own. The waistband doesn't roll, the fabric holds its shape after forty washes. Nothing comes close.",
     name: "Mariam S.",
     location: "Kuwait City",
-    product: "Dalia Legging · Chicory Coffee",
+    product: "Dahlia Legging · Chicory Coffee",
   },
   {
     quote: "I train four days a week and spend the other three in meetings. HHARA is the only thing I own that moves seamlessly between both worlds without compromise.",
@@ -1569,10 +1538,10 @@ const TESTIMONIALS = [
     product: "Imara Legging · Olive Green",
   },
   {
-    quote: "I wore the Dalia Set to a client dinner and not a single person knew it was activewear. That is the whole point, isn't it? HHARA gets it perfectly.",
+    quote: "I wore the Dahlia Set to a client dinner and not a single person knew it was activewear. That is the whole point, isn't it? HHARA gets it perfectly.",
     name: "Lina M.",
     location: "Beirut",
-    product: "Dalia Set · Chicory Coffee",
+    product: "Dahlia Set · Chicory Coffee",
   },
   {
     quote: "The waistband on the Imara Legging is the best I have ever worn. No rolling, no digging. Just stays exactly where it should all day long.",
@@ -1650,7 +1619,6 @@ function Home(props) {
       <ManifestoColourways
         ids={HHRAA_DATA.FEATURED_IDS}
         openProduct={(id) => props.setRoute("product", id)}
-        quickAdd={props.quickAdd}
       />
       <FeaturedGrid setRoute={props.setRoute} />
       <Editorial openShop={() => props.setRoute("atelier")} />
@@ -1666,7 +1634,7 @@ function Home(props) {
 
 // === FILE 07-9214c1d3-74f7-4bc2-bccb-7476bbfce9dc.jsx ===
 
-function CollectionPage({ setRoute, openProduct, quickAdd, initialColorFilter }: { setRoute: any; openProduct: any; quickAdd: any; initialColorFilter?: string | null }) {
+function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRoute: any; openProduct: any; initialColorFilter?: string | null }) {
   const PRODUCTS = useProducts();
   const [sort, setSort] = useState("Featured");
   const [descExpanded, setDescExpanded] = useState(false);
@@ -1746,7 +1714,7 @@ function CollectionPage({ setRoute, openProduct, quickAdd, initialColorFilter }:
           <p style={{ fontWeight: 500, color: "var(--ink)" }}>
             Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.{" "}
             {!descExpanded && (
-              <button onClick={() => setDescExpanded(true)} style={{ fontFamily: "var(--sans)", fontSize: "13px", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
+              <button onClick={() => setDescExpanded(true)} style={{ fontFamily: "var(--sans)", fontSize: "14px", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
                 Read more
               </button>
             )}
@@ -1756,9 +1724,9 @@ function CollectionPage({ setRoute, openProduct, quickAdd, initialColorFilter }:
               <p>
                 Every piece carries a name with meaning. Each was chosen to celebrate the strength and softness that exist within every woman.
               </p>
-              <p style={{ fontSize: "12px", borderTop: "1px solid var(--line-soft)", paddingTop: "12px", marginTop: "8px" }}>
-                <strong>Dalia (Arabic)</strong> — Gentle | Tender | Delicate &nbsp;·&nbsp; <strong>Imara (Swahili)</strong> — Strong | Firm | Resolute &nbsp;·&nbsp; <em>She is both. Always.</em>{" "}
-                <button onClick={() => setDescExpanded(false)} style={{ fontFamily: "var(--sans)", fontSize: "12px", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
+              <p style={{ fontSize: "14px", borderTop: "1px solid var(--line-soft)", paddingTop: "12px", marginTop: "8px" }}>
+                <strong>Dahlia (Arabic)</strong> — Gentle | Tender | Delicate &nbsp;·&nbsp; <strong>Imara (Swahili)</strong> — Strong | Firm | Resolute &nbsp;·&nbsp; <em>She is both. Always.</em>{" "}
+                <button onClick={() => setDescExpanded(false)} style={{ fontFamily: "var(--sans)", fontSize: "14px", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
                   Read less
                 </button>
               </p>
@@ -1781,7 +1749,7 @@ function CollectionPage({ setRoute, openProduct, quickAdd, initialColorFilter }:
           )}
         </div>
         <div className="ctoolbar-r">
-          <span style={{ color: "var(--muted)" }}>Sort:</span>
+          <span style={{ color: "var(--muted)", fontSize: 14 }}>Sort:</span>
           
           <div className="sort-select-wrapper">
             <select 
@@ -1891,7 +1859,7 @@ function CollectionPage({ setRoute, openProduct, quickAdd, initialColorFilter }:
             </div>
           ) : (
             visible.map((p) => (
-              <ProductCard key={p.id} product={p} onClick={() => openProduct(p.id)} onQuickAdd={quickAdd} />
+              <ProductCard key={p.id} product={p} onClick={() => openProduct(p.id)} />
             ))
           )}
         </div>
@@ -1958,10 +1926,10 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   // Reviews and Interactive Form States
   const [reviews, setReviews] = useState([
     { id: "r1", name: "Sarah M.", location: "UAE", rating: 5, quote: "Finally a bra that actually holds. Activity is easy, side roll is gone, structured. I wore it straight from class to lunch and felt completely put together.", product: "Imara Bra · Chicory Coffee" },
-    { id: "r2", name: "Nour A.", location: "Abu Dhabi", rating: 5, quote: "The fabric is genuinely buttery — I wasn't expecting it to feel this luxurious. The cross-cross back is stunning. Already ordered the legging!", product: "Dalia Bra · Olive Green" },
-    { id: "r3", name: "Layla K.", location: "Riyadh", rating: 4, quote: "Sizing is true to guide. I have a fuller bust and sized up as advised — perfect fit. The Olive Green colour is even more beautiful in person.", product: "Dalia Bra · Olive Green" },
+    { id: "r2", name: "Nour A.", location: "Abu Dhabi", rating: 5, quote: "The fabric is genuinely buttery — I wasn't expecting it to feel this luxurious. The cross-cross back is stunning. Already ordered the legging!", product: "Dahlia Bra · Olive Green" },
+    { id: "r3", name: "Layla K.", location: "Riyadh", rating: 4, quote: "Sizing is true to guide. I have a fuller bust and sized up as advised — perfect fit. The Olive Green colour is even more beautiful in person.", product: "Dahlia Bra · Olive Green" },
     { id: "r4", name: "Amira H.", location: "Dubai", rating: 5, quote: "I wore the Imara Set from morning yoga straight to a client lunch. Not once did I feel underdressed. HHARA genuinely gets the way we move through our days.", product: "Imara Set · Chicory Coffee" },
-    { id: "r5", name: "Fatima R.", location: "Doha", rating: 5, quote: "The waistband doesn't roll, the fabric doesn't pill, and the colour is even richer in person. Worth every dirham and then some.", product: "Dalia Legging · Olive Green" },
+    { id: "r5", name: "Fatima R.", location: "Doha", rating: 5, quote: "The waistband doesn't roll, the fabric doesn't pill, and the colour is even richer in person. Worth every dirham and then some.", product: "Dahlia Legging · Olive Green" },
     { id: "r6", name: "Hessa O.", location: "Kuwait City", rating: 5, quote: "Three months of wear and it still looks brand new. I've stopped buying from everywhere else. HHARA is the only activewear I trust now.", product: "Imara Legging · Chicory Coffee" },
   ]);
 
@@ -2344,11 +2312,89 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                 <p style={{ marginBottom: "4px", fontFamily: "var(--sans)", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", opacity: 0.55 }}>OEKO-TEX certified</p>
                 <p style={{ marginBottom: "20px", fontFamily: "var(--sans)", fontSize: "13px", opacity: 0.8 }}>75% Recycled Nylon · 25% Spandex</p>
 
-                {/* Fabric property visuals */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                  <img src="/images/fabric-icons-1.jpg" alt="4 Ways Stretch · Body Enhancing" style={{ width: "100%", borderRadius: "10px", display: "block" }} />
-                  <img src="/images/fabric-icons-2.jpg" alt="Ultra Smooth · Excellent Flexibility · Breathable Properties" style={{ width: "100%", borderRadius: "10px", display: "block" }} />
-                  <img src="/images/fabric-icons-3.jpg" alt="4 Ways Stretch · Breathable Properties" style={{ width: "100%", borderRadius: "10px", display: "block" }} />
+                {/* Certifications */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "20px" }}>
+                  {["OEKO-TEX® STANDARD 100", "GLOBAL RECYCLED STANDARD 4.0"].map((cert) => (
+                    <div key={cert} style={{ background: "var(--ink)", padding: "10px 16px", fontFamily: "var(--sans)", fontSize: "11px", fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "#E8D8C8", textAlign: "center" }}>
+                      {cert}
+                    </div>
+                  ))}
+                </div>
+                <p style={{ marginBottom: "20px", fontFamily: "var(--sans)", fontSize: "12.5px", lineHeight: 1.75, color: "var(--ink-soft)" }}>
+                  Our fabric is certified to OEKO-TEX® Standard 100 — tested against harmful substances and safe for skin contact. Our recycled nylon is independently verified under the Global Recycled Standard 4.0, certified by Intertek.
+                </p>
+
+                {/* Fabric property icons */}
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px 12px", marginTop: "8px" }}>
+                  {[
+                    {
+                      label: "4-Way Stretch",
+                      icon: (
+                        <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+                          <line x1="20" y1="4" x2="20" y2="36" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
+                          <line x1="4" y1="20" x2="36" y2="20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
+                          <polyline points="16,8 20,4 24,8" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                          <polyline points="16,32 20,36 24,32" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                          <polyline points="8,16 4,20 8,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                          <polyline points="32,16 36,20 32,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                        </svg>
+                      ),
+                    },
+                    {
+                      label: "Body Enhancing",
+                      icon: (
+                        <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+                          <path d="M20 4 C13 4 10 10 10 16 C10 24 14 32 20 36 C26 32 30 24 30 16 C30 10 27 4 20 4Z" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M15 14 C15 11 17 9 20 9 C23 9 25 11 25 14" stroke="#B8892E" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.6"/>
+                        </svg>
+                      ),
+                    },
+                    {
+                      label: "Ultra Smooth",
+                      icon: (
+                        <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+                          <path d="M8 14 Q20 10 32 14" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                          <path d="M8 20 Q20 16 32 20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                          <path d="M8 26 Q20 22 32 26" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                        </svg>
+                      ),
+                    },
+                    {
+                      label: "Excellent Flexibility",
+                      icon: (
+                        <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+                          <path d="M12 28 C12 20 16 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                          <path d="M28 28 C28 20 24 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                          <path d="M10 28 Q20 24 30 28" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                          <circle cx="20" cy="9" r="2" fill="#B8892E" opacity="0.7"/>
+                        </svg>
+                      ),
+                    },
+                    {
+                      label: "Breathable",
+                      icon: (
+                        <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+                          <path d="M20 32 L20 16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
+                          <path d="M20 16 C20 16 14 20 10 16 C8 14 10 10 14 12 C12 8 18 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                          <path d="M20 16 C20 16 26 20 30 16 C32 14 30 10 26 12 C28 8 22 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65"/>
+                        </svg>
+                      ),
+                    },
+                    {
+                      label: "OEKO-TEX",
+                      icon: (
+                        <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+                          <circle cx="20" cy="20" r="14" stroke="#B8892E" strokeWidth="1.5"/>
+                          <polyline points="13,20 18,25 27,14" stroke="#B8892E" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      ),
+                    },
+                  ].map(({ label, icon }) => (
+                    <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", textAlign: "center" }}>
+                      {icon}
+                      <span style={{ fontFamily: "var(--sans)", fontSize: "10px", letterSpacing: "0.10em", textTransform: "uppercase", color: "var(--ink-soft)", lineHeight: 1.3 }}>{label}</span>
+                    </div>
+                  ))}
                 </div>
               </Accordion>
               <Accordion title="Size Guide" open={open === "fit"} onToggle={() => setOpen(open === "fit" ? "" : "fit")}>
@@ -2550,26 +2596,6 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
       </section>
 
-      {/* Recently Viewed */}
-      {recentlyViewed.length > 0 && (() => {
-        const rvProducts = recentlyViewed.map((id) => PRODUCTS.find((p) => p.id === id)).filter(Boolean);
-        if (!rvProducts.length) return null;
-        return (
-          <section className="section" style={{ borderTop: "1px solid var(--line-soft)", paddingTop: "80px" }}>
-            <div className="section-head">
-              <div className="section-head-stack">
-                <span className="eyebrow">Your journey</span>
-                <h2 className="section-title">Recently viewed</h2>
-              </div>
-            </div>
-            <div className="pgrid">
-              {rvProducts.map((p) => (
-                <ProductCard key={p.id} product={p} onClick={() => openProduct(p.id)} />
-              ))}
-            </div>
-          </section>
-        );
-      })()}
 
       {sizeGuideOpen && (
         <>
@@ -2867,7 +2893,7 @@ function AtelierPage({ setRoute }) {
           <img src={IMGS.atelierFlorence} alt="" className="img-fill" loading="lazy" />
         </div>
         <div className="body">
-          <h2>We have got your back.<br /><em>And your legs. And your day.</em></h2>
+          <h2>We&rsquo;ve got your <span style={{ color: "var(--accent)" }}>back</span>,<br /><em>your <span style={{ color: "var(--accent)" }}>legs</span>, And your <span style={{ color: "var(--accent)" }}>day</span>.</em></h2>
           <p>
             What began as a vision for movement has grown into something more - a wardrobe for the woman who is always, quietly, doing everything at once. HHARA was designed to move the way she does: without pause, without compromise.
           </p>
@@ -2889,7 +2915,6 @@ function AtelierPage({ setRoute }) {
           onError={(e: any) => { e.target.style.display = "none"; }}
         ></video>
         <div className="vovr"></div>
-        <div className="cap">A film · 04:12</div>
         <div className="play">
           <svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20"></polygon></svg>
         </div>
@@ -2900,7 +2925,7 @@ function AtelierPage({ setRoute }) {
           <img src={IMGS.atelierCloth} alt="" className="img-fill" loading="lazy" />
         </div>
         <div className="body">
-          <h2>She deserves luxury.<br /><em>And a planet worth protecting.</em></h2>
+          <h2>She deserves <span style={{ color: "var(--accent)" }}>luxury</span>.<br /><em>And <span style={{ color: "var(--accent)" }}>a planet</span> worth protecting.</em></h2>
           <p>
             We believe she should never have to choose between the two.
           </p>
@@ -2915,17 +2940,17 @@ function AtelierPage({ setRoute }) {
 
       <section className="gives-back-section dark" style={{ padding: "clamp(60px, 8vh, 100px) var(--pad)", backgroundColor: "var(--bark)", textAlign: "center" }}>
         <div className="gives-back-content-width" style={{ maxWidth: 800, margin: "0 auto" }}>
-          <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: "clamp(22px, 3.2vw, 30px)", lineHeight: 1.7, marginBottom: 16, color: "#FAF7F2", fontFamily: "var(--display)", fontWeight: 300 }}>
+          <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: 32, lineHeight: 2.2, marginBottom: 16, color: "#FAF7F2", fontFamily: "var(--display)", fontWeight: 300 }}>
             "She moves before the world notices. She carries what others don't see. She is the woman who shows up, for everyone, and still finds a way to show up for herself. HHARA was made for her. From the very first stitch."
           </blockquote>
-          <div style={{ color: "#B8892E", fontStyle: "italic", fontFamily: "var(--display)", fontSize: 16 }}>She is Wonder. She is HHARA.</div>
+          <div style={{ color: "#B8892E", fontFamily: "var(--display)", fontSize: 16, textTransform: "uppercase" }}>She is Wonder. She is HHARA.</div>
         </div>
       </section>
     </>
   );
 }
 
-const GIFT_CARD_AMOUNTS = [100, 150, 250, 350];
+const GIFT_CARD_AMOUNTS = [1000, 750, 600, 400];
 
 function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
   const [amount, setAmount] = useState(GIFT_CARD_AMOUNTS[0]);
@@ -2973,12 +2998,63 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
             <div className="gc-placeholder-star">✦</div>
             <div className="gc-placeholder-title">Image Placeholder</div>
             <div className="gc-placeholder-desc">
-              Lifestyle or product photo - e.g. model holding the card, or styled flat-lay with the Dalia / Imara Set
+              Lifestyle or product photo - e.g. model holding the card, or styled flat-lay with the Dahlia / Imara Set
             </div>
           </div>
           <p className="gc-intro-text">
             For the woman who already has everything, and the one still becoming who she's meant to be. Redeemable across every HHARA collection, delivered straight to her inbox.
           </p>
+
+          {/* Info rows */}
+          <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 0, marginTop: 8 }}>
+            {[
+              {
+                icon: (
+                  <svg viewBox="0 0 48 48" fill="none" stroke="#B8892E" strokeWidth="1.5" width="44" height="44">
+                    <rect x="6" y="10" width="36" height="32" rx="2" />
+                    <line x1="6" y1="18" x2="42" y2="18" />
+                    <line x1="16" y1="6" x2="16" y2="14" />
+                    <line x1="32" y1="6" x2="32" y2="14" />
+                    <text x="24" y="34" textAnchor="middle" fontSize="13" fontFamily="sans-serif" stroke="none" fill="#B8892E" fontWeight="500">12</text>
+                  </svg>
+                ),
+                title: "12 Months Validity",
+                desc: "All eGift cards are valid for 12 months from the date of purchase.",
+              },
+              {
+                icon: (
+                  <svg viewBox="0 0 48 48" fill="none" stroke="#B8892E" strokeWidth="1.5" width="44" height="44">
+                    <rect x="4" y="14" width="26" height="20" rx="2" />
+                    <rect x="18" y="8" width="26" height="20" rx="2" />
+                    <line x1="22" y1="18" x2="38" y2="18" />
+                    <line x1="22" y1="22" x2="34" y2="22" />
+                  </svg>
+                ),
+                title: "Recipient will Receive the eGift Immediately",
+                desc: "All E-Gifts received immediately in the email inbox of the recipient.",
+              },
+              {
+                icon: (
+                  <svg viewBox="0 0 48 48" fill="none" stroke="#B8892E" strokeWidth="1.5" width="44" height="44">
+                    <rect x="6" y="14" width="28" height="20" rx="2" />
+                    <polyline points="6,20 20,28 34,20" />
+                    <line x1="28" y1="26" x2="40" y2="38" />
+                    <circle cx="40" cy="38" r="3" />
+                  </svg>
+                ),
+                title: "Select from Any HHARA Item",
+                desc: "Unlimited selection from any HHARA item within the online store.",
+              },
+            ].map((row, i) => (
+              <div key={i} style={{ display: "flex", gap: 20, alignItems: "flex-start", padding: "24px 0", borderTop: "1px solid rgba(42,31,20,0.1)" }}>
+                <div style={{ flexShrink: 0, color: "#B8892E" }}>{row.icon}</div>
+                <div>
+                  <p style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 500, color: "#2A1F14", margin: "0 0 6px", lineHeight: 1.3 }}>{row.title}</p>
+                  <p style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 300, color: "#7A6555", margin: 0, lineHeight: 1.7 }}>{row.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Right Column: Form Info */}
@@ -3095,7 +3171,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
             </button>
 
             {unavailable && (
-              <p style={{ fontSize: 12, color: "var(--ink-soft)", textAlign: "center", marginTop: 8 }}>
+              <p style={{ fontSize: 13, color: "var(--ink-soft)", textAlign: "center", marginTop: 8 }}>
                 Gift cards are launching soon. In the meantime, email{" "}
                 <a href="mailto:hello@hhara.com" style={{ textDecoration: "underline" }}>
                   hello@hhara.com
@@ -3117,26 +3193,18 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
         </div>
       </div>
 
-      <section className="craft-grid three-cols" style={{ paddingTop: 0, gap: "24px" }}>
-        <div className="craft-item" style={{ backgroundColor: "#F0EAE0", padding: "40px 32px", display: "flex", flexDirection: "column", height: "100%" }}>
-          <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>Choose an amount</h4>
-          <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
-            Select one of ours, or set your own, whatever feels right for the occasion.
-          </p>
-        </div>
-        <div className="craft-item" style={{ backgroundColor: "#F0EAE0", padding: "40px 32px", display: "flex", flexDirection: "column", height: "100%" }}>
-          <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>Add her details</h4>
-          <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
-            Checkout like any other order. We'll deliver it straight to her inbox, with your note attached.
-          </p>
-        </div>
-        <div className="craft-item" style={{ backgroundColor: "#F0EAE0", padding: "40px 32px", display: "flex", flexDirection: "column", height: "100%" }}>
-          <h4 style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 300, marginBottom: 12 }}>She chooses her piece</h4>
-          <p style={{ color: "var(--ink-soft)", fontSize: 14, lineHeight: 1.7 }}>
-            Redeemable across every HHARA collection, so she can decide what she needs, in her own time.
-          </p>
-        </div>
-      </section>
+      <div className="pillars-grid" style={{ maxWidth: "var(--maxw)", margin: "0 auto", padding: "0 var(--pad) 100px", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>
+        {[
+          { title: "Choose an amount", body: "Select one of ours, or set your own, whatever feels right for the occasion." },
+          { title: "Add her details", body: "Checkout like any other order. We'll deliver it straight to her inbox, with your note attached." },
+          { title: "She chooses her piece", body: "Redeemable across every HHARA collection, so she can decide what she needs, in her own time." },
+        ].map((card, i) => (
+          <div key={i} className="pillar-card">
+            <h3 className="pillar-title">{card.title}</h3>
+            <p className="pillar-body">{card.body}</p>
+          </div>
+        ))}
+      </div>
     </>
   );
 }
@@ -3145,7 +3213,7 @@ const JOURNAL = [
   { id: "j1", title: "From plastic waste to performance grade", excerpt: "Inside the regenerative knit: how ocean and industrial plastic become a sensory-grade fabric.", date: "26 May 2026", cat: "Material Transparency", img: "j1" },
   { id: "j2", title: "On Chicory Coffee and Olive Green", excerpt: "Two colorways, two languages. Choosing pigments that capture mineral earth and inner energy.", date: "14 May 2026", cat: "The Palette", img: "j2" },
   { id: "j3", title: "Why we make only four pieces", excerpt: "The case for minimalist production: fewer SKUs, lower waste, garments engineered to outlast.", date: "02 May 2026", cat: "Our Ethos", img: "j3" },
-  { id: "j4", title: "Wonder, Worn", excerpt: "Three women, two sets: the Imara and Dalia, photographed across the UAE.", date: "21 April 2026", cat: "The Capsule", img: "j4" },
+  { id: "j4", title: "Wonder, Worn", excerpt: "Three women, two sets: the Imara and Dahlia, photographed across the UAE.", date: "21 April 2026", cat: "The Capsule", img: "j4" },
   { id: "j5", title: "Carbon-neutral, from the UAE", excerpt: "How optimised smart-freight from our regional base offsets every single shipment.", date: "08 April 2026", cat: "Circular Luxury", img: "j5" },
   { id: "j6", title: "The 10% directive", excerpt: "Where the philanthropic share goes: women-led literacy, micro-endowments, and clean water alliances.", date: "27 March 2026", cat: "Social Impact", img: "j6" },
 ];
@@ -3237,7 +3305,7 @@ function ArticlePage({ articleId, setRoute, openArticle }) {
         <h3>The structure</h3>
         <p>
           The Imara framework is cut for compression and elongation, with a chevron-anatomical waistband on the
-          legging, zero-slip stabilization, flatlock seams that vanish against skin. The Dalia framework
+          legging, zero-slip stabilization, flatlock seams that vanish against skin. The Dahlia framework
           is its counterpoint: cross-back architecture, omnidirectional 4-way stretch, an inner waistband
           pocket sewn into the short. Two perspectives. One uncompromising identity.
         </p>
@@ -3332,7 +3400,7 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb1} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">01 · Imara Bra</div></div>
+            <div className="caption"><div className="ttl">Imara Bra</div></div>
             <div className="hotspot" style={{ top: "62%", left: "50%" }} onClick={() => openProduct("p1")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
@@ -3340,7 +3408,7 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb2} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">02 · Imara Legging</div></div>
+            <div className="caption"><div className="ttl">Imara Legging</div></div>
             <div className="hotspot" style={{ top: "48%", left: "55%" }} onClick={() => openProduct("p2")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
@@ -3356,7 +3424,7 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb4} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">03 · Dalia Bra</div></div>
+            <div className="caption"><div className="ttl">Dahlia Bra</div></div>
             <div className="hotspot" style={{ top: "70%", left: "40%" }} onClick={() => openProduct("p3")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
@@ -3372,7 +3440,7 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb6} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">04 · Dalia Short</div></div>
+            <div className="caption"><div className="ttl">Dahlia Short</div></div>
             <div className="hotspot" style={{ top: "50%", left: "45%" }} onClick={() => openProduct("p4")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
@@ -3380,7 +3448,7 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb7} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">The Dalia Set</div></div>
+            <div className="caption"><div className="ttl">The Dahlia Set</div></div>
             <div className="hotspot" style={{ top: "55%", left: "50%" }} onClick={() => openProduct("p3")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
@@ -3392,7 +3460,6 @@ function LookbookPage({ setRoute, openProduct }) {
             <img src={IMGS.lb8} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
             <div className="caption">
-              <div>The HHARA Capsule</div>
               <div className="ttl">Considered luxury, around the world.</div>
             </div>
           </div>
@@ -3455,7 +3522,7 @@ function StoresPage({ setRoute }) {
         }}>
           <h1 style={{
             fontFamily: "var(--display)",
-            fontSize: "clamp(56px, 8vw, 112px)",
+            fontSize: "clamp(48px, 6.5vw, 96px)",
             lineHeight: 0.95,
             letterSpacing: "-0.015em",
             fontWeight: 300,
@@ -3480,26 +3547,13 @@ function StoresPage({ setRoute }) {
 
       {/* IMPACT SPLIT SECTION */}
       <section className="gives-back-section">
-        <div className="gives-back-content-width gives-back-split">
-          <div>
-            <p className="gives-back-body" style={{ marginBottom: 0 }}>
-              Being seen shouldn't be a privilege. Some children lose their parents. Some lose their homes to conflict. Some are simply born into less than they deserve. Whatever they've lost, we believe their sense of wonder should never be one of those things. That belief is why HHARA gives back locally - funding education for children in orphanages, for those displaced by war, and for those growing up without enough. Not through a foundation. Not as a distant campaign. Child by child, close to home, by design.
-            </p>
-          </div>
-          <div>
-            <h2 className="gives-back-headline" style={{ marginBottom: 0 }}>
-              Every piece is the beginning of <em>something bigger.</em>
-            </h2>
-          </div>
-        </div>
-      </section>
-
-      {/* QUOTE BANNER SECTION (Without brown background) */}
-      <section className="gives-back-section" style={{ backgroundColor: "#F7F3ED", textAlign: "center", padding: "80px var(--pad)" }}>
-        <div className="gives-back-content-width">
-          <blockquote className="gives-back-quote-banner" style={{ color: "var(--ink)", fontFamily: "var(--display)", fontStyle: "italic", fontSize: "clamp(20px, 2.8vw, 26px)", lineHeight: 1.6, maxWidth: 800, margin: "0 auto" }}>
-            "We didn't choose the partner with the biggest reach. We chose the ones closest to where we could actually see the difference being made."
-          </blockquote>
+        <div className="gives-back-content-width" style={{ textAlign: "center", maxWidth: 820, margin: "0 auto" }}>
+          <h2 className="gives-back-headline" style={{ marginBottom: 28 }}>
+            Every piece is the beginning of <em>something bigger.</em>
+          </h2>
+          <p className="gives-back-body" style={{ marginBottom: 0 }}>
+            Being seen shouldn't be a privilege. Some children lose their parents. Some lose their homes to conflict. Some are simply born into less than they deserve. Whatever they've lost, we believe their sense of wonder should never be one of those things. That belief is why HHARA gives back locally - funding education for children in orphanages, for those displaced by war, and for those growing up without enough. Not through a foundation. Not as a distant campaign. Child by child, close to home, by design.
+          </p>
         </div>
       </section>
 
@@ -3508,7 +3562,7 @@ function StoresPage({ setRoute }) {
         <div className="pillars-container">
           <div className="section-head" style={{ borderBottom: "1px solid rgba(184, 137, 46, 0.12)", paddingBottom: 28, marginBottom: 48 }}>
             <div className="section-head-stack">
-              <h2 className="section-title" style={{ color: "#2A1F14", fontWeight: 300 }}>What your<br /><em>purchase supports.</em></h2>
+              <h2 className="section-title" style={{ color: "#2A1F14", fontWeight: 300 }}>What your<br /><em style={{ color: "#B8892E" }}>purchase supports.</em></h2>
             </div>
           </div>
           <div className="pillars-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 28 }}>
@@ -3529,11 +3583,22 @@ function StoresPage({ setRoute }) {
         </div>
       </section>
 
+      {/* QUOTE BANNER SECTION (Without brown background) */}
+      <section className="gives-back-section" style={{ backgroundColor: "#F7F3ED", textAlign: "center", padding: "80px var(--pad) 120px" }}>
+        <div className="gives-back-content-width">
+          <blockquote className="gives-back-quote-banner" style={{ color: "var(--ink)", fontFamily: "var(--display)", fontStyle: "italic", fontSize: "clamp(20px, 2.8vw, 26px)", lineHeight: 1.6, maxWidth: 800, margin: "0 auto" }}>
+            "We didn't choose the partner with the biggest reach. We chose the ones closest to where we could actually see the difference being made."
+          </blockquote>
+          <p style={{ marginTop: 24, fontFamily: "var(--sans)", fontWeight: 700, fontSize: "clamp(10px, 1vw, 12px)", letterSpacing: "0.28em", color: "#B8892E", textTransform: "uppercase" }}>
+            Every Wonder Begins Somewhere
+          </p>
+        </div>
+      </section>
+
       {/* IMPACT MAP SECTION */}
       <section style={{ backgroundColor: "#3A2416", padding: "clamp(60px, 8vh, 100px) var(--pad)" }}>
         <div className="gives-back-content-width" style={{ maxWidth: 1100 }}>
           <div style={{ textAlign: "center", marginBottom: "48px" }}>
-            <span className="eyebrow" style={{ color: "rgba(247,243,237,0.45)", letterSpacing: "0.3em" }}>OUR GIVING · WHERE WONDER GIVES BACK</span>
             <h2 style={{
               fontFamily: "var(--display)",
               fontWeight: 300,
@@ -3541,7 +3606,7 @@ function StoresPage({ setRoute }) {
               fontSize: "clamp(32px, 4.5vw, 56px)",
               color: "#F7F3ED",
               lineHeight: 1.1,
-              margin: "20px 0 20px",
+              margin: "0 0 20px",
             }}>
               A child in school.
             </h2>
@@ -3578,12 +3643,12 @@ function StoresPage({ setRoute }) {
               <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>OUR FOCUS</span>
             </div>
             <div className="stats-col-brand col-giving" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
-              <span className="stats-num-brand" style={{ color: "#B8892E" }}>10%</span>
+              <span className="stats-num-brand" style={{ color: "#B8892E" }}>—</span>
               <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>REVENUE DONATED</span>
             </div>
             <div className="stats-col-brand col-materials" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
-              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Eco-Knit</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>SUSTAINABLE FABRIC</span>
+              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Per Unit</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>GIVING MODEL</span>
             </div>
           </div>
         </div>
@@ -3658,7 +3723,7 @@ function AccountPage({
 
           <div className="eyebrow" style={{ marginBottom: 16 }}>Order History</div>
           {customer.orders.length === 0 ? (
-            <p style={{ opacity: 0.6, fontSize: 14 }}>No orders yet. Start with The Imara or Dalia Set.</p>
+            <p style={{ opacity: 0.6, fontSize: 14 }}>No orders yet. Start with The Imara or Dahlia Set.</p>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               {customer.orders.map((o: any) => (
@@ -3773,7 +3838,7 @@ function AccountPage({
 }
 
 // ============ WISHLIST ============
-function WishlistPage({ setRoute, openProduct, wishlist, quickAdd, onWishlistToggle }) {
+function WishlistPage({ setRoute, openProduct, wishlist, onWishlistToggle }) {
   const PRODUCTS = useProducts();
   const items = wishlist.map((id) => PRODUCTS.find((p) => p.id === id)).filter(Boolean);
   return (
@@ -3798,7 +3863,7 @@ function WishlistPage({ setRoute, openProduct, wishlist, quickAdd, onWishlistTog
         <div className="wish-grid">
           {items.map((p) => (
             <div key={p.id} style={{ position: "relative" }}>
-              <ProductCard product={p} onClick={() => openProduct(p.id)} onQuickAdd={quickAdd} />
+              <ProductCard product={p} onClick={() => openProduct(p.id)} />
               <button
                 className="wish-remove-btn"
                 onClick={() => onWishlistToggle?.(p.id)}
@@ -4021,7 +4086,6 @@ function ReturnsPage({ setRoute }) {
   return (
     <PolicyPage title="Returns & Refunds" eyebrow="Customer Service" setRoute={setRoute}>
       <p className="policy-intro">We want you to love every piece you receive from HHARA. If something is not right, here is how we make it right.</p>
-      <p className="policy-note" style={{ marginTop: 0, marginBottom: 32 }}>Last updated: July 2026 · UAE orders only</p>
 
       <div className="policy-section">
         <h2 className="policy-section-heading">UAE Return Policy</h2>
@@ -4086,8 +4150,27 @@ function SizeGuidePage({ setRoute }) {
       <p className="policy-intro">Our sizing follows UK standards and is designed to fit true to size. All measurements are body measurements in centimetres, not garment measurements.</p>
 
       <div className="policy-section">
+        <h2 className="policy-section-heading">How to Measure</h2>
+        <img src="/images/how-to-measure.jpg" alt="How to Measure — front and side body measurement guide" style={{ width: "100%", display: "block", marginBottom: "24px" }} />
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "24px" }}>
+          {[
+            { label: "Bust", desc: "Wrap the tape around the fullest part of the bust." },
+            { label: "Underbust", desc: "Keeping your arms to the side and standing straight, wrap the tape directly under the bust." },
+            { label: "Waist", desc: "Tape should be applied to the narrowest portion of the waist." },
+            { label: "Hips", desc: "Apply the tape to the hip's fullest part while keeping your feet together." },
+            { label: "Inseam", desc: "Measure from the crotch seam down to the bottom of the ankle bone, keeping the tape straight along the inner leg." },
+          ].map(({ label, desc }) => (
+            <div key={label} style={{ display: "flex", gap: "16px", fontFamily: "var(--sans)", fontSize: "16px", lineHeight: 1.8 }}>
+              <span style={{ fontWeight: 700, color: "var(--accent)", minWidth: "100px", flexShrink: 0 }}>{label}</span>
+              <span style={{ color: "var(--ink)" }}>{desc}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="policy-section">
         <h2 className="policy-section-heading">How to Choose Your Size</h2>
-        <p>Measure your natural waist, hips, and bust and compare against the table below.</p>
+        <p>Compare your measurements against the table below.</p>
         <div className="size-guide-tips">
           <div className="size-tip"><strong>For a sculpted, close-to-body fit</strong><span>Size down</span></div>
           <div className="size-tip"><strong>For a softer, more relaxed feel</strong><span>Size up</span></div>
@@ -4130,7 +4213,6 @@ function PrivacyPage({ setRoute }) {
   return (
     <PolicyPage title="Privacy & Cookie Policy" eyebrow="Legal" setRoute={setRoute}>
       <p className="policy-intro">At HHARA, your trust matters. This policy describes how Dahlia Moxie Trading LLC (trading as HHARA) collects, uses, and protects your personal information when you visit our site or interact with us.</p>
-      <p className="policy-note" style={{ marginTop: 0, marginBottom: 32 }}>Last updated: July 2026 · Dahlia Moxie Trading LLC, Business Bay, Dubai, UAE · Governed by UAE Federal Decree-Law No. 45 of 2021 (PDPL)</p>
 
       <div className="policy-section">
         <h2 className="policy-section-heading">Age of Consent</h2>
@@ -4211,7 +4293,6 @@ function TermsPage({ setRoute }) {
   return (
     <PolicyPage title="Terms & Conditions" eyebrow="Legal" setRoute={setRoute}>
       <p className="policy-intro">Welcome to HHARA. By accessing or using our site and purchasing from us, you agree to the following terms and conditions. Please read them carefully.</p>
-      <p className="policy-note" style={{ marginTop: 0, marginBottom: 32 }}>Last updated: July 2026 · Dahlia Moxie Trading LLC, Business Bay, Dubai, UAE</p>
 
       {clauses.map((c) => (
         <div key={c.n} className="policy-section">
@@ -4278,8 +4359,8 @@ function SearchOverlay({ open, onClose, openProduct }) {
   }, [open]);
 
   const results = q.trim() ? PRODUCTS.filter((p) => (p.name + p.cat).toLowerCase().includes(q.toLowerCase())) : PRODUCTS.slice(0, 6);
-  const suggestions = ["Imara Bra", "Imara Legging", "Dalia Bra", "Dalia Short", "Chicory Coffee"];
-  const trending = ["The Imara Set", "The Dalia Set", "Olive Green"];
+  const suggestions = ["Imara Bra", "Imara Legging", "Dahlia Bra", "Dahlia Short", "Chicory Coffee"];
+  const trending = ["The Imara Set", "The Dahlia Set", "Olive Green"];
 
   return (
     <div className={`search-overlay ${open ? "open" : ""}`}>
@@ -4353,7 +4434,6 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [wishlistLoaded, setWishlistLoaded] = useState(false);
   const [selectedColorFilter, setSelectedColorFilter] = useState<string | null>(null);
-  const [sizePickerProduct, setSizePickerProduct] = useState<any>(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -4387,6 +4467,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
   const [signupPopupOpen, setSignupPopupOpen] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterName, setNewsletterName] = useState("");
+  const [newsletterDob, setNewsletterDob] = useState("");
   const [newsletterPhone, setNewsletterPhone] = useState("");
   const [newsletterCountryCode, setNewsletterCountryCode] = useState("+971");
   const [signupStatus, setSignupStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -4414,7 +4495,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     try {
       const cleanPhone = newsletterPhone.trim().replace(/\D/g, "");
       const fullPhone = cleanPhone ? `${newsletterCountryCode}${cleanPhone}` : undefined;
-      const res = await serverSubscribe(newsletterEmail, newsletterName, fullPhone);
+      const res = await serverSubscribe(newsletterEmail, newsletterName, fullPhone, newsletterDob);
       if (res.ok) {
         setSignupStatus("success");
         localStorage.setItem("hhara_signup_seen", "true");
@@ -4526,34 +4607,6 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     }
   };
 
-  const quickAdd = (product) => {
-    const sizes = product.sizes || [];
-    const hasChoice = sizes.length > 1 || (sizes.length === 1 && sizes[0] !== "One Size");
-    if (hasChoice) {
-      setSizePickerProduct(product);
-    } else {
-      addToCart({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        color: product.swatches?.[0]?.name,
-        size: sizes[0] || "One Size",
-        tone: product.tone,
-      });
-    }
-  };
-
-  const quickAddWithSize = (product, size: string) => {
-    setSizePickerProduct(null);
-    addToCart({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      color: product.swatches?.[0]?.name,
-      size,
-      tone: product.tone,
-    });
-  };
 
   const updateQty = async (lineId: string, qty: number) => {
     if (lineId.startsWith("local-")) {
@@ -4598,7 +4651,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
 
   let body;
   if (route === "shop") {
-    body = <CollectionPage setRoute={setRouteState} openProduct={openProduct} quickAdd={quickAdd} initialColorFilter={selectedColorFilter} />;
+    body = <CollectionPage setRoute={setRouteState} openProduct={openProduct} initialColorFilter={selectedColorFilter} />;
   } else if (route === "product") {
     body = <PDP productId={productId} setRoute={setRouteState} addToCart={addToCart} openProduct={openProduct} onWishlistToggle={toggleWishlist} wishlist={wishlist} />;
   } else if (route === "atelier") {
@@ -4616,7 +4669,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
   } else if (route === "account") {
     body = <AccountPage setRoute={setRoute} checkoutUrl={shopifyCart?.checkoutUrl} cartCount={cartCount} />;
   } else if (route === "wishlist") {
-    body = <WishlistPage setRoute={setRouteState} openProduct={openProduct} wishlist={wishlist} quickAdd={quickAdd} onWishlistToggle={toggleWishlist} />;
+    body = <WishlistPage setRoute={setRouteState} openProduct={openProduct} wishlist={wishlist} onWishlistToggle={toggleWishlist} />;
   } else if (route === "faq") {
     body = <FAQPage setRoute={setRouteState} />;
   } else if (route === "shipping") {
@@ -4643,14 +4696,14 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
       addToCart={addToCart}
     />;
   } else {
-    body = <Home setRoute={setRoute} quickAdd={quickAdd} />;
+    body = <Home setRoute={setRoute} />;
   }
 
   const tweaksUI = (
     <>
       {signupPopupOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#3A2416]/60 backdrop-blur-sm transition-opacity duration-500 animate-fade-in">
-          <div className="signup-popup-inner relative text-[#F7F3ED] max-w-7xl w-full shadow-2xl overflow-hidden h-[540px] md:h-[540px]">
+          <div className="signup-popup-inner relative text-[#F7F3ED] max-w-6xl w-full shadow-2xl overflow-hidden h-[540px] md:h-[540px]">
             {/* Full-bleed image */}
             <img
               src={IMGS.p1a}
@@ -4662,40 +4715,33 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
             {/* Bottom fade so left-side text sits cleanly */}
             <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(42,31,20,0.7) 0%, transparent 45%)" }} />
 
-            {/* Left side — brand text overlay, vertically centred beside the form */}
-            <div className="absolute z-[3] pointer-events-none" style={{ left: "32%", top: "50%", transform: "translateY(-50%)", maxWidth: "44%" }}>
-              {/* HHARA — Montserrat bold */}
+            {/* Brand block — absolute, sits left of the form with breathing room */}
+            <div className="absolute z-[3] pointer-events-none" style={{ right: "460px", top: "50%", transform: "translateY(-50%)" }}>
+              <img
+                src="/images/hhara-logo.png"
+                alt="HHARA"
+                style={{ height: "52px", width: "auto", display: "block" }}
+              />
               <div style={{
-                fontFamily: "var(--sans)",
-                fontWeight: 700,
-                fontSize: "clamp(32px, 4vw, 52px)",
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "#F7F3ED",
-                lineHeight: 1,
-                marginBottom: "-0.12em",
-              }}>HHARA</div>
-
-              {/* Insiders — Cormorant Garamond italic, overlapping HHARA */}
-              <div style={{
-                fontFamily: "var(--display)",
-                fontStyle: "italic",
-                fontWeight: 400,
-                fontSize: "clamp(28px, 3.6vw, 46px)",
-                color: "#F7F3ED",
-                lineHeight: 1,
-                letterSpacing: "0.02em",
-                marginLeft: "2px",
+                fontFamily: "var(--font-signature), 'Mr De Haviland', cursive",
+                fontSize: "clamp(76px, 8.5vw, 115px)",
+                color: "#E8D8C8",
+                lineHeight: 0.75,
+                letterSpacing: "normal",
+                marginLeft: "8px",
+                marginTop: "-0.08em",
+                marginBottom: "0.25em",
+                textTransform: "none",
+                WebkitTextStroke: "1.5px #E8D8C8",
+                textShadow: "0 0 2px rgba(232,216,200,0.9), 0 0 4px rgba(232,216,200,0.5)",
               }}>Insiders</div>
-
-              {/* Tagline — Cormorant Garamond italic */}
               <div style={{
                 fontFamily: "var(--display)",
                 fontStyle: "italic",
                 fontWeight: 300,
-                fontSize: "clamp(12px, 1.2vw, 15px)",
-                color: "rgba(247,243,237,0.82)",
-                marginTop: "14px",
+                fontSize: "clamp(16px, 1.6vw, 21px)",
+                color: "rgba(247,243,237,0.85)",
+                marginTop: "8px",
                 letterSpacing: "0.02em",
                 lineHeight: 1.5,
               }}>Where Confidence Comes To Life.</div>
@@ -4711,35 +4757,38 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
             </button>
 
             {/* Right side — form */}
-            <div className="relative z-[2] h-full flex flex-col justify-center items-end p-6 md:p-12">
+            <div className="relative z-[2] h-full flex flex-col justify-center items-end py-8 pl-6 pr-12 md:pr-16">
               {signupStatus !== "success" ? (
-                <div className="w-full max-w-md text-right">
-                  <p className="text-xs md:text-sm text-[#F7F3ED]/80 mb-5 leading-relaxed font-light">
+                <div className="w-full max-w-[300px] text-center">
+                  <p className="text-xs md:text-sm text-[#F7F3ED]/80 mb-5 leading-relaxed font-light text-center">
                     Be the first to discover new collections, limited releases, surprise gifts and exclusive stories from the world of HHARA.
                   </p>
                   <form onSubmit={handleNewsletterSignup} className="w-full">
+                    {/* 1. First Name */}
                     <input
                       type="text"
                       required
-                      placeholder="Your Name"
+                      placeholder="First Name"
                       value={newsletterName}
                       onChange={(e) => setNewsletterName(e.target.value)}
                       className="w-full bg-[#F7F3ED] text-[#2A1F14] border border-[#F7F3ED]/40 focus:border-[#B8892E] outline-none py-3 px-4 text-sm placeholder-[#7A6555]/60 mb-3 font-light transition-all text-left"
                     />
+                    {/* 2. Date of Birth */}
                     <input
-                      type="email"
+                      type="date"
                       required
-                      placeholder="Email Address"
-                      value={newsletterEmail}
-                      onChange={(e) => setNewsletterEmail(e.target.value)}
-                      className="w-full bg-[#F7F3ED] text-[#2A1F14] border border-[#F7F3ED]/40 focus:border-[#B8892E] outline-none py-3 px-4 text-sm placeholder-[#7A6555]/60 mb-3 font-light transition-all text-left"
+                      value={newsletterDob}
+                      onChange={(e) => setNewsletterDob(e.target.value)}
+                      max={new Date().toISOString().split("T")[0]}
+                      className="w-full bg-[#F7F3ED] text-[#2A1F14] border border-[#F7F3ED]/40 focus:border-[#B8892E] outline-none py-3 px-4 text-sm mb-3 font-light transition-all [color-scheme:light]"
                     />
-                    <div className="flex gap-2 mb-3">
+                    {/* 3. Phone */}
+                    <div className="w-full flex gap-0 mb-3 border border-[#F7F3ED]/40 focus-within:border-[#B8892E] transition-all">
                       <select
                         value={newsletterCountryCode}
                         onChange={(e) => setNewsletterCountryCode(e.target.value)}
-                        className="bg-[#F7F3ED] text-[#2A1F14] border border-[#F7F3ED]/40 focus:border-[#B8892E] outline-none py-3 px-2 text-sm font-light transition-all cursor-pointer"
-                        style={{ width: "95px" }}
+                        className="bg-[#F7F3ED] text-[#2A1F14] border-0 border-r border-[#2A1F14]/10 outline-none py-3 px-2 text-sm font-light cursor-pointer shrink-0"
+                        style={{ width: "80px" }}
                       >
                         <option value="+971">🇦🇪 +971</option>
                         <option value="+966">🇸🇦 +966</option>
@@ -4752,24 +4801,35 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                       </select>
                       <input
                         type="tel"
-                        placeholder="Phone Number (Optional)"
+                        placeholder="Phone Number"
                         value={newsletterPhone}
                         onChange={(e) => setNewsletterPhone(e.target.value)}
-                        className="flex-1 bg-[#F7F3ED] text-[#2A1F14] border border-[#F7F3ED]/40 focus:border-[#B8892E] outline-none py-3 px-4 text-sm placeholder-[#7A6555]/60 font-light transition-all text-left"
+                        className="flex-1 min-w-0 bg-[#F7F3ED] text-[#2A1F14] border-0 outline-none py-3 px-3 text-sm placeholder-[#7A6555]/60 font-light text-left"
                       />
                     </div>
-                    <button
-                      type="submit"
-                      disabled={signupStatus === "loading"}
-                      className="w-full py-3 bg-[#F7F3ED] text-[#2A1F14] hover:bg-white transition-all tracking-widest text-xs uppercase font-medium disabled:opacity-50"
-                    >
-                      {signupStatus === "loading" ? "Submitting..." : "Join HHARA"}
-                    </button>
+                    {/* 4. Email + Join button inline */}
+                    <div className="w-full flex gap-0 border border-[#F7F3ED]/40 focus-within:border-[#B8892E] transition-all">
+                      <input
+                        type="email"
+                        required
+                        placeholder="Email Address"
+                        value={newsletterEmail}
+                        onChange={(e) => setNewsletterEmail(e.target.value)}
+                        className="flex-1 min-w-0 bg-[#F7F3ED] text-[#2A1F14] border-0 outline-none py-3 px-4 text-sm placeholder-[#7A6555]/60 font-light text-left"
+                      />
+                      <button
+                        type="submit"
+                        disabled={signupStatus === "loading"}
+                        className="shrink-0 bg-[#2A1F14] text-[#F7F3ED] hover:bg-[#3A2416] transition-all tracking-widest text-[10px] uppercase font-medium disabled:opacity-50 px-4"
+                      >
+                        {signupStatus === "loading" ? "…" : "Join"}
+                      </button>
+                    </div>
                   </form>
                   {signupStatus === "error" && (
                     <p className="text-xs text-red-300 mt-3">{signupError}</p>
                   )}
-                  <p className="text-[10px] text-[#F7F3ED]/70 mt-4 leading-relaxed">
+                  <p className="text-[10px] text-[#F7F3ED]/70 mt-4 leading-relaxed text-center">
                     By signing up, you agree to receive marketing emails from HHARA. You can unsubscribe at any time. See our{" "}
                     <button type="button" onClick={() => { closeSignupPopup(); setRoute("privacy", null); }} className="underline hover:text-white">Privacy Policy</button>.
                   </p>
@@ -4851,42 +4911,6 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
               onClose={() => setSearchOpen(false)}
               openProduct={openProduct}
             />
-            {sizePickerProduct && (
-              <div
-                style={{ position: "fixed", inset: 0, zIndex: 1100, background: "rgba(42,31,20,0.45)", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}
-                onClick={() => setSizePickerProduct(null)}
-              >
-                <div
-                  style={{ background: "var(--bg)", maxWidth: 400, width: "100%", padding: "36px 32px", position: "relative" }}
-                  onClick={e => e.stopPropagation()}
-                >
-                  <button onClick={() => setSizePickerProduct(null)} style={{ position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer", color: "var(--ink)", opacity: 0.5 }}><Icon.Close /></button>
-                  <div style={{ fontFamily: "var(--sans)", fontSize: 9, letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--accent)", marginBottom: 8 }}>Select Size</div>
-                  <div style={{ fontFamily: "var(--display)", fontSize: 22, fontWeight: 300, color: "var(--ink)", marginBottom: 24 }}>{sizePickerProduct.name}</div>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                    {(sizePickerProduct.sizes || []).map((size: string) => (
-                      <button
-                        key={size}
-                        onClick={() => quickAddWithSize(sizePickerProduct, size)}
-                        style={{ fontFamily: "var(--sans)", fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 500, border: "1px solid var(--line)", background: "transparent", color: "var(--ink)", padding: "12px 20px", cursor: "pointer", flex: "1 1 calc(33% - 8px)", minWidth: 60, transition: "all 0.2s" }}
-                        onMouseEnter={e => { (e.target as HTMLButtonElement).style.background = "var(--bark)"; (e.target as HTMLButtonElement).style.color = "var(--bg)"; (e.target as HTMLButtonElement).style.borderColor = "var(--bark)"; }}
-                        onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = "transparent"; (e.target as HTMLButtonElement).style.color = "var(--ink)"; (e.target as HTMLButtonElement).style.borderColor = "var(--line)"; }}
-                      >
-                        {size}
-                      </button>
-                    ))}
-                  </div>
-                  <div style={{ marginTop: 20, borderTop: "1px solid var(--line-soft)", paddingTop: 16, display: "flex", flexDirection: "column", gap: 7 }}>
-                    {[["XS","UK 6 · Bust 76–80cm · Waist 60–64cm"],["S","UK 8 · Bust 81–85cm · Waist 65–69cm"],["M","UK 10 · Bust 86–90cm · Waist 70–74cm"],["L","UK 12 · Bust 91–95cm · Waist 75–79cm"],["XL","UK 14 · Bust 96–100cm · Waist 80–84cm"]].map(([s, hint]) => (
-                      <div key={s} style={{ display: "flex", gap: 12, fontFamily: "var(--sans)", fontSize: 12, color: "var(--ink-soft)", lineHeight: 1.5 }}>
-                        <span style={{ fontWeight: 600, color: "var(--ink)", minWidth: 24 }}>{s}</span>
-                        <span>{hint}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
             {tweaksUI}
             <CookieBanner setRoute={setRouteState} />
           </div>
