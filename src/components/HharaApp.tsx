@@ -1223,15 +1223,7 @@ function Editorial({ openShop }) {
               Morning run to afternoon plans. Yoga to Pilates. Office to dinner. Studio to street.
             </p>
 
-            <p style={{
-              fontFamily: "var(--sans)",
-              textTransform: "uppercase",
-              fontSize: "9px",
-              letterSpacing: "0.3em",
-              fontWeight: 600,
-              color: "var(--accent)",
-              margin: 0
-            }}>
+            <p style={{ fontStyle: "italic", color: "var(--accent)", fontWeight: 500, margin: 0 }}>
               No changing in between. Just her.
             </p>
           </div>

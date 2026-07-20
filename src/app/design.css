@@ -4788,7 +4788,7 @@ img { display: block; max-width: 100%; }
 }
 .review-author {
   font-family: var(--sans);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.25em;
   text-transform: uppercase;
@@ -4797,7 +4797,7 @@ img { display: block; max-width: 100%; }
 }
 .review-meta {
   font-family: var(--sans);
-  font-size: 10px;
+  font-size: 11px;
   color: var(--ink-soft);
   letter-spacing: 0.06em;
 }
@@ -4819,12 +4819,6 @@ img { display: block; max-width: 100%; }
 }
 .pdp-reviews-track .review-stars {
   font-size: 13px;
-}
-.pdp-reviews-track .review-author {
-  font-size: 11px;
-}
-.pdp-reviews-track .review-meta {
-  font-size: 11px;
 }
 @media (max-width: 768px) {
   .pdp-reviews-track .review-card { flex: 0 0 clamp(300px, 82vw, 400px); }
