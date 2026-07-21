@@ -3067,7 +3067,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
                     setCustomAmount("");
                   }}
                 >
-                  ${a}
+                  AED {a}
                 </button>
               ))}
             </div>
