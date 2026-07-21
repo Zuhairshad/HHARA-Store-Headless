@@ -3369,7 +3369,7 @@ function LookbookPage({ setRoute, openProduct }) {
         <span className="eyebrow">The HHARA Capsule</span>
         <h1>The <em>Lookbook</em></h1>
         <p className="lead">
-          Four pieces. Two sets. Two colourways. Styled the way she'd wear them into the world - moving through her day with the same Bold intention HHARA was built on. Every look is a starting point, not a rule.
+          Four pieces. Two sets. Two colourways. Styled the way she'd wear them into the world - moving through her day with the same bold intention HHARA was built on. Every look is a starting point, not a rule.
         </p>
       </div>
       <div className="lb-full">
