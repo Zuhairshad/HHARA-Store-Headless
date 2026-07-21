@@ -1143,7 +1143,7 @@ function FeaturedGrid({ setRoute }: { setRoute: (route: string, payload?: any) =
         <em style={{ fontFamily: "var(--display,'Cormorant Garamond',serif)", fontStyle: "italic", fontWeight: 300, color: "#B8892E" }}>Tones.</em>
       </h2>
       <p className="mc-lead" style={{ marginBottom: 40, maxWidth: "640px", textAlign: "center" }}>
-        Chicory Coffee and Olive Green. Two signature colorways grounded in raw mineral earth and quiet oases, designed to anchor your movement and your days.
+        Chicory Coffee and Olive Green. Two signature colorways grounded in raw mineral earth and quiet oases, designed to anchor your movement and your day.
       </p>
       <div className="mc-cards" style={{ cursor: "default" }}>
         <div 
