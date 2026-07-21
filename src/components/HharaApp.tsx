@@ -3067,7 +3067,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
                     setCustomAmount("");
                   }}
                 >
-                  AED {a}
+                  <span style={{ fontFamily: "var(--sans)", fontSize: "10px", fontWeight: 500, letterSpacing: "0.08em", verticalAlign: "middle", marginRight: 4, opacity: 0.7 }}>AED</span>{a}
                 </button>
               ))}
             </div>
