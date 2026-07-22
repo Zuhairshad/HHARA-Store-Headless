@@ -833,7 +833,6 @@ function Footer({ setRoute, route = "" }) {
               <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Imara Set</a></li>
               <li><a onClick={() => setRoute("lookbook")} style={{ cursor: "pointer" }}>The Lookbook</a></li>
               <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>Socks</a></li>
-              <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>Gift Card</a></li>
             </ul>
           </div>
           <div className="footer-col">
@@ -851,7 +850,7 @@ function Footer({ setRoute, route = "" }) {
             <ul>
               <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>About Us</a></li>
               <li><a onClick={() => setRoute("stores")} style={{ cursor: "pointer" }}>Impact</a></li>
-              <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>Gift Card</a></li>
+              <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>E-card</a></li>
             </ul>
           </div>
           <div className="footer-col">
