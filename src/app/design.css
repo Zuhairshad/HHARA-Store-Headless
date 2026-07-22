@@ -641,7 +641,9 @@ img { display: block; max-width: 100%; }
   font-weight: 300;
   font-size: 15px;
   color: #2A1F14;
-  line-height: 1.15;
+  line-height: 1.25;
+  text-align: left;
+  min-height: 38px;
 }
 .pcard-tagline {
   font-family: var(--sans);
@@ -656,7 +658,7 @@ img { display: block; max-width: 100%; }
   display: flex;
   gap: 12px;
   align-items: baseline;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 4px;
 }
 .pcard-price {
@@ -677,7 +679,7 @@ img { display: block; max-width: 100%; }
   display: flex;
   gap: 6px;
   margin-top: 8px;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .swatch {
   width: 12px; height: 12px;
