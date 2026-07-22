@@ -986,8 +986,8 @@ img { display: block; max-width: 100%; }
 }
 .footer-top {
   display: grid;
-  grid-template-columns: 1fr repeat(4, auto);
-  gap: clamp(24px, 3vw, 40px);
+  grid-template-columns: 2fr repeat(4, 1fr);
+  gap: 24px;
   padding-bottom: 48px;
   border-bottom: 1px solid rgba(184, 137, 46, 0.2);
 }
