@@ -2197,6 +2197,8 @@ img { display: block; max-width: 100%; }
   .pgrid, .cgrid { grid-template-columns: repeat(2, 1fr); gap: 12px 8px; }
   .pcard-quickadd { display: none; }
   .pcard-info { padding: 10px; }
+  .pcard-name { font-size: 12.5px; line-height: 1.25; min-height: 32px; }
+  .pcard-price { font-size: 13px; }
   .pcard-swatches { gap: 4px; }
   .swatch { width: 10px; height: 10px; }
   .hero-title { font-size: 56px; }
@@ -5627,6 +5629,10 @@ img { display: block; max-width: 100%; }
 
 /* ── Tablet / small laptop (≤768px already covered, patch gaps) */
 @media (max-width: 768px) {
+  /* Product card mobile alignment */
+  .pcard-name { font-size: 13px; line-height: 1.25; min-height: 34px; }
+  .pcard-price { font-size: 14px; }
+
   /* PDP gallery thumbs — 2 columns on tablet */
   .pdp-gallery-thumbs { grid-template-columns: repeat(2, 1fr); gap: 6px; }
 
