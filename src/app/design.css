@@ -5267,6 +5267,15 @@ img { display: block; max-width: 100%; }
   }
 }
 
+.gc-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--pad) 100px;
+  gap: 28px;
+}
+
 .gc-gallery {
   display: flex;
   flex-direction: column;
@@ -5649,7 +5658,8 @@ img { display: block; max-width: 100%; }
   /* PDP gallery thumbs — 2 columns on tablet */
   .pdp-gallery-thumbs { grid-template-columns: repeat(2, 1fr); gap: 6px; }
 
-  /* Gift card amounts — 2 columns */
+  /* Gift card pillars */
+  .gc-pillars-grid { grid-template-columns: 1fr; padding: 0 var(--pad) 60px; gap: 14px; }
   .gc-amounts-grid { grid-template-columns: repeat(2, 1fr); }
 
   /* Touch-friendly swatches */
@@ -5711,6 +5721,7 @@ img { display: block; max-width: 100%; }
   .gc-amounts-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
   .gc-amount-btn { padding: 12px 8px; font-size: 16px; }
   .gc-info { padding: 0 4px; }
+  .gc-pillars-grid { grid-template-columns: 1fr; padding: 0 16px 48px; gap: 12px; }
 
   /* PDP thumbnails — 2 columns */
   .pdp-gallery-thumbs { grid-template-columns: repeat(2, 1fr); gap: 4px; }

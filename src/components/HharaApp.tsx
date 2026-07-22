@@ -3134,21 +3134,23 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
         </div>
       </div>
 
-      <div className="section-head" style={{ maxWidth: "var(--maxw)", margin: "100px auto 20px", padding: "0 var(--pad)" }}>
+      <div className="section-head" style={{ maxWidth: "var(--maxw)", margin: "clamp(48px, 8vh, 100px) auto 20px", padding: "0 var(--pad)" }}>
         <div className="section-head-stack">
           <span className="eyebrow">How It Works</span>
           <h2 className="section-title" style={{ fontWeight: 300 }}>Simple, <em style={{ color: "var(--accent)" }}>by design.</em></h2>
         </div>
       </div>
 
-      <div className="pillars-grid" style={{ maxWidth: "var(--maxw)", margin: "0 auto", padding: "0 var(--pad) 100px", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>
+      <div className="pillars-grid gc-pillars-grid">
         {[
           { title: "Choose an amount", body: "Select one of ours, or set your own, whatever feels right for the occasion." },
           { title: "Add her details", body: "Checkout like any other order. We'll deliver it straight to her inbox, with your note attached." },
           { title: "She chooses her piece", body: "Redeemable across every HHARA collection, so she can decide what she needs, in her own time." },
         ].map((card, i) => (
           <div key={i} className="pillar-card">
-            <h3 className="pillar-title">{card.title}</h3>
+            <div className="pillar-title-wrap">
+              <h3 className="pillar-title">{card.title}</h3>
+            </div>
             <p className="pillar-body">{card.body}</p>
           </div>
         ))}
