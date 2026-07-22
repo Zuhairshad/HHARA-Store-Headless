@@ -1136,7 +1136,7 @@ function Categories({ onPick }) {
 
 function FeaturedGrid({ setRoute }: { setRoute: (route: string, payload?: any) => void }) {
   return (
-    <section className="manifesto-colourways" style={{ paddingTop: "60px", paddingBottom: "60px" }}>
+    <section className="manifesto-colourways" style={{ paddingTop: "24px", paddingBottom: "60px" }}>
       <span className="eyebrow" style={{ color: "#B8892E", display: "block", textAlign: "center", marginBottom: 16 }}>THE PALETTE</span>
       <h2 className="mc-headline" style={{ marginBottom: 12 }}>
         Timeless<br />
