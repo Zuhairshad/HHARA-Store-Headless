@@ -5254,8 +5254,16 @@ img { display: block; max-width: 100%; }
 @media (max-width: 1024px) {
   .gc-main {
     grid-template-columns: 1fr;
-    gap: 48px;
-    padding: 32px var(--pad);
+    gap: 32px;
+    padding: 24px var(--pad) 80px;
+  }
+  .gc-gallery {
+    position: static;
+  }
+  .gc-placeholder {
+    max-width: 100%;
+    aspect-ratio: 16 / 10;
+    padding: 20px;
   }
 }
 
@@ -5331,14 +5339,14 @@ img { display: block; max-width: 100%; }
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: -12px;
+  margin-bottom: 4px;
 }
 
 .gc-title {
   font-family: var(--display);
-  font-size: clamp(32px, 3vw, 42px);
+  font-size: clamp(28px, 6vw, 42px);
   font-weight: 400;
-  line-height: 1.15;
+  line-height: 1.2;
   letter-spacing: -0.01em;
   color: var(--ink);
   margin: 0;
@@ -5350,14 +5358,14 @@ img { display: block; max-width: 100%; }
   font-style: italic;
   font-size: 16px;
   color: var(--ink-soft);
-  margin: -12px 0 0 0;
+  margin: 4px 0 0 0;
 }
 
 .gc-price {
   font-family: var(--display);
   font-size: 18px;
   color: #B8892E;
-  margin: -12px 0 0 0;
+  margin: 4px 0 0 0;
 }
 
 .gc-amounts-grid {
@@ -5692,8 +5700,16 @@ img { display: block; max-width: 100%; }
   .qty button { width: 44px; font-size: 18px; }
 
   /* Gift card — stack cleanly */
+  .gc-main { padding: 20px 16px 88px; gap: 24px; }
+  .gc-gallery { gap: 16px; position: static; }
+  .gc-placeholder { aspect-ratio: 16 / 9; padding: 16px; }
+  .gc-intro-text { font-size: 13px; line-height: 1.6; }
+  .gc-info { gap: 20px; }
+  .gc-eyebrow { font-size: 12px; letter-spacing: 0.22em; }
+  .gc-title { font-size: clamp(26px, 7vw, 34px); line-height: 1.25; }
+  .gc-subtitle { font-size: 14.5px; }
   .gc-amounts-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  .gc-amount-btn { padding: 14px 8px; font-size: 14px; }
+  .gc-amount-btn { padding: 12px 8px; font-size: 16px; }
   .gc-info { padding: 0 4px; }
 
   /* PDP thumbnails — 2 columns */
