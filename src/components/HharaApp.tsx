@@ -3515,16 +3515,16 @@ function StoresPage({ setRoute }) {
               <h2 className="section-title" style={{ color: "#2A1F14", fontWeight: 300 }}>What your<br /><em style={{ color: "#B8892E" }}>purchase supports.</em></h2>
             </div>
           </div>
-          <div className="pillars-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 28 }}>
+          <div className="pillars-grid">
             {[
               { title: "School Supplies", body: "Books, learning materials and the everyday tools every child needs in the classroom." },
               { title: "Tuition Support", body: "Direct contribution to educational fees, removing barriers to consistent schooling." },
               { title: "Uniforms & Essentials", body: "The basic necessities that allow every child to attend school with dignity." },
               { title: "Long-Term Partnership", body: "Ongoing support, not one-time giving: a relationship that grows as HHARA grows." },
             ].map((p, idx) => (
-              <div key={idx} className="pillar-card" style={{ display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-between" }}>
-                <div style={{ minHeight: "44px" }}>
-                  <h3 className="pillar-title" style={{ marginTop: 0 }}>{p.title}</h3>
+              <div key={idx} className="pillar-card" style={{ display: "flex", flexDirection: "column", height: "100%", justifyContent: "flex-start" }}>
+                <div style={{ minHeight: "56px", marginBottom: "14px" }}>
+                  <h3 className="pillar-title" style={{ marginTop: 0, marginBottom: 0 }}>{p.title}</h3>
                 </div>
                 <p className="pillar-body" style={{ margin: 0 }}>{p.body}</p>
               </div>
