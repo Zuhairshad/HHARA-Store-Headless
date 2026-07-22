@@ -664,7 +664,7 @@ img { display: block; max-width: 100%; }
 .pcard-price {
   font-family: var(--sans);
   font-weight: 300;
-  font-size: clamp(14px, 2.5vw, 20px);
+  font-size: 15px;
   color: #2A1F14;
 }
 .pcard-price-was {
@@ -5562,7 +5562,7 @@ img { display: block; max-width: 100%; }
   .pillar-title { font-size: 15px; }
   .pillar-body { font-size: 18px; }
   .pcard-name { font-size: 15px; }
-  .pcard-price { font-size: clamp(16px, 1vw, 22px); }
+  .pcard-price { font-size: 15px; }
   .pdp-info h1 { font-size: clamp(52px, 3.2vw, 72px); }
   .review-quote { font-size: clamp(17px, 1vw, 21px); }
   .footer-logo { height: 52px; }
