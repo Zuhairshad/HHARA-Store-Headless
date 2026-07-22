@@ -3523,7 +3523,7 @@ function StoresPage({ setRoute }) {
               { title: "Long-Term Partnership", body: "Ongoing support, not one-time giving: a relationship that grows as HHARA grows." },
             ].map((p, idx) => (
               <div key={idx} className="pillar-card" style={{ display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-between" }}>
-                <div>
+                <div style={{ minHeight: "44px" }}>
                   <h3 className="pillar-title" style={{ marginTop: 0 }}>{p.title}</h3>
                 </div>
                 <p className="pillar-body" style={{ margin: 0 }}>{p.body}</p>
