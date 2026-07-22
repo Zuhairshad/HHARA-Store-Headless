@@ -3527,11 +3527,11 @@ img { display: block; max-width: 100%; }
 }
 
 .pillar-body {
-  font-family: var(--sans), 'Montserrat', sans-serif;
-  font-size: 15px;
+  font-family: var(--display), 'Cormorant Garamond', serif;
+  font-size: 18px;
   font-style: italic;
   color: #7A6555;
-  line-height: 1.75;
+  line-height: 1.5;
   margin: 0;
 }
 
@@ -5556,7 +5556,7 @@ img { display: block; max-width: 100%; }
   .section-title { font-size: clamp(56px, 3.5vw, 80px); }
   .gives-back-headline { font-size: clamp(56px, 3.5vw, 80px); }
   .pillar-title { font-size: 15px; }
-  .pillar-body { font-size: 15px; }
+  .pillar-body { font-size: 18px; }
   .pcard-name { font-size: clamp(18px, 1.2vw, 26px); }
   .pcard-price { font-size: clamp(16px, 1vw, 22px); }
   .pdp-info h1 { font-size: clamp(52px, 3.2vw, 72px); }
@@ -5679,7 +5679,7 @@ img { display: block; max-width: 100%; }
 
   /* Pillars */
   .pillar-card { padding: 24px 20px; }
-  .pillar-body { font-size: 15px; }
+  .pillar-body { font-size: 18px; }
 
   /* Announce bar */
   .announce-track span:nth-child(2),

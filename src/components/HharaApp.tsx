@@ -1215,7 +1215,7 @@ function Editorial({ openShop }) {
             <p style={{
               fontFamily: "var(--display)",
               fontStyle: "italic",
-              fontSize: "17px",
+              fontSize: "18px",
               lineHeight: "1.5",
               color: "var(--ink)",
               margin: 0
