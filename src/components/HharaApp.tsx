@@ -825,40 +825,42 @@ function Footer({ setRoute, route = "" }) {
             </form>
             {error && <div style={{ marginTop: 8, fontSize: 11, color: "#faa" }}>{error}</div>}
           </div>
-          <div className="footer-col">
-            <h4>The Collection</h4>
-            <ul>
-              <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>Shop All</a></li>
-              <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Dahlia Set</a></li>
-              <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Imara Set</a></li>
-              <li><a onClick={() => setRoute("lookbook")} style={{ cursor: "pointer" }}>The Lookbook</a></li>
-              <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>Socks</a></li>
-            </ul>
-          </div>
-          <div className="footer-col">
-            <h4>Customer Service</h4>
-            <ul>
-              <li><a onClick={() => setRoute("faq")} style={{ cursor: "pointer" }}>FAQ</a></li>
-              <li><a onClick={() => setRoute("shipping")} style={{ cursor: "pointer" }}>Shipping &amp; Delivery</a></li>
-              <li><a onClick={() => setRoute("returns")} style={{ cursor: "pointer" }}>Returns &amp; Refunds</a></li>
-              <li><a onClick={() => setRoute("size-guide")} style={{ cursor: "pointer" }}>Size Guide</a></li>
-              <li><a onClick={() => setRoute("contact")} style={{ cursor: "pointer" }}>Contact</a></li>
-            </ul>
-          </div>
-          <div className="footer-col">
-            <h4>Information</h4>
-            <ul>
-              <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>About Us</a></li>
-              <li><a onClick={() => setRoute("stores")} style={{ cursor: "pointer" }}>Impact</a></li>
-              <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>E-card</a></li>
-            </ul>
-          </div>
-          <div className="footer-col">
-            <h4>Legal</h4>
-            <ul>
-              <li><a onClick={() => setRoute("privacy")} style={{ cursor: "pointer" }}>Privacy &amp; Cookie Policy</a></li>
-              <li><a onClick={() => setRoute("terms")} style={{ cursor: "pointer" }}>Terms &amp; Conditions</a></li>
-            </ul>
+          <div className="footer-links">
+            <div className="footer-col">
+              <h4>The Collection</h4>
+              <ul>
+                <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>Shop All</a></li>
+                <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Dahlia Set</a></li>
+                <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Imara Set</a></li>
+                <li><a onClick={() => setRoute("lookbook")} style={{ cursor: "pointer" }}>The Lookbook</a></li>
+                <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>Socks</a></li>
+              </ul>
+            </div>
+            <div className="footer-col">
+              <h4>Customer Service</h4>
+              <ul>
+                <li><a onClick={() => setRoute("faq")} style={{ cursor: "pointer" }}>FAQ</a></li>
+                <li><a onClick={() => setRoute("shipping")} style={{ cursor: "pointer" }}>Shipping &amp; Delivery</a></li>
+                <li><a onClick={() => setRoute("returns")} style={{ cursor: "pointer" }}>Returns &amp; Refunds</a></li>
+                <li><a onClick={() => setRoute("size-guide")} style={{ cursor: "pointer" }}>Size Guide</a></li>
+                <li><a onClick={() => setRoute("contact")} style={{ cursor: "pointer" }}>Contact</a></li>
+              </ul>
+            </div>
+            <div className="footer-col">
+              <h4>Information</h4>
+              <ul>
+                <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>About Us</a></li>
+                <li><a onClick={() => setRoute("stores")} style={{ cursor: "pointer" }}>Impact</a></li>
+                <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>E-card</a></li>
+              </ul>
+            </div>
+            <div className="footer-col">
+              <h4>Legal</h4>
+              <ul>
+                <li><a onClick={() => setRoute("privacy")} style={{ cursor: "pointer" }}>Privacy &amp; Cookie Policy</a></li>
+                <li><a onClick={() => setRoute("terms")} style={{ cursor: "pointer" }}>Terms &amp; Conditions</a></li>
+              </ul>
+            </div>
           </div>
         </div>
         <div className="footer-bottom">

@@ -986,11 +986,15 @@ img { display: block; max-width: 100%; }
 }
 .footer-top {
   display: grid;
-  grid-template-columns: 2fr repeat(4, auto);
-  justify-content: space-between;
+  grid-template-columns: 2fr 3fr;
   gap: 24px;
   padding-bottom: 48px;
   border-bottom: 1px solid rgba(184, 137, 46, 0.2);
+}
+.footer-links {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
 }
 .footer-brand-logo {
   display: flex;
