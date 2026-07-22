@@ -5612,7 +5612,10 @@ img { display: block; max-width: 100%; }
   .cmain { grid-template-columns: 1fr; }
   .cfilters { display: none; }
   .ctoolbar { gap: 16px; }
-  .footer-top { grid-template-columns: 1fr 1fr; gap: 28px; }
+  .footer-top { grid-template-columns: 1fr; gap: 36px; }
+  .footer-links { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+  .footer-brand-right { max-width: 100%; }
+  .footer-newsletter { max-width: 100%; }
   .editorial-title { font-size: clamp(28px, 4vw, 44px); }
   .gives-back-split { gap: clamp(24px, 4vw, 56px); }
   .gc-main { grid-template-columns: 1fr; padding: 32px var(--pad); }
@@ -5696,6 +5699,18 @@ img { display: block; max-width: 100%; }
   /* Announce bar */
   .announce-track span:nth-child(2),
   .announce-track span:nth-child(3) { display: none; }
+
+  /* Mobile footer styling */
+  .footer { padding: 48px 20px 88px; }
+  .footer-top { grid-template-columns: 1fr; gap: 32px; padding-bottom: 32px; }
+  .footer-brand-logo { margin-bottom: 20px; }
+  .footer-links { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 16px; }
+  .footer-col { padding-left: 0; }
+  .footer-col h4 { font-size: 10px; letter-spacing: 0.18em; margin-bottom: 14px; }
+  .footer-col a { font-size: 12.5px; }
+  .footer-newsletter { max-width: 100%; }
+  .footer-bottom { flex-direction: column; text-align: center; gap: 14px; padding-top: 24px; font-size: 11px; }
+  .footer-bottom .pay { flex-wrap: wrap; justify-content: center; gap: 12px 16px; }
 }
 
 /* ── Extra small phones (≤360px) ─────────────────────────── */
