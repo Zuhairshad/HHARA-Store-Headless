@@ -804,9 +804,9 @@ function Footer({ setRoute, route = "" }) {
               <div className="footer-brand-right">
                 <img src="/images/Text-PNG-02.png" alt="HHARA" className="footer-wordmark" />
                 <div className="footer-brand-desc">
-                  <span>Consciously Made luxury athleisure.</span>
+                  <span>Consciously made luxury athleisure.</span>
                   <span>Worn around the world with intent.</span>
-                  <span>Every piece gives back.</span>
+                  <span>Every piece does more than dress you.</span>
                 </div>
               </div>
             </div>
@@ -3024,7 +3024,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
 
             {/* Custom Amount Wrapper */}
             <div className="gc-custom-amount-wrapper">
-              <span className="gc-custom-amount-symbol">$</span>
+              <span className="gc-custom-amount-symbol">AED</span>
               <input
                 className="gc-custom-amount-input"
                 type="number"
