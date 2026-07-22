@@ -994,8 +994,8 @@ img { display: block; max-width: 100%; }
   margin-bottom: 28px;
 }
 .footer-monkey-logo {
-  width: auto;
-  height: 110px;
+  width: 68px;
+  height: 68px;
   object-fit: contain;
   flex-shrink: 0;
   margin-top: 2px;
@@ -3520,6 +3520,7 @@ img { display: block; max-width: 100%; }
   font-size: 15px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
+  text-align: left;
   color: var(--accent);
   margin-bottom: 14px;
   line-height: 1.4;
@@ -3528,7 +3529,7 @@ img { display: block; max-width: 100%; }
 .pillar-body {
   font-family: var(--sans), 'Montserrat', sans-serif;
   font-size: 15px;
-  font-style: normal;
+  font-style: italic;
   color: #7A6555;
   line-height: 1.75;
   margin: 0;
@@ -5245,6 +5246,8 @@ img { display: block; max-width: 100%; }
   flex-direction: column;
   align-items: center;
   gap: 24px;
+  position: sticky;
+  top: 80px;
 }
 
 .gc-placeholder {
@@ -5349,9 +5352,9 @@ img { display: block; max-width: 100%; }
 .gc-amount-btn {
   background: #FAF7F2;
   border: 1px solid rgba(184, 137, 46, 0.15);
-  padding: clamp(20px, 2.5vw, 28px) 8px;
+  padding: 10px 8px;
   font-family: var(--display);
-  font-size: clamp(18px, 2vw, 24px);
+  font-size: 17px;
   font-weight: 300;
   color: var(--ink);
   cursor: pointer;
@@ -5360,6 +5363,10 @@ img { display: block; max-width: 100%; }
   letter-spacing: -0.01em;
 }
 
+.gc-amount-btn:focus,
+.gc-amount-btn:focus-visible {
+  outline: none;
+}
 .gc-amount-btn:hover {
   border-color: #B8892E;
   box-shadow: 0 8px 24px rgba(184, 137, 46, 0.1);

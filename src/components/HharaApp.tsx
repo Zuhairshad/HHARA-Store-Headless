@@ -2996,56 +2996,6 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
             For the woman who already has everything, and the one still becoming who she's meant to be. Redeemable across every HHARA collection, delivered straight to her inbox.
           </p>
 
-          {/* Info rows */}
-          <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 0, marginTop: 8 }}>
-            {[
-              {
-                icon: (
-                  <svg viewBox="0 0 48 48" fill="none" stroke="#B8892E" strokeWidth="1.5" width="44" height="44">
-                    <rect x="6" y="10" width="36" height="32" rx="2" />
-                    <line x1="6" y1="18" x2="42" y2="18" />
-                    <line x1="16" y1="6" x2="16" y2="14" />
-                    <line x1="32" y1="6" x2="32" y2="14" />
-                    <text x="24" y="34" textAnchor="middle" fontSize="13" fontFamily="sans-serif" stroke="none" fill="#B8892E" fontWeight="500">12</text>
-                  </svg>
-                ),
-                title: "12 Months Validity",
-                desc: "All eGift cards are valid for 12 months from the date of purchase.",
-              },
-              {
-                icon: (
-                  <svg viewBox="0 0 48 48" fill="none" stroke="#B8892E" strokeWidth="1.5" width="44" height="44">
-                    <rect x="4" y="14" width="26" height="20" rx="2" />
-                    <rect x="18" y="8" width="26" height="20" rx="2" />
-                    <line x1="22" y1="18" x2="38" y2="18" />
-                    <line x1="22" y1="22" x2="34" y2="22" />
-                  </svg>
-                ),
-                title: "Recipient will Receive the eGift Immediately",
-                desc: "All E-Gifts received immediately in the email inbox of the recipient.",
-              },
-              {
-                icon: (
-                  <svg viewBox="0 0 48 48" fill="none" stroke="#B8892E" strokeWidth="1.5" width="44" height="44">
-                    <rect x="6" y="14" width="28" height="20" rx="2" />
-                    <polyline points="6,20 20,28 34,20" />
-                    <line x1="28" y1="26" x2="40" y2="38" />
-                    <circle cx="40" cy="38" r="3" />
-                  </svg>
-                ),
-                title: "Select from Any HHARA Item",
-                desc: "Unlimited selection from any HHARA item within the online store.",
-              },
-            ].map((row, i) => (
-              <div key={i} style={{ display: "flex", gap: 20, alignItems: "flex-start", padding: "24px 0", borderTop: "1px solid rgba(42,31,20,0.1)" }}>
-                <div style={{ flexShrink: 0, color: "#B8892E" }}>{row.icon}</div>
-                <div>
-                  <p style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 500, color: "#2A1F14", margin: "0 0 6px", lineHeight: 1.3 }}>{row.title}</p>
-                  <p style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 300, color: "#7A6555", margin: 0, lineHeight: 1.7 }}>{row.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
 
         {/* Right Column: Form Info */}
@@ -3137,9 +3087,13 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
 
             {/* Personal Note */}
             <div className="gc-field">
-              <label>A Personal Note (Optional)</label>
+              <label style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                <span>A Personal Note (Optional)</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 10, fontWeight: 400, letterSpacing: "0.05em", color: "var(--ink-soft)", opacity: 0.7 }}>{note.length}/150</span>
+              </label>
               <textarea
                 rows={3}
+                maxLength={150}
                 placeholder="Write a few words for her..."
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
@@ -3154,25 +3108,27 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
               <span style={{ fontSize: 15, fontWeight: 500 }}>${total.toLocaleString()}.00</span>
             </div>
 
-            <button className="btn btn-primary btn-block" type="submit" disabled={activeAmount <= 0}>
-              Add to Bag
-              <span className="btn-arrow">
-                <Icon.Arrow />
-              </span>
-            </button>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <button className="btn btn-primary btn-block" type="submit" disabled={activeAmount <= 0}>
+                Add to Bag
+                <span className="btn-arrow">
+                  <Icon.Arrow />
+                </span>
+              </button>
 
-            {unavailable && (
-              <p style={{ fontSize: 13, color: "var(--ink-soft)", textAlign: "center", marginTop: 8 }}>
-                Gift cards are launching soon. In the meantime, email{" "}
-                <a href="mailto:hello@hhara.com" style={{ textDecoration: "underline" }}>
-                  hello@hhara.com
-                </a>{" "}
-                and we'll arrange one for you directly.
+              {unavailable && (
+                <p style={{ fontSize: 13, color: "var(--ink-soft)", textAlign: "center", margin: 0 }}>
+                  Gift cards are launching soon. In the meantime, email{" "}
+                  <a href="mailto:hello@hhara.com" style={{ textDecoration: "underline" }}>
+                    hello@hhara.com
+                  </a>{" "}
+                  and we'll arrange one for you directly.
+                </p>
+              )}
+              <p style={{ fontSize: 11, color: "var(--ink-soft)", textAlign: "center", opacity: 0.8, margin: 0 }}>
+                Delivered instantly by email · Valid for 12 months from the date of purchase · Redeemable on hhara.com
               </p>
-            )}
-            <p style={{ fontSize: 11, color: "var(--ink-soft)", textAlign: "center", opacity: 0.8, marginTop: 4 }}>
-              Delivered instantly by email · Valid for 12 months from the date of purchase · Redeemable on hhara.com
-            </p>
+            </div>
           </form>
         </div>
       </div>
@@ -3635,7 +3591,7 @@ function StoresPage({ setRoute }) {
             </div>
             <div className="stats-col-brand col-giving" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
               <span className="stats-num-brand" style={{ color: "#B8892E" }}>—</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>REVENUE DONATED</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>KIDS SUPPORTED</span>
             </div>
             <div className="stats-col-brand col-materials" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
               <span className="stats-num-brand" style={{ color: "#B8892E" }}>Per Unit</span>
@@ -3958,6 +3914,14 @@ function FAQPage({ setRoute }) {
         { q: "Who does HHARA give to?", a: "We give directly, with no intermediaries. HHARA identifies and supports local orphanages. Our giving partners will be updated over time as our community and impact grow." },
         { q: "How does the giving model work?", a: "A portion of every HHARA purchase goes directly toward our giving commitments. We are intentional about this, just as we are intentional about every other decision we make as a brand." },
         { q: "Where can I learn more about HHARA Impact?", a: "Visit the Impact page on hhara.com for updates on our current giving partners and impact." },
+      ],
+    },
+    {
+      heading: "Gift Card",
+      items: [
+        { q: "How long is the gift card valid?", a: "All HHARA gift cards are valid for 12 months from the date of purchase." },
+        { q: "When does the recipient receive the gift card?", a: "Gift cards are delivered instantly to the recipient's email inbox the moment the order is placed — no waiting, no delays." },
+        { q: "Can the gift card be used on any item?", a: "Yes. HHARA gift cards are redeemable across every piece in the collection. The recipient chooses what she needs, in her own time." },
       ],
     },
   ];
@@ -4846,7 +4810,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
       {!customer && (
         <button
           onClick={openSignupPopup}
-          className="fixed bottom-6 right-6 z-[99] bg-[#3A2416] text-[#F7F3ED] hover:bg-[#6B2F1A] p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center border border-[#F7F3ED]/10 group"
+          className="fixed bottom-6 right-6 z-[99] bg-[#B8892E] text-[#F7F3ED] hover:bg-[#9A721F] p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center border border-[#F7F3ED]/10 group"
           aria-label="Open signup invitation"
         >
           {/* Custom user/signup SVG */}
@@ -4861,7 +4825,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
             <circle cx="12" cy="7" r="4" />
           </svg>
           {/* Tooltip on hover */}
-          <span className="absolute right-14 bg-[#3A2416] text-[#F7F3ED] text-[10px] uppercase tracking-widest px-3 py-1.5 border border-[#F7F3ED]/10 shadow-lg rounded-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+          <span className="absolute right-14 bg-[#B8892E] text-[#F7F3ED] text-[10px] uppercase tracking-widest px-3 py-1.5 border border-[#F7F3ED]/10 shadow-lg rounded-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
             Become an Insider
           </span>
         </button>
