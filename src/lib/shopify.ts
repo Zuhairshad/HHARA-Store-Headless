@@ -337,6 +337,7 @@ export async function customerCreate(input: {
   password: string;
   firstName?: string;
   lastName?: string;
+  note?: string;
   acceptsMarketing?: boolean;
 }): Promise<{ customer?: { id: string; email: string }; errors: { message: string; field?: string[] }[] }> {
   const query = /* GraphQL */ `

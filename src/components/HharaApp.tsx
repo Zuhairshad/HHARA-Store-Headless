@@ -3395,7 +3395,10 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb7} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">The Dahlia Set</div></div>
+            <div className="caption">
+              <div>The Dahlia Set</div>
+              <div className="ttl">Grace, In Form</div>
+            </div>
             <div className="hotspot" style={{ top: "55%", left: "50%" }} onClick={() => openProduct("p3")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
@@ -3617,7 +3620,7 @@ function AccountPage({
 }) {
   const customer = useCustomer();
   const [tab, setTab] = useState("signin");
-  const [form, setForm] = useState({ email: "", password: "", firstName: "", lastName: "", acceptsMarketing: false });
+  const [form, setForm] = useState({ email: "", password: "", firstName: "", dob: "", acceptsMarketing: false });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -3635,7 +3638,7 @@ function AccountPage({
     setBusy(true); setError(null);
     const res = await serverSignUp({
       email: form.email, password: form.password,
-      firstName: form.firstName, lastName: form.lastName,
+      firstName: form.firstName, dob: form.dob,
       acceptsMarketing: form.acceptsMarketing,
     });
     setBusy(false);
@@ -3757,8 +3760,8 @@ function AccountPage({
               <input type="text" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} placeholder="First name" />
             </div>
             <div className="field">
-              <label>Last Name</label>
-              <input type="text" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} placeholder="Last name" />
+              <label>Date of Birth</label>
+              <input type="date" value={form.dob} onChange={(e) => setForm({ ...form, dob: e.target.value })} />
             </div>
             <div className="field">
               <label>Email</label>

@@ -39,9 +39,11 @@ export async function signUp(input: {
   password: string;
   firstName?: string;
   lastName?: string;
+  dob?: string;
   acceptsMarketing?: boolean;
 }): Promise<{ ok: boolean; error?: string; status?: "TAKEN" | "ACTIVATION_SENT" | "EXISTS" }> {
-  const created = await customerCreate(input);
+  const { dob, ...rest } = input;
+  const created = await customerCreate({ ...rest, ...(dob ? { note: `DOB: ${dob}` } : {}) });
   if (created.errors.length) {
     const errorMsg = created.errors[0].message;
     const isEmailTaken = errorMsg?.toLowerCase().includes("taken") || (created.errors[0] as any).code === "TAKEN";
