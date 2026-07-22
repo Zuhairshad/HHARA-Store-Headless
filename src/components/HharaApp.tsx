@@ -3523,8 +3523,8 @@ function StoresPage({ setRoute }) {
               { title: "Uniforms & Essentials", body: "The basic necessities that allow every child to attend school with dignity." },
               { title: "Long-Term Partnership", body: "Ongoing support, not one-time giving: a relationship that grows as HHARA grows." },
             ].map((p, idx) => (
-              <div key={idx} className="pillar-card" style={{ display: "flex", flexDirection: "column", height: "100%", justifyContent: "flex-start" }}>
-                <div style={{ minHeight: "56px", marginBottom: "14px" }}>
+              <div key={idx} className="pillar-card">
+                <div className="pillar-title-wrap">
                   <h3 className="pillar-title" style={{ marginTop: 0, marginBottom: 0 }}>{p.title}</h3>
                 </div>
                 <p className="pillar-body" style={{ margin: 0 }}>{p.body}</p>

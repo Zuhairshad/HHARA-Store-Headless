@@ -3520,12 +3520,17 @@ img { display: block; max-width: 100%; }
 }
 
 .pillar-card {
-  padding: clamp(36px, 5vh, 56px) 40px;
+  padding: clamp(32px, 4vh, 48px) 36px;
   background-color: #E8DFD2;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
+.pillar-title-wrap {
+  min-height: 56px;
+  margin-bottom: 14px;
+}
 
 .pillar-title {
   font-family: var(--sans), 'Montserrat', sans-serif;
@@ -3535,7 +3540,7 @@ img { display: block; max-width: 100%; }
   text-transform: uppercase;
   text-align: left;
   color: var(--accent);
-  margin-bottom: 14px;
+  margin-bottom: 0;
   line-height: 1.4;
 }
 
@@ -5647,8 +5652,11 @@ img { display: block; max-width: 100%; }
   .qty { height: 44px; }
   .qty button { width: 44px; }
 
-  /* Pillars — single column */
-  .pillars-grid { grid-template-columns: 1fr; }
+  /* Pillars — single column with compact mobile gaps */
+  .pillars-section { padding: 48px 20px; }
+  .pillars-grid { grid-template-columns: 1fr; gap: 14px; }
+  .pillar-card { padding: 22px 20px; }
+  .pillar-title-wrap { min-height: auto; margin-bottom: 8px; }
 
   /* Impact stats bar */
   .gives-back-stats-bar-brand { grid-template-columns: repeat(2, 1fr); gap: 24px; }
@@ -5699,8 +5707,12 @@ img { display: block; max-width: 100%; }
   .gives-back-hero { min-height: 420px; }
 
   /* Pillars */
-  .pillar-card { padding: 24px 20px; }
-  .pillar-body { font-size: 18px; }
+  .pillars-section { padding: 36px 16px; }
+  .pillars-grid { gap: 12px; }
+  .pillar-card { padding: 20px 18px; }
+  .pillar-title-wrap { min-height: auto; margin-bottom: 8px; }
+  .pillar-title { font-size: 13.5px; letter-spacing: 0.18em; }
+  .pillar-body { font-size: 16px; line-height: 1.5; }
 
   /* Announce bar */
   .announce-track span:nth-child(2),
