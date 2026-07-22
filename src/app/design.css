@@ -986,7 +986,7 @@ img { display: block; max-width: 100%; }
 }
 .footer-top {
   display: grid;
-  grid-template-columns: 2.6fr 3fr;
+  grid-template-columns: 1.6fr 3fr;
   gap: 24px;
   padding-bottom: 48px;
   border-bottom: 1px solid rgba(184, 137, 46, 0.2);
