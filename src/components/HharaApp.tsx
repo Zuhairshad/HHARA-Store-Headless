@@ -1137,7 +1137,7 @@ function Categories({ onPick }) {
 
 function FeaturedGrid({ setRoute }: { setRoute: (route: string, payload?: any) => void }) {
   return (
-    <section className="manifesto-colourways" style={{ paddingTop: "30px" }}>
+    <section className="manifesto-colourways" style={{ paddingTop: "20px" }}>
       <span className="eyebrow" style={{ color: "#B8892E", display: "block", textAlign: "center", marginBottom: 16 }}>THE PALETTE</span>
       <h2 className="mc-headline" style={{ marginBottom: 12 }}>
         Timeless<br />
@@ -1269,7 +1269,7 @@ function Lookbook({ openLookbook }) {
   const tones = ["tone-3", "tone-1", "tone-5", "tone-7", "tone-2", "tone-6"];
   const tags = ["Imara Bra", "Imara Legging", "Dahlia Bra", "Dahlia Short", "Chicory Coffee", "Olive Green"];
   return (
-    <section className="section" style={{ paddingTop: "30px" }}>
+    <section className="section" style={{ paddingTop: "10px" }}>
       <div className="section-head">
         <div className="section-head-stack">
           <span className="eyebrow">The Capsule</span>
@@ -1378,7 +1378,7 @@ function ManifestoColourways({ ids, openProduct }: { ids: string[]; openProduct:
   const PRODUCTS = useProducts();
   const list = ids.map((id) => PRODUCTS.find((p) => p.id === id)).filter(Boolean);
   return (
-    <section className="manifesto-colourways" style={{ paddingTop: "30px" }}>
+    <section className="manifesto-colourways">
       <span className="eyebrow" style={{ color: "#B8892E", display: "block", textAlign: "center", marginBottom: 16 }}>THE COLLECTION</span>
       <h2 className="mc-headline">
         Unapologetically<br />

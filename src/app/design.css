@@ -2319,7 +2319,7 @@ img { display: block; max-width: 100%; }
 }
 
 .atelier-intro {
-  padding: clamp(72px, 9vw, 120px) var(--pad);
+  padding: 60px var(--pad) 30px;
   max-width: 980px;
   margin: 0 auto;
   text-align: center;
