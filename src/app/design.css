@@ -3545,10 +3545,10 @@ img { display: block; max-width: 100%; }
 
 .pillar-body {
   font-family: var(--display), 'Cormorant Garamond', serif;
-  font-size: 18px;
+  font-size: 30px;
   font-style: italic;
   color: #7A6555;
-  line-height: 1.5;
+  line-height: 1.35;
   margin: 0;
 }
 
@@ -5590,7 +5590,7 @@ img { display: block; max-width: 100%; }
   .section-title { font-size: clamp(56px, 3.5vw, 80px); }
   .gives-back-headline { font-size: clamp(56px, 3.5vw, 80px); }
   .pillar-title { font-size: 15px; }
-  .pillar-body { font-size: 18px; }
+  .pillar-body { font-size: 32px; }
   .pcard-name { font-size: 15px; }
   .pcard-price { font-size: 15px; }
   .pdp-info h1 { font-size: clamp(52px, 3.2vw, 72px); }
@@ -5738,7 +5738,7 @@ img { display: block; max-width: 100%; }
   .pillar-card { padding: 20px 18px; }
   .pillar-title-wrap { min-height: auto; margin-bottom: 8px; }
   .pillar-title { font-size: 13.5px; letter-spacing: 0.18em; }
-  .pillar-body { font-size: 16px; line-height: 1.5; }
+  .pillar-body { font-size: 22px; line-height: 1.35; }
 
   /* Announce bar */
   .announce-track span:nth-child(2),

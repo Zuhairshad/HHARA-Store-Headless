@@ -4677,7 +4677,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
             <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(42,31,20,0.7) 0%, transparent 45%)" }} />
 
             {/* Brand block — absolute, sits left of the form with breathing room */}
-            <div className="absolute z-[3] pointer-events-none" style={{ left: "31%", top: "50%", transform: "translate(-50%, -50%)" }}>
+            <div className="absolute z-[3] pointer-events-none" style={{ left: "31%", top: "50%", transform: "translate(-50%, -50%)", display: "flex", flexDirection: "column", alignItems: "center" }}>
               <img
                 src="/images/hhara-logo.png"
                 alt="HHARA"
@@ -4689,8 +4689,8 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                 color: "#F7F3ED",
                 lineHeight: 0.75,
                 letterSpacing: "normal",
-                marginLeft: "24px",
-                marginTop: "-0.08em",
+                marginLeft: "0px",
+                marginTop: "4px",
                 marginBottom: "0.25em",
                 textTransform: "none",
                 WebkitTextStroke: "1.5px #F7F3ED",
