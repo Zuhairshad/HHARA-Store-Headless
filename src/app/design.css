@@ -3520,7 +3520,7 @@ img { display: block; max-width: 100%; }
 }
 
 .pillar-card {
-  padding: clamp(32px, 4vh, 48px) 36px;
+  padding: clamp(28px, 3.5vh, 40px) 28px;
   background-color: #E8DFD2;
   display: flex;
   flex-direction: column;
@@ -3528,20 +3528,19 @@ img { display: block; max-width: 100%; }
 }
 
 .pillar-title-wrap {
-  min-height: 56px;
   margin-bottom: 14px;
 }
 
 .pillar-title {
   font-family: var(--sans), 'Montserrat', sans-serif;
   font-weight: 500;
-  font-size: 15px;
-  letter-spacing: 0.22em;
+  font-size: 14px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   text-align: left;
   color: var(--accent);
   margin-bottom: 0;
-  line-height: 1.4;
+  line-height: 1.35;
 }
 
 .pillar-body {

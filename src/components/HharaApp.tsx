@@ -4677,7 +4677,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
             <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(42,31,20,0.7) 0%, transparent 45%)" }} />
 
             {/* Brand block — absolute, sits left of the form with breathing room */}
-            <div className="absolute z-[3] pointer-events-none" style={{ right: "460px", top: "50%", transform: "translateY(-50%)" }}>
+            <div className="absolute z-[3] pointer-events-none" style={{ left: "31%", top: "50%", transform: "translate(-50%, -50%)" }}>
               <img
                 src="/images/hhara-logo.png"
                 alt="HHARA"
@@ -4686,23 +4686,23 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
               <div style={{
                 fontFamily: "var(--font-signature), 'Mr De Haviland', cursive",
                 fontSize: "clamp(62px, 7vw, 96px)",
-                color: "#F5F5DC",
+                color: "#F7F3ED",
                 lineHeight: 0.75,
                 letterSpacing: "normal",
-                marginLeft: "8px",
+                marginLeft: "24px",
                 marginTop: "-0.08em",
                 marginBottom: "0.25em",
                 textTransform: "none",
-                WebkitTextStroke: "1.5px #F5F5DC",
-                textShadow: "0 0 2px rgba(245,245,220,0.9), 0 0 4px rgba(245,245,220,0.5)",
+                WebkitTextStroke: "1.5px #F7F3ED",
+                textShadow: "0 0 2px rgba(247,243,237,0.9), 0 0 4px rgba(247,243,237,0.5)",
               }}>Insiders</div>
               <div style={{
                 fontFamily: "var(--display)",
                 fontStyle: "italic",
                 fontWeight: 300,
-                fontSize: "clamp(20px, 2.1vw, 26px)",
+                fontSize: "clamp(23px, 2.1vw, 29px)",
                 color: "rgba(247,243,237,0.85)",
-                marginTop: "2px",
+                marginTop: "-6px",
                 letterSpacing: "0.02em",
                 lineHeight: 1.5,
               }}>Where Confidence Comes To Life.</div>
