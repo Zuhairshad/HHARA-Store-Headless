@@ -1137,7 +1137,7 @@ function Categories({ onPick }) {
 
 function FeaturedGrid({ setRoute }: { setRoute: (route: string, payload?: any) => void }) {
   return (
-    <section className="manifesto-colourways" style={{ paddingTop: "24px", paddingBottom: "60px" }}>
+    <section className="manifesto-colourways">
       <span className="eyebrow" style={{ color: "#B8892E", display: "block", textAlign: "center", marginBottom: 16 }}>THE PALETTE</span>
       <h2 className="mc-headline" style={{ marginBottom: 12 }}>
         Timeless<br />
@@ -1704,7 +1704,7 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRout
           <p style={{ fontFamily: "var(--display)", fontSize: "20px", fontStyle: "italic", color: "var(--accent)", margin: 0 }}>
             Unapologetically You.
           </p>
-          <p style={{ fontWeight: 500, color: "var(--ink)" }}>
+          <p style={{ fontWeight: 400, color: "var(--ink)" }}>
             Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.{" "}
             {!descExpanded && (
               <button onClick={() => setDescExpanded(true)} style={{ fontFamily: "var(--sans)", fontSize: "14px", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
@@ -3106,7 +3106,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
             
             <div className="gc-summary-row">
               <span style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--ink)" }}>Gift card value</span>
-              <span style={{ fontSize: 15, fontWeight: 500 }}>${total.toLocaleString()}.00</span>
+              <span style={{ fontSize: 15, fontWeight: 500 }}>AED {total.toLocaleString()}</span>
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -4664,7 +4664,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     <>
       {signupPopupOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#3A2416]/60 backdrop-blur-sm transition-opacity duration-500 animate-fade-in">
-          <div className="signup-popup-inner relative text-[#F7F3ED] max-w-6xl w-full shadow-2xl overflow-hidden h-[540px] md:h-[540px]">
+          <div className="signup-popup-inner relative text-[#F7F3ED] max-w-5xl w-full shadow-2xl overflow-hidden h-[540px] md:h-[540px]">
             {/* Full-bleed image */}
             <img
               src={IMGS.p1a}
@@ -4700,9 +4700,9 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                 fontFamily: "var(--display)",
                 fontStyle: "italic",
                 fontWeight: 300,
-                fontSize: "clamp(16px, 1.6vw, 21px)",
+                fontSize: "clamp(20px, 2.1vw, 26px)",
                 color: "rgba(247,243,237,0.85)",
-                marginTop: "8px",
+                marginTop: "2px",
                 letterSpacing: "0.02em",
                 lineHeight: 1.5,
               }}>Where Confidence Comes To Life.</div>
@@ -4721,7 +4721,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
             <div className="relative z-[2] h-full flex flex-col justify-center items-end py-8 pl-6 pr-12 md:pr-16">
               {signupStatus !== "success" ? (
                 <div className="w-full max-w-[300px] text-center">
-                  <p className="text-xs md:text-sm text-[#F7F3ED]/80 mb-5 leading-relaxed font-light text-center">
+                  <p className="text-xs text-[#F7F3ED]/80 mb-5 leading-relaxed font-light text-center">
                     Be the first to discover new collections, limited releases, surprise gifts and exclusive stories from the world of HHARA.
                   </p>
                   <form onSubmit={handleNewsletterSignup} className="w-full">

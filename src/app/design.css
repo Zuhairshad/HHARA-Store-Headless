@@ -1441,7 +1441,7 @@ img { display: block; max-width: 100%; }
 
 /* ====== Collection page ====== */
 .cph {
-  padding: 56px var(--pad) 32px;
+  padding: 80px var(--pad) 48px;
   max-width: var(--maxw);
   margin: 0 auto;
   width: 100%;
@@ -1473,7 +1473,7 @@ img { display: block; max-width: 100%; }
 .ctoolbar {
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 0 var(--pad) 28px;
+  padding: 0 var(--pad) 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1497,7 +1497,7 @@ img { display: block; max-width: 100%; }
   gap: 56px;
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 40px var(--pad) 96px;
+  padding: 48px var(--pad) 80px;
 }
 .cfilters { display: flex; flex-direction: column; gap: 36px; }
 .cfilter h5 {
@@ -4668,7 +4668,7 @@ img { display: block; max-width: 100%; }
 /* ====== Merged Manifesto + Colourways ====== */
 .manifesto-colourways {
   background: var(--bg);
-  padding: clamp(24px, 3vh, 40px) clamp(24px, 5vw, 80px);
+  padding: clamp(64px, 9vh, 110px) clamp(24px, 5vw, 80px) clamp(32px, 4vh, 48px);
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -4685,7 +4685,7 @@ img { display: block; max-width: 100%; }
 }
 .mc-lead {
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--ink);
   margin-bottom: 14px;
 }
