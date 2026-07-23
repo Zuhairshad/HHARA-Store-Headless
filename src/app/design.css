@@ -4686,7 +4686,7 @@ img { display: block; max-width: 100%; }
 .mc-lead {
   font-size: 15px;
   font-weight: 400;
-  color: var(--ink);
+  color: var(--ink-soft);
   margin-bottom: 14px;
 }
 .mc-body {

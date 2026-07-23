@@ -1704,7 +1704,7 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRout
           <p style={{ fontFamily: "var(--display)", fontSize: "20px", fontStyle: "italic", color: "var(--accent)", margin: 0 }}>
             Unapologetically You.
           </p>
-          <p style={{ fontWeight: 400, color: "var(--ink)" }}>
+          <p style={{ fontWeight: 400, color: "var(--ink-soft)" }}>
             Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.{" "}
             {!descExpanded && (
               <button onClick={() => setDescExpanded(true)} style={{ fontFamily: "var(--sans)", fontSize: "14px", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
@@ -4685,16 +4685,16 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
               />
               <div style={{
                 fontFamily: "var(--font-signature), 'Mr De Haviland', cursive",
-                fontSize: "clamp(76px, 8.5vw, 115px)",
-                color: "#E8D8C8",
+                fontSize: "clamp(62px, 7vw, 96px)",
+                color: "#F5F5DC",
                 lineHeight: 0.75,
                 letterSpacing: "normal",
                 marginLeft: "8px",
                 marginTop: "-0.08em",
                 marginBottom: "0.25em",
                 textTransform: "none",
-                WebkitTextStroke: "1.5px #E8D8C8",
-                textShadow: "0 0 2px rgba(232,216,200,0.9), 0 0 4px rgba(232,216,200,0.5)",
+                WebkitTextStroke: "1.5px #F5F5DC",
+                textShadow: "0 0 2px rgba(245,245,220,0.9), 0 0 4px rgba(245,245,220,0.5)",
               }}>Insiders</div>
               <div style={{
                 fontFamily: "var(--display)",
@@ -4721,7 +4721,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
             <div className="relative z-[2] h-full flex flex-col justify-center items-end py-8 pl-6 pr-12 md:pr-16">
               {signupStatus !== "success" ? (
                 <div className="w-full max-w-[300px] text-center">
-                  <p className="text-xs text-[#F7F3ED]/80 mb-5 leading-relaxed font-light text-center">
+                  <p className="text-xs md:text-sm text-[#F7F3ED]/80 mb-5 leading-relaxed font-light text-center">
                     Be the first to discover new collections, limited releases, surprise gifts and exclusive stories from the world of HHARA.
                   </p>
                   <form onSubmit={handleNewsletterSignup} className="w-full">
