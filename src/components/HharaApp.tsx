@@ -4204,12 +4204,21 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
           {category === "bra" && "Bra"}
         </h3>
 
-        <div className="sg-unit-switcher">
-          <button className={`sg-unit-btn ${unit === "cm" ? "active" : ""}`} onClick={() => setUnit("cm")}>
+        <div className="sg-unit-switcher-creative" role="radiogroup" aria-label="Unit system switcher">
+          <div className={`sg-unit-slider-pill pos-${unit}`} />
+          <button
+            className={`sg-unit-creative-btn ${unit === "cm" ? "active" : ""}`}
+            onClick={() => setUnit("cm")}
+          >
+            <span className="sg-unit-dot" />
             CM
           </button>
-          <button className={`sg-unit-btn ${unit === "in" ? "active" : ""}`} onClick={() => setUnit("in")}>
-            IN
+          <button
+            className={`sg-unit-creative-btn ${unit === "in" ? "active" : ""}`}
+            onClick={() => setUnit("in")}
+          >
+            <span className="sg-unit-dot" />
+            INCHES
           </button>
         </div>
       </div>
