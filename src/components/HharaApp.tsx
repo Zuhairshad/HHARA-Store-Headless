@@ -4132,13 +4132,13 @@ function ReturnsPage({ setRoute }) {
 }
 
 function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) => void }) {
-  const [category, setCategory] = useState<"leggings" | "shorts" | "tops">("leggings");
+  const [category, setCategory] = useState<"leggings" | "shorts" | "bra">("leggings");
   const [unit, setUnit] = useState<"cm" | "in">("cm");
 
   const categories = [
     { id: "leggings", label: "Ultimate Leggings" },
     { id: "shorts", label: "Shorts" },
-    { id: "tops", label: "Tops" },
+    { id: "bra", label: "Bra" },
   ];
 
   // Ultimate Leggings Data (Regular Fit — Inseam: 66cm / 26")
@@ -4165,8 +4165,8 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
     { size: "XXXL",uk: "18", eu: "46", us: "14", waistCm: "88-92 cm", waistIn: '35.4-37.0"', hipCm: "118-122 cm", hipIn: '46.5-48.0"', insCm: "14 cm", insIn: '5.5"' },
   ];
 
-  // Tops Data (XXS - XXXL)
-  const topsRows = [
+  // Bra Data (XXS - XXXL)
+  const braRows = [
     { size: "XXS", uk: "4", eu: "32", us: "0", chestCm: "72-76 cm", chestIn: '28.3-29.9"' },
     { size: "XS",  uk: "6", eu: "34", us: "2", chestCm: "77-81 cm", chestIn: '30.3-31.9"' },
     { size: "S",   uk: "8", eu: "36", us: "4", chestCm: "82-86 cm", chestIn: '32.3-33.9"' },
@@ -4201,7 +4201,7 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
         <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, letterSpacing: "0.02em", color: "var(--ink)", margin: 0 }}>
           {category === "leggings" && "Ultimate Leggings"}
           {category === "shorts" && "Shorts"}
-          {category === "tops" && "Tops"}
+          {category === "bra" && "Bra"}
         </h3>
 
         <div className="sg-unit-switcher">
@@ -4226,7 +4226,7 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
                 <th>US</th>
                 <th>WAIST</th>
                 <th>HIP</th>
-                <th>INS</th>
+                <th>INSEAM</th>
               </tr>
             </thead>
             <tbody>
@@ -4255,7 +4255,7 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
                 <th>US</th>
                 <th>WAIST</th>
                 <th>HIP</th>
-                <th>INS</th>
+                <th>INSEAM</th>
               </tr>
             </thead>
             <tbody>
@@ -4274,7 +4274,7 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
           </table>
         )}
 
-        {category === "tops" && (
+        {category === "bra" && (
           <table className="sg-table">
             <thead>
               <tr>
@@ -4286,7 +4286,7 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
               </tr>
             </thead>
             <tbody>
-              {topsRows.map((r) => (
+              {braRows.map((r) => (
                 <tr key={r.size}>
                   <td><strong>{r.size}</strong></td>
                   <td>{r.uk}</td>
@@ -4327,9 +4327,9 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
           </div>
           <div className="sg-measure-visual-card">
             <div className="sg-measure-img-wrap">
-              <img src="/images/measure-inside-leg.png" alt="How to measure Inside Leg" />
+              <img src="/images/measure-inside-leg.png" alt="How to measure Inseam" />
             </div>
-            <h4>Inside Leg</h4>
+            <h4>Inseam</h4>
             <p>Measure from top of the inside leg at crotch to ankle bone</p>
           </div>
         </div>
