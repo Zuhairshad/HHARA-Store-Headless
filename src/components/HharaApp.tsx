@@ -2601,40 +2601,64 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
       {sizeGuideOpen && (
         <>
           <div className="cart-backdrop open" onClick={() => setSizeGuideOpen(false)} style={{ zIndex: 1000 }}></div>
-          <aside className="cart-drawer open" style={{ zIndex: 1001, padding: "24px 32px", width: "100%", maxWidth: "480px" }}>
-            <div className="cart-head" style={{ marginBottom: 32 }}>
+          <aside className="cart-drawer open" style={{ zIndex: 1001, padding: "24px 32px", width: "100%", maxWidth: "500px", overflowY: "auto" }}>
+            <div className="cart-head" style={{ marginBottom: 20 }}>
               <h3>Size Guide</h3>
               <button onClick={() => setSizeGuideOpen(false)}><Icon.Close /></button>
             </div>
 
-            <p style={{ fontSize: 14, opacity: 0.7, lineHeight: 1.6, marginBottom: 24 }}>
-              Our capsule is engineered for second-skin compression. If you prefer a less restrictive fit, we recommend sizing up.
+            <p style={{ fontSize: 13, opacity: 0.8, lineHeight: 1.6, marginBottom: 20 }}>
+              Engineered for true-to-size compression with adaptive 4-way stretch. If you prefer a less restrictive fit, we recommend sizing up.
             </p>
 
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, textAlign: "left", marginBottom: 32 }}>
-              <thead>
-                <tr style={{ borderBottom: "1px solid var(--line-soft)", textTransform: "uppercase", fontSize: 11, letterSpacing: "0.1em" }}>
-                  <th style={{ padding: "8px 0" }}>Size</th>
-                  <th>Chest (cm)</th>
-                  <th>Waist (cm)</th>
-                  <th>Hips (cm)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style={{ borderBottom: "1px solid var(--line-soft)" }}><td style={{ padding: "12px 0" }}><strong>XS</strong> (0–2)</td><td>80–84</td><td>60–64</td><td>86–90</td></tr>
-                <tr style={{ borderBottom: "1px solid var(--line-soft)" }}><td style={{ padding: "12px 0" }}><strong>S</strong> (4–6)</td><td>85–89</td><td>65–69</td><td>91–95</td></tr>
-                <tr style={{ borderBottom: "1px solid var(--line-soft)" }}><td style={{ padding: "12px 0" }}><strong>M</strong> (8–10)</td><td>90–94</td><td>70–74</td><td>96–100</td></tr>
-                <tr style={{ borderBottom: "1px solid var(--line-soft)" }}><td style={{ padding: "12px 0" }}><strong>L</strong> (12–14)</td><td>95–99</td><td>75–79</td><td>101–105</td></tr>
-                <tr style={{ borderBottom: "1px solid var(--line-soft)" }}><td style={{ padding: "12px 0" }}><strong>XL</strong> (16)</td><td>100–104</td><td>80–84</td><td>106–110</td></tr>
-              </tbody>
-            </table>
+            <div className="sg-table-container" style={{ marginBottom: 24 }}>
+              <table className="sg-table" style={{ fontSize: 12 }}>
+                <thead>
+                  <tr>
+                    <th>SIZE</th>
+                    <th>UK</th>
+                    <th>EU</th>
+                    <th>US</th>
+                    <th>WAIST</th>
+                    <th>HIP</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { size: "XXS", uk: "4", eu: "32", us: "0", waist: "53-57 cm", hip: "83-87 cm" },
+                    { size: "XS",  uk: "6", eu: "34", us: "2", waist: "58-62 cm", hip: "88-92 cm" },
+                    { size: "S",   uk: "8", eu: "36", us: "4", waist: "63-67 cm", hip: "93-97 cm" },
+                    { size: "M",   uk: "10", eu: "38", us: "6", waist: "68-72 cm", hip: "98-102 cm" },
+                    { size: "L",   uk: "12", eu: "40", us: "8", waist: "73-77 cm", hip: "103-107 cm" },
+                    { size: "XL",  uk: "14", eu: "42", us: "10", waist: "78-82 cm", hip: "108-112 cm" },
+                    { size: "XXL", uk: "16", eu: "44", us: "12", waist: "83-87 cm", hip: "113-117 cm" },
+                    { size: "XXXL",uk: "18", eu: "46", us: "14", waist: "88-92 cm", hip: "118-122 cm" },
+                  ].map((r) => (
+                    <tr key={r.size}>
+                      <td><strong>{r.size}</strong></td>
+                      <td>{r.uk}</td>
+                      <td>{r.eu}</td>
+                      <td>{r.us}</td>
+                      <td>{r.waist}</td>
+                      <td>{r.hip}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-            <h4 style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.15em", marginBottom: 12 }}>How to measure</h4>
-            <ul style={{ paddingLeft: 0, listStyle: "none", fontSize: 13, lineHeight: 1.7, opacity: 0.8, display: "flex", flexDirection: "column", gap: 12 }}>
-              <li><strong>1. Chest:</strong> Measure around the fullest part of your chest, keeping the tape horizontal.</li>
-              <li><strong>2. Waist:</strong> Measure around the narrowest part of your waistline (typically where your body bends side to side).</li>
-              <li><strong>3. Hips:</strong> Measure around the fullest part of your hips, keeping your feet together.</li>
-            </ul>
+            <div style={{ paddingTop: 16, borderTop: "1px solid var(--line-soft)", textAlign: "center" }}>
+              <button
+                className="btn btn-outline"
+                style={{ width: "100%", padding: "14px 20px", textTransform: "uppercase", letterSpacing: "0.12em", fontSize: "11px" }}
+                onClick={() => {
+                  setSizeGuideOpen(false);
+                  setRoute("size-guide");
+                }}
+              >
+                View Full Size Guide &amp; Measurement Guide →
+              </button>
+            </div>
           </aside>
         </>
       )}
@@ -4276,40 +4300,37 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
         )}
       </div>
 
-      {/* Fit Advice Section */}
-      <div className="policy-section">
-        <h2 className="policy-section-heading">How to Choose Your Fit</h2>
-        <div className="sg-fit-cards">
-          <div className="sg-fit-card">
-            <h4>For a Sculpted, Compression Fit</h4>
-            <p>Select your true size or size down. Designed to hug the body, support movement, and feel like a second skin.</p>
+      {/* How to Measure Image Grid */}
+      <div className="policy-section" style={{ marginTop: 40 }}>
+        <h2 className="policy-section-heading" style={{ textAlign: "center", marginBottom: 28, fontSize: 22 }}>How to measure</h2>
+        <div className="sg-measure-visual-grid">
+          <div className="sg-measure-visual-card">
+            <div className="sg-measure-img-wrap">
+              <img src="/images/measure-chest.png" alt="How to measure Chest" />
+            </div>
+            <h4>Chest</h4>
+            <p>Measure around the fullest part</p>
           </div>
-          <div className="sg-fit-card">
-            <h4>For a Softer, Relaxed Feel</h4>
-            <p>Size up for extra breathing room and a relaxed lounge silhouette, ideal for off-duty layering.</p>
+          <div className="sg-measure-visual-card">
+            <div className="sg-measure-img-wrap">
+              <img src="/images/measure-waist.png" alt="How to measure Waist" />
+            </div>
+            <h4>Waist</h4>
+            <p>Measure around the natural waistline</p>
           </div>
-        </div>
-      </div>
-
-      {/* How to Measure Grid */}
-      <div className="policy-section">
-        <h2 className="policy-section-heading">How to Measure Your Body</h2>
-        <div className="sg-measure-grid">
-          <div className="sg-measure-card">
-            <h5>1. Bust</h5>
-            <p>Wrap the soft measuring tape around the fullest part of your chest with arms relaxed at your side.</p>
+          <div className="sg-measure-visual-card">
+            <div className="sg-measure-img-wrap">
+              <img src="/images/measure-hips.png" alt="How to measure Hips" />
+            </div>
+            <h4>Hips</h4>
+            <p>Feet together, measure around the fullest part</p>
           </div>
-          <div className="sg-measure-card">
-            <h5>2. Underbust</h5>
-            <p>Measure directly under your bust along the rib cage, keeping the tape straight and snug.</p>
-          </div>
-          <div className="sg-measure-card">
-            <h5>3. Waist</h5>
-            <p>Measure around the narrowest part of your natural waistline, usually just above the belly button.</p>
-          </div>
-          <div className="sg-measure-card">
-            <h5>4. Hips</h5>
-            <p>Stand with feet together and measure around the fullest part of your hips and seat.</p>
+          <div className="sg-measure-visual-card">
+            <div className="sg-measure-img-wrap">
+              <img src="/images/measure-inside-leg.png" alt="How to measure Inside Leg" />
+            </div>
+            <h4>Inside Leg</h4>
+            <p>Measure from top of the inside leg at crotch to ankle bone</p>
           </div>
         </div>
       </div>
