@@ -5932,6 +5932,8 @@ img { display: block; max-width: 100%; }
   .sg-fit-cards {
     grid-template-columns: 1fr;
   }
+}
+
 @media (max-width: 480px) {
   /* Mobile footer styling */
   .footer { padding: 48px 20px 88px; }
