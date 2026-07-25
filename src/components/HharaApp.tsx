@@ -841,6 +841,7 @@ function Footer({ setRoute, route = "" }) {
               <ul>
                 <li><a onClick={() => setRoute("faq")} style={{ cursor: "pointer" }}>FAQ</a></li>
                 <li><a onClick={() => setRoute("shipping")} style={{ cursor: "pointer" }}>Shipping &amp; Delivery</a></li>
+                <li><a href="/orders/track">Track Order</a></li>
                 <li><a onClick={() => setRoute("returns")} style={{ cursor: "pointer" }}>Returns &amp; Refunds</a></li>
                 <li><a onClick={() => setRoute("size-guide")} style={{ cursor: "pointer" }}>Size Guide</a></li>
                 <li><a onClick={() => setRoute("contact")} style={{ cursor: "pointer" }}>Contact</a></li>
@@ -4099,17 +4100,51 @@ function ReturnsPage({ setRoute }) {
 }
 
 function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) => void }) {
-  const [category, setCategory] = useState<"bras" | "leggings" | "sweats" | "conversion">("bras");
+  const [category, setCategory] = useState<"leggings" | "shorts" | "top" | "conversion">("leggings");
   const [unit, setUnit] = useState<"cm" | "in">("cm");
 
   const categories = [
-    { id: "bras", label: "Sports Bras & Tops" },
-    { id: "leggings", label: "Leggings & Shorts" },
-    { id: "sweats", label: "Sweats & Outerwear" },
+    { id: "leggings", label: "Ultimate Leggings (Regular)" },
+    { id: "shorts", label: "Shorts (Crop Short)" },
+    { id: "top", label: "The Top (Bras & Tops)" },
     { id: "conversion", label: "International Size Conversion" },
   ];
 
-  const brasData = {
+  const leggingsData = {
+    cm: [
+      { size: "XS", waist: "58 – 62", hip: "88 – 92", inseam: "66" },
+      { size: "S",  waist: "63 – 67", hip: "93 – 97", inseam: "66" },
+      { size: "M",  waist: "68 – 72", hip: "98 – 102", inseam: "66" },
+      { size: "L",  waist: "73 – 77", hip: "103 – 107", inseam: "66" },
+      { size: "XL", waist: "78 – 82", hip: "108 – 112", inseam: "66" },
+    ],
+    in: [
+      { size: "XS", waist: '22.8 – 24.4"', hip: '34.6 – 36.2"', inseam: '26.0"' },
+      { size: "S",  waist: '24.8 – 26.4"', hip: '36.6 – 38.2"', inseam: '26.0"' },
+      { size: "M",  waist: '26.8 – 28.3"', hip: '38.6 – 40.2"', inseam: '26.0"' },
+      { size: "L",  waist: '28.7 – 30.3"', hip: '40.6 – 42.1"', inseam: '26.0"' },
+      { size: "XL", waist: '30.7 – 32.3"', hip: '42.5 – 44.1"', inseam: '26.0"' },
+    ],
+  };
+
+  const shortsData = {
+    cm: [
+      { size: "XS", waist: "58 – 62", hip: "88 – 92", inseam: "14" },
+      { size: "S",  waist: "63 – 67", hip: "93 – 97", inseam: "14" },
+      { size: "M",  waist: "68 – 72", hip: "98 – 102", inseam: "14" },
+      { size: "L",  waist: "73 – 77", hip: "103 – 107", inseam: "14" },
+      { size: "XL", waist: "78 – 82", hip: "108 – 112", inseam: "14" },
+    ],
+    in: [
+      { size: "XS", waist: '22.8 – 24.4"', hip: '34.6 – 36.2"', inseam: '5.5"' },
+      { size: "S",  waist: '24.8 – 26.4"', hip: '36.6 – 38.2"', inseam: '5.5"' },
+      { size: "M",  waist: '26.8 – 28.3"', hip: '38.6 – 40.2"', inseam: '5.5"' },
+      { size: "L",  waist: '28.7 – 30.3"', hip: '40.6 – 42.1"', inseam: '5.5"' },
+      { size: "XL", waist: '30.7 – 32.3"', hip: '42.5 – 44.1"', inseam: '5.5"' },
+    ],
+  };
+
+  const topData = {
     cm: [
       { size: "XS", bust: "76 – 80", underbust: "62 – 66", length: "34" },
       { size: "S",  bust: "81 – 85", underbust: "67 – 71", length: "35" },
@@ -4126,40 +4161,6 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
     ],
   };
 
-  const leggingsData = {
-    cm: [
-      { size: "XS", waist: "60 – 64", hips: "84 – 88", inseam: "63" },
-      { size: "S",  waist: "65 – 69", hips: "89 – 93", inseam: "64" },
-      { size: "M",  waist: "70 – 74", hips: "94 – 98", inseam: "65" },
-      { size: "L",  waist: "75 – 79", hips: "99 – 103", inseam: "66" },
-      { size: "XL", waist: "80 – 84", hips: "104 – 108", inseam: "67" },
-    ],
-    in: [
-      { size: "XS", waist: '23.5 – 25"', hips: '33 – 34.5"', inseam: '24.8"' },
-      { size: "S",  waist: '25.5 – 27"', hips: '35 – 36.5"', inseam: '25.2"' },
-      { size: "M",  waist: '27.5 – 29"', hips: '37 – 38.5"', inseam: '25.6"' },
-      { size: "L",  waist: '29.5 – 31"', hips: '39 – 40.5"', inseam: '26.0"' },
-      { size: "XL", waist: '31.5 – 33"', hips: '41 – 42.5"', inseam: '26.4"' },
-    ],
-  };
-
-  const sweatsData = {
-    cm: [
-      { size: "XS", chest: "92 – 96", length: "60", sleeve: "56" },
-      { size: "S",  chest: "97 – 101", length: "62", sleeve: "57" },
-      { size: "M",  chest: "102 – 106", length: "64", sleeve: "58" },
-      { size: "L",  chest: "107 – 111", length: "66", sleeve: "59" },
-      { size: "XL", chest: "112 – 116", length: "68", sleeve: "60" },
-    ],
-    in: [
-      { size: "XS", chest: '36.2 – 37.8"', length: '23.6"', sleeve: '22.0"' },
-      { size: "S",  chest: '38.2 – 39.8"', length: '24.4"', sleeve: '22.4"' },
-      { size: "M",  chest: '40.2 – 41.7"', length: '25.2"', sleeve: '22.8"' },
-      { size: "L",  chest: '42.1 – 43.7"', length: '26.0"', sleeve: '23.2"' },
-      { size: "XL", chest: '44.1 – 45.7"', length: '26.8"', sleeve: '23.6"' },
-    ],
-  };
-
   const conversionData = [
     { size: "XS", uk: "UK 6", us: "US 2", eu: "EU 34", au: "AU 6", frit: "FR 34 / IT 38" },
     { size: "S",  uk: "UK 8", us: "US 4", eu: "EU 36", au: "AU 8", frit: "FR 36 / IT 40" },
@@ -4171,7 +4172,7 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
   return (
     <PolicyPage title="Size Guide" eyebrow="Customer Service" setRoute={setRoute}>
       <p className="policy-intro">
-        Our garments are tailored for true-to-size elegance with adaptive 4-way stretch. Select your preferred garment category and unit system below.
+        Our garments are tailored for true-to-size elegance with adaptive 4-way stretch. Select your product category and unit preference below.
       </p>
 
       {/* Category Tabs */}
@@ -4190,9 +4191,9 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
       {/* Controls Bar: Title & Unit Toggle */}
       <div className="sg-controls-bar">
         <h3 style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--ink)", margin: 0 }}>
-          {category === "bras" && `Sports Bras & Tops (${unit.toUpperCase()})`}
-          {category === "leggings" && `Leggings & Shorts (${unit.toUpperCase()})`}
-          {category === "sweats" && `Sweats & Outerwear (${unit.toUpperCase()})`}
+          {category === "leggings" && `Ultimate Leggings — Regular (${unit.toUpperCase()})`}
+          {category === "shorts" && `Shorts — Crop Short (${unit.toUpperCase()})`}
+          {category === "top" && `The Top — Bras & Tops (${unit.toUpperCase()})`}
           {category === "conversion" && "International Size Conversion Chart"}
         </h3>
 
@@ -4210,7 +4211,53 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
 
       {/* Size Tables */}
       <div className="sg-table-container">
-        {category === "bras" && (
+        {category === "leggings" && (
+          <table className="sg-table">
+            <thead>
+              <tr>
+                <th>HHARA Size</th>
+                <th>Waist ({unit})</th>
+                <th>Hip ({unit})</th>
+                <th>Inside Leg ({unit})</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leggingsData[unit].map((row) => (
+                <tr key={row.size}>
+                  <td><strong>{row.size}</strong></td>
+                  <td>{row.waist}</td>
+                  <td>{row.hip}</td>
+                  <td>{row.inseam}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        {category === "shorts" && (
+          <table className="sg-table">
+            <thead>
+              <tr>
+                <th>HHARA Size</th>
+                <th>Waist ({unit})</th>
+                <th>Hip ({unit})</th>
+                <th>Inside Leg ({unit})</th>
+              </tr>
+            </thead>
+            <tbody>
+              {shortsData[unit].map((row) => (
+                <tr key={row.size}>
+                  <td><strong>{row.size}</strong></td>
+                  <td>{row.waist}</td>
+                  <td>{row.hip}</td>
+                  <td>{row.inseam}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        {category === "top" && (
           <table className="sg-table">
             <thead>
               <tr>
@@ -4221,58 +4268,12 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
               </tr>
             </thead>
             <tbody>
-              {brasData[unit].map((row) => (
+              {topData[unit].map((row) => (
                 <tr key={row.size}>
                   <td><strong>{row.size}</strong></td>
                   <td>{row.bust}</td>
                   <td>{row.underbust}</td>
                   <td>{row.length}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-
-        {category === "leggings" && (
-          <table className="sg-table">
-            <thead>
-              <tr>
-                <th>HHARA Size</th>
-                <th>Waist ({unit})</th>
-                <th>Hips ({unit})</th>
-                <th>Inseam ({unit})</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leggingsData[unit].map((row) => (
-                <tr key={row.size}>
-                  <td><strong>{row.size}</strong></td>
-                  <td>{row.waist}</td>
-                  <td>{row.hips}</td>
-                  <td>{row.inseam}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-
-        {category === "sweats" && (
-          <table className="sg-table">
-            <thead>
-              <tr>
-                <th>HHARA Size</th>
-                <th>Chest ({unit})</th>
-                <th>Body Length ({unit})</th>
-                <th>Sleeve Length ({unit})</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sweatsData[unit].map((row) => (
-                <tr key={row.size}>
-                  <td><strong>{row.size}</strong></td>
-                  <td>{row.chest}</td>
-                  <td>{row.length}</td>
-                  <td>{row.sleeve}</td>
                 </tr>
               ))}
             </tbody>
