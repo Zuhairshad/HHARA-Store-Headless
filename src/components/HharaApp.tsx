@@ -4098,73 +4098,256 @@ function ReturnsPage({ setRoute }) {
   );
 }
 
-function SizeGuidePage({ setRoute }) {
-  const sizes = [
-    { size: "XS", uk: "UK 6", waist: "60–64", hips: "84–88", bust: "76–80" },
-    { size: "S",  uk: "UK 8", waist: "65–69", hips: "89–93", bust: "81–85" },
-    { size: "M",  uk: "UK 10", waist: "70–74", hips: "94–98", bust: "86–90" },
-    { size: "L",  uk: "UK 12", waist: "75–79", hips: "99–103", bust: "91–95" },
-    { size: "XL", uk: "UK 14", waist: "80–84", hips: "104–108", bust: "96–100" },
+function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) => void }) {
+  const [category, setCategory] = useState<"bras" | "leggings" | "sweats" | "conversion">("bras");
+  const [unit, setUnit] = useState<"cm" | "in">("cm");
+
+  const categories = [
+    { id: "bras", label: "Sports Bras & Tops" },
+    { id: "leggings", label: "Leggings & Shorts" },
+    { id: "sweats", label: "Sweats & Outerwear" },
+    { id: "conversion", label: "International Size Conversion" },
   ];
+
+  const brasData = {
+    cm: [
+      { size: "XS", bust: "76 – 80", underbust: "62 – 66", length: "34" },
+      { size: "S",  bust: "81 – 85", underbust: "67 – 71", length: "35" },
+      { size: "M",  bust: "86 – 90", underbust: "72 – 76", length: "36" },
+      { size: "L",  bust: "91 – 95", underbust: "77 – 81", length: "37" },
+      { size: "XL", bust: "96 – 100", underbust: "82 – 86", length: "38" },
+    ],
+    in: [
+      { size: "XS", bust: '30 – 31.5"', underbust: '24.5 – 26"', length: '13.4"' },
+      { size: "S",  bust: '32 – 33.5"', underbust: '26.5 – 28"', length: '13.8"' },
+      { size: "M",  bust: '34 – 35.5"', underbust: '28.5 – 30"', length: '14.2"' },
+      { size: "L",  bust: '36 – 37.5"', underbust: '30.5 – 32"', length: '14.6"' },
+      { size: "XL", bust: '38 – 39.5"', underbust: '32.5 – 34"', length: '15.0"' },
+    ],
+  };
+
+  const leggingsData = {
+    cm: [
+      { size: "XS", waist: "60 – 64", hips: "84 – 88", inseam: "63" },
+      { size: "S",  waist: "65 – 69", hips: "89 – 93", inseam: "64" },
+      { size: "M",  waist: "70 – 74", hips: "94 – 98", inseam: "65" },
+      { size: "L",  waist: "75 – 79", hips: "99 – 103", inseam: "66" },
+      { size: "XL", waist: "80 – 84", hips: "104 – 108", inseam: "67" },
+    ],
+    in: [
+      { size: "XS", waist: '23.5 – 25"', hips: '33 – 34.5"', inseam: '24.8"' },
+      { size: "S",  waist: '25.5 – 27"', hips: '35 – 36.5"', inseam: '25.2"' },
+      { size: "M",  waist: '27.5 – 29"', hips: '37 – 38.5"', inseam: '25.6"' },
+      { size: "L",  waist: '29.5 – 31"', hips: '39 – 40.5"', inseam: '26.0"' },
+      { size: "XL", waist: '31.5 – 33"', hips: '41 – 42.5"', inseam: '26.4"' },
+    ],
+  };
+
+  const sweatsData = {
+    cm: [
+      { size: "XS", chest: "92 – 96", length: "60", sleeve: "56" },
+      { size: "S",  chest: "97 – 101", length: "62", sleeve: "57" },
+      { size: "M",  chest: "102 – 106", length: "64", sleeve: "58" },
+      { size: "L",  chest: "107 – 111", length: "66", sleeve: "59" },
+      { size: "XL", chest: "112 – 116", length: "68", sleeve: "60" },
+    ],
+    in: [
+      { size: "XS", chest: '36.2 – 37.8"', length: '23.6"', sleeve: '22.0"' },
+      { size: "S",  chest: '38.2 – 39.8"', length: '24.4"', sleeve: '22.4"' },
+      { size: "M",  chest: '40.2 – 41.7"', length: '25.2"', sleeve: '22.8"' },
+      { size: "L",  chest: '42.1 – 43.7"', length: '26.0"', sleeve: '23.2"' },
+      { size: "XL", chest: '44.1 – 45.7"', length: '26.8"', sleeve: '23.6"' },
+    ],
+  };
+
+  const conversionData = [
+    { size: "XS", uk: "UK 6", us: "US 2", eu: "EU 34", au: "AU 6", frit: "FR 34 / IT 38" },
+    { size: "S",  uk: "UK 8", us: "US 4", eu: "EU 36", au: "AU 8", frit: "FR 36 / IT 40" },
+    { size: "M",  uk: "UK 10", us: "US 6", eu: "EU 38", au: "AU 10", frit: "FR 38 / IT 42" },
+    { size: "L",  uk: "UK 12", us: "US 8", eu: "EU 40", au: "AU 12", frit: "FR 40 / IT 44" },
+    { size: "XL", uk: "UK 14", us: "US 10", eu: "EU 42", au: "AU 14", frit: "FR 42 / IT 46" },
+  ];
+
   return (
     <PolicyPage title="Size Guide" eyebrow="Customer Service" setRoute={setRoute}>
-      <p className="policy-intro">Our sizing follows UK standards and is designed to fit true to size. All measurements are body measurements in centimetres, not garment measurements.</p>
+      <p className="policy-intro">
+        Our garments are tailored for true-to-size elegance with adaptive 4-way stretch. Select your preferred garment category and unit system below.
+      </p>
 
-      <div className="policy-section">
-        <h2 className="policy-section-heading">How to Measure</h2>
-        <img src="/images/how-to-measure.jpg" alt="How to Measure — front and side body measurement guide" style={{ width: "100%", display: "block", marginBottom: "24px" }} />
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "24px" }}>
-          {[
-            { label: "Bust", desc: "Wrap the tape around the fullest part of the bust." },
-            { label: "Underbust", desc: "Keeping your arms to the side and standing straight, wrap the tape directly under the bust." },
-            { label: "Waist", desc: "Tape should be applied to the narrowest portion of the waist." },
-            { label: "Hips", desc: "Apply the tape to the hip's fullest part while keeping your feet together." },
-            { label: "Inseam", desc: "Measure from the crotch seam down to the bottom of the ankle bone, keeping the tape straight along the inner leg." },
-          ].map(({ label, desc }) => (
-            <div key={label} style={{ display: "flex", gap: "16px", fontFamily: "var(--sans)", fontSize: "16px", lineHeight: 1.8 }}>
-              <span style={{ fontWeight: 700, color: "var(--accent)", minWidth: "100px", flexShrink: 0 }}>{label}</span>
-              <span style={{ color: "var(--ink)" }}>{desc}</span>
-            </div>
-          ))}
-        </div>
+      {/* Category Tabs */}
+      <div className="sg-category-nav">
+        {categories.map((cat) => (
+          <button
+            key={cat.id}
+            className={`sg-tab-btn ${category === cat.id ? "active" : ""}`}
+            onClick={() => setCategory(cat.id as any)}
+          >
+            {cat.label}
+          </button>
+        ))}
       </div>
 
-      <div className="policy-section">
-        <h2 className="policy-section-heading">How to Choose Your Size</h2>
-        <p>Compare your measurements against the table below.</p>
-        <div className="size-guide-tips">
-          <div className="size-tip"><strong>For a sculpted, close-to-body fit</strong><span>Size down</span></div>
-          <div className="size-tip"><strong>For a softer, more relaxed feel</strong><span>Size up</span></div>
-        </div>
-        <p className="policy-note" style={{ marginTop: 16 }}>Our pieces are designed with a gentle sculpting effect in mind. Supportive without restriction.</p>
+      {/* Controls Bar: Title & Unit Toggle */}
+      <div className="sg-controls-bar">
+        <h3 style={{ fontFamily: "var(--sans)", fontSize: 13, fontWeight: 600, letterSpacing: "0.15em", textTransform: "uppercase", color: "var(--ink)", margin: 0 }}>
+          {category === "bras" && `Sports Bras & Tops (${unit.toUpperCase()})`}
+          {category === "leggings" && `Leggings & Shorts (${unit.toUpperCase()})`}
+          {category === "sweats" && `Sweats & Outerwear (${unit.toUpperCase()})`}
+          {category === "conversion" && "International Size Conversion Chart"}
+        </h3>
+
+        {category !== "conversion" && (
+          <div className="sg-unit-switcher">
+            <button className={`sg-unit-btn ${unit === "cm" ? "active" : ""}`} onClick={() => setUnit("cm")}>
+              CM
+            </button>
+            <button className={`sg-unit-btn ${unit === "in" ? "active" : ""}`} onClick={() => setUnit("in")}>
+              INCHES
+            </button>
+          </div>
+        )}
       </div>
 
-      <div className="policy-section">
-        <h2 className="policy-section-heading">Measurements (cm)</h2>
-        <div className="size-table-wrap">
-          <table className="size-table">
+      {/* Size Tables */}
+      <div className="sg-table-container">
+        {category === "bras" && (
+          <table className="sg-table">
             <thead>
               <tr>
-                <th>Size</th><th>UK</th><th>Waist</th><th>Hips</th><th>Bust</th>
+                <th>HHARA Size</th>
+                <th>Bust ({unit})</th>
+                <th>Underbust ({unit})</th>
+                <th>Back Length ({unit})</th>
               </tr>
             </thead>
             <tbody>
-              {sizes.map((r) => (
-                <tr key={r.size}>
-                  <td><strong>{r.size}</strong></td>
-                  <td>{r.uk}</td>
-                  <td>{r.waist}</td>
-                  <td>{r.hips}</td>
-                  <td>{r.bust}</td>
+              {brasData[unit].map((row) => (
+                <tr key={row.size}>
+                  <td><strong>{row.size}</strong></td>
+                  <td>{row.bust}</td>
+                  <td>{row.underbust}</td>
+                  <td>{row.length}</td>
                 </tr>
               ))}
             </tbody>
           </table>
+        )}
+
+        {category === "leggings" && (
+          <table className="sg-table">
+            <thead>
+              <tr>
+                <th>HHARA Size</th>
+                <th>Waist ({unit})</th>
+                <th>Hips ({unit})</th>
+                <th>Inseam ({unit})</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leggingsData[unit].map((row) => (
+                <tr key={row.size}>
+                  <td><strong>{row.size}</strong></td>
+                  <td>{row.waist}</td>
+                  <td>{row.hips}</td>
+                  <td>{row.inseam}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        {category === "sweats" && (
+          <table className="sg-table">
+            <thead>
+              <tr>
+                <th>HHARA Size</th>
+                <th>Chest ({unit})</th>
+                <th>Body Length ({unit})</th>
+                <th>Sleeve Length ({unit})</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sweatsData[unit].map((row) => (
+                <tr key={row.size}>
+                  <td><strong>{row.size}</strong></td>
+                  <td>{row.chest}</td>
+                  <td>{row.length}</td>
+                  <td>{row.sleeve}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        {category === "conversion" && (
+          <table className="sg-table">
+            <thead>
+              <tr>
+                <th>HHARA Size</th>
+                <th>UK Size</th>
+                <th>US Size</th>
+                <th>EU Size</th>
+                <th>AU Size</th>
+                <th>FR / IT Size</th>
+              </tr>
+            </thead>
+            <tbody>
+              {conversionData.map((row) => (
+                <tr key={row.size}>
+                  <td><strong>{row.size}</strong></td>
+                  <td>{row.uk}</td>
+                  <td>{row.us}</td>
+                  <td>{row.eu}</td>
+                  <td>{row.au}</td>
+                  <td>{row.frit}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+
+      {/* Fit Advice Section */}
+      <div className="policy-section">
+        <h2 className="policy-section-heading">How to Choose Your Fit</h2>
+        <div className="sg-fit-cards">
+          <div className="sg-fit-card">
+            <h4>For a Sculpted, Compression Fit</h4>
+            <p>Select your true size or size down. Designed to hug the body, support movement, and feel like a second skin.</p>
+          </div>
+          <div className="sg-fit-card">
+            <h4>For a Softer, Relaxed Feel</h4>
+            <p>Size up for extra breathing room and a relaxed lounge silhouette, ideal for off-duty layering.</p>
+          </div>
         </div>
       </div>
 
+      {/* How to Measure Grid */}
+      <div className="policy-section">
+        <h2 className="policy-section-heading">How to Measure Your Body</h2>
+        <div className="sg-measure-grid">
+          <div className="sg-measure-card">
+            <h5>1. Bust</h5>
+            <p>Wrap the soft measuring tape around the fullest part of your chest with arms relaxed at your side.</p>
+          </div>
+          <div className="sg-measure-card">
+            <h5>2. Underbust</h5>
+            <p>Measure directly under your bust along the rib cage, keeping the tape straight and snug.</p>
+          </div>
+          <div className="sg-measure-card">
+            <h5>3. Waist</h5>
+            <p>Measure around the narrowest part of your natural waistline, usually just above the belly button.</p>
+          </div>
+          <div className="sg-measure-card">
+            <h5>4. Hips</h5>
+            <p>Stand with feet together and measure around the fullest part of your hips and seat.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Contact Concierge */}
       <div className="policy-contact">
-        Not sure which size is right for you? <a href="mailto:hello@hhara.com">hello@hhara.com</a>
+        Need personalized sizing advice? <a href="mailto:hello@hhara.com">hello@hhara.com</a>
       </div>
     </PolicyPage>
   );
