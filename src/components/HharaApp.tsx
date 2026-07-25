@@ -4109,8 +4109,6 @@ function ReturnsPage({ setRoute }) {
 
 function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) => void }) {
   const [category, setCategory] = useState<"leggings" | "shorts" | "tops">("leggings");
-  const [leggingsSubtab, setLeggingsSubtab] = useState<"regular" | "7/8" | "tall" | "capri">("regular");
-  const [shortsSubtab, setShortsSubtab] = useState<"crop" | "ultracrop" | "bike">("crop");
   const [unit, setUnit] = useState<"cm" | "in">("cm");
 
   const categories = [
@@ -4119,43 +4117,28 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
     { id: "tops", label: "Tops" },
   ];
 
-  // Inseams for Leggings
-  const leggingsInseamMap = {
-    regular: { cm: "66 cm", in: '26.0"' },
-    "7/8": { cm: "61 cm", in: '24.0"' },
-    tall: { cm: "71 cm", in: '28.0"' },
-    capri: { cm: "51 cm", in: '20.0"' },
-  };
-
-  // Inseams for Shorts
-  const shortsInseamMap = {
-    crop: { cm: "14 cm", in: '5.5"' },
-    ultracrop: { cm: "10 cm", in: '4.0"' },
-    bike: { cm: "18 cm", in: '7.0"' },
-  };
-
-  // Ultimate Leggings Data (XXS - XXXL)
+  // Ultimate Leggings Data (Regular Fit — Inseam: 66cm / 26")
   const leggingsRows = [
-    { size: "XXS", uk: "4", eu: "32", us: "0", waistCm: "53-57 cm", waistIn: '20.9-22.4"', hipCm: "83-87 cm", hipIn: '32.7-34.3"' },
-    { size: "XS",  uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"' },
-    { size: "S",   uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"' },
-    { size: "M",   uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"' },
-    { size: "L",   uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"' },
-    { size: "XL",  uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"' },
-    { size: "XXL", uk: "16", eu: "44", us: "12", waistCm: "83-87 cm", waistIn: '33.5-35.0"', hipCm: "113-117 cm", hipIn: '44.5-46.1"' },
-    { size: "XXXL",uk: "18", eu: "46", us: "14", waistCm: "88-92 cm", waistIn: '35.4-37.0"', hipCm: "118-122 cm", hipIn: '46.5-48.0"' },
+    { size: "XXS", uk: "4", eu: "32", us: "0", waistCm: "53-57 cm", waistIn: '20.9-22.4"', hipCm: "83-87 cm", hipIn: '32.7-34.3"', insCm: "66 cm", insIn: '26.0"' },
+    { size: "XS",  uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"', insCm: "66 cm", insIn: '26.0"' },
+    { size: "S",   uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"', insCm: "66 cm", insIn: '26.0"' },
+    { size: "M",   uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"', insCm: "66 cm", insIn: '26.0"' },
+    { size: "L",   uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"', insCm: "66 cm", insIn: '26.0"' },
+    { size: "XL",  uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"', insCm: "66 cm", insIn: '26.0"' },
+    { size: "XXL", uk: "16", eu: "44", us: "12", waistCm: "83-87 cm", waistIn: '33.5-35.0"', hipCm: "113-117 cm", hipIn: '44.5-46.1"', insCm: "66 cm", insIn: '26.0"' },
+    { size: "XXXL",uk: "18", eu: "46", us: "14", waistCm: "88-92 cm", waistIn: '35.4-37.0"', hipCm: "118-122 cm", hipIn: '46.5-48.0"', insCm: "66 cm", insIn: '26.0"' },
   ];
 
-  // Shorts Data (XXS - XXXL)
+  // Shorts Data (Crop Short Fit — Inseam: 14cm / 5.5")
   const shortsRows = [
-    { size: "XXS", uk: "4", eu: "32", us: "0", waistCm: "53-57 cm", waistIn: '20.9-22.4"', hipCm: "83-87 cm", hipIn: '32.7-34.3"' },
-    { size: "XS",  uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"' },
-    { size: "S",   uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"' },
-    { size: "M",   uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"' },
-    { size: "L",   uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"' },
-    { size: "XL",  uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"' },
-    { size: "XXL", uk: "16", eu: "44", us: "12", waistCm: "83-87 cm", waistIn: '33.5-35.0"', hipCm: "113-117 cm", hipIn: '44.5-46.1"' },
-    { size: "XXXL",uk: "18", eu: "46", us: "14", waistCm: "88-92 cm", waistIn: '35.4-37.0"', hipCm: "118-122 cm", hipIn: '46.5-48.0"' },
+    { size: "XXS", uk: "4", eu: "32", us: "0", waistCm: "53-57 cm", waistIn: '20.9-22.4"', hipCm: "83-87 cm", hipIn: '32.7-34.3"', insCm: "14 cm", insIn: '5.5"' },
+    { size: "XS",  uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"', insCm: "14 cm", insIn: '5.5"' },
+    { size: "S",   uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"', insCm: "14 cm", insIn: '5.5"' },
+    { size: "M",   uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"', insCm: "14 cm", insIn: '5.5"' },
+    { size: "L",   uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"', insCm: "14 cm", insIn: '5.5"' },
+    { size: "XL",  uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"', insCm: "14 cm", insIn: '5.5"' },
+    { size: "XXL", uk: "16", eu: "44", us: "12", waistCm: "83-87 cm", waistIn: '33.5-35.0"', hipCm: "113-117 cm", hipIn: '44.5-46.1"', insCm: "14 cm", insIn: '5.5"' },
+    { size: "XXXL",uk: "18", eu: "46", us: "14", waistCm: "88-92 cm", waistIn: '35.4-37.0"', hipCm: "118-122 cm", hipIn: '46.5-48.0"', insCm: "14 cm", insIn: '5.5"' },
   ];
 
   // Tops Data (XXS - XXXL)
@@ -4207,39 +4190,7 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
         </div>
       </div>
 
-      {/* Leggings Subtabs */}
-      {category === "leggings" && (
-        <div className="sg-subtab-bar" style={{ display: "flex", gap: 8, marginBottom: 20 }}>
-          {(["regular", "7/8", "tall", "capri"] as const).map((sub) => (
-            <button
-              key={sub}
-              className={`sg-unit-btn ${leggingsSubtab === sub ? "active" : ""}`}
-              style={{ border: "1px solid var(--line-soft)", textTransform: "uppercase", padding: "8px 16px" }}
-              onClick={() => setLeggingsSubtab(sub)}
-            >
-              {sub === "regular" ? "Regular" : sub === "7/8" ? "7/8" : sub === "tall" ? "Tall" : "Capri"}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Shorts Subtabs */}
-      {category === "shorts" && (
-        <div className="sg-subtab-bar" style={{ display: "flex", gap: 8, marginBottom: 20 }}>
-          {(["crop", "ultracrop", "bike"] as const).map((sub) => (
-            <button
-              key={sub}
-              className={`sg-unit-btn ${shortsSubtab === sub ? "active" : ""}`}
-              style={{ border: "1px solid var(--line-soft)", textTransform: "uppercase", padding: "8px 16px" }}
-              onClick={() => setShortsSubtab(sub)}
-            >
-              {sub === "crop" ? "Crop Shorts" : sub === "ultracrop" ? "Ultra Crop Shorts" : "Bike Shorts"}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Size Tables matching Adanola Screenshots */}
+      {/* Size Tables */}
       <div className="sg-table-container">
         {category === "leggings" && (
           <table className="sg-table">
@@ -4263,7 +4214,7 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
                   <td>{r.us}</td>
                   <td>{unit === "cm" ? r.waistCm : r.waistIn}</td>
                   <td>{unit === "cm" ? r.hipCm : r.hipIn}</td>
-                  <td>{unit === "cm" ? leggingsInseamMap[leggingsSubtab].cm : leggingsInseamMap[leggingsSubtab].in}</td>
+                  <td>{unit === "cm" ? r.insCm : r.insIn}</td>
                 </tr>
               ))}
             </tbody>
@@ -4292,7 +4243,7 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
                   <td>{r.us}</td>
                   <td>{unit === "cm" ? r.waistCm : r.waistIn}</td>
                   <td>{unit === "cm" ? r.hipCm : r.hipIn}</td>
-                  <td>{unit === "cm" ? shortsInseamMap[shortsSubtab].cm : shortsInseamMap[shortsSubtab].in}</td>
+                  <td>{unit === "cm" ? r.insCm : r.insIn}</td>
                 </tr>
               ))}
             </tbody>
