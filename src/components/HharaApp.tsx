@@ -2798,7 +2798,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                     { img: "/images/measure-chest.png", label: "Chest", desc: "Measure around the fullest part." },
                     { img: "/images/measure-waist.png", label: "Waist", desc: "Measure around the natural waistline." },
                     { img: "/images/measure-hips.png", label: "Hips", desc: "Feet together, measure around the fullest part." },
-                    { img: "/images/measure-inside-leg.png", label: "Inseam", desc: "From the crotch seam down to the leg hem. Measure with no shoes on." },
+                    { img: "/images/measure-inside-leg.png?v=clean2", label: "Inseam", desc: "From the crotch seam down to the leg hem. Measure with no shoes on." },
                   ].map((m) => (
                     <div key={m.label} className="sg-measure-visual-card">
                       <div className="sg-measure-img-wrap">
@@ -4480,7 +4480,7 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
           </div>
           <div className="sg-measure-visual-card">
             <div className="sg-measure-img-wrap">
-              <img src="/images/measure-inside-leg.png" alt="How to measure Inseam" />
+              <img src="/images/measure-inside-leg.png?v=clean2" alt="How to measure Inseam" />
             </div>
             <h4>Inseam</h4>
             <p>From the crotch seam down to the leg hem. Measure with no shoes on.</p>
