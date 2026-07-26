@@ -1930,6 +1930,12 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const [added, setAdded] = useState(false);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [howToMeasureOpen, setHowToMeasureOpen] = useState(false);
+  const [sgUnit, setSgUnit] = useState<"cm" | "in">("cm");
+  const productCategory: "bra" | "shorts" | "leggings" = /bra/i.test(product?.name || "")
+    ? "bra"
+    : /short/i.test(product?.name || "")
+      ? "shorts"
+      : "leggings";
   const [adding, setAdding] = useState(false);
   const [sizePrompt, setSizePrompt] = useState(false);
   const [activeShot, setActiveShot] = useState(0);
@@ -2628,41 +2634,110 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
             </div>
 
             <p style={{ fontSize: 13, opacity: 0.8, lineHeight: 1.6, marginBottom: 20 }}>
-              Engineered for true-to-size compression with adaptive 4-way stretch. If you are between sizes and prefer a snug fit, we recommend sizing down.
+              {productCategory === "bra"
+                ? "Engineered for true-to-size adaptive support. If you are between sizes and prefer a snug fit, we recommend sizing down."
+                : "Engineered for true-to-size compression with adaptive 4-way stretch. If you are between sizes and prefer a snug fit, we recommend sizing down."}
             </p>
 
+            <div className="sg-controls-bar" style={{ marginBottom: 16 }}>
+              <h4 style={{ fontFamily: "var(--sans)", fontSize: 14, fontWeight: 700, letterSpacing: "0.04em", color: "var(--ink)", margin: 0, textTransform: "uppercase" }}>
+                {productCategory === "bra" ? "Bra" : productCategory === "shorts" ? "Shorts" : "Leggings"}
+              </h4>
+              <div className="sg-unit-switcher-creative" role="radiogroup" aria-label="Unit system switcher">
+                <div className={`sg-unit-slider-pill pos-${sgUnit}`} />
+                <button
+                  className={`sg-unit-creative-btn ${sgUnit === "cm" ? "active" : ""}`}
+                  onClick={() => setSgUnit("cm")}
+                >
+                  CM
+                </button>
+                <button
+                  className={`sg-unit-creative-btn ${sgUnit === "in" ? "active" : ""}`}
+                  onClick={() => setSgUnit("in")}
+                >
+                  INCHES
+                </button>
+              </div>
+            </div>
+
             <div className="sg-table-container" style={{ marginBottom: 24 }}>
-              <table className="sg-table" style={{ fontSize: 12 }}>
-                <thead>
-                  <tr>
-                    <th>SIZE</th>
-                    <th>UK</th>
-                    <th>EU</th>
-                    <th>US</th>
-                    <th>WAIST</th>
-                    <th>HIP</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    { size: "XS",  uk: "6", eu: "34", us: "2", waist: "58-62 cm", hip: "88-92 cm" },
-                    { size: "S",   uk: "8", eu: "36", us: "4", waist: "63-67 cm", hip: "93-97 cm" },
-                    { size: "M",   uk: "10", eu: "38", us: "6", waist: "68-72 cm", hip: "98-102 cm" },
-                    { size: "L",   uk: "12", eu: "40", us: "8", waist: "73-77 cm", hip: "103-107 cm" },
-                    { size: "XL",  uk: "14", eu: "42", us: "10", waist: "78-82 cm", hip: "108-112 cm" },
-                    { size: "XXL", uk: "16", eu: "44", us: "12", waist: "83-87 cm", hip: "113-117 cm" },
-                  ].map((r) => (
-                    <tr key={r.size}>
-                      <td><strong>{r.size}</strong></td>
-                      <td>{r.uk}</td>
-                      <td>{r.eu}</td>
-                      <td>{r.us}</td>
-                      <td>{r.waist}</td>
-                      <td>{r.hip}</td>
+              {productCategory === "bra" && (
+                <table className="sg-table" style={{ fontSize: 12 }}>
+                  <thead>
+                    <tr>
+                      <th>SIZE</th>
+                      <th>UK</th>
+                      <th>EU</th>
+                      <th>US</th>
+                      <th>CHEST</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {[
+                      { size: "XS",  uk: "6", eu: "34", us: "2", chestCm: "77-81 cm", chestIn: '30.3-31.9"' },
+                      { size: "S",   uk: "8", eu: "36", us: "4", chestCm: "82-86 cm", chestIn: '32.3-33.9"' },
+                      { size: "M",   uk: "10", eu: "38", us: "6", chestCm: "87-91 cm", chestIn: '34.3-35.8"' },
+                      { size: "L",   uk: "12", eu: "40", us: "8", chestCm: "92-96 cm", chestIn: '36.2-37.8"' },
+                      { size: "XL",  uk: "14", eu: "42", us: "10", chestCm: "97-101 cm", chestIn: '38.2-39.8"' },
+                      { size: "XXL", uk: "16", eu: "44", us: "12", chestCm: "102-106 cm", chestIn: '40.2-41.7"' },
+                    ].map((r) => (
+                      <tr key={r.size}>
+                        <td><strong>{r.size}</strong></td>
+                        <td>{r.uk}</td>
+                        <td>{r.eu}</td>
+                        <td>{r.us}</td>
+                        <td>{sgUnit === "cm" ? r.chestCm : r.chestIn}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+
+              {productCategory !== "bra" && (
+                <table className="sg-table" style={{ fontSize: 12 }}>
+                  <thead>
+                    <tr>
+                      <th>SIZE</th>
+                      <th>UK</th>
+                      <th>EU</th>
+                      <th>US</th>
+                      <th>WAIST</th>
+                      <th>HIP</th>
+                      <th>INSEAM</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(productCategory === "shorts"
+                      ? [
+                          { size: "XS",  uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"', insCm: "14 cm", insIn: '5.5"' },
+                          { size: "S",   uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"', insCm: "14 cm", insIn: '5.5"' },
+                          { size: "M",   uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"', insCm: "14 cm", insIn: '5.5"' },
+                          { size: "L",   uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"', insCm: "14 cm", insIn: '5.5"' },
+                          { size: "XL",  uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"', insCm: "14 cm", insIn: '5.5"' },
+                          { size: "XXL", uk: "16", eu: "44", us: "12", waistCm: "83-87 cm", waistIn: '33.5-35.0"', hipCm: "113-117 cm", hipIn: '44.5-46.1"', insCm: "14 cm", insIn: '5.5"' },
+                        ]
+                      : [
+                          { size: "XS",  uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"', insCm: "66 cm", insIn: '26.0"' },
+                          { size: "S",   uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"', insCm: "66 cm", insIn: '26.0"' },
+                          { size: "M",   uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"', insCm: "66 cm", insIn: '26.0"' },
+                          { size: "L",   uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"', insCm: "66 cm", insIn: '26.0"' },
+                          { size: "XL",  uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"', insCm: "66 cm", insIn: '26.0"' },
+                          { size: "XXL", uk: "16", eu: "44", us: "12", waistCm: "83-87 cm", waistIn: '33.5-35.0"', hipCm: "113-117 cm", hipIn: '44.5-46.1"', insCm: "66 cm", insIn: '26.0"' },
+                        ]
+                    ).map((r) => (
+                      <tr key={r.size}>
+                        <td><strong>{r.size}</strong></td>
+                        <td>{r.uk}</td>
+                        <td>{r.eu}</td>
+                        <td>{r.us}</td>
+                        <td>{sgUnit === "cm" ? r.waistCm : r.waistIn}</td>
+                        <td>{sgUnit === "cm" ? r.hipCm : r.hipIn}</td>
+                        <td>{sgUnit === "cm" ? r.insCm : r.insIn}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
             </div>
 
             <div style={{ paddingTop: 16, borderTop: "1px solid var(--line-soft)" }}>
@@ -2674,24 +2749,45 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
+                  gap: 16,
                   padding: "14px 4px",
                   background: "none",
                   border: "none",
                   cursor: "pointer",
-                  fontFamily: "var(--sans)",
-                  fontSize: 11,
-                  fontWeight: 600,
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
+                  textAlign: "left",
                   color: "var(--ink)",
                 }}
               >
-                How to measure
+                <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <span style={{
+                    fontFamily: "var(--sans)",
+                    fontSize: 11,
+                    fontWeight: 600,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                  }}>How to measure</span>
+                  <span style={{
+                    fontFamily: "var(--sans)",
+                    fontSize: 12,
+                    fontWeight: 400,
+                    color: "var(--ink-soft)",
+                    letterSpacing: "0.01em",
+                    lineHeight: 1.4,
+                  }}>Tap to see how we measure each area — chest, waist, hips and inseam.</span>
+                </span>
                 <span style={{
-                  display: "inline-block",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 32,
+                  height: 32,
+                  borderRadius: "50%",
+                  border: "1px solid var(--line-soft)",
                   transition: "transform 0.25s ease",
                   transform: howToMeasureOpen ? "rotate(180deg)" : "rotate(0deg)",
-                  fontSize: 12,
+                  fontSize: 20,
+                  lineHeight: 1,
+                  flexShrink: 0,
                 }}>▾</span>
               </button>
               {howToMeasureOpen && (
