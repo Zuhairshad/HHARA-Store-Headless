@@ -848,6 +848,7 @@ function Footer({ setRoute, route = "" }) {
               <h4>Customer Service</h4>
               <ul>
                 <li><a onClick={() => setRoute("faq")} style={{ cursor: "pointer" }}>FAQ</a></li>
+                <li><a onClick={() => setRoute("impact-faq")} style={{ cursor: "pointer" }}>Impact FAQ</a></li>
                 <li><a onClick={() => setRoute("shipping")} style={{ cursor: "pointer" }}>Shipping &amp; Delivery</a></li>
                 <li><a href="/orders/track">Track Order</a></li>
                 <li><a onClick={() => setRoute("returns")} style={{ cursor: "pointer" }}>Returns &amp; Refunds</a></li>
@@ -860,6 +861,7 @@ function Footer({ setRoute, route = "" }) {
               <ul>
                 <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>About Us</a></li>
                 <li><a onClick={() => setRoute("stores")} style={{ cursor: "pointer" }}>Impact</a></li>
+                <li><a onClick={() => setRoute("impact-faq")} style={{ cursor: "pointer" }}>Impact FAQ</a></li>
                 <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>E-card</a></li>
               </ul>
             </div>
@@ -1233,7 +1235,15 @@ function Editorial({ openShop }) {
               Morning run to afternoon plans. Yoga to Pilates. Office to dinner. Studio to street.
             </p>
 
-            <p style={{ fontStyle: "italic", color: "var(--accent)", fontWeight: 500, margin: 0 }}>
+            <p style={{
+              fontFamily: "var(--display)",
+              fontStyle: "italic",
+              fontSize: "18px",
+              lineHeight: "1.5",
+              color: "var(--accent)",
+              fontWeight: 500,
+              margin: 0
+            }}>
               No changing in between. Just her.
             </p>
           </div>
@@ -1920,6 +1930,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const [added, setAdded] = useState(false);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [adding, setAdding] = useState(false);
+  const [sizePrompt, setSizePrompt] = useState(false);
   const [activeShot, setActiveShot] = useState(0);
   const [writeReviewOpen, setWriteReviewOpen] = useState(false);
   const [reviewForm, setReviewForm] = useState({ name: "", location: "", rating: 5, quote: "", product: "" });
@@ -2099,12 +2110,12 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
   const handleAdd = async () => {
     if (!size) {
+      setSizePrompt(true);
+      setTimeout(() => setSizePrompt(false), 3500);
       if (reelOpen) {
-        // Shake the reel's size selector to prompt the user
         const reelSelect = document.querySelector(".reel-cta-card select") as HTMLElement | null;
         if (reelSelect) {
           reelSelect.style.animation = "none";
-          // Force reflow
           void reelSelect.offsetHeight;
           reelSelect.style.animation = "shake 0.5s ease";
           reelSelect.style.border = "1.5px solid #c0392b";
@@ -2117,7 +2128,10 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
         }
       } else {
         const el = document.querySelector(".pdp-sizes");
-        if (el) el.classList.add("flash");
+        if (el) {
+          el.classList.add("flash");
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
         setTimeout(() => {
           const el = document.querySelector(".pdp-sizes");
           if (el) el.classList.remove("flash");
@@ -2265,7 +2279,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                     <button
                       key={s}
                       className={`${size === s ? "on" : ""} ${outOfStock ? "oos" : ""}`}
-                      onClick={() => outOfStock ? null : setSize(s)}
+                      onClick={() => { if (!outOfStock) { setSize(s); setSizePrompt(false); } }}
                       disabled={outOfStock}
                       title={outOfStock ? "Sold out" : ""}
                     >
@@ -2278,6 +2292,11 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
             </div>
 
             <div className="pdp-actions">
+              {sizePrompt && (
+                <div className="pdp-size-prompt" role="alert" aria-live="polite">
+                  Please select a size first.
+                </div>
+              )}
               <button className="btn btn-primary btn-block" onClick={handleAdd} disabled={adding}>
                 {adding ? (
                   <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
@@ -4352,6 +4371,84 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
   );
 }
 
+function ImpactFaqPage({ setRoute }: { setRoute: (route: string, payload?: any) => void }) {
+  const [openItem, setOpenItem] = useState<string | null>("What is HHARA Impact?");
+
+  const items = [
+    {
+      q: "What is HHARA Impact?",
+      a: "HHARA Impact is our commitment to giving back through education. As a brand, we invest in access to schooling for children in orphanages and displaced communities — not as a side initiative, but as part of how we operate.",
+    },
+    {
+      q: "Who does HHARA give to?",
+      a: "We give to children in orphanages and displaced communities who lack consistent access to education. We work directly, without a foundation or intermediary, so support reaches its purpose without unnecessary layers.",
+    },
+    {
+      q: "How does the giving model work?",
+      a: "Giving is part of how HHARA is built as a brand — it comes from what we generate as a company, not as a separate add-on. We're intentional about this, just as we are intentional about every other decision we make as a brand.",
+    },
+    {
+      q: "Where can I learn more about HHARA Impact?",
+      a: (
+        <>
+          Visit our <a onClick={() => setRoute("stores")} style={{ cursor: "pointer", textDecoration: "underline", fontWeight: 600, color: "var(--ink)" }}>Impact page</a> for more on how and why we give.
+        </>
+      ),
+    },
+  ];
+
+  return (
+    <PolicyPage title="Impact FAQ" eyebrow="HHARA Impact" setRoute={setRoute}>
+      <p className="policy-intro">
+        Answers to common questions about how and why we give.
+      </p>
+
+      {items.map((item) => {
+        const isOpen = openItem === item.q;
+        return (
+          <div key={item.q} className="policy-section">
+            <button
+              className={`faq-q${isOpen ? " open" : ""}`}
+              onClick={() => setOpenItem(isOpen ? null : item.q)}
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                background: "none",
+                border: "none",
+                textAlign: "left",
+                fontFamily: "var(--sans)",
+                fontSize: 16,
+                fontWeight: 600,
+                color: "var(--ink)",
+                cursor: "pointer",
+                padding: "8px 0",
+              }}
+            >
+              <span>{item.q}</span>
+              <span className="faq-chevron" style={{ fontSize: 20 }}>{isOpen ? "−" : "+"}</span>
+            </button>
+            {isOpen && (
+              <div className="faq-a" style={{ marginTop: 12, fontSize: 14, lineHeight: 1.7, color: "var(--ink-soft)" }}>
+                {typeof item.a === "string" ? <p>{item.a}</p> : item.a}
+              </div>
+            )}
+          </div>
+        );
+      })}
+
+      <div style={{ marginTop: 40, paddingTop: 24, borderTop: "1px solid var(--line-soft)", fontStyle: "italic", textAlign: "center", color: "var(--ink-soft)", fontSize: 14, fontFamily: "var(--display)", letterSpacing: "0.05em" }}>
+        HHARA — She is wonder. She is HHARA.
+      </div>
+
+      <div className="policy-contact" style={{ marginTop: 32 }}>
+        Have questions about our impact? <a href="mailto:hello@hhara.com">hello@hhara.com</a>
+      </div>
+    </PolicyPage>
+  );
+}
+
 function PrivacyPage({ setRoute }) {
   return (
     <PolicyPage title="Privacy & Cookie Policy" eyebrow="Legal" setRoute={setRoute}>
@@ -4739,7 +4836,6 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
       setCartOpen(true);
     } catch (e) {
       console.error("addToCart failed - variantId:", variantId, e);
-      // Cart might be stale; try once more with a fresh cart
       try {
         const retry = await serverAddLine(variantId, 1);
         setShopifyCart(retry);
@@ -4815,6 +4911,8 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     body = <WishlistPage setRoute={setRouteState} openProduct={openProduct} wishlist={wishlist} onWishlistToggle={toggleWishlist} />;
   } else if (route === "faq") {
     body = <FAQPage setRoute={setRouteState} />;
+  } else if (route === "impact-faq") {
+    body = <ImpactFaqPage setRoute={setRouteState} />;
   } else if (route === "shipping") {
     body = <ShippingPage setRoute={setRouteState} />;
   } else if (route === "returns") {
