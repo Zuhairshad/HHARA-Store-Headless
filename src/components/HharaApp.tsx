@@ -1,11 +1,10 @@
 "use client";
 // @ts-nocheck
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, react/no-unescaped-entities */
-import React, { useState, useEffect, useRef, useContext, createContext, lazy, Suspense } from "react";
+import React, { useState, useEffect, useRef, useContext, createContext } from "react";
 import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount } from "@/lib/cart-actions";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
-const ImpactMap = lazy(() => import("./ImpactMap"));
 
 const ProductsContext = createContext(null);
 const ShopifyCartContext = createContext(null);
@@ -2798,7 +2797,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                     { img: "/images/measure-chest.png", label: "Chest", desc: "Measure around the fullest part." },
                     { img: "/images/measure-waist.png", label: "Waist", desc: "Measure around the natural waistline." },
                     { img: "/images/measure-hips.png", label: "Hips", desc: "Feet together, measure around the fullest part." },
-                    { img: "/images/measure-inside-leg.png?v=clean2", label: "Inseam", desc: "From the crotch seam down to the leg hem. Measure with no shoes on." },
+                    { img: "/images/measure-inside-leg.png?v=inseam4", label: "Inseam", desc: "From the crotch seam down to the leg hem. Measure with no shoes on." },
                   ].map((m) => (
                     <div key={m.label} className="sg-measure-visual-card">
                       <div className="sg-measure-img-wrap">
@@ -3689,8 +3688,8 @@ function StoresPage({ setRoute }) {
           <h2 className="gives-back-headline" style={{ marginBottom: 28 }}>
             Every piece is the beginning of <em>something bigger.</em>
           </h2>
-          <p className="gives-back-body" style={{ marginBottom: 0 }}>
-            Being seen shouldn't be a privilege. Some children lose their parents. Some lose their homes to conflict. Some are simply born into less than they deserve. Whatever they've lost, we believe their sense of wonder should never be one of those things. That belief is why HHARA gives back locally - funding education for children in orphanages, for those displaced by war, and for those growing up without enough. Not through a foundation. Not as a distant campaign. Child by child, close to home, by design.
+          <p className="gives-back-body" style={{ marginBottom: 0, maxWidth: 680, marginLeft: "auto", marginRight: "auto", textAlign: "justify" }}>
+            Being seen shouldn't be a privilege. Some children lose their parents. Some lose their homes to conflict. Some are simply born into less than they deserve. Whatever they've lost, we believe their sense of wonder should never be one of those things. That belief is why HHARA gives back - funding education for children in orphanages, for those displaced by war, and for those growing up without enough. Not through a foundation. Not as a distant campaign. Child by child, by design.
           </p>
         </div>
       </section>
@@ -3700,15 +3699,15 @@ function StoresPage({ setRoute }) {
         <div className="pillars-container">
           <div className="section-head" style={{ borderBottom: "1px solid rgba(184, 137, 46, 0.12)", paddingBottom: 28, marginBottom: 48 }}>
             <div className="section-head-stack">
-              <h2 className="section-title" style={{ color: "#2A1F14", fontWeight: 300 }}>What your<br /><em style={{ color: "#B8892E" }}>purchase supports.</em></h2>
+              <h2 className="section-title" style={{ color: "#2A1F14", fontWeight: 300 }}>Where we <em style={{ color: "#B8892E" }}>give.</em></h2>
             </div>
           </div>
           <div className="pillars-grid">
             {[
-              { title: "School Supplies", body: "Books, learning materials and the everyday tools every child needs in the classroom." },
-              { title: "Tuition Support", body: "Direct contribution to educational fees, removing barriers to consistent schooling." },
-              { title: "Uniforms & Essentials", body: "The basic necessities that allow every child to attend school with dignity." },
-              { title: "Long-Term Partnership", body: "Ongoing support, not one-time giving: a relationship that grows as HHARA grows." },
+              { title: "Schooling Access", body: "Supporting the tuition and enrollment costs that stand between a child and the classroom." },
+              { title: "Learning Materials", body: "Contributing to books, supplies, and the everyday tools every child needs to learn." },
+              { title: "Consistency", body: "Investing in what it takes for a child to stay in school, not just start." },
+              { title: "Dignity", body: "Supporting the basics that let every child show up to learn as themselves." },
             ].map((p, idx) => (
               <div key={idx} className="pillar-card">
                 <div className="pillar-title-wrap">
@@ -3728,65 +3727,30 @@ function StoresPage({ setRoute }) {
             "We didn't choose the partner with the biggest reach. We chose the ones closest to where we could actually see the difference being made."
           </blockquote>
           <p style={{ marginTop: 24, fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", color: "var(--accent)" }}>
-            Every Wonder Begins Somewhere
+            Worn Forward
           </p>
         </div>
       </section>
 
-      {/* IMPACT MAP SECTION */}
+      {/* IMPACT STATS SECTION */}
       <section style={{ backgroundColor: "#3A2416", padding: "clamp(60px, 8vh, 100px) var(--pad)" }}>
         <div className="gives-back-content-width" style={{ maxWidth: 1100 }}>
-          <div style={{ textAlign: "center", marginBottom: "48px" }}>
-            <h2 style={{
-              fontFamily: "var(--display)",
-              fontWeight: 300,
-              fontStyle: "italic",
-              fontSize: "clamp(32px, 4.5vw, 56px)",
-              color: "#F7F3ED",
-              lineHeight: 1.1,
-              margin: "0 0 20px",
-            }}>
-              Worn forward.
-            </h2>
-            <p style={{
-              color: "rgba(247,243,237,0.55)",
-              fontSize: "clamp(13px, 1.1vw, 15px)",
-              maxWidth: 520,
-              margin: "0 auto",
-              lineHeight: 1.75,
-              fontWeight: 300,
-            }}>
-              HHARA is built on circular luxury. Our first giving chapter sponsors children’s education in Kenya, one purchase at a time.
-            </p>
-          </div>
-
-          {/* Interactive Leaflet Map */}
-          <div style={{ borderRadius: 12, overflow: "hidden", border: "1px solid rgba(247,243,237,0.08)", isolation: "isolate" }}>
-            <Suspense fallback={<div style={{ width: "100%", height: 460, background: "#1a1510" }} />}>
-              <ImpactMap />
-            </Suspense>
-          </div>
-
-          {/* Statistics Bar */}
           <div className="gives-back-stats-bar-brand" style={{
-            borderColor: "rgba(247,243,237,0.1)",
-            margin: "48px auto",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            borderColor: "rgba(242, 230, 200, 0.2)",
+            margin: "0 auto",
           }}>
-            <div className="stats-col-brand col-kenya" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
-              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Kenya</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>WHERE WE GIVE BACK</span>
+            <div className="stats-col-brand col-education" style={{ borderColor: "rgba(242, 230, 200, 0.2)", padding: "20px 10px" }}>
+              <span className="stats-num-brand" style={{ color: "#F2E6C8", fontSize: "clamp(26px, 3.2vw, 42px)", fontWeight: 400, letterSpacing: "0.02em" }}>Education</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247, 243, 237, 0.75)", fontSize: "11px", letterSpacing: "0.22em", marginTop: "8px" }}>OUR FOCUS</span>
             </div>
-            <div className="stats-col-brand col-education" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
-              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Education</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>OUR FOCUS</span>
+            <div className="stats-col-brand col-kenya" style={{ borderColor: "rgba(242, 230, 200, 0.2)", padding: "20px 10px" }}>
+              <span className="stats-num-brand" style={{ color: "#F2E6C8", fontSize: "clamp(26px, 3.2vw, 42px)", fontWeight: 400, letterSpacing: "0.02em" }}>Direct</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247, 243, 237, 0.75)", fontSize: "11px", letterSpacing: "0.22em", marginTop: "8px" }}>HOW WE GIVE</span>
             </div>
-            <div className="stats-col-brand col-giving" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
-              <span className="stats-num-brand" style={{ color: "#B8892E" }}>-</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>CHILDREN SUPPORTED</span>
-            </div>
-            <div className="stats-col-brand col-materials" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
-              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Per Unit</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>GIVING MODEL</span>
+            <div className="stats-col-brand col-giving" style={{ borderColor: "rgba(242, 230, 200, 0.2)", padding: "20px 10px" }}>
+              <span className="stats-num-brand" style={{ color: "#F2E6C8", fontSize: "clamp(26px, 3.2vw, 42px)", fontWeight: 400, letterSpacing: "0.02em" }}>-</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247, 243, 237, 0.75)", fontSize: "11px", letterSpacing: "0.22em", marginTop: "8px" }}>CHILDREN SUPPORTED</span>
             </div>
           </div>
         </div>
@@ -4480,7 +4444,7 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
           </div>
           <div className="sg-measure-visual-card">
             <div className="sg-measure-img-wrap">
-              <img src="/images/measure-inside-leg.png?v=clean2" alt="How to measure Inseam" />
+              <img src="/images/measure-inside-leg.png?v=inseam4" alt="How to measure Inseam" />
             </div>
             <h4>Inseam</h4>
             <p>From the crotch seam down to the leg hem. Measure with no shoes on.</p>
