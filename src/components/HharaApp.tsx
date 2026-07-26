@@ -3737,20 +3737,20 @@ function StoresPage({ setRoute }) {
         <div className="gives-back-content-width" style={{ maxWidth: 1100 }}>
           <div className="gives-back-stats-bar-brand" style={{
             gridTemplateColumns: "repeat(3, 1fr)",
-            borderColor: "rgba(242, 230, 200, 0.2)",
+            borderColor: "rgba(247,243,237,0.1)",
             margin: "0 auto",
           }}>
-            <div className="stats-col-brand col-education" style={{ borderColor: "rgba(242, 230, 200, 0.2)", padding: "20px 10px" }}>
-              <span className="stats-num-brand" style={{ color: "#F2E6C8", fontSize: "clamp(26px, 3.2vw, 42px)", fontWeight: 400, letterSpacing: "0.02em" }}>Education</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247, 243, 237, 0.75)", fontSize: "11px", letterSpacing: "0.22em", marginTop: "8px" }}>OUR FOCUS</span>
+            <div className="stats-col-brand col-education" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
+              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Education</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>OUR FOCUS</span>
             </div>
-            <div className="stats-col-brand col-kenya" style={{ borderColor: "rgba(242, 230, 200, 0.2)", padding: "20px 10px" }}>
-              <span className="stats-num-brand" style={{ color: "#F2E6C8", fontSize: "clamp(26px, 3.2vw, 42px)", fontWeight: 400, letterSpacing: "0.02em" }}>Direct</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247, 243, 237, 0.75)", fontSize: "11px", letterSpacing: "0.22em", marginTop: "8px" }}>HOW WE GIVE</span>
+            <div className="stats-col-brand col-kenya" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
+              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Direct</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>HOW WE GIVE</span>
             </div>
-            <div className="stats-col-brand col-giving" style={{ borderColor: "rgba(242, 230, 200, 0.2)", padding: "20px 10px" }}>
-              <span className="stats-num-brand" style={{ color: "#F2E6C8", fontSize: "clamp(26px, 3.2vw, 42px)", fontWeight: 400, letterSpacing: "0.02em" }}>-</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247, 243, 237, 0.75)", fontSize: "11px", letterSpacing: "0.22em", marginTop: "8px" }}>CHILDREN SUPPORTED</span>
+            <div className="stats-col-brand col-giving" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
+              <span className="stats-num-brand" style={{ color: "#B8892E" }}>-</span>
+              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>CHILDREN SUPPORTED</span>
             </div>
           </div>
         </div>
