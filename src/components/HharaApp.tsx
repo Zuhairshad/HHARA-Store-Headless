@@ -2628,7 +2628,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
             </div>
 
             <p style={{ fontSize: 13, opacity: 0.8, lineHeight: 1.6, marginBottom: 20 }}>
-              Engineered for true-to-size compression with adaptive 4-way stretch.
+              Engineered for true-to-size compression with adaptive 4-way stretch. If you are between sizes and prefer a snug fit, we recommend sizing down.
             </p>
 
             <div className="sg-table-container" style={{ marginBottom: 24 }}>
