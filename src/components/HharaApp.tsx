@@ -2630,7 +2630,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               <button onClick={() => setSizeGuideOpen(false)}><Icon.Close /></button>
             </div>
 
-            <p style={{ fontSize: 13, opacity: 0.8, lineHeight: 1.6, marginBottom: 20 }}>
+            <p style={{ fontSize: 15, opacity: 0.8, lineHeight: 1.6, marginBottom: 20 }}>
               {productCategory === "bra"
                 ? "Engineered for true-to-size adaptive support. If you are between sizes and prefer a snug fit, we recommend sizing down."
                 : "Engineered for true-to-size compression with adaptive 4-way stretch. If you are between sizes and prefer a snug fit, we recommend sizing down."}
@@ -2794,18 +2794,18 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                       <div className="sg-measure-img-wrap">
                         <img src="/images/measure-chest.png" alt="How to measure Chest" />
                       </div>
-                      <h4>Chest</h4>
-                      <p>Measure around the fullest part.</p>
+                      <h4 style={{ fontSize: 16, fontWeight: 700 }}>Chest</h4>
+                      <p style={{ fontSize: 15, fontWeight: 700, color: "var(--ink)" }}>Measure around the fullest part.</p>
                     </div>
                   )}
                   {productCategory !== "bra" && (
                     <>
                       <div className="sg-measure-visual-card">
-                        <div className="sg-measure-img-wrap">
+                        <div className="sg-measure-img-wrap" style={{ aspectRatio: "16 / 9" }}>
                           <img src="/images/measure-waist.png" alt="How to measure Waist" />
                         </div>
                         <h4>Waist</h4>
-                        <p>Measure around the natural waistline.</p>
+                        <p style={{ fontSize: 15 }}>Measure around the natural waistline.</p>
                       </div>
                       <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
                         <div className="sg-measure-visual-card">
@@ -2813,14 +2813,14 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                             <img src="/images/measure-hips.png" alt="How to measure Hips" />
                           </div>
                           <h4>Hips</h4>
-                          <p>Feet together, measure around the fullest part.</p>
+                          <p style={{ fontSize: 15 }}>Feet together, measure around the fullest part.</p>
                         </div>
                         <div className="sg-measure-visual-card">
                           <div className="sg-measure-img-wrap">
                             <img src="/images/measure-inside-leg.png?v=inseam4" alt="How to measure Inseam" />
                           </div>
                           <h4>Inseam</h4>
-                          <p>From the crotch seam down to the leg hem. Measure with no shoes on.</p>
+                          <p style={{ fontSize: 15 }}>From the crotch seam down to the leg hem. Measure with no shoes on.</p>
                         </div>
                       </div>
                     </>

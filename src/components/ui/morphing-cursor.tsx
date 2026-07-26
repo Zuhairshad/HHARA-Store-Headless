@@ -110,10 +110,28 @@ export function MagneticImpactCard({
     >
       {/* Base Layer (Dark state) */}
       <div className="flex flex-col items-center justify-center text-center gap-2 transition-opacity duration-300">
-        <span className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[#F2E6C8]/70" style={{ color: "rgba(242, 230, 200, 0.75)" }}>
+        <span
+          style={{
+            fontFamily: "var(--sans)",
+            fontSize: "11px",
+            fontWeight: 600,
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: "rgba(242, 230, 200, 0.75)",
+          }}
+        >
           {label}
         </span>
-        <span className="font-serif text-3xl md:text-4xl text-[#F2E6C8] tracking-tight" style={{ fontFamily: "var(--display)", color: "#F2E6C8" }}>
+        <span
+          style={{
+            fontFamily: "var(--display)",
+            fontSize: "clamp(26px, 3vw, 36px)",
+            fontWeight: 400,
+            letterSpacing: "-0.01em",
+            color: "#F2E6C8",
+            lineHeight: 1.1,
+          }}
+        >
           {title}
         </span>
       </div>
@@ -140,10 +158,28 @@ export function MagneticImpactCard({
             willChange: "transform",
           }}
         >
-          <span className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[#B8892E]" style={{ color: "#B8892E" }}>
+          <span
+            style={{
+              fontFamily: "var(--sans)",
+              fontSize: "11px",
+              fontWeight: 600,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: "#B8892E",
+            }}
+          >
             {hoverLabel}
           </span>
-          <span className="font-serif text-3xl md:text-4xl font-semibold text-[#2A1F14] tracking-tight" style={{ fontFamily: "var(--display)", color: "#2A1F14" }}>
+          <span
+            style={{
+              fontFamily: "var(--display)",
+              fontSize: "clamp(26px, 3vw, 36px)",
+              fontWeight: 400,
+              letterSpacing: "-0.01em",
+              color: "#2A1F14",
+              lineHeight: 1.1,
+            }}
+          >
             {hoverTitle}
           </span>
         </div>
