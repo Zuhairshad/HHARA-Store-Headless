@@ -848,7 +848,6 @@ function Footer({ setRoute, route = "" }) {
               <h4>Customer Service</h4>
               <ul>
                 <li><a onClick={() => setRoute("faq")} style={{ cursor: "pointer" }}>FAQ</a></li>
-                <li><a onClick={() => setRoute("impact-faq")} style={{ cursor: "pointer" }}>Impact FAQ</a></li>
                 <li><a onClick={() => setRoute("shipping")} style={{ cursor: "pointer" }}>Shipping &amp; Delivery</a></li>
                 <li><a href="/orders/track">Track Order</a></li>
                 <li><a onClick={() => setRoute("returns")} style={{ cursor: "pointer" }}>Returns &amp; Refunds</a></li>
@@ -861,7 +860,6 @@ function Footer({ setRoute, route = "" }) {
               <ul>
                 <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>About Us</a></li>
                 <li><a onClick={() => setRoute("stores")} style={{ cursor: "pointer" }}>Impact</a></li>
-                <li><a onClick={() => setRoute("impact-faq")} style={{ cursor: "pointer" }}>Impact FAQ</a></li>
                 <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>E-Gift Card</a></li>
               </ul>
             </div>
@@ -1737,7 +1735,7 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRout
                 Every piece carries a name with meaning. Each was chosen to celebrate the strength and softness that exist within every woman.
               </p>
               <p style={{ fontSize: "14px", borderTop: "1px solid var(--line-soft)", paddingTop: "12px", marginTop: "8px" }}>
-                <strong>Dahlia (Arabic)</strong> — Gentle | Tender | Delicate &nbsp;·&nbsp; <strong>Imara (Swahili)</strong> — Strong | Firm | Resolute &nbsp;·&nbsp; <em>She is both. Always.</em>{" "}
+                <strong>Dahlia (Arabic)</strong> - Gentle | Tender | Delicate &nbsp;·&nbsp; <strong>Imara (Swahili)</strong> - Strong | Firm | Resolute &nbsp;·&nbsp; <em>She is both. Always.</em>{" "}
                 <button onClick={() => setDescExpanded(false)} style={{ fontFamily: "var(--sans)", fontSize: "14px", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
                   Read less
                 </button>
@@ -1946,8 +1944,8 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   // Reviews and Interactive Form States
   const [reviews, setReviews] = useState([
     { id: "r1", name: "Sarah M.", location: "UAE", rating: 5, quote: "Finally a bra that actually holds. Activity is easy, side roll is gone, structured. I wore it straight from class to lunch and felt completely put together.", product: "Imara Bra · Chicory Coffee" },
-    { id: "r2", name: "Nour A.", location: "Abu Dhabi", rating: 5, quote: "The fabric is genuinely buttery — I wasn't expecting it to feel this luxurious. The cross-cross back is stunning. Already ordered the legging!", product: "Dahlia Bra · Olive Green" },
-    { id: "r3", name: "Layla K.", location: "Riyadh", rating: 4, quote: "Sizing is true to guide. I have a fuller bust and sized up as advised — perfect fit. The Olive Green colour is even more beautiful in person.", product: "Dahlia Bra · Olive Green" },
+    { id: "r2", name: "Nour A.", location: "Abu Dhabi", rating: 5, quote: "The fabric is genuinely buttery - I wasn't expecting it to feel this luxurious. The cross-cross back is stunning. Already ordered the legging!", product: "Dahlia Bra · Olive Green" },
+    { id: "r3", name: "Layla K.", location: "Riyadh", rating: 4, quote: "Sizing is true to guide. I have a fuller bust and sized up as advised - perfect fit. The Olive Green colour is even more beautiful in person.", product: "Dahlia Bra · Olive Green" },
     { id: "r4", name: "Amira H.", location: "Dubai", rating: 5, quote: "I wore the Imara Set from morning yoga straight to a client lunch. Not once did I feel underdressed. HHARA genuinely gets the way we move through our days.", product: "Imara Set · Chicory Coffee" },
     { id: "r5", name: "Fatima R.", location: "Doha", rating: 5, quote: "The waistband doesn't roll, the fabric doesn't pill, and the colour is even richer in person. Worth every dirham and then some.", product: "Dahlia Legging · Olive Green" },
     { id: "r6", name: "Hessa O.", location: "Kuwait City", rating: 5, quote: "Three months of wear and it still looks brand new. I've stopped buying from everywhere else. HHARA is the only activewear I trust now.", product: "Imara Legging · Chicory Coffee" },
@@ -2347,7 +2345,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   ))}
                 </div>
                 <p style={{ marginBottom: "20px", fontFamily: "var(--sans)", fontSize: "12.5px", lineHeight: 1.75, color: "var(--ink-soft)" }}>
-                  Our fabric is certified to OEKO-TEX® Standard 100 — tested against harmful substances and safe for skin contact. Our recycled nylon is independently verified under the Global Recycled Standard 4.0, certified by Intertek.
+                  Our fabric is certified to OEKO-TEX® Standard 100 - tested against harmful substances and safe for skin contact. Our recycled nylon is independently verified under the Global Recycled Standard 4.0, certified by Intertek.
                 </p>
 
                 {/* Fabric property icons */}
@@ -2460,10 +2458,10 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                       <li>
                         Flat-rate shipping:
                         <ul style={{ paddingLeft: "16px", marginTop: "4px", display: "flex", flexDirection: "column", gap: "2px" }}>
-                          <li>GCC — AED 60</li>
-                          <li>UK &amp; Europe — AED 80</li>
-                          <li>Rest of World — AED 80</li>
-                          <li>North America — AED 120</li>
+                          <li>GCC - AED 60</li>
+                          <li>UK &amp; Europe - AED 80</li>
+                          <li>Rest of World - AED 80</li>
+                          <li>North America - AED 120</li>
                         </ul>
                       </li>
                     </ul>
@@ -2772,7 +2770,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                     color: "var(--ink-soft)",
                     letterSpacing: "0.01em",
                     lineHeight: 1.4,
-                  }}>Tap to see how we measure each area — chest, waist, hips and inseam.</span>
+                  }}>Tap to see how we measure each area - chest, waist, hips and inseam.</span>
                 </span>
                 <span style={{
                   display: "inline-flex",
@@ -3783,7 +3781,7 @@ function StoresPage({ setRoute }) {
               <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>OUR FOCUS</span>
             </div>
             <div className="stats-col-brand col-giving" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
-              <span className="stats-num-brand" style={{ color: "#B8892E" }}>—</span>
+              <span className="stats-num-brand" style={{ color: "#B8892E" }}>-</span>
               <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>CHILDREN SUPPORTED</span>
             </div>
             <div className="stats-col-brand col-materials" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
@@ -4101,19 +4099,19 @@ function FAQPage({ setRoute }) {
       ],
     },
     {
-      heading: "Impact",
+      heading: "HHARA Impact",
       items: [
-        { q: "What is HHARA Impact?", a: "Giving back is built into the foundation of HHARA. With every purchase, HHARA directly supports orphanages and children in need, beginning in Kenya." },
-        { q: "Who does HHARA give to?", a: "We give directly, with no intermediaries. HHARA identifies and supports local orphanages. Our giving partners will be updated over time as our community and impact grow." },
-        { q: "How does the giving model work?", a: "A portion of every HHARA purchase goes directly toward our giving commitments. We are intentional about this, just as we are intentional about every other decision we make as a brand." },
-        { q: "Where can I learn more about HHARA Impact?", a: "Visit the Impact page on hhara.com for updates on our current giving partners and impact." },
+        { q: "What is HHARA Impact?", a: "HHARA Impact is our commitment to giving back through education. As a brand, we invest in access to schooling for children in orphanages and displaced communities - not as a side initiative, but as part of how we operate." },
+        { q: "Who does HHARA give to?", a: "We give to children in orphanages and displaced communities who lack consistent access to education. We work directly, without a foundation or intermediary, so support reaches its purpose without unnecessary layers." },
+        { q: "How does the giving model work?", a: "Giving is part of how HHARA is built as a brand - it comes from what we generate as a company, not as a separate add-on. We're intentional about this, just as we are intentional about every other decision we make as a brand." },
+        { q: "Where can I learn more about HHARA Impact?", a: "Visit our Impact page for more on how and why we give." },
       ],
     },
     {
       heading: "E-Gift Card",
       items: [
         { q: "How long is the e-gift card valid?", a: "All HHARA e-gift cards are valid for 12 months from the date of purchase." },
-        { q: "When does the recipient receive the e-gift card?", a: "E-gift cards are delivered instantly to the recipient's email inbox the moment the order is placed — no waiting, no delays." },
+        { q: "When does the recipient receive the e-gift card?", a: "E-gift cards are delivered instantly to the recipient's email inbox the moment the order is placed - no waiting, no delays." },
         { q: "Can the e-gift card be used on any item?", a: "Yes. HHARA e-gift cards are redeemable across every piece in the collection. The recipient chooses what she needs, in her own time." },
       ],
     },
@@ -4493,84 +4491,6 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
       {/* Contact Concierge */}
       <div className="policy-contact">
         Need personalized sizing advice? <a href="mailto:hello@hhara.com">hello@hhara.com</a>
-      </div>
-    </PolicyPage>
-  );
-}
-
-function ImpactFaqPage({ setRoute }: { setRoute: (route: string, payload?: any) => void }) {
-  const [openItem, setOpenItem] = useState<string | null>("What is HHARA Impact?");
-
-  const items = [
-    {
-      q: "What is HHARA Impact?",
-      a: "HHARA Impact is our commitment to giving back through education. As a brand, we invest in access to schooling for children in orphanages and displaced communities — not as a side initiative, but as part of how we operate.",
-    },
-    {
-      q: "Who does HHARA give to?",
-      a: "We give to children in orphanages and displaced communities who lack consistent access to education. We work directly, without a foundation or intermediary, so support reaches its purpose without unnecessary layers.",
-    },
-    {
-      q: "How does the giving model work?",
-      a: "Giving is part of how HHARA is built as a brand — it comes from what we generate as a company, not as a separate add-on. We're intentional about this, just as we are intentional about every other decision we make as a brand.",
-    },
-    {
-      q: "Where can I learn more about HHARA Impact?",
-      a: (
-        <>
-          Visit our <a onClick={() => setRoute("stores")} style={{ cursor: "pointer", textDecoration: "underline", fontWeight: 600, color: "var(--ink)" }}>Impact page</a> for more on how and why we give.
-        </>
-      ),
-    },
-  ];
-
-  return (
-    <PolicyPage title="Impact FAQ" eyebrow="HHARA Impact" setRoute={setRoute}>
-      <p className="policy-intro">
-        Answers to common questions about how and why we give.
-      </p>
-
-      {items.map((item) => {
-        const isOpen = openItem === item.q;
-        return (
-          <div key={item.q} className="policy-section">
-            <button
-              className={`faq-q${isOpen ? " open" : ""}`}
-              onClick={() => setOpenItem(isOpen ? null : item.q)}
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                background: "none",
-                border: "none",
-                textAlign: "left",
-                fontFamily: "var(--sans)",
-                fontSize: 16,
-                fontWeight: 600,
-                color: "var(--ink)",
-                cursor: "pointer",
-                padding: "8px 0",
-              }}
-            >
-              <span>{item.q}</span>
-              <span className="faq-chevron" style={{ fontSize: 20 }}>{isOpen ? "−" : "+"}</span>
-            </button>
-            {isOpen && (
-              <div className="faq-a" style={{ marginTop: 12, fontSize: 14, lineHeight: 1.7, color: "var(--ink-soft)" }}>
-                {typeof item.a === "string" ? <p>{item.a}</p> : item.a}
-              </div>
-            )}
-          </div>
-        );
-      })}
-
-      <div style={{ marginTop: 40, paddingTop: 24, borderTop: "1px solid var(--line-soft)", fontStyle: "italic", textAlign: "center", color: "var(--ink-soft)", fontSize: 14, fontFamily: "var(--display)", letterSpacing: "0.05em" }}>
-        HHARA — She is wonder. She is HHARA.
-      </div>
-
-      <div className="policy-contact" style={{ marginTop: 32 }}>
-        Have questions about our impact? <a href="mailto:hello@hhara.com">hello@hhara.com</a>
       </div>
     </PolicyPage>
   );
@@ -5038,8 +4958,6 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
     body = <WishlistPage setRoute={setRouteState} openProduct={openProduct} wishlist={wishlist} onWishlistToggle={toggleWishlist} />;
   } else if (route === "faq") {
     body = <FAQPage setRoute={setRouteState} />;
-  } else if (route === "impact-faq") {
-    body = <ImpactFaqPage setRoute={setRouteState} />;
   } else if (route === "shipping") {
     body = <ShippingPage setRoute={setRouteState} />;
   } else if (route === "returns") {
