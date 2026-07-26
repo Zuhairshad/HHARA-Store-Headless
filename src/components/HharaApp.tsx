@@ -3773,9 +3773,9 @@ function StoresPage({ setRoute }) {
             />
             <MagneticImpactCard
               label="CHILDREN SUPPORTED"
-              title="-"
+              title="—"
               hoverLabel="CHILDREN SUPPORTED"
-              hoverTitle="-"
+              hoverTitle="—"
             />
           </div>
         </div>
