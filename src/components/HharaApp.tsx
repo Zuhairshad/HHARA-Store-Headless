@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef, useContext, createContext } from "r
 import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount } from "@/lib/cart-actions";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
+import { MagneticImpactCard } from "@/components/ui/morphing-cursor";
 
 const ProductsContext = createContext(null);
 const ShopifyCartContext = createContext(null);
@@ -2787,26 +2788,43 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                 }}>▾</span>
               </button>
               {howToMeasureOpen && (
-                <div style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(2, 1fr)",
-                  gap: 16,
-                  padding: "12px 0 4px",
-                }}>
-                  {[
-                    { img: "/images/measure-chest.png", label: "Chest", desc: "Measure around the fullest part." },
-                    { img: "/images/measure-waist.png", label: "Waist", desc: "Measure around the natural waistline." },
-                    { img: "/images/measure-hips.png", label: "Hips", desc: "Feet together, measure around the fullest part." },
-                    { img: "/images/measure-inside-leg.png?v=inseam4", label: "Inseam", desc: "From the crotch seam down to the leg hem. Measure with no shoes on." },
-                  ].map((m) => (
-                    <div key={m.label} className="sg-measure-visual-card">
+                <div style={{ padding: "12px 0 4px", display: "flex", flexDirection: "column", gap: 16 }}>
+                  {productCategory === "bra" && (
+                    <div className="sg-measure-visual-card">
                       <div className="sg-measure-img-wrap">
-                        <img src={m.img} alt={`How to measure ${m.label}`} />
+                        <img src="/images/measure-chest.png" alt="How to measure Chest" />
                       </div>
-                      <h4>{m.label}</h4>
-                      <p>{m.desc}</p>
+                      <h4>Chest</h4>
+                      <p>Measure around the fullest part.</p>
                     </div>
-                  ))}
+                  )}
+                  {productCategory !== "bra" && (
+                    <>
+                      <div className="sg-measure-visual-card">
+                        <div className="sg-measure-img-wrap">
+                          <img src="/images/measure-waist.png" alt="How to measure Waist" />
+                        </div>
+                        <h4>Waist</h4>
+                        <p>Measure around the natural waistline.</p>
+                      </div>
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
+                        <div className="sg-measure-visual-card">
+                          <div className="sg-measure-img-wrap">
+                            <img src="/images/measure-hips.png" alt="How to measure Hips" />
+                          </div>
+                          <h4>Hips</h4>
+                          <p>Feet together, measure around the fullest part.</p>
+                        </div>
+                        <div className="sg-measure-visual-card">
+                          <div className="sg-measure-img-wrap">
+                            <img src="/images/measure-inside-leg.png?v=inseam4" alt="How to measure Inseam" />
+                          </div>
+                          <h4>Inseam</h4>
+                          <p>From the crotch seam down to the leg hem. Measure with no shoes on.</p>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               )}
             </div>
@@ -3732,26 +3750,33 @@ function StoresPage({ setRoute }) {
         </div>
       </section>
 
-      {/* IMPACT STATS SECTION */}
-      <section style={{ backgroundColor: "#3A2416", padding: "clamp(60px, 8vh, 100px) var(--pad)" }}>
-        <div className="gives-back-content-width" style={{ maxWidth: 1100 }}>
-          <div className="gives-back-stats-bar-brand" style={{
-            gridTemplateColumns: "repeat(3, 1fr)",
-            borderColor: "rgba(247,243,237,0.1)",
-            margin: "0 auto",
+      {/* IMPACT CARDS SECTION (Morphing Magnetic Cards on Light Sand Base) */}
+      <section style={{ backgroundColor: "#F7F3ED", padding: "clamp(40px, 6vh, 80px) var(--pad) clamp(80px, 10vh, 120px)" }}>
+        <div className="gives-back-content-width" style={{ maxWidth: 1150, margin: "0 auto" }}>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: "24px",
+            width: "100%",
           }}>
-            <div className="stats-col-brand col-education" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
-              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Education</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>OUR FOCUS</span>
-            </div>
-            <div className="stats-col-brand col-kenya" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
-              <span className="stats-num-brand" style={{ color: "#B8892E" }}>Direct</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>HOW WE GIVE</span>
-            </div>
-            <div className="stats-col-brand col-giving" style={{ borderColor: "rgba(247,243,237,0.1)" }}>
-              <span className="stats-num-brand" style={{ color: "#B8892E" }}>-</span>
-              <span className="stats-label-brand" style={{ color: "rgba(247,243,237,0.35)" }}>CHILDREN SUPPORTED</span>
-            </div>
+            <MagneticImpactCard
+              label="OUR FOCUS"
+              title="Education"
+              hoverLabel="DIRECT SCHOOLING"
+              hoverTitle="Tuition & Supplies"
+            />
+            <MagneticImpactCard
+              label="HOW WE GIVE"
+              title="100% Direct"
+              hoverLabel="NO MIDDLEMAN"
+              hoverTitle="Zero Intermediaries"
+            />
+            <MagneticImpactCard
+              label="GIVING CHAPTER"
+              title="Kenya Chapter 01"
+              hoverLabel="WORN FORWARD"
+              hoverTitle="Child by Child, by Design"
+            />
           </div>
         </div>
       </section>
