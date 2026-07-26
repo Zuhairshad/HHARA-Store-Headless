@@ -2421,9 +2421,6 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   ))}
                 </div>
               </Accordion>
-              <Accordion title="Size Guide" open={open === "fit"} onToggle={() => setOpen(open === "fit" ? "" : "fit")}>
-                <p>Model is 178cm and wears a size S. Engineered for second-skin compression with 4-way mechanical stretch. We recommend taking your usual size; size down for a closer compression fit.</p>
-              </Accordion>
               <Accordion title="Care and Instruction" open={open === "care"} onToggle={() => setOpen(open === "care" ? "" : "care")}>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px 32px", paddingTop: "4px" }}>
                   {[
@@ -3884,7 +3881,7 @@ function AccountPage({
       <div className="panel">
         <div className="eyebrow" style={{ marginBottom: 20 }}>Account</div>
         <h1 style={{ fontFamily: "var(--display)", fontSize: 48, fontWeight: 400, letterSpacing: "-0.012em", lineHeight: 1.05, marginBottom: 32 }}>
-          {tab === "signin" ? "Welcome back" : <>Join the <em>collective</em></>}
+          {tab === "signin" ? "Welcome back" : <>Join the <em>Circle</em></>}
         </h1>
         <div className="auth-tabs">
           <button className={tab === "signin" ? "on" : ""} onClick={() => { setTab("signin"); setError(null); }}>Sign In</button>
@@ -3949,11 +3946,11 @@ function AccountPage({
               <input type="password" required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="At least 8 characters" />
             </div>
             <label style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 13, color: "var(--ink-soft)", margin: "8px 0" }}>
-              <input type="checkbox" checked={form.acceptsMarketing} onChange={(e) => setForm({ ...form, acceptsMarketing: e.target.checked })} />
+              <input type="checkbox" checked={form.acceptsMarketing} onChange={(e) => setForm({ ...form, acceptsMarketing: e.target.checked })} style={{ accentColor: "var(--accent)" }} />
               Email me HHARA dispatches & capsule drops
             </label>
             <button className="btn btn-primary btn-block" style={{ marginTop: 12 }} disabled={busy}>
-              {busy ? "Creating account…" : "Join the Collective"}
+              {busy ? "Creating account…" : "Join the Circle"}
               <span className="btn-arrow"><Icon.Arrow /></span>
             </button>
             <div className="auth-foot">By creating an account you accept our Terms and Privacy.</div>
