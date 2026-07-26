@@ -3760,22 +3760,22 @@ function StoresPage({ setRoute }) {
             width: "100%",
           }}>
             <MagneticImpactCard
-              label="OUR FOCUS"
-              title="Education"
-              hoverLabel="DIRECT SCHOOLING"
-              hoverTitle="Tuition & Supplies"
+              label="EDUCATION"
+              title="OUR FOCUS"
+              hoverLabel="OUR FOCUS"
+              hoverTitle="Education"
             />
             <MagneticImpactCard
-              label="HOW WE GIVE"
-              title="100% Direct"
-              hoverLabel="NO MIDDLEMAN"
-              hoverTitle="Zero Intermediaries"
+              label="DIRECT"
+              title="HOW WE GIVE"
+              hoverLabel="HOW WE GIVE"
+              hoverTitle="Direct"
             />
             <MagneticImpactCard
-              label="GIVING CHAPTER"
-              title="Kenya Chapter 01"
-              hoverLabel="WORN FORWARD"
-              hoverTitle="Child by Child, by Design"
+              label="CHILDREN SUPPORTED"
+              title="-"
+              hoverLabel="CHILDREN SUPPORTED"
+              hoverTitle="-"
             />
           </div>
         </div>
