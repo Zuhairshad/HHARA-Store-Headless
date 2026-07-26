@@ -423,7 +423,7 @@ function MegaMenu({ open, onClose, setRoute }) {
           <h6>Accessories</h6>
           <ul>
             <li><a onClick={() => { setRoute("shop"); onClose(); }}>Socks</a></li>
-            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Gift Card</a></li>
+            <li><a onClick={() => { setRoute("shop"); onClose(); }}>E-Gift Card</a></li>
           </ul>
         </div>
       </div>
@@ -492,7 +492,7 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
               className={route === "gift-card" ? "active" : ""}
               onClick={() => setRoute("gift-card")}
             >
-              Gift Card
+              E-Gift Card
             </button>
           </nav>
           <div className="brandmark" onClick={() => setRoute("home")}>
@@ -563,7 +563,7 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
               className={route === "gift-card" ? "active" : ""}
               onClick={() => { setRoute("gift-card"); setMobileMenuOpen(false); }}
             >
-              Gift Card
+              E-Gift Card
             </button>
           </nav>
         </div>
@@ -862,7 +862,7 @@ function Footer({ setRoute, route = "" }) {
                 <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>About Us</a></li>
                 <li><a onClick={() => setRoute("stores")} style={{ cursor: "pointer" }}>Impact</a></li>
                 <li><a onClick={() => setRoute("impact-faq")} style={{ cursor: "pointer" }}>Impact FAQ</a></li>
-                <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>E-card</a></li>
+                <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>E-Gift Card</a></li>
               </ul>
             </div>
             <div className="footer-col">
@@ -1929,6 +1929,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const [open, setOpen] = useState("");
   const [added, setAdded] = useState(false);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
+  const [howToMeasureOpen, setHowToMeasureOpen] = useState(false);
   const [adding, setAdding] = useState(false);
   const [sizePrompt, setSizePrompt] = useState(false);
   const [activeShot, setActiveShot] = useState(0);
@@ -2627,7 +2628,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
             </div>
 
             <p style={{ fontSize: 13, opacity: 0.8, lineHeight: 1.6, marginBottom: 20 }}>
-              Engineered for true-to-size compression with adaptive 4-way stretch. If you prefer a less restrictive fit, we recommend sizing up.
+              Engineered for true-to-size compression with adaptive 4-way stretch.
             </p>
 
             <div className="sg-table-container" style={{ marginBottom: 24 }}>
@@ -2644,14 +2645,12 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                 </thead>
                 <tbody>
                   {[
-                    { size: "XXS", uk: "4", eu: "32", us: "0", waist: "53-57 cm", hip: "83-87 cm" },
                     { size: "XS",  uk: "6", eu: "34", us: "2", waist: "58-62 cm", hip: "88-92 cm" },
                     { size: "S",   uk: "8", eu: "36", us: "4", waist: "63-67 cm", hip: "93-97 cm" },
                     { size: "M",   uk: "10", eu: "38", us: "6", waist: "68-72 cm", hip: "98-102 cm" },
                     { size: "L",   uk: "12", eu: "40", us: "8", waist: "73-77 cm", hip: "103-107 cm" },
                     { size: "XL",  uk: "14", eu: "42", us: "10", waist: "78-82 cm", hip: "108-112 cm" },
                     { size: "XXL", uk: "16", eu: "44", us: "12", waist: "83-87 cm", hip: "113-117 cm" },
-                    { size: "XXXL",uk: "18", eu: "46", us: "14", waist: "88-92 cm", hip: "118-122 cm" },
                   ].map((r) => (
                     <tr key={r.size}>
                       <td><strong>{r.size}</strong></td>
@@ -2666,17 +2665,58 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               </table>
             </div>
 
-            <div style={{ paddingTop: 16, borderTop: "1px solid var(--line-soft)", textAlign: "center" }}>
+            <div style={{ paddingTop: 16, borderTop: "1px solid var(--line-soft)" }}>
               <button
-                className="btn btn-outline"
-                style={{ width: "100%", padding: "14px 20px", textTransform: "uppercase", letterSpacing: "0.12em", fontSize: "11px" }}
-                onClick={() => {
-                  setSizeGuideOpen(false);
-                  setRoute("size-guide");
+                aria-expanded={howToMeasureOpen}
+                onClick={() => setHowToMeasureOpen((v) => !v)}
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "14px 4px",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontFamily: "var(--sans)",
+                  fontSize: 11,
+                  fontWeight: 600,
+                  letterSpacing: "0.12em",
+                  textTransform: "uppercase",
+                  color: "var(--ink)",
                 }}
               >
-                View Full Size Guide &amp; Measurement Guide →
+                How to measure
+                <span style={{
+                  display: "inline-block",
+                  transition: "transform 0.25s ease",
+                  transform: howToMeasureOpen ? "rotate(180deg)" : "rotate(0deg)",
+                  fontSize: 12,
+                }}>▾</span>
               </button>
+              {howToMeasureOpen && (
+                <div style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(2, 1fr)",
+                  gap: 16,
+                  padding: "12px 0 4px",
+                }}>
+                  {[
+                    { img: "/images/measure-chest.png", label: "Chest", desc: "Measure around the fullest part." },
+                    { img: "/images/measure-waist.png", label: "Waist", desc: "Measure around the natural waistline." },
+                    { img: "/images/measure-hips.png", label: "Hips", desc: "Feet together, measure around the fullest part." },
+                    { img: "/images/measure-inside-leg.png", label: "Inseam", desc: "From the crotch seam down to the leg hem. Measure with no shoes on." },
+                  ].map((m) => (
+                    <div key={m.label} className="sg-measure-visual-card">
+                      <div className="sg-measure-img-wrap">
+                        <img src={m.img} alt={`How to measure ${m.label}`} />
+                      </div>
+                      <h4>{m.label}</h4>
+                      <p>{m.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </aside>
         </>
@@ -3015,7 +3055,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
       for (let i = 0; i < qty; i++) {
         await addToCart({
           id: "gift-card",
-          name: `HHARA Gift Card – AED ${activeAmount}`,
+          name: `HHARA E-Gift Card – AED ${activeAmount}`,
           price: activeAmount,
           color: "-",
           size: "-",
@@ -3053,7 +3093,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
 
         {/* Right Column: Form Info */}
         <div className="gc-info">
-          <div className="gc-eyebrow">The HHARA Gift Card</div>
+          <div className="gc-eyebrow">The HHARA E-Gift Card</div>
           <h1 className="gc-title">Give her the <span style={{ color: "var(--accent)" }}>beginning</span> of{"\n"}<span style={{ color: "var(--accent)" }}>something</span>.</h1>
           <p className="gc-subtitle">A gift for wherever her day takes her.</p>
 
@@ -3975,11 +4015,11 @@ function FAQPage({ setRoute }) {
       ],
     },
     {
-      heading: "Gift Card",
+      heading: "E-Gift Card",
       items: [
-        { q: "How long is the gift card valid?", a: "All HHARA gift cards are valid for 12 months from the date of purchase." },
-        { q: "When does the recipient receive the gift card?", a: "Gift cards are delivered instantly to the recipient's email inbox the moment the order is placed — no waiting, no delays." },
-        { q: "Can the gift card be used on any item?", a: "Yes. HHARA gift cards are redeemable across every piece in the collection. The recipient chooses what she needs, in her own time." },
+        { q: "How long is the e-gift card valid?", a: "All HHARA e-gift cards are valid for 12 months from the date of purchase." },
+        { q: "When does the recipient receive the e-gift card?", a: "E-gift cards are delivered instantly to the recipient's email inbox the moment the order is placed — no waiting, no delays." },
+        { q: "Can the e-gift card be used on any item?", a: "Yes. HHARA e-gift cards are redeemable across every piece in the collection. The recipient chooses what she needs, in her own time." },
       ],
     },
   ];
@@ -4113,7 +4153,7 @@ function ReturnsPage({ setRoute }) {
 
       <div className="policy-section">
         <h2 className="policy-section-heading">GCC & International Returns</h2>
-        <p className="policy-note" style={{ color: "var(--ink)", background: "rgba(0,0,0,0.03)", padding: "16px", borderRadius: "4px" }}>
+        <p className="policy-note">
           <strong>Please note:</strong> We do not accept returns on GCC or international orders. Please consult our size guide before ordering.
         </p>
       </div>
@@ -4155,45 +4195,39 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
   const [unit, setUnit] = useState<"cm" | "in">("cm");
 
   const categories = [
-    { id: "leggings", label: "Ultimate Leggings" },
+    { id: "leggings", label: "Leggings" },
     { id: "shorts", label: "Shorts" },
     { id: "bra", label: "Bra" },
   ];
 
   // Ultimate Leggings Data (Regular Fit — Inseam: 66cm / 26")
   const leggingsRows = [
-    { size: "XXS", uk: "4", eu: "32", us: "0", waistCm: "53-57 cm", waistIn: '20.9-22.4"', hipCm: "83-87 cm", hipIn: '32.7-34.3"', insCm: "66 cm", insIn: '26.0"' },
     { size: "XS",  uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"', insCm: "66 cm", insIn: '26.0"' },
     { size: "S",   uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"', insCm: "66 cm", insIn: '26.0"' },
     { size: "M",   uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"', insCm: "66 cm", insIn: '26.0"' },
     { size: "L",   uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"', insCm: "66 cm", insIn: '26.0"' },
     { size: "XL",  uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"', insCm: "66 cm", insIn: '26.0"' },
     { size: "XXL", uk: "16", eu: "44", us: "12", waistCm: "83-87 cm", waistIn: '33.5-35.0"', hipCm: "113-117 cm", hipIn: '44.5-46.1"', insCm: "66 cm", insIn: '26.0"' },
-    { size: "XXXL",uk: "18", eu: "46", us: "14", waistCm: "88-92 cm", waistIn: '35.4-37.0"', hipCm: "118-122 cm", hipIn: '46.5-48.0"', insCm: "66 cm", insIn: '26.0"' },
   ];
 
   // Shorts Data (Crop Short Fit — Inseam: 14cm / 5.5")
   const shortsRows = [
-    { size: "XXS", uk: "4", eu: "32", us: "0", waistCm: "53-57 cm", waistIn: '20.9-22.4"', hipCm: "83-87 cm", hipIn: '32.7-34.3"', insCm: "14 cm", insIn: '5.5"' },
     { size: "XS",  uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"', insCm: "14 cm", insIn: '5.5"' },
     { size: "S",   uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"', insCm: "14 cm", insIn: '5.5"' },
     { size: "M",   uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"', insCm: "14 cm", insIn: '5.5"' },
     { size: "L",   uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"', insCm: "14 cm", insIn: '5.5"' },
     { size: "XL",  uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"', insCm: "14 cm", insIn: '5.5"' },
     { size: "XXL", uk: "16", eu: "44", us: "12", waistCm: "83-87 cm", waistIn: '33.5-35.0"', hipCm: "113-117 cm", hipIn: '44.5-46.1"', insCm: "14 cm", insIn: '5.5"' },
-    { size: "XXXL",uk: "18", eu: "46", us: "14", waistCm: "88-92 cm", waistIn: '35.4-37.0"', hipCm: "118-122 cm", hipIn: '46.5-48.0"', insCm: "14 cm", insIn: '5.5"' },
   ];
 
   // Bra Data (XXS - XXXL)
   const braRows = [
-    { size: "XXS", uk: "4", eu: "32", us: "0", chestCm: "72-76 cm", chestIn: '28.3-29.9"' },
     { size: "XS",  uk: "6", eu: "34", us: "2", chestCm: "77-81 cm", chestIn: '30.3-31.9"' },
     { size: "S",   uk: "8", eu: "36", us: "4", chestCm: "82-86 cm", chestIn: '32.3-33.9"' },
     { size: "M",   uk: "10", eu: "38", us: "6", chestCm: "87-91 cm", chestIn: '34.3-35.8"' },
     { size: "L",   uk: "12", eu: "40", us: "8", chestCm: "92-96 cm", chestIn: '36.2-37.8"' },
     { size: "XL",  uk: "14", eu: "42", us: "10", chestCm: "97-101 cm", chestIn: '38.2-39.8"' },
     { size: "XXL", uk: "16", eu: "44", us: "12", chestCm: "102-106 cm", chestIn: '40.2-41.7"' },
-    { size: "XXXL",uk: "18", eu: "46", us: "14", chestCm: "107-111 cm", chestIn: '42.1-43.7"' },
   ];
 
   return (
@@ -4218,7 +4252,7 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
       {/* Controls Bar: Category Title + Unit Switcher */}
       <div className="sg-controls-bar">
         <h3 style={{ fontFamily: "var(--sans)", fontSize: 18, fontWeight: 700, letterSpacing: "0.02em", color: "var(--ink)", margin: 0 }}>
-          {category === "leggings" && "Ultimate Leggings"}
+          {category === "leggings" && "Leggings"}
           {category === "shorts" && "Shorts"}
           {category === "bra" && "Bra"}
         </h3>
@@ -4229,14 +4263,12 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
             className={`sg-unit-creative-btn ${unit === "cm" ? "active" : ""}`}
             onClick={() => setUnit("cm")}
           >
-            <span className="sg-unit-dot" />
             CM
           </button>
           <button
             className={`sg-unit-creative-btn ${unit === "in" ? "active" : ""}`}
             onClick={() => setUnit("in")}
           >
-            <span className="sg-unit-dot" />
             INCHES
           </button>
         </div>
@@ -4358,7 +4390,7 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
               <img src="/images/measure-inside-leg.png" alt="How to measure Inseam" />
             </div>
             <h4>Inseam</h4>
-            <p>Measure from top of the inside leg at crotch to ankle bone</p>
+            <p>From the crotch seam down to the leg hem. Measure with no shoes on.</p>
           </div>
         </div>
       </div>
