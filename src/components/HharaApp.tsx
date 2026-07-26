@@ -2222,7 +2222,6 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
           </div>
 
           <div className="pdp-info">
-            <div className="pdp-info-cat">{product.cat}</div>
             <h1>{product.name}</h1>
             {tagline && <p className="pdp-tagline">{tagline}</p>}
             <div className="pdp-price">
