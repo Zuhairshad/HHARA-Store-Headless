@@ -2870,6 +2870,14 @@ img { display: block; max-width: 100%; }
   border-color: var(--ink);
   color: var(--ink);
 }
+.auth-wrap .panel .field label {
+  font-size: 11px;
+  letter-spacing: 0.24em;
+}
+.auth-wrap .panel .field input {
+  font-size: 15px;
+  padding: 12px 0;
+}
 
 .auth-tabs {
   display: flex;
@@ -2959,7 +2967,7 @@ img { display: block; max-width: 100%; }
   text-decoration: underline;
 }
 .auth-foot {
-  margin-top: 5px;
+  margin-top: -14px;
   font-size: 13px;
   color: var(--muted);
   text-align: center;

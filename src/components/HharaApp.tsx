@@ -2813,8 +2813,12 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           <p style={{ fontSize: 15 }}>Feet together, measure around the fullest part.</p>
                         </div>
                         <div className="sg-measure-visual-card">
-                          <div className="sg-measure-img-wrap">
-                            <img src="/images/measure-inside-leg.png?v=inseam4" alt="How to measure Inseam" />
+                          <div className="sg-measure-img-wrap" style={{ overflow: "hidden" }}>
+                            <img
+                              src="/images/measure-inside-leg.png?v=inseam4"
+                              alt="How to measure Inseam"
+                              style={{ transform: "scale(1.6)", transformOrigin: "50% 70%" }}
+                            />
                           </div>
                           <h4>Inseam</h4>
                           <p style={{ fontSize: 15 }}>From the crotch seam down to the leg hem. Measure with no shoes on.</p>
