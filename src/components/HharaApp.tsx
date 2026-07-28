@@ -3208,7 +3208,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
             </div>
           </div>
           <p className="gc-intro-text">
-            For the woman who already has everything, and the one still becoming who she's meant to be. Redeemable across every HHARA collection, delivered straight to her inbox.
+            For the woman who already has everything, and the one still becoming who she's meant to be. Delivered straight to her inbox.
           </p>
 
         </div>
