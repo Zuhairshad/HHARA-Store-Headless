@@ -2640,8 +2640,8 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
             <p style={{ fontSize: 15, opacity: 0.8, lineHeight: 1.6, marginBottom: 20 }}>
               {productCategory === "bra"
-                ? "Engineered for true-to-size adaptive support. If you are between sizes and prefer a snug fit, we recommend sizing down."
-                : "Engineered for true-to-size compression with adaptive 4-way stretch. If you are between sizes and prefer a snug fit, we recommend sizing down."}
+                ? "Designed for true-to-size adaptive support. If you are between sizes and prefer a snug fit, we recommend sizing down."
+                : "Designed for true-to-size compression with adaptive 4-way stretch. If you are between sizes and prefer a snug fit, we recommend sizing down."}
             </p>
 
             <div className="sg-controls-bar" style={{ marginBottom: 16 }}>
