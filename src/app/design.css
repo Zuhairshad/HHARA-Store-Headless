@@ -1649,7 +1649,7 @@ img { display: block; max-width: 100%; }
 .pdp-model-spec {
   position: absolute;
   bottom: 14px;
-  left: 14px;
+  right: 14px;
   background: rgba(42,31,20,0.72);
   color: #FAF7F2;
   font-family: var(--sans);
