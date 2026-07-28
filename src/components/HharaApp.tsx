@@ -499,7 +499,7 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
             <img src="/images/hhara-logo.png" alt="HHARA Wordmark" className="brandmark-text" />
           </div>
           <div className="header-actions">
-            <button onClick={openSearch} className="ha-btn" data-tooltip="Search"><Icon.Search /><span>Search</span></button>
+            <button onClick={openSearch} className="ha-btn" data-tooltip="Search" aria-label="Search"><Icon.Search /></button>
             <a
               href="/orders/track"
               className="ha-btn ha-link"
@@ -513,9 +513,8 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
               <Icon.Heart />
               {wishCount > 0 && <span className="cart-count">{wishCount}</span>}
             </button>
-            <button onClick={openCart} className="ha-btn" data-tooltip="Cart" aria-label="Cart">
+            <button onClick={openCart} className="ha-btn" data-tooltip="Cart" aria-label="Cart" style={{ position: "relative" }}>
               <Icon.Bag />
-              <span>Bag</span>
               {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
             </button>
           </div>
@@ -586,6 +585,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
   const [promoBusy, setPromoBusy] = useState(false);
   const [promoError, setPromoError] = useState("");
   const [upsellSizes, setUpsellSizes] = useState<Record<string, string>>({});
+  const [shipOpen, setShipOpen] = useState(false);
 
   const cartIds = new Set(cart.map((i: any) => i.id));
   const upsells = products.filter((p: any) => !cartIds.has(p.id));
@@ -729,36 +729,47 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
             </div>
           )}
 
-          {/* Trust badges */}
-          <div className="pco-trust">
-            <div className="pco-trust-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="pco-trust-icon"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
-              <div>
-                <div className="pco-trust-title">Crafted With Intention</div>
-                <div className="pco-trust-body">Conceived in Florence, engineered in the UAE. Every piece is made to outlast trends.</div>
-              </div>
-            </div>
-            <div className="pco-trust-item">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="pco-trust-icon"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-              <div>
-                <div className="pco-trust-title">No Hidden Costs</div>
-                <div className="pco-trust-body">Duties & taxes are calculated transparently. No surprise charges on delivery.</div>
-              </div>
-            </div>
-          </div>
-
           {/* CTA */}
           <button className="btn btn-primary btn-block" disabled={!checkoutUrl} onClick={() => { if (checkoutUrl) window.open(checkoutUrl, "_self"); }}>
             Proceed to Checkout
             <span className="btn-arrow"><Icon.Arrow /></span>
           </button>
-          <p className="micro" style={{ textAlign: "center", marginTop: 12 }}>Secure checkout · SSL encrypted</p>
-          <div className="pco-checkout-notes" style={{ marginTop: 24, padding: 16, background: "rgba(0,0,0,0.02)", borderRadius: 6, fontSize: 11, lineHeight: "1.6", border: "1px solid rgba(0,0,0,0.05)" }}>
-            <div style={{ fontWeight: 600, marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.05em", color: "var(--ink)" }}>Shipping & Returns Summary</div>
-            <div style={{ marginBottom: 6 }}>• <strong>UAE Domestic:</strong> Free standard next-day shipping (no minimum). Same-day delivery upgrade available for AED 28 in Dubai, Abu Dhabi, Sharjah, and Ajman only.</div>
-            <div style={{ marginBottom: 6 }}>• <strong>GCC:</strong> AED 60 flat shipping, free on orders over AED 1,900. All duties & taxes are covered (DDP) - no fees at delivery.</div>
-            <div style={{ marginBottom: 6 }}>• <strong>International:</strong> Flat shipping fee (AED 80 UK/Europe/Rest of World, AED 120 North America), free on orders over AED 1,900. Duties and taxes at destination are the customer's responsibility. PO Box delivery addresses are disabled.</div>
-            <div>• <strong>Returns:</strong> Free returns within 14 days for UAE orders only. GCC and international orders are final sale and non-returnable.</div>
+          <p className="micro" style={{ textAlign: "center", margin: "-18px 0 0", fontSize: 11, color: "var(--muted)" }}>Secure checkout · SSL encrypted</p>
+          <div style={{ marginTop: -18 }}>
+            <Accordion title="Shipping & Returns" open={shipOpen} onToggle={() => setShipOpen(v => !v)}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 20, fontSize: 13, lineHeight: 1.7 }}>
+                <div>
+                  <p style={{ fontFamily: "var(--sans)", fontWeight: 600, fontSize: 13, marginBottom: 8, color: "var(--ink)" }}>Complimentary UAE Shipping</p>
+                  <ul style={{ paddingLeft: 16, margin: 0, display: "flex", flexDirection: "column", gap: 4 }}>
+                    <li>Complimentary next-day delivery across the UAE</li>
+                    <li>No minimum order</li>
+                    <li>Same-day delivery available for <strong>AED 28</strong> in Dubai, Abu Dhabi, Sharjah, and Ajman</li>
+                  </ul>
+                </div>
+                <div>
+                  <p style={{ fontFamily: "var(--sans)", fontWeight: 600, fontSize: 13, marginBottom: 8, color: "var(--ink)" }}>International Delivery</p>
+                  <ul style={{ paddingLeft: 16, margin: 0, display: "flex", flexDirection: "column", gap: 4 }}>
+                    <li>Complimentary Express Shipping on orders over <strong>AED 1,900</strong></li>
+                    <li>
+                      Flat-rate shipping:
+                      <ul style={{ paddingLeft: 16, marginTop: 4, display: "flex", flexDirection: "column", gap: 2 }}>
+                        <li>GCC - AED 60</li>
+                        <li>UK &amp; Europe - AED 80</li>
+                        <li>Rest of World - AED 80</li>
+                        <li>North America - AED 120</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <p style={{ fontFamily: "var(--sans)", fontWeight: 600, fontSize: 13, marginBottom: 8, color: "var(--ink)" }}>Returns</p>
+                  <ul style={{ paddingLeft: 16, margin: 0, display: "flex", flexDirection: "column", gap: 4 }}>
+                    <li>Complimentary returns within <strong>14 days</strong> for UAE orders</li>
+                    <li>GCC and international orders are final sale</li>
+                  </ul>
+                </div>
+              </div>
+            </Accordion>
           </div>
         </div>
       </div>
@@ -3708,7 +3719,7 @@ function StoresPage({ setRoute }) {
             Every piece is the beginning of <em>something bigger.</em>
           </h2>
           <p className="gives-back-body" style={{ marginBottom: 0, maxWidth: 680, marginLeft: "auto", marginRight: "auto", textAlign: "justify" }}>
-            Being seen shouldn't be a privilege. Some children lose their parents. Some lose their homes to conflict. Some are simply born into less than they deserve. Whatever they've lost, we believe their sense of wonder should never be one of those things. That belief is why HHARA gives back - funding education for children in orphanages, for those displaced by war, and for those growing up without enough. Not through a foundation. Not as a distant campaign. Child by child, by design.
+            Being seen shouldn't be a privilege. Some children lose their parents. Some lose their homes to conflict. Some are simply born into less than they deserve. Whatever they've lost, we believe their sense of wonder should never be one of those things. That belief is why HHARA gives back - funding education for children in orphanages, for those displaced by war, and for those growing up without enough. Child by child, by design.
           </p>
         </div>
       </section>

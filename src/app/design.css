@@ -77,10 +77,11 @@ img { display: block; max-width: 100%; }
 .announce {
   background: var(--bg);
   color: var(--ink);
-  font-size: 9px;
-  letter-spacing: 0.32em;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  padding: 9px var(--pad);
+  padding: 8px var(--pad);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -88,6 +89,7 @@ img { display: block; max-width: 100%; }
   position: relative;
   white-space: nowrap;
   overflow: hidden;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 .announce-track {
   display: flex;
