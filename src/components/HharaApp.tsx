@@ -3207,10 +3207,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
               Lifestyle or product photo - e.g. model holding the card, or styled flat-lay with the Dahlia / Imara Set
             </div>
           </div>
-          <p className="gc-intro-text">
-            For the woman who already has everything, and the one still becoming who she's meant to be. Delivered straight to her inbox.
-          </p>
-
+          {/* Intro text removed per request */}
         </div>
 
         {/* Right Column: Form Info */}
@@ -3359,7 +3356,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
         {[
           { title: "Choose an amount", body: "Select one of ours, or set your own, whatever feels right for the occasion." },
           { title: "Add her details", body: "Checkout like any other order. We'll deliver it straight to her inbox, with your note attached." },
-          { title: "She chooses her piece", body: "Redeemable across every HHARA collection, so she can decide what she needs, in her own time." },
+          { title: "She chooses her piece", body: "For the woman who already has everything, and the one still becoming who she's meant to be. Delivered straight to her inbox." },
         ].map((card, i) => (
           <div key={i} className="pillar-card">
             <div className="pillar-title-wrap">
