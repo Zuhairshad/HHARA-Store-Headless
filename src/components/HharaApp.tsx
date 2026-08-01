@@ -1244,15 +1244,7 @@ function Editorial({ openShop }) {
               Morning run to afternoon plans. Yoga to Pilates. Office to dinner. Studio to street.
             </p>
 
-            <p style={{
-              fontFamily: "var(--sans)",
-              fontSize: "15px",
-              lineHeight: "1.5",
-              color: "var(--accent)",
-              fontWeight: 700,
-              letterSpacing: "0.04em",
-              margin: 0
-            }}>
+            <p style={{ fontStyle: "italic", color: "var(--accent)", fontWeight: 500, margin: 0 }}>
               No changing in between. Just her.
             </p>
           </div>
@@ -3106,15 +3098,7 @@ function AtelierPage({ setRoute }) {
           <p>
             Effortless. Flattering. Considered in every detail. Every fabric is chosen with intention. Every piece is made to move seamlessly through her day.
           </p>
-          <p style={{
-            fontFamily: "var(--sans)",
-            fontSize: "15px",
-            lineHeight: "1.5",
-            color: "var(--accent)",
-            fontWeight: 700,
-            letterSpacing: "0.04em",
-            marginTop: 24
-          }}>
+          <p style={{ fontStyle: "italic", color: "var(--accent)", fontWeight: 500, marginTop: 24 }}>
             She shouldn't have to choose. HHARA was built so she never has to.
           </p>
         </div>
@@ -3762,7 +3746,7 @@ function StoresPage({ setRoute }) {
       </section>
 
       {/* QUOTE BANNER SECTION (Without brown background) */}
-      <section className="gives-back-section" style={{ backgroundColor: "#F7F3ED", textAlign: "center", padding: "80px var(--pad) 120px" }}>
+      <section className="gives-back-section" style={{ backgroundColor: "#F7F3ED", textAlign: "center", padding: "80px var(--pad) 40px" }}>
         <div className="gives-back-content-width">
           <blockquote className="gives-back-quote-banner" style={{ color: "var(--ink)", fontFamily: "var(--display)", fontStyle: "italic", fontSize: "clamp(20px, 2.8vw, 26px)", lineHeight: 1.6, maxWidth: 800, margin: "0 auto" }}>
             "We didn't choose the partner with the biggest reach. We chose the ones closest to where we could actually see the difference being made."
@@ -3774,7 +3758,7 @@ function StoresPage({ setRoute }) {
       </section>
 
       {/* IMPACT CARDS SECTION (Morphing Magnetic Cards on Light Sand Base) */}
-      <section style={{ backgroundColor: "#F7F3ED", padding: "clamp(40px, 6vh, 80px) var(--pad) clamp(80px, 10vh, 120px)" }}>
+      <section style={{ backgroundColor: "#F7F3ED", padding: "clamp(8px, 1.5vh, 20px) var(--pad) clamp(80px, 10vh, 120px)" }}>
         <div className="gives-back-content-width" style={{ maxWidth: 1150, margin: "0 auto" }}>
           <div style={{
             display: "grid",
