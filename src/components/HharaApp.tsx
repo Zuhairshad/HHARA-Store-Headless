@@ -189,7 +189,7 @@ const PRODUCTS = [
     badge: "New",
     imgKey: "p1",
     tagline: "Sculpted scoop-neck support",
-    description: "A refined essential designed for movement, confidence, and everyday elegance.\n\nThe Imara Crisscross Bra embraces your natural shape with a smooth, supportive feel and a flattering fit that moves effortlessly with you. Designed with a balance of comfort and structure, it provides the confidence to flow from mindful workouts to elevated everyday moments.\n\nA timeless piece you'll reach for again and again.",
+    description: "The Imara Sculpt Scoop Neck Bra is thoughtfully designed to complement the body's natural shape with understated elegance. Sculpted paneling provides gentle support and a beautifully contoured fit, while the clean scoop neckline creates a refined, minimalist silhouette that transitions effortlessly from movement to everyday wear.\n\nA piece defined by quiet confidence — where comfort, structure, and timeless design exist in perfect balance.",
     details: [
       "Premium recycled performance knit",
       "Brushed-gold low-friction hardware",
@@ -212,7 +212,7 @@ const PRODUCTS = [
     badge: "New",
     imgKey: "p2",
     tagline: "Anatomical high-waist support",
-    description: "Precision-engineered 7/8 ankle-skimming crop with our signature anatomical chevron-contoured waistband. Zero-slip high-waisted stabilization, flatlock structural seaming.",
+    description: "The Imara Seamless Sculpt High Waist Legging is engineered to complement the body's natural shape, creating a refined foundation for an elevated wardrobe. The high-rise waistband provides sculpted support and a smooth, contoured silhouette, while the seamless construction delivers a second-skin feel that moves effortlessly with you from waist to ankle.\n\nDesigned beyond the studio, this essential transitions seamlessly through every part of your day — from intentional movement to elevated everyday moments, where comfort and refinement meet.",
     details: [
       "7/8 ankle-skimming length",
       "Chevron anatomical waistband",
@@ -234,7 +234,7 @@ const PRODUCTS = [
     altTone: "tone-3",
     imgKey: "p3",
     tagline: "Adaptive cross-back design",
-    description: "Low-profile cross-back strap construction with custom brushed-gold hardware accents. Medium-impact adaptive support, open-back thermal ventilation, removable contour cups.",
+    description: "The Dahlia Cross Back Bra is thoughtfully crafted to complement the body's natural shape, balancing refined design with effortless performance. Delicate cross-back create an elegant silhouette, while the softly sculpted neckline offers gentle support and a beautifully contoured fit that moves with ease throughout your day.\n\nMore than a bra — it's an expression of quiet confidence. Thoughtfully structured, meticulously finished, and designed to carry you seamlessly from mindful movement to elevated everyday living.",
     details: [
       "Cross-back strap architecture",
       "Brushed-gold hardware accents",
@@ -256,11 +256,32 @@ const PRODUCTS = [
     altTone: "tone-1",
     imgKey: "p4",
     tagline: "Omnidirectional stretch short",
-    description: "High-rise optimization with a 5\" non-restrictive inseam. Omnidirectional 4-way mechanical stretch matrix with targeted muscular stabilization and an integrated secure inner waistband pocket.",
+    description: "The Dahlia Seamless Sculpt High Waist Short is designed to contour the body with refined simplicity. A sculpting high-rise waistband offers a smooth, supportive fit, while the seamless construction creates an exceptionally soft feel that sits effortlessly against the skin.\n\nElegant in form and versatile by design — a piece that transitions with ease from intentional movement to elevated everyday dressing, combining modern refinement with lasting comfort.",
     details: [
       "5\" inseam, high-rise",
       "4-way mechanical stretch",
       "Hidden inner waistband pocket",
+      "Machine wash cold · do not tumble dry",
+    ],
+  },
+  {
+    id: "p5",
+    name: "HHARA Comfort Socks",
+    cat: "Accessories",
+    price: 0,
+    swatches: [
+      { name: "Chicory Brown", hex: "#3D2B1F" },
+      { name: "Army Green", hex: "#5F6B4F" },
+    ],
+    sizes: ["One Size"],
+    tone: "tone-1",
+    altTone: "tone-2",
+    imgKey: "p1",
+    tagline: "Refined comfort for every step",
+    description: "An elevated essential designed with the same attention to detail as the collection, the HHARA Comfort Socks bring refined comfort to every step. A cushioned footbed provides gentle support, while the sleek design adds the finishing touch to any look — from intentional movement to everyday styling.\n\nSimple in form, effortless in function, and created to complement the HHARA lifestyle.",
+    details: [
+      "Cushioned footbed support",
+      "Sleek ribbed performance fit",
       "Machine wash cold · do not tumble dry",
     ],
   },
@@ -320,6 +341,22 @@ const PRODUCT_SPECS = {
   ],
 };
 
+const V3_DESCRIPTIONS: Record<string, string> = {
+  "Imara Sculpt Scoop Neck Bra": "The Imara Sculpt Scoop Neck Bra is thoughtfully designed to complement the body's natural shape with understated elegance. Sculpted paneling provides gentle support and a beautifully contoured fit, while the clean scoop neckline creates a refined, minimalist silhouette that transitions effortlessly from movement to everyday wear.\n\nA piece defined by quiet confidence, where comfort, structure, and timeless design exist in perfect balance.",
+  "Imara Bra": "The Imara Sculpt Scoop Neck Bra is thoughtfully designed to complement the body's natural shape with understated elegance. Sculpted paneling provides gentle support and a beautifully contoured fit, while the clean scoop neckline creates a refined, minimalist silhouette that transitions effortlessly from movement to everyday wear.\n\nA piece defined by quiet confidence, where comfort, structure, and timeless design exist in perfect balance.",
+  
+  "Imara Seamless Sculpt High Waist Legging": "The Imara Seamless Sculpt High Waist Legging is engineered to complement the body's natural shape, creating a refined foundation for an elevated wardrobe. The high-rise waistband provides sculpted support and a smooth, contoured silhouette, while the seamless construction delivers a second-skin feel that moves effortlessly with you from waist to ankle.\n\nDesigned beyond the studio, this essential transitions seamlessly through every part of your day, from intentional movement to elevated everyday moments, where comfort and refinement meet.",
+  "Imara Legging": "The Imara Seamless Sculpt High Waist Legging is engineered to complement the body's natural shape, creating a refined foundation for an elevated wardrobe. The high-rise waistband provides sculpted support and a smooth, contoured silhouette, while the seamless construction delivers a second-skin feel that moves effortlessly with you from waist to ankle.\n\nDesigned beyond the studio, this essential transitions seamlessly through every part of your day, from intentional movement to elevated everyday moments, where comfort and refinement meet.",
+
+  "Dahlia Cross Back Bra": "The Dahlia Cross Back Bra is thoughtfully crafted to complement the body's natural shape, balancing refined design with effortless performance. Delicate cross-back create an elegant silhouette, while the softly sculpted neckline offers gentle support and a beautifully contoured fit that moves with ease throughout your day.\n\nMore than a bra, it's an expression of quiet confidence. Thoughtfully structured, meticulously finished, and designed to carry you seamlessly from mindful movement to elevated everyday living.",
+  "Dahlia Bra": "The Dahlia Cross Back Bra is thoughtfully crafted to complement the body's natural shape, balancing refined design with effortless performance. Delicate cross-back create an elegant silhouette, while the softly sculpted neckline offers gentle support and a beautifully contoured fit that moves with ease throughout your day.\n\nMore than a bra, it's an expression of quiet confidence. Thoughtfully structured, meticulously finished, and designed to carry you seamlessly from mindful movement to elevated everyday living.",
+
+  "Dahlia Seamless Sculpt High Waist Shorts": "The Dahlia Seamless Sculpt High Waist Short is designed to contour the body with refined simplicity. A sculpting high-rise waistband offers a smooth, supportive fit, while the seamless construction creates an exceptionally soft feel that sits effortlessly against the skin.\n\nElegant in form and versatile by design, a piece that transitions with ease from intentional movement to elevated everyday dressing, combining modern refinement with lasting comfort.",
+  "Dahlia Short": "The Dahlia Seamless Sculpt High Waist Short is designed to contour the body with refined simplicity. A sculpting high-rise waistband offers a smooth, supportive fit, while the seamless construction creates an exceptionally soft feel that sits effortlessly against the skin.\n\nElegant in form and versatile by design, a piece that transitions with ease from intentional movement to elevated everyday dressing, combining modern refinement with lasting comfort.",
+
+  "HHARA Comfort Socks": "An elevated essential designed with the same attention to detail as the collection, the HHARA Comfort Socks bring refined comfort to every step. A cushioned footbed provides gentle support, while the sleek design adds the finishing touch to any look, from intentional movement to everyday styling.\n\nSimple in form, effortless in function, and created to complement the HHARA lifestyle."
+};
+
 // Tagline fallback for products loaded live from Shopify (which carry no tagline field)
 const PRODUCT_TAGLINES = {
   "Imara Bra": "Sculpted scoop-neck support",
@@ -340,7 +377,7 @@ const CATEGORIES = [
 const HEROES = [
   {
     eyebrow: "",
-    title: "She Is |Wonder.",
+    title: "She is |Wonder.",
     sub: "She doesn’t wait for wonder - she creates it. Designed for women who move with quiet confidence and purpose.",
     cta: "explore collection",
     tone: "tone-4",
@@ -573,10 +610,30 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
   const [promoBusy, setPromoBusy] = useState(false);
   const [promoError, setPromoError] = useState("");
   const [upsellSizes, setUpsellSizes] = useState<Record<string, string>>({});
+  const [addedUpsellIds, setAddedUpsellIds] = useState<Record<string, boolean>>({});
   const [shipOpen, setShipOpen] = useState(false);
 
-  const cartIds = new Set(cart.map((i: any) => i.id));
-  const upsells = products.filter((p: any) => !cartIds.has(p.id));
+  // Stable upsell recommendations (items remain visible in Pairs Well With when added)
+  const firstCartId = cart[0]?.id;
+  const upsells = (products.filter((p: any) => p.id !== firstCartId).length >= 2
+    ? products.filter((p: any) => p.id !== firstCartId)
+    : products
+  ).slice(0, 2);
+
+  const handleAddUpsell = (p: any, sel: string) => {
+    addToCart({
+      id: p.id,
+      name: p.name,
+      price: p.price,
+      color: p.swatches?.[0]?.name,
+      size: sel,
+      tone: p.tone,
+    });
+    setAddedUpsellIds((prev) => ({ ...prev, [p.id]: true }));
+    setTimeout(() => {
+      setAddedUpsellIds((prev) => ({ ...prev, [p.id]: false }));
+    }, 1800);
+  };
 
   const activeDiscount = discountCodes?.find((d: any) => d.applicable);
   const subtotal = cart.reduce((a: number, i: any) => a + i.price * i.qty, 0);
@@ -651,6 +708,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
               <h4 className="pco-section-label">Pairs Well With</h4>
               {upsells.slice(0, 2).map((p: any) => {
                 const sel = upsellSizes[p.id] || p.sizes?.[0] || "";
+                const isAdded = addedUpsellIds[p.id];
                 return (
                   <div className="pco-upsell-item" key={p.id}>
                     <div className={`pco-upsell-thumb ${p.tone}`} onClick={() => setRoute("product", p.id)} style={{ cursor: "pointer" }}>
@@ -663,11 +721,16 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
                       <div className="pco-upsell-price">AED {p.price?.toLocaleString()}</div>
                       {p.sizes?.length > 0 && (
                         <select className="pco-upsell-size" value={sel} onChange={(e) => setUpsellSizes(prev => ({ ...prev, [p.id]: e.target.value }))}>
-                          {p.sizes.map((s: string) => <option key={s} value={s}>{s} · AED {p.price?.toLocaleString()}</option>)}
+                          {p.sizes.map((s: string) => <option key={s} value={s}>{s}</option>)}
                         </select>
                       )}
-                      <button className="pco-upsell-add" onClick={() => addToCart({ id: p.id, name: p.name, price: p.price, color: p.swatches?.[0]?.name, size: sel, tone: p.tone })}>
-                        Add
+                      <button
+                        className="pco-upsell-add"
+                        onClick={() => handleAddUpsell(p, sel)}
+                        disabled={isAdded}
+                        style={isAdded ? { background: "var(--accent)", color: "#fff" } : {}}
+                      >
+                        {isAdded ? "Added ✓" : "Add"}
                       </button>
                     </div>
                   </div>
@@ -929,9 +992,9 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
         {items.length > 0 && (
           <div className="cart-prog">
             {togo > 0 ? (
-              <span>You're <em>AED {togo.toLocaleString()}</em> away from free shipping</span>
+              <span>You're <em>AED {togo.toLocaleString()}</em> away from free international shipping</span>
             ) : (
-              <span>You've unlocked free shipping</span>
+              <span>You've unlocked free international shipping</span>
             )}
             <div className="bar"><div className="fill" style={{ width: `${progress * 100}%` }}></div></div>
           </div>
@@ -1424,7 +1487,7 @@ function Pillars() {
     },
     {
       title: "Wonder",
-      body: "From the Yoruba dialect. Her name. Her nature. She does not have wonder; she is wonder.",
+      body: "From the Yoruba dialect. Her name. Her nature. She does not have Wonder; she is Wonder.",
     },
   ];
   return (
@@ -1693,6 +1756,17 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRout
     }));
   };
 
+  const [openSections, setOpenSections] = useState({
+    cat: true,
+    size: true,
+    color: true,
+    price: true,
+  });
+
+  const toggleSection = (sec: "cat" | "size" | "color" | "price") => {
+    setOpenSections((prev) => ({ ...prev, [sec]: !prev[sec] }));
+  };
+
   const activeFilterCount = filters.cat.length + filters.size.length + filters.color.length + filters.price.length;
 
   const clearAll = () => setFilters({ size: [], color: [], cat: [], price: [] });
@@ -1782,73 +1856,92 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRout
       <div className="cmain">
         <aside className="cfilters">
           <div className="cfilter">
-            <h5>Category <Icon.Chevron /></h5>
-            <ul>
-              {cats.map((c) => (
-                <li key={c}>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={filters.cat.includes(c)}
-                      onChange={() => toggle("cat", c)}
-                    />
-                    {c}
-                  </label>
-                </li>
-              ))}
-            </ul>
+            <h5 onClick={() => toggleSection("cat")} style={{ userSelect: "none" }}>
+              Category <Icon.Chevron dir={openSections.cat ? "up" : "down"} />
+            </h5>
+            {openSections.cat && (
+              <ul>
+                {cats.map((c) => (
+                  <li key={c}>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={filters.cat.includes(c)}
+                        onChange={() => toggle("cat", c)}
+                      />
+                      {c}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
+
           <div className="cfilter">
-            <h5>Size <Icon.Chevron /></h5>
-            <ul style={{ flexDirection: "row", flexWrap: "wrap", gap: "8px" }}>
-              {sizes.map((s) => (
-                <li key={s}>
-                  <button
-                    onClick={() => toggle("size", s)}
-                    style={{
-                      padding: "6px 12px",
-                      border: "1px solid var(--line)",
-                      fontSize: 12,
-                      background: filters.size.includes(s) ? "var(--ink)" : "transparent",
-                      color: filters.size.includes(s) ? "var(--bg)" : "var(--ink)",
-                    }}
-                  >
-                    {s}
-                  </button>
-                </li>
-              ))}
-            </ul>
+            <h5 onClick={() => toggleSection("size")} style={{ userSelect: "none" }}>
+              Size <Icon.Chevron dir={openSections.size ? "up" : "down"} />
+            </h5>
+            {openSections.size && (
+              <ul style={{ flexDirection: "row", flexWrap: "wrap", gap: "8px" }}>
+                {sizes.map((s) => (
+                  <li key={s}>
+                    <button
+                      onClick={() => toggle("size", s)}
+                      style={{
+                        padding: "6px 12px",
+                        border: "1px solid var(--line)",
+                        fontSize: 12,
+                        background: filters.size.includes(s) ? "var(--ink)" : "transparent",
+                        color: filters.size.includes(s) ? "var(--bg)" : "var(--ink)",
+                      }}
+                    >
+                      {s}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
+
           <div className="cfilter">
-            <h5>Color <Icon.Chevron /></h5>
-            <div className="swatch-list">
-              {colorOpts.map((c) => (
-                <span
-                  key={c.name}
-                  className={`swatch ${filters.color.includes(c.name) ? "on" : ""}`}
-                  style={{ background: c.hex }}
-                  title={c.name}
-                  onClick={() => toggle("color", c.name)}
-                ></span>
-              ))}
-            </div>
+            <h5 onClick={() => toggleSection("color")} style={{ userSelect: "none" }}>
+              Color <Icon.Chevron dir={openSections.color ? "up" : "down"} />
+            </h5>
+            {openSections.color && (
+              <div className="swatch-list">
+                {colorOpts.map((c) => (
+                  <span
+                    key={c.name}
+                    className={`swatch ${filters.color.includes(c.name) ? "on" : ""}`}
+                    style={{ background: c.hex }}
+                    title={c.name}
+                    onClick={() => toggle("color", c.name)}
+                  ></span>
+                ))}
+              </div>
+            )}
           </div>
+
           <div className="cfilter">
-            <h5>Price <Icon.Chevron /></h5>
-            <ul>
-              {PRICE_RANGES.map((r) => (
-                <li key={r.label}>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={filters.price.includes(r.label)}
-                      onChange={() => toggle("price", r.label)}
-                    />
-                    {r.label}
-                  </label>
-                </li>
-              ))}
-            </ul>
+            <h5 onClick={() => toggleSection("price")} style={{ userSelect: "none" }}>
+              Price <Icon.Chevron dir={openSections.price ? "up" : "down"} />
+            </h5>
+            {openSections.price && (
+              <ul>
+                {PRICE_RANGES.map((r) => (
+                  <li key={r.label}>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={filters.price.includes(r.label)}
+                        onChange={() => toggle("price", r.label)}
+                      />
+                      {r.label}
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </aside>
         <div className="cgrid">
@@ -2190,7 +2283,6 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                 <>
                   <div className={`pdp-gallery-main ${product.tone}`}>
                     {main.src && <img src={main.src} alt="" className="img-fill" style={main.style} />}
-                    <div className="pdp-gallery-tag">{product.cat}</div>
                     <div className="pdp-model-spec">Model is 5'9 wearing S</div>
                   </div>
                   <div className="pdp-gallery-thumbs">
@@ -2317,7 +2409,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
             <div className="pdp-description-section" style={{ marginTop: "40px" }}>
               <div className="pdp-section-label">Description</div>
-              {(product.description || "Premium recycled performance knit, engineered for movement, structure, and longevity.").split("\n\n").map((para, i) => (
+              {((V3_DESCRIPTIONS[product.name] || product.description || "Premium recycled performance knit, engineered for movement, structure, and longevity.")).split("\n\n").map((para, i) => (
                 <p key={i}>{para}</p>
               ))}
             </div>
@@ -3646,7 +3738,6 @@ function StoresPage({ setRoute }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "clamp(560px, 78vh, 780px)",
         position: "relative",
         textAlign: "center"
       }}>
@@ -3683,14 +3774,15 @@ function StoresPage({ setRoute }) {
           </h1>
           <p style={{
             fontFamily: "var(--display)",
-            fontSize: "clamp(28px, 4vw, 56px)",
-            lineHeight: 1.1,
+            fontSize: "clamp(22px, 3.2vw, 44px)",
+            lineHeight: 1.3,
             fontWeight: 300,
             fontStyle: "italic",
             color: "#FAF7F2",
             margin: 0
           }}>
-            Empowering the next generation of wonders.
+            Wonder begins here.<br />
+            Empowering the next generation.
           </p>
         </div>
       </section>
@@ -4477,7 +4569,7 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
 function PrivacyPage({ setRoute }) {
   return (
     <PolicyPage title="Privacy & Cookie Policy" eyebrow="Legal" setRoute={setRoute}>
-      <p className="policy-intro">At HHARA, your trust matters. This policy describes how Dahlia Moxie Trading LLC (trading as HHARA) collects, uses, and protects your personal information when you visit our site or interact with us.</p>
+      <p className="policy-intro">At HHARA, your trust matters. This policy describes how HHARA - a Dahlia Moxie Trading LLC company collects, uses, and protects your personal information when you visit our site or interact with us.</p>
 
       <div className="policy-section">
         <h2 className="policy-section-heading">Age of Consent</h2>
@@ -4585,23 +4677,6 @@ function ContactPage({ setRoute }) {
           <a href="mailto:hello@hhara.com" style={{ textDecoration: "underline", color: "var(--ink)" }}>hello@hhara.com</a>
         </p>
         <p style={{ marginTop: "12px" }}>Our team typically responds within 24 hours, Monday to Friday.</p>
-      </div>
-
-      <div className="policy-section">
-        <h2 className="policy-section-heading">WhatsApp Support</h2>
-        <p>For quick assistance, message our support team on WhatsApp:</p>
-        <p style={{ fontSize: "20px", fontWeight: "400", marginTop: "8px", fontFamily: "var(--serif)" }}>
-          <a href="https://wa.me/971501234567" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline", color: "var(--ink)" }}>
-            +971 50 123 4567
-          </a>
-        </p>
-        <p style={{ marginTop: "12px" }}>Available daily from 9:00 AM to 6:00 PM (GST).</p>
-      </div>
-
-      <div className="policy-section">
-        <h2 className="policy-section-heading">Headquarters</h2>
-        <p><strong>Dahlia Moxie Trading LLC</strong></p>
-        <p>Business Bay, Dubai, United Arab Emirates</p>
       </div>
     </PolicyPage>
   );
@@ -4973,93 +5048,102 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
   const tweaksUI = (
     <>
       {signupPopupOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#3A2416]/60 backdrop-blur-sm transition-opacity duration-500 animate-fade-in">
-          <div className="signup-popup-inner relative text-[#F7F3ED] max-w-5xl w-full shadow-2xl overflow-hidden h-[540px] md:h-[540px]">
-            {/* Full-bleed image */}
-            <img
-              src={IMGS.p1a}
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            {/* Scrim — transparent left so image breathes, heavy right for form legibility */}
-            <div className="absolute inset-0" style={{ background: "linear-gradient(105deg, rgba(42,31,20,0.08) 0%, rgba(42,31,20,0.18) 30%, rgba(42,31,20,0.72) 55%, rgba(42,31,20,0.93) 100%)" }} />
-            {/* Bottom fade so left-side text sits cleanly */}
-            <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(42,31,20,0.7) 0%, transparent 45%)" }} />
-
-            {/* Brand block — absolute, sits left of the form with breathing room */}
-            <div className="absolute z-[3] pointer-events-none" style={{ left: "31%", top: "50%", transform: "translate(-50%, -50%)", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#2A1F14]/70 backdrop-blur-md transition-opacity duration-500 animate-fade-in">
+          <div className="signup-popup-inner relative max-w-4xl w-full bg-[#EAE3D9] text-[#2A1F14] shadow-2xl overflow-hidden rounded-none grid grid-cols-1 md:grid-cols-2 min-h-[500px]">
+            
+            {/* Left Side (50%) — Editorial Image & Brand Overlay */}
+            <div className="relative h-64 md:h-full w-full overflow-hidden bg-[#3A2416]">
               <img
-                src="/images/hhara-logo.png"
-                alt="HHARA"
-                style={{ height: "52px", width: "auto", display: "block" }}
+                src={IMGS.authMedia || "/images/authMedia.jpg"}
+                alt="HHARA Insiders"
+                className="w-full h-full object-cover"
               />
-              <div style={{
-                fontFamily: "var(--font-signature), 'Mr De Haviland', cursive",
-                fontSize: "clamp(62px, 7vw, 96px)",
-                color: "#F7F3ED",
-                lineHeight: 0.75,
-                letterSpacing: "normal",
-                marginLeft: "0px",
-                marginTop: "4px",
-                marginBottom: "0.25em",
-                textTransform: "none",
-                WebkitTextStroke: "1.5px #F7F3ED",
-                textShadow: "0 0 2px rgba(247,243,237,0.9), 0 0 4px rgba(247,243,237,0.5)",
-              }}>Insiders</div>
-              <div style={{
-                fontFamily: "var(--display)",
-                fontStyle: "italic",
-                fontWeight: 300,
-                fontSize: "clamp(23px, 2.1vw, 29px)",
-                color: "rgba(247,243,237,0.85)",
-                marginTop: "-6px",
-                letterSpacing: "0.02em",
-                lineHeight: 1.5,
-              }}>Where Confidence Comes To Life.</div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+              
+              {/* Brand Text Overlay */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 pointer-events-none">
+                <div className="relative flex flex-col items-center justify-center">
+                  <img
+                    src="/images/hhara-logo.png"
+                    alt="HHARA"
+                    style={{
+                      height: "clamp(24px, 3.2vw, 38px)",
+                      width: "auto",
+                      objectFit: "contain",
+                      filter: "brightness(0) saturate(100%) invert(58%) sepia(48%) saturate(542%) hue-rotate(5deg) brightness(92%) contrast(87%)"
+                    }}
+                  />
+                  <span style={{
+                    fontFamily: "var(--font-signature), 'Mr De Haviland', cursive",
+                    fontSize: "clamp(48px, 5.5vw, 70px)",
+                    color: "#EAE3D9",
+                    marginTop: "-16px",
+                    lineHeight: 0.8,
+                    textTransform: "none"
+                  }}>
+                    Insiders
+                  </span>
+                </div>
+                <p style={{
+                  fontFamily: "var(--display)",
+                  fontStyle: "italic",
+                  fontWeight: 300,
+                  fontSize: "clamp(18px, 1.8vw, 24px)",
+                  color: "rgba(255, 255, 255, 0.95)",
+                  marginTop: "16px",
+                  letterSpacing: "0.01em"
+                }}>
+                  Where Confidence Comes To Life.
+                </p>
+              </div>
             </div>
 
-            {/* Close Button */}
-            <button
-              className="absolute top-3 right-3 z-10 p-2 text-[#F7F3ED] hover:opacity-70 transition-opacity"
-              onClick={closeSignupPopup}
-              aria-label="Close signup invitation"
-            >
-              <Icon.Close />
-            </button>
+            {/* Right Side (50%) — Light Beige Content & Form Container */}
+            <div className="relative p-6 md:p-10 flex flex-col justify-center bg-[#EAE3D9] text-[#2A1F14]">
+              {/* Close Button (X) */}
+              <button
+                className="absolute top-4 right-4 z-10 p-2 text-[#2A1F14] hover:opacity-60 transition-opacity"
+                onClick={closeSignupPopup}
+                aria-label="Close signup invitation"
+              >
+                <Icon.Close />
+              </button>
 
-            {/* Right side — form */}
-            <div className="relative z-[2] h-full flex flex-col justify-center items-end py-8 pl-6 pr-12 md:pr-16">
               {signupStatus !== "success" ? (
-                <div className="w-full max-w-[300px] text-center">
-                  <p className="text-xs md:text-sm text-[#F7F3ED]/80 mb-5 leading-relaxed font-light text-center">
+                <div className="w-full max-w-sm mx-auto">
+                  <p className="text-xs md:text-sm text-[#2A1F14]/85 mb-5 leading-relaxed font-light text-center">
                     Be the first to discover new collections, limited releases, surprise gifts and exclusive stories from the world of HHARA.
                   </p>
-                  <form onSubmit={handleNewsletterSignup} className="w-full">
-                    {/* 1. First Name */}
-                    <input
-                      type="text"
-                      required
-                      placeholder="First Name"
-                      value={newsletterName}
-                      onChange={(e) => setNewsletterName(e.target.value)}
-                      className="w-full bg-[#F7F3ED] text-[#2A1F14] border border-[#F7F3ED]/40 focus:border-[#B8892E] outline-none py-3 px-4 text-sm placeholder-[#7A6555]/60 mb-3 font-light transition-all text-left"
-                    />
-                    {/* 2. Date of Birth */}
-                    <input
-                      type="date"
-                      required
-                      value={newsletterDob}
-                      onChange={(e) => setNewsletterDob(e.target.value)}
-                      max={new Date().toISOString().split("T")[0]}
-                      className="w-full bg-[#F7F3ED] text-[#2A1F14] border border-[#F7F3ED]/40 focus:border-[#B8892E] outline-none py-3 px-4 text-sm mb-3 font-light transition-all [color-scheme:light]"
-                    />
-                    {/* 3. Phone */}
-                    <div className="w-full flex gap-0 mb-3 border border-[#F7F3ED]/40 focus-within:border-[#B8892E] transition-all">
+
+                  <form onSubmit={handleNewsletterSignup} className="w-full space-y-2.5">
+                    {/* Row 1: First Name & Birthday */}
+                    <div className="grid grid-cols-2 gap-2.5">
+                      <input
+                        type="text"
+                        required
+                        placeholder="First Name"
+                        value={newsletterName}
+                        onChange={(e) => setNewsletterName(e.target.value)}
+                        className="w-full bg-white text-[#2A1F14] border border-[#D0C8BC] focus:border-[#2A1F14] outline-none py-2.5 px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light transition-colors"
+                      />
+                      <input
+                        type="date"
+                        required
+                        value={newsletterDob}
+                        onChange={(e) => setNewsletterDob(e.target.value)}
+                        max={new Date().toISOString().split("T")[0]}
+                        placeholder="Birthday"
+                        className="w-full bg-white text-[#2A1F14] border border-[#D0C8BC] focus:border-[#2A1F14] outline-none py-2.5 px-3.5 text-xs md:text-sm font-light transition-colors [color-scheme:light]"
+                      />
+                    </div>
+
+                    {/* Row 2: Phone Number */}
+                    <div className="w-full flex gap-0 border border-[#D0C8BC] focus-within:border-[#2A1F14] transition-colors bg-white">
                       <select
                         value={newsletterCountryCode}
                         onChange={(e) => setNewsletterCountryCode(e.target.value)}
-                        className="bg-[#F7F3ED] text-[#2A1F14] border-0 border-r border-[#2A1F14]/10 outline-none py-3 px-2 text-sm font-light cursor-pointer shrink-0"
-                        style={{ width: "80px" }}
+                        className="bg-transparent text-[#2A1F14] border-0 border-r border-[#D0C8BC] outline-none py-2.5 px-2 text-xs font-light cursor-pointer shrink-0"
+                        style={{ width: "76px" }}
                       >
                         <option value="+971">🇦🇪 +971</option>
                         <option value="+966">🇸🇦 +966</option>
@@ -5075,44 +5159,48 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                         placeholder="Phone Number"
                         value={newsletterPhone}
                         onChange={(e) => setNewsletterPhone(e.target.value)}
-                        className="flex-1 min-w-0 bg-[#F7F3ED] text-[#2A1F14] border-0 outline-none py-3 px-3 text-sm placeholder-[#7A6555]/60 font-light text-left"
+                        className="flex-1 min-w-0 bg-transparent text-[#2A1F14] border-0 outline-none py-2.5 px-3 text-xs md:text-sm placeholder-[#7A6555]/60 font-light"
                       />
                     </div>
-                    {/* 4. Email + Join button inline */}
-                    <div className="w-full flex gap-0 border border-[#F7F3ED]/40 focus-within:border-[#B8892E] transition-all">
+
+                    {/* Row 3: Email Address + JOIN button attached inline */}
+                    <div className="w-full flex gap-0 border border-[#D0C8BC] focus-within:border-[#2A1F14] transition-colors bg-white">
                       <input
                         type="email"
                         required
                         placeholder="Email Address"
                         value={newsletterEmail}
                         onChange={(e) => setNewsletterEmail(e.target.value)}
-                        className="flex-1 min-w-0 bg-[#F7F3ED] text-[#2A1F14] border-0 outline-none py-3 px-4 text-sm placeholder-[#7A6555]/60 font-light text-left"
+                        className="flex-1 min-w-0 bg-transparent text-[#2A1F14] border-0 outline-none py-2.5 px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light"
                       />
                       <button
                         type="submit"
                         disabled={signupStatus === "loading"}
-                        className="shrink-0 bg-[#2A1F14] text-[#F7F3ED] hover:bg-[#3A2416] transition-all tracking-widest text-[10px] uppercase font-medium disabled:opacity-50 px-4"
+                        className="shrink-0 bg-[#2A1F14] hover:bg-[#3A2416] text-[#F7F3ED] transition-colors tracking-widest text-[11px] uppercase font-medium disabled:opacity-50 px-5"
                       >
                         {signupStatus === "loading" ? "…" : "Join"}
                       </button>
                     </div>
                   </form>
+
                   {signupStatus === "error" && (
-                    <p className="text-xs text-red-300 mt-3">{signupError}</p>
+                    <p className="text-xs text-red-600 mt-2 text-center">{signupError}</p>
                   )}
-                  <p className="text-[10px] text-[#F7F3ED]/70 mt-4 leading-relaxed text-center">
+
+                  <p className="text-[10px] text-[#2A1F14]/70 mt-4 leading-relaxed text-center">
                     By signing up, you agree to receive marketing emails from HHARA. You can unsubscribe at any time. See our{" "}
-                    <button type="button" onClick={() => { closeSignupPopup(); setRoute("privacy", null); }} className="underline hover:text-white">Privacy Policy</button>.
+                    <button type="button" onClick={() => { closeSignupPopup(); setRoute("privacy", null); }} className="underline hover:text-[#2A1F14] font-medium">Privacy Policy</button>.
                   </p>
                 </div>
               ) : (
-                <div className="flex flex-col items-end text-right max-w-md">
-                  <div className="w-10 h-10 rounded-full border border-[#F7F3ED] flex items-center justify-center mb-4">
-                    <svg className="w-5 h-5 stroke-[#F7F3ED] fill-none" viewBox="0 0 24 24" strokeWidth="2">
+                <div className="flex flex-col items-center text-center py-8">
+                  <div className="w-12 h-12 rounded-full border border-[#2A1F14] flex items-center justify-center mb-4">
+                    <svg className="w-6 h-6 stroke-[#2A1F14] fill-none" viewBox="0 0 24 24" strokeWidth="2">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   </div>
-                  <p className="text-sm text-[#F7F3ED]/90 leading-relaxed font-light">
+                  <h4 style={{ fontFamily: "var(--display)", fontSize: "26px", marginBottom: "8px" }}>Welcome to HHARA</h4>
+                  <p className="text-xs md:text-sm text-[#2A1F14]/80 leading-relaxed font-light">
                     You're on the list. Welcome to HHARA.
                   </p>
                 </div>

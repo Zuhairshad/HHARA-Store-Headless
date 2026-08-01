@@ -381,8 +381,10 @@ img { display: block; max-width: 100%; }
   font-weight: 500;
 }
 
-/* ====== Hero ====== */
-.hero {
+/* ====== Hero (Home, About Us, Impact equalized) ====== */
+.hero,
+.atelier-hero,
+.gives-back-hero {
   position: relative;
   height: calc(100dvh - 92px);
   min-height: 480px;
@@ -1280,12 +1282,11 @@ img { display: block; max-width: 100%; }
 .pco-wrap {
   display: grid;
   grid-template-columns: 1fr 460px;
-  min-height: calc(100vh - 72px);
   max-width: var(--maxw);
   margin: 0 auto;
 }
 .pco-left {
-  padding: 56px var(--pad) 80px;
+  padding: 56px var(--pad) 64px;
   border-right: 1px solid var(--line-soft);
 }
 .pco-left-inner { max-width: 620px; margin: 0 auto; }
@@ -1345,7 +1346,7 @@ img { display: block; max-width: 100%; }
 /* Right panel */
 .pco-right {
   background: var(--bg-elev);
-  padding: 56px 40px 80px;
+  padding: 56px 40px 64px;
   border-left: 1px solid var(--line-soft);
 }
 .pco-right-inner {
@@ -1688,16 +1689,12 @@ img { display: block; max-width: 100%; }
 .pdp-gallery-thumb.on { border-color: var(--ink); }
 .pdp-info {
   position: sticky;
-  top: clamp(72px, 8vh, 96px);
-  max-height: calc(100vh - 96px);
-  overflow-y: auto;
+  top: 96px;
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding-top: 6px;
-  scrollbar-width: none;
 }
-.pdp-info::-webkit-scrollbar { display: none; }
 .pdp-info .pdp-info-cat {
   font-size: 11px;
   letter-spacing: 0.18em;
@@ -2227,8 +2224,8 @@ img { display: block; max-width: 100%; }
   .announce-track span:nth-child(2),
   .announce-track span:nth-child(3) { display: none; }
 
-  /* Hero mobile */
-  .hero { height: calc(100dvh - 72px); min-height: 400px; }
+  /* Hero mobile (Home, About Us, Impact) */
+  .hero, .atelier-hero, .gives-back-hero { height: calc(100dvh - 72px); min-height: 400px; max-height: none; }
   .hero-content { max-width: 90%; }
   .hero-sub { font-size: 13px; max-width: 320px; margin-bottom: 24px; }
   .hero-ctas { flex-direction: column; gap: 10px; }
@@ -2378,9 +2375,6 @@ img { display: block; max-width: 100%; }
 /* ============ ATELIER (About) ============ */
 .atelier-hero {
   position: relative;
-  height: 70vh;
-  min-height: 540px;
-  overflow: hidden;
 }
 .atelier-hero .img-fill { z-index: 0; }
 .atelier-hero .ovr {
@@ -3121,8 +3115,9 @@ img { display: block; max-width: 100%; }
   justify-content: center;
   align-items: flex-start;
   gap: 100px;
-  min-height: 388px;
-  padding: 48px var(--pad) 48px calc(var(--pad) + 260px);
+  min-height: 380px;
+  padding: 48px var(--pad);
+  padding-right: calc(var(--pad) + 260px);
 }
 .megamenu .cols {
   display: grid;
@@ -3150,7 +3145,7 @@ img { display: block; max-width: 100%; }
   position: absolute;
   right: var(--pad);
   top: 48px;
-  width: 215px;
+  width: 210px;
   aspect-ratio: 3 / 4;
   background: var(--line-soft);
   overflow: hidden;
@@ -3586,7 +3581,6 @@ img { display: block; max-width: 100%; }
   }
   .gives-back-hero {
     padding: 100px 20px 72px;
-    min-height: 60vh;
   }
   .gives-back-hero h1 {
     font-size: clamp(36px, 10vw, 60px);
@@ -5831,8 +5825,6 @@ img { display: block; max-width: 100%; }
   .review-card { flex: 0 0 clamp(220px, 82vw, 280px); }
   .review-quote { font-size: 13px; }
 
-  /* Impact hero */
-  .gives-back-hero { min-height: 420px; }
 
   /* Pillars */
   .pillars-section { padding: 36px 16px; }
