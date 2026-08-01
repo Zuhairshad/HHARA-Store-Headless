@@ -3309,6 +3309,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
                 placeholder="Write a few words for her..."
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
+                style={{ resize: "none", minHeight: "80px", maxHeight: "120px" }}
               />
             </div>
 
@@ -4740,6 +4741,13 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
       if (raw) setWishlist(JSON.parse(raw));
     } catch { }
     setWishlistLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    const ua = navigator.userAgent || "";
+    if (/Windows/i.test(ua)) {
+      document.documentElement.classList.add("is-windows");
+    }
   }, []);
   useEffect(() => {
     if (!wishlistLoaded) return;

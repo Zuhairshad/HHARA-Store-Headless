@@ -143,6 +143,9 @@ img { display: block; max-width: 100%; }
   justify-content: flex-start;
   margin-left: calc(var(--pad) * -1 + 12px);
 }
+.is-windows .header-nav {
+  gap: clamp(16.5px, calc(2.4vw - 1.5px), 34.5px);
+}
 .header-nav button {
   font-family: var(--sans);
   font-size: clamp(9px, 2.2vw, 13px);
@@ -5618,7 +5621,9 @@ img { display: block; max-width: 100%; }
 }
 
 .gc-field textarea {
-  resize: vertical;
+  resize: none;
+  min-height: 80px;
+  max-height: 120px;
 }
 
 .gc-summary-row {
