@@ -5076,7 +5076,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                     HHARA
                   </span>
                   <span style={{
-                    fontFamily: "'Mrs Saint Delafield', 'Herr Von Muellerhoff', 'Monsieur La Doulaise', 'Ruthie', 'Qwigley', 'Allura', cursive",
+                    fontFamily: "'ES Allizance', 'Allizance', 'Mrs Saint Delafield', 'Herr Von Muellerhoff', 'Monsieur La Doulaise', cursive",
                     fontSize: "clamp(72px, 9vw, 120px)",
                     fontWeight: 400,
                     color: "#EAE3D9",
