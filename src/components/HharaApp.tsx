@@ -3239,11 +3239,16 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
               <span className="gc-custom-amount-symbol">AED</span>
               <input
                 className="gc-custom-amount-input"
-                type="number"
-                min="1"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={5}
                 placeholder="Enter a custom amount"
                 value={customAmount}
-                onChange={(e) => setCustomAmount(e.target.value)}
+                onChange={(e) => {
+                  const digits = e.target.value.replace(/\D/g, "").slice(0, 5);
+                  setCustomAmount(digits);
+                }}
               />
             </div>
 
@@ -3267,7 +3272,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
               <input
                 type="text"
                 required
-                placeholder="Her name"
+                placeholder="First name"
                 value={recipientName}
                 onChange={(e) => setRecipientName(e.target.value)}
               />
@@ -3301,11 +3306,11 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
             <div className="gc-field">
               <label style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
                 <span>A Personal Note (Optional)</span>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 10, fontWeight: 400, letterSpacing: "0.05em", color: "var(--ink-soft)", opacity: 0.7 }}>{note.length}/150</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 10, fontWeight: 400, letterSpacing: "0.05em", color: "var(--ink-soft)", opacity: 0.7 }}>{note.length}/250</span>
               </label>
               <textarea
                 rows={3}
-                maxLength={150}
+                maxLength={250}
                 placeholder="Write a few words for her..."
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
