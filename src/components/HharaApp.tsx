@@ -5067,20 +5067,22 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                     src="/images/hhara-logo.png"
                     alt="HHARA"
                     style={{
-                      height: "clamp(22px, 2.8vw, 34px)",
+                      height: "clamp(26px, 3.2vw, 38px)",
                       width: "auto",
                       objectFit: "contain",
                       filter: "brightness(0) saturate(100%) invert(58%) sepia(48%) saturate(542%) hue-rotate(5deg) brightness(92%) contrast(87%)"
                     }}
                   />
                   <span style={{
-                    fontFamily: "'ES Allizance', 'Allizance', 'Mrs Saint Delafield', 'Herr Von Muellerhoff', cursive",
-                    fontSize: "clamp(50px, 6vw, 78px)",
+                    fontFamily: "'Great Vibes', 'Allura', 'Mrs Saint Delafield', 'Herr Von Muellerhoff', cursive",
+                    fontSize: "66px",
+                    fontWeight: 400,
                     color: "#EAE3D9",
-                    marginTop: "-14px",
-                    lineHeight: 0.85,
+                    marginTop: "4px",
+                    lineHeight: 0.9,
                     textTransform: "none",
-                    filter: "drop-shadow(0px 2px 6px rgba(0,0,0,0.35))",
+                    letterSpacing: "0.02em",
+                    filter: "drop-shadow(0px 1px 4px rgba(0,0,0,0.3))",
                     whiteSpace: "nowrap"
                   }}>
                     Insiders
