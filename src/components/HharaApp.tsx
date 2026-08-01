@@ -5063,28 +5063,24 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
               {/* Brand Text Overlay */}
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 pointer-events-none">
                 <div className="relative flex flex-col items-center justify-center">
+                  <img
+                    src="/images/hhara-logo.png"
+                    alt="HHARA"
+                    style={{
+                      height: "clamp(22px, 2.8vw, 34px)",
+                      width: "auto",
+                      objectFit: "contain",
+                      filter: "brightness(0) saturate(100%) invert(58%) sepia(48%) saturate(542%) hue-rotate(5deg) brightness(92%) contrast(87%)"
+                    }}
+                  />
                   <span style={{
-                    fontFamily: "var(--sans), 'Montserrat', sans-serif",
-                    fontSize: "clamp(42px, 5.2vw, 66px)",
-                    fontWeight: 800,
-                    letterSpacing: "0.28em",
-                    color: "#FFFFFF",
-                    lineHeight: 0.9,
-                    textTransform: "uppercase",
-                    paddingLeft: "0.28em"
-                  }}>
-                    HHARA
-                  </span>
-                  <span style={{
-                    fontFamily: "'ES Allizance', 'Allizance', 'Mrs Saint Delafield', 'Herr Von Muellerhoff', 'Monsieur La Doulaise', cursive",
-                    fontSize: "clamp(72px, 9vw, 120px)",
-                    fontWeight: 400,
+                    fontFamily: "'ES Allizance', 'Allizance', 'Mrs Saint Delafield', 'Herr Von Muellerhoff', cursive",
+                    fontSize: "clamp(50px, 6vw, 78px)",
                     color: "#EAE3D9",
-                    marginTop: "-44px",
-                    lineHeight: 0.7,
+                    marginTop: "-14px",
+                    lineHeight: 0.85,
                     textTransform: "none",
-                    transform: "rotate(-3deg)",
-                    filter: "drop-shadow(0px 3px 8px rgba(0,0,0,0.4))",
+                    filter: "drop-shadow(0px 2px 6px rgba(0,0,0,0.35))",
                     whiteSpace: "nowrap"
                   }}>
                     Insiders
