@@ -99,11 +99,12 @@ export function MagneticImpactCard({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className={cn(
-        "relative flex flex-col items-center justify-center p-8 rounded-2xl overflow-hidden cursor-pointer select-none transition-all duration-500",
+        "relative flex flex-col items-center justify-center p-8 rounded-none overflow-hidden cursor-pointer select-none transition-all duration-500",
         "bg-[#3A2416] border border-[#B8892E]/25 shadow-lg min-h-[190px]",
         className
       )}
       style={{
+        borderRadius: 0,
         backgroundColor: isHovered ? "#F0EAE0" : "#3A2416",
         borderColor: isHovered ? "rgba(184, 137, 46, 0.45)" : "rgba(184, 137, 46, 0.22)",
       }}
