@@ -180,8 +180,8 @@ const PRODUCTS = [
     cat: "The Imara Set",
     price: 0,
     swatches: [
-      { name: "Chicory Coffee", hex: "#3D2B1F" },
-      { name: "Olive Green", hex: "#5F6B4F" },
+      { name: "Chicory Brown", hex: "#3D2B1F" },
+      { name: "Army Green", hex: "#5F6B4F" },
     ],
     sizes: ["XS", "S", "M", "L", "XL"],
     tone: "tone-2",
@@ -203,8 +203,8 @@ const PRODUCTS = [
     cat: "The Imara Set",
     price: 0,
     swatches: [
-      { name: "Chicory Coffee", hex: "#3D2B1F" },
-      { name: "Olive Green", hex: "#5F6B4F" },
+      { name: "Chicory Brown", hex: "#3D2B1F" },
+      { name: "Army Green", hex: "#5F6B4F" },
     ],
     sizes: ["XS", "S", "M", "L", "XL"],
     tone: "tone-1",
@@ -226,8 +226,8 @@ const PRODUCTS = [
     cat: "The Dahlia Set",
     price: 0,
     swatches: [
-      { name: "Chicory Coffee", hex: "#3D2B1F" },
-      { name: "Olive Green", hex: "#5F6B4F" },
+      { name: "Chicory Brown", hex: "#3D2B1F" },
+      { name: "Army Green", hex: "#5F6B4F" },
     ],
     sizes: ["XS", "S", "M", "L", "XL"],
     tone: "tone-7",
@@ -248,8 +248,8 @@ const PRODUCTS = [
     cat: "The Dahlia Set",
     price: 0,
     swatches: [
-      { name: "Chicory Coffee", hex: "#3D2B1F" },
-      { name: "Olive Green", hex: "#5F6B4F" },
+      { name: "Chicory Brown", hex: "#3D2B1F" },
+      { name: "Army Green", hex: "#5F6B4F" },
     ],
     sizes: ["XS", "S", "M", "L", "XL"],
     tone: "tone-6",
@@ -488,12 +488,6 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
             >
               Impact
             </button>
-            <button
-              className={route === "gift-card" ? "active" : ""}
-              onClick={() => setRoute("gift-card")}
-            >
-              E-Gift Card
-            </button>
           </nav>
           <div className="brandmark" onClick={() => setRoute("home")}>
             <img src="/images/hhara-logo.png" alt="HHARA Wordmark" className="brandmark-text" />
@@ -557,12 +551,6 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
               onClick={() => { setRoute("stores"); setMobileMenuOpen(false); }}
             >
               Impact
-            </button>
-            <button
-              className={route === "gift-card" ? "active" : ""}
-              onClick={() => { setRoute("gift-card"); setMobileMenuOpen(false); }}
-            >
-              E-Gift Card
             </button>
           </nav>
         </div>
@@ -1037,7 +1025,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
                 Review Order
                 <span className="btn-arrow"><Icon.Arrow /></span>
               </button>
-              <div className="micro">Taxes &amp; duties calculated at checkout · Every purchase helps fund children's education</div>
+              <div className="micro">Taxes &amp; duties calculated at checkout</div>
             </div>
           </>
         )}
@@ -1164,17 +1152,17 @@ function FeaturedGrid({ setRoute }: { setRoute: (route: string, payload?: any) =
         <em style={{ fontFamily: "var(--display,'Cormorant Garamond',serif)", fontStyle: "italic", fontWeight: 300, color: "#B8892E" }}>Tones.</em>
       </h2>
       <p className="mc-lead" style={{ marginBottom: 40, maxWidth: "640px", textAlign: "center" }}>
-        Chicory Coffee and Olive Green. Two signature colorways grounded in raw mineral earth and quiet oases, designed to anchor your movement and your day.
+        Chicory Brown and Army Green. Two signature colorways grounded in raw mineral earth and quiet oases, designed to anchor your movement and your day.
       </p>
       <div className="mc-cards" style={{ cursor: "default" }}>
         <div 
           className="mc-card mc-card-clickable" 
-          onClick={() => setRoute("shop", "Chicory Coffee")}
+          onClick={() => setRoute("shop", "Chicory Brown")}
           style={{ textAlign: "left" }}
         >
           <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "#3D2B1F", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0 }} />
           <div>
-            <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Chicory Coffee</h3>
+            <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Chicory Brown</h3>
             <span className="eyebrow" style={{ letterSpacing: "0.20em", display: "block" }}>Deep Espresso Brown</span>
           </div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
@@ -1186,13 +1174,13 @@ function FeaturedGrid({ setRoute }: { setRoute: (route: string, payload?: any) =
         </div>
         <div 
           className="mc-card mc-card-clickable" 
-          onClick={() => setRoute("shop", "Olive Green")}
+          onClick={() => setRoute("shop", "Army Green")}
           style={{ textAlign: "left" }}
         >
           <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "#5F6B4F", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0 }} />
           <div>
-            <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Olive Green</h3>
-            <span className="eyebrow" style={{ letterSpacing: "0.20em", display: "block" }}>Deep Olive</span>
+            <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Army Green</h3>
+            <span className="eyebrow" style={{ letterSpacing: "0.20em", display: "block" }}>Deep Green</span>
           </div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
             The colour of quiet resilience. A soft, mineral shade pulled from the heart of the desert oasis. Peaceful, steady, organic - a tone that does not seek attention, yet holds it completely.
@@ -1287,7 +1275,7 @@ function Lookbook({ openLookbook }) {
 
   const tiles = [IMGS.lb1, IMGS.lb2, IMGS.lb3, IMGS.lb4, IMGS.lb5, IMGS.lb6];
   const tones = ["tone-3", "tone-1", "tone-5", "tone-7", "tone-2", "tone-6"];
-  const tags = ["Imara Bra", "Imara Legging", "Dahlia Bra", "Dahlia Short", "Chicory Coffee", "Olive Green"];
+  const tags = ["Imara Bra", "Imara Legging", "Dahlia Bra", "Dahlia Short", "Chicory Brown", "Army Green"];
   return (
     <section className="section" style={{ paddingTop: "10px" }}>
       <div className="section-head">
@@ -1500,73 +1488,73 @@ const TESTIMONIALS = [
     quote: "The Imara set went from morning yoga to a board meeting without a single second glance. I've worn luxury activewear from every label and nothing moves like this. The fabric feels like a second skin and holds its shape through everything.",
     name: "Layla M.",
     location: "Dubai",
-    product: "Imara Set · Chicory Coffee",
+    product: "Imara Set · Chicory Brown",
   },
   {
     quote: "I've been searching for years for something that doesn't ask me to choose between beauty and function. HHARA finally understood what my mornings actually look like. It's the first brand that dressed me for the whole day, not just the gym.",
     name: "Amira K.",
     location: "Abu Dhabi",
-    product: "Dahlia Set · Olive Green",
+    product: "Dahlia Set · Army Green",
   },
   {
     quote: "The craftsmanship on the Dahlia Bra is extraordinary, soft against the skin but structured where it matters. Six hours later I forgot I was wearing activewear. I've recommended it to every woman in my circle since.",
     name: "Nadia R.",
     location: "London",
-    product: "Dahlia Bra · Chicory Coffee",
+    product: "Dahlia Bra · Chicory Brown",
   },
   {
-    quote: "Finally activewear I'm proud to be seen in. The Chicory Coffee colourway is richer and more considered in person than any photograph captures. It photographs beautifully but wearing it is something else entirely.",
+    quote: "Finally activewear I'm proud to be seen in. The Chicory Brown colourway is richer and more considered in person than any photograph captures. It photographs beautifully but wearing it is something else entirely.",
     name: "Fatima A.",
     location: "Dubai",
-    product: "Imara Legging · Chicory Coffee",
+    product: "Imara Legging · Chicory Brown",
   },
   {
     quote: "Worth every dirham. I bought the Dahlia Short for the gym and I've worn it to dinner twice since. That says everything. It pairs with almost anything and never looks like it's trying too hard.",
     name: "Sara H.",
     location: "Riyadh",
-    product: "Dahlia Short · Olive Green",
+    product: "Dahlia Short · Army Green",
   },
   {
     quote: "I wore the Imara Set to a gallery opening and three women stopped to ask what I was wearing. HHARA moves with you and speaks for you without trying.",
     name: "Hessa O.",
     location: "Doha",
-    product: "Imara Set · Olive Green",
+    product: "Imara Set · Army Green",
   },
   {
     quote: "The Dahlia Legging is the most precise piece of activewear I own. The waistband doesn't roll, the fabric holds its shape after forty washes. Nothing comes close.",
     name: "Mariam S.",
     location: "Kuwait City",
-    product: "Dahlia Legging · Chicory Coffee",
+    product: "Dahlia Legging · Chicory Brown",
   },
   {
     quote: "I train four days a week and spend the other three in meetings. HHARA is the only thing I own that moves seamlessly between both worlds without compromise.",
     name: "Rania B.",
     location: "Beirut",
-    product: "Imara Bra · Olive Green",
+    product: "Imara Bra · Army Green",
   },
   {
     quote: "The Imara Legging has outlasted every other pair I own. Three months of daily wear and it still looks brand new. The fabric is something else entirely.",
     name: "Zara A.",
     location: "Abu Dhabi",
-    product: "Imara Legging · Olive Green",
+    product: "Imara Legging · Army Green",
   },
   {
     quote: "I wore the Dahlia Set to a client dinner and not a single person knew it was activewear. That is the whole point, isn't it? HHARA gets it perfectly.",
     name: "Lina M.",
     location: "Beirut",
-    product: "Dahlia Set · Chicory Coffee",
+    product: "Dahlia Set · Chicory Brown",
   },
   {
     quote: "The waistband on the Imara Legging is the best I have ever worn. No rolling, no digging. Just stays exactly where it should all day long.",
     name: "Nour T.",
     location: "Cairo",
-    product: "Imara Legging · Olive Green",
+    product: "Imara Legging · Army Green",
   },
   {
     quote: "Activewear I can wear to the gym, to coffee, and straight into a meeting without a second thought. HHARA solved a problem I didn't know could be solved.",
     name: "Aisha R.",
     location: "Riyadh",
-    product: "Imara Set · Olive Green",
+    product: "Imara Set · Army Green",
   },
 ];
 
@@ -1946,12 +1934,12 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
   // Reviews and Interactive Form States
   const [reviews, setReviews] = useState([
-    { id: "r1", name: "Sarah M.", location: "UAE", rating: 5, quote: "Finally a bra that actually holds. Activity is easy, side roll is gone, structured. I wore it straight from class to lunch and felt completely put together.", product: "Imara Bra · Chicory Coffee" },
-    { id: "r2", name: "Nour A.", location: "Abu Dhabi", rating: 5, quote: "The fabric is genuinely buttery - I wasn't expecting it to feel this luxurious. The cross-cross back is stunning. Already ordered the legging!", product: "Dahlia Bra · Olive Green" },
-    { id: "r3", name: "Layla K.", location: "Riyadh", rating: 4, quote: "Sizing is true to guide. I have a fuller bust and sized up as advised - perfect fit. The Olive Green colour is even more beautiful in person.", product: "Dahlia Bra · Olive Green" },
-    { id: "r4", name: "Amira H.", location: "Dubai", rating: 5, quote: "I wore the Imara Set from morning yoga straight to a client lunch. Not once did I feel underdressed. HHARA genuinely gets the way we move through our days.", product: "Imara Set · Chicory Coffee" },
-    { id: "r5", name: "Fatima R.", location: "Doha", rating: 5, quote: "The waistband doesn't roll, the fabric doesn't pill, and the colour is even richer in person. Worth every dirham and then some.", product: "Dahlia Legging · Olive Green" },
-    { id: "r6", name: "Hessa O.", location: "Kuwait City", rating: 5, quote: "Three months of wear and it still looks brand new. I've stopped buying from everywhere else. HHARA is the only activewear I trust now.", product: "Imara Legging · Chicory Coffee" },
+    { id: "r1", name: "Sarah M.", location: "UAE", rating: 5, quote: "Finally a bra that actually holds. Activity is easy, side roll is gone, structured. I wore it straight from class to lunch and felt completely put together.", product: "Imara Bra · Chicory Brown" },
+    { id: "r2", name: "Nour A.", location: "Abu Dhabi", rating: 5, quote: "The fabric is genuinely buttery - I wasn't expecting it to feel this luxurious. The cross-cross back is stunning. Already ordered the legging!", product: "Dahlia Bra · Army Green" },
+    { id: "r3", name: "Layla K.", location: "Riyadh", rating: 4, quote: "Sizing is true to guide. I have a fuller bust and sized up as advised - perfect fit. The Army Green colour is even more beautiful in person.", product: "Dahlia Bra · Army Green" },
+    { id: "r4", name: "Amira H.", location: "Dubai", rating: 5, quote: "I wore the Imara Set from morning yoga straight to a client lunch. Not once did I feel underdressed. HHARA genuinely gets the way we move through our days.", product: "Imara Set · Chicory Brown" },
+    { id: "r5", name: "Fatima R.", location: "Doha", rating: 5, quote: "The waistband doesn't roll, the fabric doesn't pill, and the colour is even richer in person. Worth every dirham and then some.", product: "Dahlia Legging · Army Green" },
+    { id: "r6", name: "Hessa O.", location: "Kuwait City", rating: 5, quote: "Three months of wear and it still looks brand new. I've stopped buying from everywhere else. HHARA is the only activewear I trust now.", product: "Imara Legging · Chicory Brown" },
   ]);
 
   const totalReviews = reviews.length;
@@ -2603,7 +2591,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                 </div>
                 <div className="gc-field">
                   <label>Product</label>
-                  <input type="text" placeholder="e.g. Imara Bra · Chicory Coffee" value={reviewForm.product} onChange={e => setReviewForm(p => ({ ...p, product: e.target.value }))} />
+                  <input type="text" placeholder="e.g. Imara Bra · Chicory Brown" value={reviewForm.product} onChange={e => setReviewForm(p => ({ ...p, product: e.target.value }))} />
                 </div>
               </div>
               <div className="gc-field">
@@ -3370,7 +3358,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
 
 const JOURNAL = [
   { id: "j1", title: "From plastic waste to performance grade", excerpt: "Inside the regenerative knit: how ocean and industrial plastic become a sensory-grade fabric.", date: "26 May 2026", cat: "Material Transparency", img: "j1" },
-  { id: "j2", title: "On Chicory Coffee and Olive Green", excerpt: "Two colorways, two languages. Choosing pigments that capture mineral earth and inner energy.", date: "14 May 2026", cat: "The Palette", img: "j2" },
+  { id: "j2", title: "On Chicory Brown and Army Green", excerpt: "Two colorways, two languages. Choosing pigments that capture mineral earth and inner energy.", date: "14 May 2026", cat: "The Palette", img: "j2" },
   { id: "j3", title: "Why we make only four pieces", excerpt: "The case for minimalist production: fewer SKUs, lower waste, garments engineered to outlast.", date: "02 May 2026", cat: "Our Ethos", img: "j3" },
   { id: "j4", title: "Wonder, Worn", excerpt: "Three women, two sets: the Imara and Dahlia, photographed across the UAE.", date: "21 April 2026", cat: "The Capsule", img: "j4" },
   { id: "j5", title: "Carbon-neutral, from the UAE", excerpt: "How optimised smart-freight from our regional base offsets every single shipment.", date: "08 April 2026", cat: "Circular Luxury", img: "j5" },
@@ -3444,8 +3432,8 @@ function ArticlePage({ articleId, setRoute, openArticle }) {
         </p>
 
         <p>
-          Each colourway is calibrated in small batches. Chicory Coffee, a deep, mineral neutral pulled from raw
-          earth pigment, is set first; Olive Green, the muted jewel, is reserved for the second pass. Both are
+          Each colourway is calibrated in small batches. Chicory Brown, a deep, mineral neutral pulled from raw
+          earth pigment, is set first; Army Green, the muted jewel, is reserved for the second pass. Both are
           designed to absorb, not reflect, to be worn quietly, not announced.
         </p>
 
@@ -3578,7 +3566,7 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb3} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">Chicory Coffee</div></div>
+            <div className="caption"><div className="ttl">Chicory Brown</div></div>
           </div>
           <div className="lb-tile">
             <img src={IMGS.lb4} alt="" className="img-fill" loading="lazy" />
@@ -3591,7 +3579,7 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb5} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">Olive Green</div></div>
+            <div className="caption"><div className="ttl">Army Green</div></div>
           </div>
         </div>
 
@@ -3746,7 +3734,7 @@ function StoresPage({ setRoute }) {
       </section>
 
       {/* QUOTE BANNER SECTION (Without brown background) */}
-      <section className="gives-back-section" style={{ backgroundColor: "#F7F3ED", textAlign: "center", padding: "80px var(--pad) 40px" }}>
+      <section className="gives-back-section" style={{ backgroundColor: "#F7F3ED", textAlign: "center", padding: "80px var(--pad) 50px" }}>
         <div className="gives-back-content-width">
           <blockquote className="gives-back-quote-banner" style={{ color: "var(--ink)", fontFamily: "var(--display)", fontStyle: "italic", fontSize: "clamp(20px, 2.8vw, 26px)", lineHeight: 1.6, maxWidth: 800, margin: "0 auto" }}>
             "We didn't choose the partner with the biggest reach. We chose the ones closest to where we could actually see the difference being made."
@@ -3769,17 +3757,13 @@ function StoresPage({ setRoute }) {
             margin: "0 auto",
           }}>
             <MagneticImpactCard
-              label="EDUCATION"
-              title="OUR FOCUS"
-              hoverLabel="OUR FOCUS"
-              hoverTitle="Education"
+              label="OUR FOCUS"
+              title={"“Every child, in school.”"}
               className="min-h-[230px]"
             />
             <MagneticImpactCard
-              label="DIRECT"
-              title="HOW WE GIVE"
-              hoverLabel="HOW WE GIVE"
-              hoverTitle="Direct"
+              label="HOW WE GIVE"
+              title={"“Worn forward. Given onward.”"}
               className="min-h-[230px]"
             />
           </div>
@@ -4640,8 +4624,8 @@ function SearchOverlay({ open, onClose, openProduct }) {
   }, [open]);
 
   const results = q.trim() ? PRODUCTS.filter((p) => (p.name + p.cat).toLowerCase().includes(q.toLowerCase())) : PRODUCTS.slice(0, 6);
-  const suggestions = ["Imara Bra", "Imara Legging", "Dahlia Bra", "Dahlia Short", "Chicory Coffee"];
-  const trending = ["The Imara Set", "The Dahlia Set", "Olive Green"];
+  const suggestions = ["Imara Bra", "Imara Legging", "Dahlia Bra", "Dahlia Short", "Chicory Brown"];
+  const trending = ["The Imara Set", "The Dahlia Set", "Army Green"];
 
   return (
     <div className={`search-overlay ${open ? "open" : ""}`}>
@@ -4692,12 +4676,12 @@ function SearchOverlay({ open, onClose, openProduct }) {
 
 
 const CART_COLOR_NAME_MAP: Record<string, string> = {
-  "Bark Oxides": "Chicory Coffee",
-  "Zinc Crimson": "Olive Green",
+  "Bark Oxides": "Chicory Brown",
+  "Zinc Crimson": "Army Green",
 };
 const CART_COLOR_REVERSE_MAP: Record<string, string> = {
-  "Chicory Coffee": "Bark Oxides",
-  "Olive Green": "Zinc Crimson",
+  "Chicory Brown": "Bark Oxides",
+  "Army Green": "Zinc Crimson",
 };
 
 // === FILE 10-180e2df1-7549-448a-8bbb-f6c3acb791f4.jsx ===

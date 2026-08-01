@@ -1,14 +1,14 @@
 import { getProducts, ShopifyProduct } from "./shopify";
 
 const COLOR_HEX: Record<string, string> = {
-  "Chicory Coffee": "#3D2B1F",
-  "Olive Green": "#5F6B4F",
+  "Chicory Brown": "#3D2B1F",
+  "Army Green": "#5F6B4F",
   "Default Title": "#888",
 };
 
 const COLOR_NAME_MAP: Record<string, string> = {
-  "Bark Oxides": "Chicory Coffee",
-  "Zinc Crimson": "Olive Green",
+  "Bark Oxides": "Chicory Brown",
+  "Zinc Crimson": "Army Green",
 };
 
 const TONE_CYCLE = ["tone-2", "tone-1", "tone-7", "tone-6", "tone-5", "tone-3"];
@@ -130,8 +130,8 @@ export async function getStorefrontProducts(): Promise<LocalProduct[]> {
 }
 
 const REVERSE_COLOR_MAP: Record<string, string> = {
-  "Chicory Coffee": "Bark Oxides",
-  "Olive Green": "Zinc Crimson",
+  "Chicory Brown": "Bark Oxides",
+  "Army Green": "Zinc Crimson",
 };
 
 export function findVariantId(product: LocalProduct, color: string, size: string): string | null {
