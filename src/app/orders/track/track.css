@@ -1,0 +1,449 @@
+.ot-root {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: clamp(56px, 9vw, 120px) clamp(20px, 5vw, 64px) 140px;
+  color: var(--ink);
+}
+
+.ot-hero {
+  text-align: center;
+  margin-bottom: clamp(48px, 7vw, 72px);
+}
+
+.ot-title {
+  font-size: clamp(44px, 7vw, 72px);
+  margin: 14px 0 20px;
+}
+
+.ot-sub {
+  color: var(--muted);
+  max-width: 560px;
+  margin: 0 auto;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* ─── Form card ─── */
+.ot-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--line-soft);
+  padding: clamp(28px, 5vw, 56px);
+  border-radius: 3px;
+}
+
+.ot-form {
+  display: grid;
+  grid-template-columns: 1.1fr 1.4fr;
+  gap: clamp(20px, 3vw, 32px);
+  align-items: start;
+}
+
+@media (max-width: 780px) {
+  .ot-form { grid-template-columns: 1fr; }
+}
+
+.ot-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ot-field label {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.ot-field input {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 16px 18px;
+  font-family: var(--sans);
+  font-size: 15px;
+  color: var(--ink);
+  border-radius: 2px;
+  transition: border-color 160ms ease;
+  width: 100%;
+}
+
+.ot-field input:focus {
+  outline: none;
+  border-color: var(--bark);
+}
+
+.ot-field input:disabled { opacity: 0.6; }
+
+.ot-hint {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+.ot-submit-row {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.ot-submit {
+  background: var(--bark);
+  color: var(--bg);
+  padding: 16px 40px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: opacity 160ms ease, background 160ms ease;
+  white-space: nowrap;
+  min-width: 200px;
+}
+
+@media (max-width: 780px) {
+  .ot-submit { width: 100%; }
+  .ot-submit-row { justify-content: stretch; }
+}
+
+.ot-submit:hover:not(:disabled) { opacity: 0.88; }
+.ot-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.ot-error {
+  margin-top: 24px;
+  color: var(--zinfandel);
+  font-size: 13px;
+  padding: 14px 16px;
+  background: rgba(107, 39, 55, 0.06);
+  border-left: 2px solid var(--zinfandel);
+}
+
+/* ─── Result ─── */
+.ot-result {
+  margin-top: clamp(48px, 7vw, 80px);
+  background: var(--bg-elev);
+  border: 1px solid var(--line-soft);
+  padding: clamp(32px, 6vw, 64px);
+  border-radius: 3px;
+  animation: ot-fade-in 400ms ease;
+}
+
+@keyframes ot-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.ot-result-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  padding-bottom: clamp(28px, 4vw, 40px);
+  border-bottom: 1px solid var(--line-soft);
+  margin-bottom: clamp(36px, 5vw, 52px);
+  flex-wrap: wrap;
+}
+
+.ot-order-name {
+  font-size: clamp(32px, 4vw, 44px);
+  margin: 10px 0 6px;
+}
+
+.ot-meta {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.ot-total { text-align: right; }
+.ot-total-value {
+  font-family: var(--display);
+  font-size: clamp(24px, 3vw, 30px);
+  margin-top: 8px;
+}
+
+/* ─── Timeline ─── */
+.ot-timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 clamp(40px, 5vw, 56px);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  position: relative;
+}
+
+.ot-timeline::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  right: 12px;
+  height: 1px;
+  background: var(--line);
+}
+
+.ot-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  position: relative;
+  text-align: center;
+  min-width: 0;
+}
+
+.ot-step-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  position: relative;
+  z-index: 1;
+  transition: background 200ms ease, border-color 200ms ease;
+}
+
+.ot-step.is-done .ot-step-dot {
+  background: var(--bark);
+  border-color: var(--bark);
+}
+
+.ot-step-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 4px;
+}
+
+.ot-step-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ot-step.is-done .ot-step-label {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.ot-step-sub {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+@media (max-width: 780px) {
+  .ot-timeline {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .ot-timeline::before {
+    top: 10px;
+    bottom: 10px;
+    left: 7px;
+    right: auto;
+    width: 1px;
+    height: auto;
+  }
+  .ot-step {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+    gap: 18px;
+  }
+  .ot-step-text {
+    align-items: flex-start;
+    padding: 0;
+  }
+}
+
+/* ─── Tracking ─── */
+.ot-tracking {
+  padding: clamp(20px, 3vw, 28px);
+  background: var(--bg);
+  border: 1px solid var(--line-soft);
+  border-radius: 2px;
+  margin-bottom: clamp(28px, 4vw, 40px);
+}
+
+.ot-tracking-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.ot-carrier {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.ot-tracknum {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+
+.ot-track-link {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bark);
+  border-bottom: 1px solid var(--bark);
+  padding-bottom: 3px;
+  transition: opacity 160ms ease;
+}
+
+.ot-track-link:hover { opacity: 0.7; }
+
+/* ─── Live status panel ─── */
+.ot-live {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.ot-live-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.ot-live-badge {
+  background: var(--bark);
+  color: var(--bg);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+
+.ot-live-desc {
+  font-size: 14px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.ot-live-updated {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: var(--mono);
+  margin-left: auto;
+}
+
+.ot-events {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 1px solid var(--line);
+  padding-left: 20px;
+}
+
+.ot-event {
+  display: flex;
+  gap: 20px;
+  padding: 8px 0;
+  font-size: 13px;
+  align-items: baseline;
+}
+
+.ot-event-time {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  min-width: 120px;
+  flex-shrink: 0;
+}
+
+.ot-event-desc { color: var(--ink); line-height: 1.55; }
+.ot-event-loc  { color: var(--muted); }
+
+@media (max-width: 780px) {
+  .ot-event { flex-direction: column; gap: 4px; }
+  .ot-event-time { min-width: 0; }
+}
+
+/* ─── Address ─── */
+.ot-address {
+  margin-bottom: clamp(28px, 4vw, 40px);
+}
+
+.ot-address address {
+  font-style: normal;
+  color: var(--ink-soft);
+  font-size: 14px;
+  line-height: 1.8;
+  margin-top: 10px;
+}
+
+/* ─── Items ─── */
+.ot-items ul { list-style: none; padding: 0; margin-top: 14px; }
+
+.ot-item {
+  display: flex;
+  gap: 20px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line-soft);
+  align-items: center;
+}
+
+.ot-item:first-child { border-top: none; }
+
+.ot-item-img {
+  width: 80px;
+  height: 100px;
+  background: var(--bg);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.ot-item-img img { width: 100%; height: 100%; object-fit: cover; }
+.ot-item-img-empty { background: var(--bg-deep); }
+
+.ot-item-info { display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+
+.ot-item-title {
+  font-family: var(--display);
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.ot-item-qty {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+/* ─── Shared ─── */
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.label-sm {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+}

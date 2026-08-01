@@ -420,6 +420,120 @@ export async function customerAssociateCart(cartId: string, token: string): Prom
   await shopifyFetch(query, { cartId, token });
 }
 
+// ─── Order tracking (guest lookup via Admin API) ────────────────────
+
+export type OrderTrackingFulfillment = {
+  status: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+  estimatedDeliveryAt: string | null;
+  trackingInfo: { number: string | null; url: string | null; company: string | null }[];
+};
+
+export type OrderTracking = {
+  id: string;
+  name: string;
+  email: string | null;
+  processedAt: string | null;
+  displayFinancialStatus: string | null;
+  displayFulfillmentStatus: string | null;
+  totalPrice: Money;
+  lineItems: { title: string; quantity: number; image: ShopifyImage | null }[];
+  shippingAddress: {
+    name: string | null;
+    address1: string | null;
+    address2: string | null;
+    city: string | null;
+    province: string | null;
+    country: string | null;
+    zip: string | null;
+  } | null;
+  fulfillments: OrderTrackingFulfillment[];
+};
+
+export async function getOrderByNameAndEmail(
+  orderName: string,
+  email: string
+): Promise<OrderTracking | null> {
+  const normalizedName = orderName.trim().startsWith("#") ? orderName.trim() : `#${orderName.trim()}`;
+  const normalizedEmail = email.trim().toLowerCase();
+
+  const query = /* GraphQL */ `
+    query FindOrder($query: String!) {
+      orders(first: 1, query: $query) {
+        nodes {
+          id
+          name
+          email
+          processedAt
+          displayFinancialStatus
+          displayFulfillmentStatus
+          currentTotalPriceSet { shopMoney { amount currencyCode } }
+          shippingAddress {
+            name address1 address2 city province country zip
+          }
+          lineItems(first: 50) {
+            nodes {
+              title
+              quantity
+              image { url altText width height }
+            }
+          }
+          fulfillments(first: 10) {
+            status
+            createdAt
+            updatedAt
+            estimatedDeliveryAt
+            trackingInfo { number url company }
+          }
+        }
+      }
+    }
+  `;
+
+  const searchQuery = `name:${normalizedName} email:${normalizedEmail}`;
+  const data = await shopifyAdminFetch<{
+    orders: {
+      nodes: Array<{
+        id: string;
+        name: string;
+        email: string | null;
+        processedAt: string | null;
+        displayFinancialStatus: string | null;
+        displayFulfillmentStatus: string | null;
+        currentTotalPriceSet: { shopMoney: Money };
+        shippingAddress: OrderTracking["shippingAddress"];
+        lineItems: { nodes: { title: string; quantity: number; image: ShopifyImage | null }[] };
+        fulfillments: Array<{
+          status: string | null;
+          createdAt: string | null;
+          updatedAt: string | null;
+          estimatedDeliveryAt: string | null;
+          trackingInfo: { number: string | null; url: string | null; company: string | null }[];
+        }>;
+      }>;
+    };
+  }>(query, { query: searchQuery });
+
+  const order = data.orders.nodes[0];
+  if (!order) return null;
+  // Defense-in-depth: verify email match even though we filtered in the query
+  if (!order.email || order.email.toLowerCase() !== normalizedEmail) return null;
+
+  return {
+    id: order.id,
+    name: order.name,
+    email: order.email,
+    processedAt: order.processedAt,
+    displayFinancialStatus: order.displayFinancialStatus,
+    displayFulfillmentStatus: order.displayFulfillmentStatus,
+    totalPrice: order.currentTotalPriceSet.shopMoney,
+    shippingAddress: order.shippingAddress,
+    lineItems: order.lineItems.nodes,
+    fulfillments: order.fulfillments,
+  };
+}
+
 export async function cartDiscountCodesUpdate(cartId: string, discountCodes: string[]): Promise<ShopifyCart> {
   const query = /* GraphQL */ `
     ${CART_FRAGMENT}

@@ -27,7 +27,7 @@ export function MagneticImpactCard({
 
   const mousePos = useRef({ x: 0, y: 0 });
   const currentPos = useRef({ x: 0, y: 0 });
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     const updateSize = () => {
@@ -95,21 +95,18 @@ export function MagneticImpactCard({
   return (
     <div
       ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       className={cn(
-        "relative flex flex-col items-center justify-center p-8 rounded-none overflow-hidden cursor-pointer select-none transition-all duration-500",
-        "bg-[#3A2416] border border-[#B8892E]/25 shadow-lg min-h-[190px]",
+        "relative flex flex-col items-center justify-center p-8 rounded-none overflow-hidden select-none",
+        "border min-h-[190px]",
         className
       )}
       style={{
         borderRadius: 0,
-        backgroundColor: isHovered ? "#F0EAE0" : "#3A2416",
-        borderColor: isHovered ? "rgba(184, 137, 46, 0.45)" : "rgba(184, 137, 46, 0.22)",
+        backgroundColor: "transparent",
+        borderColor: "rgba(58, 36, 22, 0.18)",
       }}
     >
-      {/* Base Layer (Dark state) */}
+      {/* Base Layer */}
       <div className="flex flex-col items-center justify-center text-center gap-2 transition-opacity duration-300">
         <span
           style={{
@@ -118,7 +115,7 @@ export function MagneticImpactCard({
             fontWeight: 600,
             letterSpacing: "0.22em",
             textTransform: "uppercase",
-            color: "rgba(242, 230, 200, 0.75)",
+            color: "var(--accent)",
           }}
         >
           {label}
@@ -126,65 +123,18 @@ export function MagneticImpactCard({
         <span
           style={{
             fontFamily: "var(--display)",
-            fontSize: "clamp(26px, 3vw, 36px)",
+            fontStyle: "italic",
+            fontSize: "clamp(22px, 2.6vw, 30px)",
             fontWeight: 400,
-            letterSpacing: "-0.01em",
-            color: "#F2E6C8",
-            lineHeight: 1.1,
+            letterSpacing: "-0.005em",
+            color: "var(--ink)",
+            lineHeight: 1.25,
           }}
         >
           {title}
         </span>
       </div>
 
-      {/* Morphing Magnetic Lens Circle Reveal (Beige + Golden HHARA Text on Hover) */}
-      <div
-        ref={circleRef}
-        className="absolute top-0 left-0 pointer-events-none rounded-full bg-[#F0EAE0] overflow-hidden"
-        style={{
-          width: isHovered ? maxCircleSize : 0,
-          height: isHovered ? maxCircleSize : 0,
-          transition: "width 0.5s cubic-bezier(0.33, 1, 0.68, 1), height 0.5s cubic-bezier(0.33, 1, 0.68, 1)",
-          willChange: "transform, width, height",
-        }}
-      >
-        <div
-          ref={innerTextRef}
-          className="absolute flex flex-col items-center justify-center text-center gap-2"
-          style={{
-            width: containerSize.width,
-            height: containerSize.height,
-            top: "50%",
-            left: "50%",
-            willChange: "transform",
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "var(--sans)",
-              fontSize: "11px",
-              fontWeight: 600,
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: "#B8892E",
-            }}
-          >
-            {hoverLabel}
-          </span>
-          <span
-            style={{
-              fontFamily: "var(--display)",
-              fontSize: "clamp(26px, 3vw, 36px)",
-              fontWeight: 400,
-              letterSpacing: "-0.01em",
-              color: "#2A1F14",
-              lineHeight: 1.1,
-            }}
-          >
-            {hoverTitle}
-          </span>
-        </div>
-      </div>
     </div>
   );
 }

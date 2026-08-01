@@ -2,17 +2,23 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "node:crypto";
 
 const REQUIRED_SCOPES = [
-  "write_products",
-  "read_products",
-  "write_inventory",
-  "read_inventory",
+  "read_products", "write_products",
+  "read_inventory", "write_inventory",
   "read_locations",
-  "write_publications",
-  "read_publications",
-  "read_orders",
-  "write_orders",
-  "read_product_listings",
-  "write_product_listings",
+  "read_publications", "write_publications",
+  "read_product_listings", "write_product_listings",
+  "read_orders", "write_orders",
+  "read_fulfillments", "write_fulfillments",
+  "write_merchant_managed_fulfillment_orders",
+  "read_customers", "write_customers",
+  "read_themes", "write_themes",
+  "read_content", "write_content",
+  "read_draft_orders", "write_draft_orders",
+  "read_discounts", "write_discounts",
+  "read_price_rules", "write_price_rules",
+  "read_shipping",
+  "read_files", "write_files",
+  "write_webhooks",
 ].join(",");
 
 export async function GET(req: NextRequest) {
