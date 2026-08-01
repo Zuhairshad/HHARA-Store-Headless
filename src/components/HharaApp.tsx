@@ -3106,7 +3106,15 @@ function AtelierPage({ setRoute }) {
           <p>
             Effortless. Flattering. Considered in every detail. Every fabric is chosen with intention. Every piece is made to move seamlessly through her day.
           </p>
-          <p style={{ fontStyle: "italic", color: "var(--accent)", fontWeight: 500, marginTop: 24 }}>
+          <p style={{
+            fontFamily: "var(--sans)",
+            fontSize: "15px",
+            lineHeight: "1.5",
+            color: "var(--accent)",
+            fontWeight: 700,
+            letterSpacing: "0.04em",
+            marginTop: 24
+          }}>
             She shouldn't have to choose. HHARA was built so she never has to.
           </p>
         </div>
