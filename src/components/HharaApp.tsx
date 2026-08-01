@@ -1245,12 +1245,12 @@ function Editorial({ openShop }) {
             </p>
 
             <p style={{
-              fontFamily: "var(--display)",
-              fontStyle: "italic",
-              fontSize: "20px",
+              fontFamily: "var(--sans)",
+              fontSize: "15px",
               lineHeight: "1.5",
               color: "var(--accent)",
-              fontWeight: 500,
+              fontWeight: 700,
+              letterSpacing: "0.04em",
               margin: 0
             }}>
               No changing in between. Just her.
@@ -3770,27 +3770,25 @@ function StoresPage({ setRoute }) {
         <div className="gives-back-content-width" style={{ maxWidth: 1150, margin: "0 auto" }}>
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "24px",
+            gridTemplateColumns: "repeat(auto-fit, minmax(360px, 1fr))",
+            gap: "28px",
             width: "100%",
+            maxWidth: 880,
+            margin: "0 auto",
           }}>
             <MagneticImpactCard
               label="EDUCATION"
               title="OUR FOCUS"
               hoverLabel="OUR FOCUS"
               hoverTitle="Education"
+              className="min-h-[230px]"
             />
             <MagneticImpactCard
               label="DIRECT"
               title="HOW WE GIVE"
               hoverLabel="HOW WE GIVE"
               hoverTitle="Direct"
-            />
-            <MagneticImpactCard
-              label="CHILDREN SUPPORTED"
-              title="—"
-              hoverLabel="CHILDREN SUPPORTED"
-              hoverTitle="—"
+              className="min-h-[230px]"
             />
           </div>
         </div>
