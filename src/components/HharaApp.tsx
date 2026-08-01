@@ -1236,7 +1236,7 @@ function Editorial({ openShop }) {
             <p style={{
               fontFamily: "var(--display)",
               fontStyle: "italic",
-              fontSize: "18px",
+              fontSize: "20px",
               lineHeight: "1.5",
               color: "var(--ink)",
               margin: 0
@@ -1247,7 +1247,7 @@ function Editorial({ openShop }) {
             <p style={{
               fontFamily: "var(--display)",
               fontStyle: "italic",
-              fontSize: "18px",
+              fontSize: "20px",
               lineHeight: "1.5",
               color: "var(--accent)",
               fontWeight: 500,
@@ -3309,12 +3309,12 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
                 <span style={{ fontFamily: "var(--sans)", fontSize: 10, fontWeight: 400, letterSpacing: "0.05em", color: "var(--ink-soft)", opacity: 0.7 }}>{note.length}/250</span>
               </label>
               <textarea
-                rows={3}
+                rows={4}
                 maxLength={250}
                 placeholder="Write a few words for her..."
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
-                style={{ resize: "none", minHeight: "80px", maxHeight: "120px" }}
+                style={{ resize: "none", minHeight: "104px", maxHeight: "144px" }}
               />
             </div>
 
