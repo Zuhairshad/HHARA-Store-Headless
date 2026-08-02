@@ -3757,18 +3757,19 @@ function StoresPage({ setRoute }) {
           left: "var(--pad)",
           bottom: "clamp(48px, 8vh, 96px)",
           zIndex: 2,
-          maxWidth: "620px",
+          maxWidth: "900px",
           color: "#FAF7F2",
           textAlign: "left"
         }}>
           <h1 style={{
             fontFamily: "var(--display)",
-            fontSize: "clamp(48px, 6.5vw, 96px)",
+            fontSize: "clamp(36px, 5.5vw, 84px)",
             lineHeight: 0.95,
             letterSpacing: "-0.015em",
             fontWeight: 300,
             color: "#FAF7F2",
-            marginBottom: "28px"
+            marginBottom: "28px",
+            whiteSpace: "nowrap"
           }}>
             Wonder begins <em style={{ fontStyle: "italic", color: "#FAF7F2" }}>here.</em>
           </h1>
