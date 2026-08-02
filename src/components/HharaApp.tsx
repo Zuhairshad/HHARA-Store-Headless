@@ -3770,7 +3770,7 @@ function StoresPage({ setRoute }) {
             color: "#FAF7F2",
             marginBottom: "28px"
           }}>
-            She is <em style={{ fontStyle: "italic", color: "#FAF7F2" }}>Wonder.</em>
+            Wonder begins <em style={{ fontStyle: "italic", color: "#FAF7F2" }}>here.</em>
           </h1>
           <p style={{
             fontFamily: "var(--display)",
@@ -3781,7 +3781,6 @@ function StoresPage({ setRoute }) {
             color: "#FAF7F2",
             margin: 0
           }}>
-            Wonder begins here.<br />
             Empowering the next generation.
           </p>
         </div>
