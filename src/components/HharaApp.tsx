@@ -589,6 +589,19 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
             >
               Impact
             </button>
+            <button
+              className={route === "account" ? "active" : ""}
+              onClick={() => { setRoute("account"); setMobileMenuOpen(false); }}
+            >
+              Account
+            </button>
+            <a
+              href="/orders/track"
+              style={{ display: "block", padding: "12px 0", color: "var(--ink)", textDecoration: "none", fontFamily: "var(--sans)", fontSize: "16px", fontWeight: 500 }}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Track Order
+            </a>
           </nav>
         </div>
         <div className="mobile-menu-footer">
@@ -1262,9 +1275,9 @@ function Editorial({ openShop }) {
     <section className="section-full" style={{ padding: 0 }}>
       <div className="editorial" style={{ minHeight: "60vh" }}>
         <div className="editorial-media tone-5">
-          <picture style={{ width: "100%", height: "100%" }}>
+          <picture style={{ display: "block", width: "100%", height: "100%" }}>
             <source media="(max-width: 768px)" srcSet="/images/tala_cocoon_mobile.png" />
-            <img src="/images/tala_cocoon_desktop.png" alt="HHARA CLOUD" className="img-fill" loading="lazy" />
+            <img src="/images/tala_cocoon_desktop.png" alt="HHARA CLOUD" className="img-fill" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           </picture>
         </div>
         <div className="editorial-body" style={{ gap: "20px", alignSelf: "center" }}>

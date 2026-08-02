@@ -2235,11 +2235,18 @@ img { display: block; max-width: 100%; }
     cursor: pointer;
     color: var(--ink);
   }
-  .header-inner { grid-template-columns: 1fr auto 1fr; padding: 12px 16px; }
+  .header-inner { grid-template-columns: 1fr auto 1fr; padding: 10px 14px; gap: 8px; }
   .header-actions button span:not(.cart-count) { display: none; }
-  .header-actions { gap: 14px; }
-  .brandmark-mark { height: 36px; }
-  .brandmark-text { height: 18px; }
+  .header-actions { gap: clamp(8px, 2.2vw, 14px); }
+  .header-actions button, .header-actions .ha-link { padding: 2px; }
+  .header-actions svg { width: 18px; height: 18px; }
+  .brandmark-mark { height: 32px; }
+  .brandmark-text { height: 16px; }
+}
+@media (max-width: 480px) {
+  .header-actions .ha-link { display: none; }
+  .header-actions { gap: 10px; }
+}
   
   /* Announcement bar mobile styling */
   .announce-locale { display: none; }
