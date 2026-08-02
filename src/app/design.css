@@ -2242,11 +2242,6 @@ img { display: block; max-width: 100%; }
   .header-actions svg { width: 18px; height: 18px; }
   .brandmark-mark { height: 32px; }
   .brandmark-text { height: 16px; }
-}
-@media (max-width: 480px) {
-  .header-actions .ha-link { display: none; }
-  .header-actions { gap: 10px; }
-}
   
   /* Announcement bar mobile styling */
   .announce-locale { display: none; }
@@ -2310,6 +2305,12 @@ img { display: block; max-width: 100%; }
   /* Collection page */
   .cph h1 { font-size: clamp(36px, 10vw, 60px); }
   .ctoolbar { flex-direction: column; gap: 12px; align-items: flex-start; }
+}
+
+/* Very small phones (≤480px) */
+@media (max-width: 480px) {
+  .header-actions .ha-link { display: none; }
+  .header-actions { gap: 10px; }
 }
 
 /* Very small phones (≤480px) */
