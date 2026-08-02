@@ -5080,9 +5080,10 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                     }}
                   />
                   <span style={{
-                    fontFamily: "'Great Vibes', 'Allura', 'Mrs Saint Delafield', 'Herr Von Muellerhoff', cursive",
+                    fontFamily: "'Bradley Hand', 'Bradley Hand ITC', 'Caveat', cursive",
                     fontSize: "66px",
-                    fontWeight: 400,
+                    fontWeight: 700,
+                    fontStyle: "italic",
                     color: "#EAE3D9",
                     marginTop: "4px",
                     lineHeight: 0.9,
