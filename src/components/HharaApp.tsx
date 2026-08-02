@@ -589,15 +589,8 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
             >
               Impact
             </button>
-            <button
-              className={route === "account" ? "active" : ""}
-              onClick={() => { setRoute("account"); setMobileMenuOpen(false); }}
-            >
-              Account
-            </button>
             <a
               href="/orders/track"
-              style={{ display: "block", padding: "12px 0", color: "var(--ink)", textDecoration: "none", fontFamily: "var(--sans)", fontSize: "16px", fontWeight: 500 }}
               onClick={() => setMobileMenuOpen(false)}
             >
               Track Order
