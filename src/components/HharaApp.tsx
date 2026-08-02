@@ -459,7 +459,7 @@ function MegaMenu({ open, onClose, setRoute }) {
         <div>
           <h6>Accessories</h6>
           <ul>
-            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Socks</a></li>
+            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Accessories</a></li>
             <li><a onClick={() => { setRoute("shop"); onClose(); }}>E-Gift Card</a></li>
           </ul>
         </div>
@@ -909,7 +909,7 @@ function Footer({ setRoute, route = "" }) {
                 <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Dahlia Set</a></li>
                 <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Imara Set</a></li>
                 <li><a onClick={() => setRoute("lookbook")} style={{ cursor: "pointer" }}>The Lookbook</a></li>
-                <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>Socks</a></li>
+                <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>Accessories</a></li>
               </ul>
             </div>
             <div className="footer-col">
