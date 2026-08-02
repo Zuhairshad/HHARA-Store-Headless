@@ -2422,7 +2422,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
             <div className="pdp-accordions" style={{ marginTop: "32px" }}>
               <Accordion title="Fabric & Feel" open={open === "details"} onToggle={() => setOpen(open === "details" ? "" : "details")}>
-                <p style={{ marginBottom: "16px", lineHeight: 1.7 }}>Buttery-soft and weightless recycled fabric feels almost like you're wearing nothing at all.</p>
+                <p style={{ marginBottom: "16px", lineHeight: 1.7 }}>Buttery-soft, weightless recycled fabric feels almost like you're wearing nothing at all.</p>
                 <p style={{ marginBottom: "20px", fontFamily: "var(--sans)", fontSize: "13px", opacity: 0.8 }}>75% Recycled Nylon · 25% Spandex</p>
 
                 {/* Certifications */}
@@ -2904,9 +2904,8 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                         <div className="sg-measure-visual-card">
                           <div className="sg-measure-img-wrap" style={{ overflow: "hidden" }}>
                             <img
-                              src="/images/measure-inside-leg.png?v=inseam4"
+                              src="/images/measure-inside-leg.png?v=inseam6"
                               alt="How to measure Inseam"
-                              style={{ transform: "scale(1.6)", transformOrigin: "50% 70%" }}
                             />
                           </div>
                           <h4>Inseam</h4>
@@ -4556,7 +4555,7 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
           </div>
           <div className="sg-measure-visual-card">
             <div className="sg-measure-img-wrap">
-              <img src="/images/measure-inside-leg.png?v=inseam4" alt="How to measure Inseam" />
+              <img src="/images/measure-inside-leg.png?v=inseam6" alt="How to measure Inseam" />
             </div>
             <h4>Inseam</h4>
             <p>From the crotch seam down to the leg hem. Measure with no shoes on.</p>
