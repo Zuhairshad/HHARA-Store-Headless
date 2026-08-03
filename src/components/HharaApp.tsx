@@ -272,7 +272,7 @@ const PRODUCTS = [
     swatches: [
       { name: "Camel", hex: "#C19A6B" },
     ],
-    sizes: ["4–7"],
+    sizes: ["UK 4–7"],
     tone: "tone-1",
     altTone: "tone-2",
     imgKey: "p5",
@@ -2438,7 +2438,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               <Accordion title="Fabric & Feel" open={open === "details"} onToggle={() => setOpen(open === "details" ? "" : "details")}>
                 {product.cat === "Accessories" ? (
                   <>
-                    <p style={{ marginBottom: "16px", lineHeight: 1.7 }}>Buttery-soft, weightless fabric with just enough cushion.</p>
+                    <p style={{ marginBottom: "16px", lineHeight: 1.7 }}>Feather-soft, weightless cotton fabric. Hand-linked for a seamless finish.</p>
                     <p style={{ marginBottom: "20px", fontFamily: "var(--sans)", fontSize: "13px", opacity: 0.8 }}>95% Cotton · 5% Polyamide</p>
                   </>
                 ) : (

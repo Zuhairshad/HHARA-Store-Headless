@@ -72,7 +72,7 @@ const V3_DESCRIPTIONS: Record<string, string> = {
   "Dahlia Seamless Sculpt High Waist Shorts": "The Dahlia Seamless Sculpt High Waist Short is designed to contour the body with refined simplicity. A sculpting high-rise waistband offers a smooth, supportive fit, while the seamless construction creates an exceptionally soft feel that sits effortlessly against the skin.\n\nElegant in form and versatile by design, a piece that transitions with ease from intentional movement to elevated everyday dressing, combining modern refinement with lasting comfort.",
   "Dahlia Short": "The Dahlia Seamless Sculpt High Waist Short is designed to contour the body with refined simplicity. A sculpting high-rise waistband offers a smooth, supportive fit, while the seamless construction creates an exceptionally soft feel that sits effortlessly against the skin.\n\nElegant in form and versatile by design, a piece that transitions with ease from intentional movement to elevated everyday dressing, combining modern refinement with lasting comfort.",
 
-  "HHARA Comfort Socks": "An elevated essential designed with the same attention to detail as the collection, the HHARA Comfort Socks bring refined comfort to every step. A cushioned footbed provides gentle support, while the sleek design adds the finishing touch to any look, from intentional movement to everyday styling.\n\nSimple in form, effortless in function, and created to complement the HHARA lifestyle."
+  "HHARA Comfort Socks": "An elevated essential designed with the same attention to detail as the collection, the HHARA Comfort Socks bring refined comfort to every step. A cushioned footbed provides gentle support, while a hand-linked toe seam ensures a smooth, seamless finish. The sleek design adds the finishing touch to any look from intentional movement to everyday styling.\n\nSimple in form, effortless in function, and created to complement the HHARA lifestyle."
 };
 
 function mapShopifyProduct(p: ShopifyProduct, index: number): LocalProduct {
@@ -84,7 +84,7 @@ function mapShopifyProduct(p: ShopifyProduct, index: number): LocalProduct {
     return { name: displayName, hex: COLOR_HEX[displayName] || COLOR_HEX[v] || "#3D2B1F" };
   });
   const rawSizes = sizeOpt?.values?.length ? sizeOpt.values : ["One Size"];
-  const sizes = /sock/i.test(p.title) ? ["4–7"] : rawSizes;
+  const sizes = /sock/i.test(p.title) ? ["UK 4–7"] : rawSizes;
 
   let featuredImage = p.featuredImage;
   let images = p.images || [];
