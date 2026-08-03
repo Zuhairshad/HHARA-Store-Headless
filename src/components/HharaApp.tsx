@@ -270,9 +270,9 @@ const PRODUCTS = [
     cat: "Accessories",
     price: 65,
     swatches: [
-      { name: "Cream", hex: "#F5F0EB" },
+      { name: "Camel", hex: "#C19A6B" },
     ],
-    sizes: ["One Size"],
+    sizes: ["UK 4-7", "UK 8-10", "UK 11-13"],
     tone: "tone-1",
     altTone: "tone-2",
     imgKey: "p5",
@@ -951,6 +951,7 @@ function Footer({ setRoute, route = "" }) {
             <a href="https://www.facebook.com/share/1HgbM6QsDv/?mibextid=wwXIfr" target="_blank" rel="noreferrer">Facebook</a>
             <a href="https://x.com/thisishhara?s=11&t=AEjr7Nl3uAuFnFM1MDRlTw" target="_blank" rel="noreferrer">Twitter</a>
             <a href="https://www.linkedin.com/company/thisishhara/" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a href="https://pin.it/5F59avDdF" target="_blank" rel="noreferrer">Pinterest</a>
           </div>
         </div>
       </div>
@@ -2388,7 +2389,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   );
                 })}
               </div>
-              <span className="help" onClick={() => setSizeGuideOpen(true)} style={{ cursor: "pointer", textDecoration: "underline", fontSize: 11 }}>Not sure? View size guide</span>
+              {product.cat !== "Accessories" && <span className="help" onClick={() => setSizeGuideOpen(true)} style={{ cursor: "pointer", textDecoration: "underline", fontSize: 11 }}>Not sure? View size guide</span>}
             </div>
 
             <div className="pdp-actions">
