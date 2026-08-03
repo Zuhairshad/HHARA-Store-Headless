@@ -5080,7 +5080,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                   />
                   <span style={{
                     fontFamily: "'Bradley Hand', 'Bradley Hand ITC', 'Caveat', cursive",
-                    fontSize: "66px",
+                    fontSize: "clamp(32px, 4vw, 44px)",
                     fontWeight: 700,
                     fontStyle: "italic",
                     color: "#EAE3D9",
