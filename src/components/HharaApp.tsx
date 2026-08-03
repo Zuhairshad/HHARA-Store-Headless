@@ -282,7 +282,7 @@ const PRODUCTS = [
       { url: "https://images.unsplash.com/photo-1640026199235-c24aa417b552?auto=format&fit=crop&q=80&w=1200", altText: "HHARA Comfort Socks detail" },
     ],
     tagline: "Refined comfort for every step",
-    description: "An elevated essential designed with the same attention to detail as the collection, the HHARA Comfort Socks bring refined comfort to every step. A cushioned footbed provides gentle support, while the sleek design adds the finishing touch to any look, from intentional movement to everyday styling.\n\nSimple in form, effortless in function, and created to complement the HHARA lifestyle.",
+    description: "An elevated essential designed with the same attention to detail as the collection, the HHARA Comfort Socks bring refined comfort to every step. A cushioned footbed provides gentle support, while a hand-linked toe seam ensures a smooth, seamless finish. The sleek design adds the finishing touch to any look — from intentional movement to everyday styling.\n\nSimple in form, effortless in function, and created to complement the HHARA lifestyle.",
     details: [
       "Cushioned footbed support",
       "Sleek ribbed performance fit",
