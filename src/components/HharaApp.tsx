@@ -2440,6 +2440,20 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   <>
                     <p style={{ marginBottom: "16px", lineHeight: 1.7 }}>Feather-soft, weightless cotton fabric. Hand-linked for a seamless finish.</p>
                     <p style={{ marginBottom: "20px", fontFamily: "var(--sans)", fontSize: "13px", opacity: 0.8 }}>95% Cotton · 5% Polyamide</p>
+                    {/* Fabric property icons — socks */}
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "16px 12px", marginTop: "8px" }}>
+                      {[
+                        { label: "4-Way Stretch", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><line x1="20" y1="4" x2="20" y2="36" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/><line x1="4" y1="20" x2="36" y2="20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/><polyline points="16,8 20,4 24,8" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/><polyline points="16,32 20,36 24,32" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/><polyline points="8,16 4,20 8,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/><polyline points="32,16 36,20 32,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>) },
+                        { label: "Ultra Smooth", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M8 14 Q20 10 32 14" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/><path d="M8 20 Q20 16 32 20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/><path d="M8 26 Q20 22 32 26" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>) },
+                        { label: "Excellent Flexibility", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M12 28 C12 20 16 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/><path d="M28 28 C28 20 24 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/><path d="M10 28 Q20 24 30 28" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/><circle cx="20" cy="9" r="2" fill="#B8892E" opacity="0.7"/></svg>) },
+                        { label: "Breathable", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M20 32 L20 16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/><path d="M20 16 C20 16 14 20 10 16 C8 14 10 10 14 12 C12 8 18 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none"/><path d="M20 16 C20 16 26 20 30 16 C32 14 30 10 26 12 C28 8 22 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65"/></svg>) },
+                      ].map(({ label, icon }) => (
+                        <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", textAlign: "center" }}>
+                          {icon}
+                          <span style={{ fontFamily: "var(--sans)", fontSize: "10px", letterSpacing: "0.10em", textTransform: "uppercase", color: "var(--ink-soft)", lineHeight: 1.3 }}>{label}</span>
+                        </div>
+                      ))}
+                    </div>
                   </>
                 ) : (
                   <>
@@ -2457,63 +2471,82 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                     <p style={{ marginBottom: "20px", fontFamily: "var(--sans)", fontSize: "12.5px", lineHeight: 1.75, color: "var(--ink-soft)" }}>
                       Our fabric is certified to OEKO-TEX® Standard 100 - tested against harmful substances and safe for skin contact. Our recycled nylon is independently verified under the Global Recycled Standard 4.0, certified by Intertek.
                     </p>
+                    {/* Fabric property icons */}
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px 12px", marginTop: "8px" }}>
+                      {[
+                        {
+                          label: "4-Way Stretch",
+                          icon: (
+                            <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+                              <line x1="20" y1="4" x2="20" y2="36" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
+                              <line x1="4" y1="20" x2="36" y2="20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
+                              <polyline points="16,8 20,4 24,8" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                              <polyline points="16,32 20,36 24,32" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                              <polyline points="8,16 4,20 8,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                              <polyline points="32,16 36,20 32,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                            </svg>
+                          ),
+                        },
+                        {
+                          label: "Body Enhancing",
+                          icon: (
+                            <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+                              <circle cx="20" cy="9" r="3.5" stroke="#B8892E" strokeWidth="1.5"/>
+                              <path d="M14 16 C12 19 12 23 13 27 L15 34" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
+                              <path d="M26 16 C28 19 28 23 27 27 L25 34" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
+                              <path d="M14 16 C16 14 24 14 26 16 C27 20 27 22 26 25 C24 28 16 28 14 25 C13 22 13 20 14 16Z" stroke="#B8892E" strokeWidth="1.5" strokeLinejoin="round"/>
+                            </svg>
+                          ),
+                        },
+                        {
+                          label: "Ultra Smooth",
+                          icon: (
+                            <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+                              <path d="M8 14 Q20 10 32 14" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                              <path d="M8 20 Q20 16 32 20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                              <path d="M8 26 Q20 22 32 26" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                            </svg>
+                          ),
+                        },
+                        {
+                          label: "Excellent Flexibility",
+                          icon: (
+                            <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+                              <path d="M12 28 C12 20 16 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                              <path d="M28 28 C28 20 24 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                              <path d="M10 28 Q20 24 30 28" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                              <circle cx="20" cy="9" r="2" fill="#B8892E" opacity="0.7"/>
+                            </svg>
+                          ),
+                        },
+                        {
+                          label: "Breathable",
+                          icon: (
+                            <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+                              <path d="M20 32 L20 16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
+                              <path d="M20 16 C20 16 14 20 10 16 C8 14 10 10 14 12 C12 8 18 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                              <path d="M20 16 C20 16 26 20 30 16 C32 14 30 10 26 12 C28 8 22 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65"/>
+                            </svg>
+                          ),
+                        },
+                        {
+                          label: "OEKO-TEX®",
+                          icon: (
+                            <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
+                              <path d="M20 6 C20 6 10 10 10 20 C10 28 14 33 20 35 C26 33 30 28 30 20 C30 10 20 6 20 6Z" stroke="#B8892E" strokeWidth="1.5" strokeLinejoin="round"/>
+                              <polyline points="14,20 18,24 26,16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          ),
+                        },
+                      ].map(({ label, icon }) => (
+                        <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", textAlign: "center" }}>
+                          {icon}
+                          <span style={{ fontFamily: "var(--sans)", fontSize: "10px", letterSpacing: "0.10em", textTransform: "uppercase", color: "var(--ink-soft)", lineHeight: 1.3 }}>{label}</span>
+                        </div>
+                      ))}
+                    </div>
                   </>
                 )}
-
-                {/* Fabric property icons */}
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "16px 12px", marginTop: "8px" }}>
-                  {[
-                    {
-                      label: "4-Way Stretch",
-                      icon: (
-                        <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                          <line x1="20" y1="4" x2="20" y2="36" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
-                          <line x1="4" y1="20" x2="36" y2="20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
-                          <polyline points="16,8 20,4 24,8" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                          <polyline points="16,32 20,36 24,32" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                          <polyline points="8,16 4,20 8,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                          <polyline points="32,16 36,20 32,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                        </svg>
-                      ),
-                    },
-                    {
-                      label: "Ultra Smooth",
-                      icon: (
-                        <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                          <path d="M8 14 Q20 10 32 14" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                          <path d="M8 20 Q20 16 32 20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                          <path d="M8 26 Q20 22 32 26" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                        </svg>
-                      ),
-                    },
-                    {
-                      label: "Excellent Flexibility",
-                      icon: (
-                        <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                          <path d="M12 28 C12 20 16 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                          <path d="M28 28 C28 20 24 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                          <path d="M10 28 Q20 24 30 28" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                          <circle cx="20" cy="9" r="2" fill="#B8892E" opacity="0.7"/>
-                        </svg>
-                      ),
-                    },
-                    {
-                      label: "Breathable",
-                      icon: (
-                        <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                          <path d="M20 32 L20 16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
-                          <path d="M20 16 C20 16 14 20 10 16 C8 14 10 10 14 12 C12 8 18 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                          <path d="M20 16 C20 16 26 20 30 16 C32 14 30 10 26 12 C28 8 22 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65"/>
-                        </svg>
-                      ),
-                    },
-                  ].map(({ label, icon }) => (
-                    <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", textAlign: "center" }}>
-                      {icon}
-                      <span style={{ fontFamily: "var(--sans)", fontSize: "10px", letterSpacing: "0.10em", textTransform: "uppercase", color: "var(--ink-soft)", lineHeight: 1.3 }}>{label}</span>
-                    </div>
-                  ))}
-                </div>
               </Accordion>
               <Accordion title="Care and Instruction" open={open === "care"} onToggle={() => setOpen(open === "care" ? "" : "care")}>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px 32px", paddingTop: "4px" }}>
