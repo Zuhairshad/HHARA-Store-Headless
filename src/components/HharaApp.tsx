@@ -2430,20 +2430,29 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
             <div className="pdp-accordions" style={{ marginTop: "32px" }}>
               <Accordion title="Fabric & Feel" open={open === "details"} onToggle={() => setOpen(open === "details" ? "" : "details")}>
-                <p style={{ marginBottom: "16px", lineHeight: 1.7 }}>Buttery-soft, weightless recycled fabric feels almost like you're wearing nothing at all.</p>
-                <p style={{ marginBottom: "20px", fontFamily: "var(--sans)", fontSize: "13px", opacity: 0.8 }}>75% Recycled Nylon · 25% Spandex</p>
+                {product.cat === "Accessories" ? (
+                  <>
+                    <p style={{ marginBottom: "16px", lineHeight: 1.7 }}>Buttery-soft, weightless fabric with just enough cushion.</p>
+                    <p style={{ marginBottom: "20px", fontFamily: "var(--sans)", fontSize: "13px", opacity: 0.8 }}>95% Cotton · 5% Polyamide</p>
+                  </>
+                ) : (
+                  <>
+                    <p style={{ marginBottom: "16px", lineHeight: 1.7 }}>Buttery-soft, weightless recycled fabric feels almost like you're wearing nothing at all.</p>
+                    <p style={{ marginBottom: "20px", fontFamily: "var(--sans)", fontSize: "13px", opacity: 0.8 }}>75% Recycled Nylon · 25% Spandex</p>
 
-                {/* Certifications */}
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "20px" }}>
-                  {["OEKO-TEX® STANDARD 100", "GLOBAL RECYCLED STANDARD 4.0"].map((cert) => (
-                    <div key={cert} style={{ background: "var(--ink)", padding: "10px 16px", fontFamily: "var(--sans)", fontSize: "11px", fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "#E8D8C8", textAlign: "center" }}>
-                      {cert}
+                    {/* Certifications */}
+                    <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "20px" }}>
+                      {["OEKO-TEX® STANDARD 100", "GLOBAL RECYCLED STANDARD 4.0"].map((cert) => (
+                        <div key={cert} style={{ background: "var(--ink)", padding: "10px 16px", fontFamily: "var(--sans)", fontSize: "11px", fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "#E8D8C8", textAlign: "center" }}>
+                          {cert}
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-                <p style={{ marginBottom: "20px", fontFamily: "var(--sans)", fontSize: "12.5px", lineHeight: 1.75, color: "var(--ink-soft)" }}>
-                  Our fabric is certified to OEKO-TEX® Standard 100 - tested against harmful substances and safe for skin contact. Our recycled nylon is independently verified under the Global Recycled Standard 4.0, certified by Intertek.
-                </p>
+                    <p style={{ marginBottom: "20px", fontFamily: "var(--sans)", fontSize: "12.5px", lineHeight: 1.75, color: "var(--ink-soft)" }}>
+                      Our fabric is certified to OEKO-TEX® Standard 100 - tested against harmful substances and safe for skin contact. Our recycled nylon is independently verified under the Global Recycled Standard 4.0, certified by Intertek.
+                    </p>
+                  </>
+                )}
 
                 {/* Fabric property icons */}
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px 12px", marginTop: "8px" }}>
@@ -2458,15 +2467,6 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           <polyline points="16,32 20,36 24,32" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
                           <polyline points="8,16 4,20 8,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
                           <polyline points="32,16 36,20 32,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                        </svg>
-                      ),
-                    },
-                    {
-                      label: "Body Enhancing",
-                      icon: (
-                        <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                          <path d="M20 4 C13 4 10 10 10 16 C10 24 14 32 20 36 C26 32 30 24 30 16 C30 10 27 4 20 4Z" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M15 14 C15 11 17 9 20 9 C23 9 25 11 25 14" stroke="#B8892E" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.6"/>
                         </svg>
                       ),
                     },
@@ -2498,15 +2498,6 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           <path d="M20 32 L20 16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
                           <path d="M20 16 C20 16 14 20 10 16 C8 14 10 10 14 12 C12 8 18 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
                           <path d="M20 16 C20 16 26 20 30 16 C32 14 30 10 26 12 C28 8 22 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65"/>
-                        </svg>
-                      ),
-                    },
-                    {
-                      label: "OEKO-TEX",
-                      icon: (
-                        <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                          <circle cx="20" cy="20" r="14" stroke="#B8892E" strokeWidth="1.5"/>
-                          <polyline points="13,20 18,25 27,14" stroke="#B8892E" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                       ),
                     },
