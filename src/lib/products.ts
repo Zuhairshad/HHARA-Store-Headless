@@ -4,6 +4,7 @@ const COLOR_HEX: Record<string, string> = {
   "Chicory Brown": "#3D2B1F",
   "Army Green": "#5F6B4F",
   "Cream": "#F5F0EB",
+  "Camel": "#C19A6B",
   "Default Title": "#888",
 };
 
@@ -82,7 +83,8 @@ function mapShopifyProduct(p: ShopifyProduct, index: number): LocalProduct {
     const displayName = COLOR_NAME_MAP[v] ?? v;
     return { name: displayName, hex: COLOR_HEX[displayName] || COLOR_HEX[v] || "#3D2B1F" };
   });
-  const sizes = sizeOpt?.values?.length ? sizeOpt.values : ["One Size"];
+  const rawSizes = sizeOpt?.values?.length ? sizeOpt.values : ["One Size"];
+  const sizes = /sock/i.test(p.title) ? ["4–7"] : rawSizes;
 
   let featuredImage = p.featuredImage;
   let images = p.images || [];
