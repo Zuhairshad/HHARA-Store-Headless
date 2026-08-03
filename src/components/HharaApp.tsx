@@ -2443,14 +2443,12 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
                     {/* Certifications */}
                     <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "20px" }}>
-                      {["OEKO-TEX® STANDARD 100", "GLOBAL RECYCLED STANDARD 4.0"].map((cert) => (
-                        <div key={cert} style={{ background: "var(--ink)", padding: "10px 16px", fontFamily: "var(--sans)", fontSize: "11px", fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "#E8D8C8", textAlign: "center" }}>
-                          {cert}
-                        </div>
-                      ))}
+                      <div style={{ background: "var(--ink)", padding: "10px 16px", fontFamily: "var(--sans)", fontSize: "11px", fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: "#E8D8C8", textAlign: "center" }}>
+                        OEKO-TEX® STANDARD 100
+                      </div>
                     </div>
                     <p style={{ marginBottom: "20px", fontFamily: "var(--sans)", fontSize: "12.5px", lineHeight: 1.75, color: "var(--ink-soft)" }}>
-                      Our fabric is certified to OEKO-TEX® Standard 100 - tested against harmful substances and safe for skin contact. Our recycled nylon is independently verified under the Global Recycled Standard 4.0, certified by Intertek.
+                      Our fabric is certified to OEKO-TEX® Standard 100 - tested against harmful substances and safe for skin contact.
                     </p>
 
                     {/* Fabric property icons — socks */}
