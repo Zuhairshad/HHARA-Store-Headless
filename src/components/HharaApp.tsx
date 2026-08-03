@@ -272,13 +272,14 @@ const PRODUCTS = [
     swatches: [
       { name: "Camel", hex: "#C19A6B" },
     ],
-    sizes: ["UK 4–7 / US 6–9 / EU 37–40"],
+    sizes: ["UK 4–7"],
     tone: "tone-1",
     altTone: "tone-2",
     imgKey: "p5",
-    featuredImage: { url: "/images/hhara_comfort_socks_cream.jpg", altText: "HHARA Comfort Socks Cream" },
+    featuredImage: { url: "https://images.unsplash.com/photo-1640025867572-f6b3a8410c81?auto=format&fit=crop&q=80&w=1200", altText: "HHARA Comfort Socks Camel" },
     images: [
-      { url: "/images/hhara_comfort_socks_cream.jpg", altText: "HHARA Comfort Socks Cream" },
+      { url: "https://images.unsplash.com/photo-1640025867572-f6b3a8410c81?auto=format&fit=crop&q=80&w=1200", altText: "HHARA Comfort Socks Camel" },
+      { url: "https://images.unsplash.com/photo-1640026199235-c24aa417b552?auto=format&fit=crop&q=80&w=1200", altText: "HHARA Comfort Socks detail" },
     ],
     tagline: "Refined comfort for every step",
     description: "An elevated essential designed with the same attention to detail as the collection, the HHARA Comfort Socks bring refined comfort to every step. A cushioned footbed provides gentle support, while the sleek design adds the finishing touch to any look, from intentional movement to everyday styling.\n\nSimple in form, effortless in function, and created to complement the HHARA lifestyle.",
@@ -2389,6 +2390,11 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   );
                 })}
               </div>
+              {product.name?.includes("Sock") && (
+                <p style={{ fontSize: 12, color: "var(--ink-soft)", marginTop: 6, lineHeight: 1.6 }}>
+                  US equivalent: 6–9 &nbsp;·&nbsp; EU equivalent: 37–40
+                </p>
+              )}
               {product.cat !== "Accessories" && <span className="help" onClick={() => setSizeGuideOpen(true)} style={{ cursor: "pointer", textDecoration: "underline", fontSize: 11 }}>Not sure? View size guide</span>}
             </div>
 
