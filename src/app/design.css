@@ -1206,32 +1206,20 @@ img { display: block; max-width: 100%; }
 }
 .footer-bottom .pay a:hover { opacity: 1; }
 
-.footer[data-route="stores"],
 .footer[data-route="atelier"] {
   background: var(--bg);
   border-top: 1px solid rgba(42, 31, 20, 0.1);
 }
-.footer[data-route="stores"] .footer-top,
 .footer[data-route="atelier"] .footer-top { border-bottom-color: rgba(42, 31, 20, 0.1); }
-.footer[data-route="stores"] .footer-brand-desc span,
 .footer[data-route="atelier"] .footer-brand-desc span { color: rgba(42, 31, 20, 0.5); }
-.footer[data-route="stores"] .footer-newsletter,
 .footer[data-route="atelier"] .footer-newsletter { border-bottom-color: rgba(42, 31, 20, 0.2); }
-.footer[data-route="stores"] .footer-newsletter input,
 .footer[data-route="atelier"] .footer-newsletter input { color: var(--ink); }
-.footer[data-route="stores"] .footer-newsletter input::placeholder,
 .footer[data-route="atelier"] .footer-newsletter input::placeholder { color: rgba(42, 31, 20, 0.35); }
-.footer[data-route="stores"] .footer-col h4,
 .footer[data-route="atelier"] .footer-col h4 { color: var(--ink); }
-.footer[data-route="stores"] .footer-col a,
 .footer[data-route="atelier"] .footer-col a { color: rgba(42, 31, 20, 0.55); }
-.footer[data-route="stores"] .footer-col a:hover,
 .footer[data-route="atelier"] .footer-col a:hover { color: var(--ink); }
-.footer[data-route="stores"] .footer-bottom,
 .footer[data-route="atelier"] .footer-bottom { color: var(--ink-soft); opacity: 1; }
-.footer[data-route="stores"] .footer-bottom .pay a,
 .footer[data-route="atelier"] .footer-bottom .pay a { color: var(--ink-soft); opacity: 1; }
-.footer[data-route="stores"] .footer-bottom .pay a:hover,
 .footer[data-route="atelier"] .footer-bottom .pay a:hover { color: var(--ink); }
 
 /* ====== Cookie Banner ====== */

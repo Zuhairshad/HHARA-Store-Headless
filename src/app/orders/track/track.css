@@ -1,7 +1,30 @@
+/* header-nav uses <a> on standalone pages; mirror the button styles */
+.header-nav a {
+  font-family: var(--sans);
+  font-size: clamp(12px, 0.9vw, 13px);
+  letter-spacing: clamp(0.08em, 0.1vw, 0.12em);
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--ink);
+  position: relative;
+  padding: 6px 0;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.header-nav a:hover { opacity: 0.6; }
+.header-nav a.active::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: var(--ink);
+}
+
 .ot-root {
   max-width: 1080px;
   margin: 0 auto;
-  padding: clamp(56px, 9vw, 120px) clamp(20px, 5vw, 64px) 140px;
+  padding: clamp(48px, 6vw, 80px) clamp(20px, 5vw, 64px) 80px;
   color: var(--ink);
 }
 

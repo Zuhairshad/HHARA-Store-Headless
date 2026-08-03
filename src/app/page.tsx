@@ -5,11 +5,19 @@ import { getCurrentCustomer } from "@/lib/customer-actions";
 
 export const revalidate = 0;
 
-export default async function Page() {
+const VALID_ROUTES = new Set(["shop", "lookbook", "atelier", "stores", "account", "faq", "shipping", "returns", "size-guide", "contact", "gift-card", "privacy", "terms", "wishlist"]);
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ r?: string }>;
+}) {
+  const { r } = await searchParams;
+  const initialRoute = r && VALID_ROUTES.has(r) ? r : undefined;
   const [products, cart, customer] = await Promise.all([
     getStorefrontProducts(),
     getCurrentCart(),
     getCurrentCustomer(),
   ]);
-  return <HharaApp initialProducts={products} initialCart={cart} initialCustomer={customer} />;
+  return <HharaApp initialProducts={products} initialCart={cart} initialCustomer={customer} initialRoute={initialRoute} />;
 }

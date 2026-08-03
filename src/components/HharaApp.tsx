@@ -4816,12 +4816,12 @@ const CART_COLOR_REVERSE_MAP: Record<string, string> = {
 
 // === FILE 10-180e2df1-7549-448a-8bbb-f6c3acb791f4.jsx ===
 
-function App({ initialProducts, initialCart, initialCustomer }: { initialProducts?: any[]; initialCart?: any; initialCustomer?: any }) {
+function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { initialProducts?: any[]; initialCart?: any; initialCustomer?: any; initialRoute?: string }) {
   const products = (initialProducts && initialProducts.length) ? initialProducts : PRODUCTS;
   const [shopifyCart, setShopifyCart] = useState<any>(initialCart || null);
   const [localCartItems, setLocalCartItems] = useState<any[]>([]);
   const [customer, setCustomer] = useState<any>(initialCustomer || null);
-  const [route, setRouteState] = useState("home");
+  const [route, setRouteState] = useState(initialRoute || "home");
   const [productId, setProductId] = useState("p1");
   const [articleId, setArticleId] = useState("j1");
   const [cartOpen, setCartOpen] = useState(false);
@@ -4843,6 +4843,14 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
 
     return () => clearTimeout(timer);
   }, [route, productId, articleId]);
+
+  useEffect(() => {
+    if (initialRoute) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("r");
+      window.history.replaceState(null, "", url.pathname + (url.search || ""));
+    }
+  }, []);
 
   useEffect(() => {
     try {

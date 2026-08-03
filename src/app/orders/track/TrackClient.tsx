@@ -5,6 +5,8 @@ import Image from "next/image";
 import { lookupOrder, type LookupResult, type CarrierInfo } from "@/lib/order-tracking-actions";
 import type { OrderTracking } from "@/lib/shopify";
 import type { LiveStatus, LiveStatusState } from "@/lib/carriers";
+import { StandaloneNav } from "@/components/StandaloneNav";
+import { StandaloneFooter } from "@/components/StandaloneFooter";
 
 const initialState: LookupResult | null = null;
 
@@ -37,7 +39,9 @@ export default function TrackClient({ initialOrderName = "", initialEmail = "" }
   const carrier = state?.ok ? state.carrier : null;
 
   return (
-    <main className="ot-root">
+    <>
+      <StandaloneNav />
+      <main className="ot-root">
       <header className="ot-hero">
         <p className="eyebrow">Order Status</p>
         <h1 className="display ot-title">Track your order</h1>
@@ -99,6 +103,8 @@ export default function TrackClient({ initialOrderName = "", initialEmail = "" }
 
       {order && <OrderView order={order} carrier={carrier} />}
     </main>
+    <StandaloneFooter />
+    </>
   );
 }
 
