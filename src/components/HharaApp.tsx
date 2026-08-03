@@ -5092,6 +5092,8 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                     lineHeight: 0.9,
                     textTransform: "none",
                     letterSpacing: "0.02em",
+                    transform: "rotate(-10deg)",
+                    display: "inline-block",
                     filter: "drop-shadow(0px 1px 4px rgba(0,0,0,0.3))",
                     whiteSpace: "nowrap"
                   }}>
