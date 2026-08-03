@@ -57,6 +57,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  other: {
+    "p:domain_verify": "0dc9f529f63919981bd143dd195a7fd9",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
