@@ -272,7 +272,7 @@ const PRODUCTS = [
     swatches: [
       { name: "Camel", hex: "#C19A6B" },
     ],
-    sizes: ["UK 4–7"],
+    sizes: ["4–7"],
     tone: "tone-1",
     altTone: "tone-2",
     imgKey: "p5",
@@ -2461,7 +2461,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                 )}
 
                 {/* Fabric property icons */}
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px 12px", marginTop: "8px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "16px 12px", marginTop: "8px" }}>
                   {[
                     {
                       label: "4-Way Stretch",
