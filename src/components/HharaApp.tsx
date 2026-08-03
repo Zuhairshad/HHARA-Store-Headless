@@ -463,7 +463,7 @@ function MegaMenu({ open, onClose, setRoute }) {
           <h6>Accessories</h6>
           <ul>
             <li><a onClick={() => { setRoute("shop"); onClose(); }}>Accessories</a></li>
-            <li><a onClick={() => { setRoute("shop"); onClose(); }}>E-Gift Card</a></li>
+            <li><a onClick={() => { setRoute("gift-card"); onClose(); }}>E-Gift Card</a></li>
           </ul>
         </div>
       </div>
@@ -947,10 +947,10 @@ function Footer({ setRoute, route = "" }) {
           <span>© HHARA 2026 · UAE · Dahlia Moxie Trading LLC</span>
           <div className="pay">
             <a href="https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" target="_blank" rel="noreferrer">Instagram</a>
-            <a href="https://www.tiktok.com/@thisishhara?_r=1&_t=ZS-97MsyT8wQps" target="_blank" rel="noreferrer">TikTok</a>
-            <a href="#" target="_blank" rel="noreferrer">Facebook</a>
-            <a href="#" target="_blank" rel="noreferrer">Twitter</a>
-            <a href="#" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a href="https://www.tiktok.com/@thisishhara?_r=1&_t=ZS-98ZT7R2xNId" target="_blank" rel="noreferrer">TikTok</a>
+            <a href="https://www.facebook.com/share/1HgbM6QsDv/?mibextid=wwXIfr" target="_blank" rel="noreferrer">Facebook</a>
+            <a href="https://x.com/thisishhara?s=11&t=AEjr7Nl3uAuFnFM1MDRlTw" target="_blank" rel="noreferrer">Twitter</a>
+            <a href="https://www.linkedin.com/company/thisishhara/" target="_blank" rel="noreferrer">LinkedIn</a>
           </div>
         </div>
       </div>
@@ -4411,6 +4411,41 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
         Find your perfect fit across our elevated activewear collection. Toggle between CM and IN for measurements.
       </p>
 
+      {/* How to Measure Image Grid */}
+      <div className="policy-section" style={{ marginTop: 40 }}>
+        <h2 className="policy-section-heading" style={{ textAlign: "center", marginBottom: 28, fontSize: 22 }}>How to measure</h2>
+        <div className="sg-measure-visual-grid">
+          <div className="sg-measure-visual-card">
+            <div className="sg-measure-img-wrap">
+              <img src="/images/measure-chest.png" alt="How to measure Chest" />
+            </div>
+            <h4>Chest</h4>
+            <p>Measure around the fullest part</p>
+          </div>
+          <div className="sg-measure-visual-card">
+            <div className="sg-measure-img-wrap">
+              <img src="/images/measure-waist.png" alt="How to measure Waist" />
+            </div>
+            <h4>Waist</h4>
+            <p>Measure around the natural waistline</p>
+          </div>
+          <div className="sg-measure-visual-card">
+            <div className="sg-measure-img-wrap">
+              <img src="/images/measure-hips.png" alt="How to measure Hips" />
+            </div>
+            <h4>Hips</h4>
+            <p>Feet together, measure around the fullest part</p>
+          </div>
+          <div className="sg-measure-visual-card">
+            <div className="sg-measure-img-wrap">
+              <img src="/images/measure-inside-leg.png?v=inseam6" alt="How to measure Inseam" />
+            </div>
+            <h4>Inseam</h4>
+            <p>From the crotch seam down to the leg hem. Measure with no shoes on.</p>
+          </div>
+        </div>
+      </div>
+
       {/* Main Category Tabs */}
       <div className="sg-category-nav">
         {categories.map((cat) => (
@@ -4533,41 +4568,6 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
             </tbody>
           </table>
         )}
-      </div>
-
-      {/* How to Measure Image Grid */}
-      <div className="policy-section" style={{ marginTop: 40 }}>
-        <h2 className="policy-section-heading" style={{ textAlign: "center", marginBottom: 28, fontSize: 22 }}>How to measure</h2>
-        <div className="sg-measure-visual-grid">
-          <div className="sg-measure-visual-card">
-            <div className="sg-measure-img-wrap">
-              <img src="/images/measure-chest.png" alt="How to measure Chest" />
-            </div>
-            <h4>Chest</h4>
-            <p>Measure around the fullest part</p>
-          </div>
-          <div className="sg-measure-visual-card">
-            <div className="sg-measure-img-wrap">
-              <img src="/images/measure-waist.png" alt="How to measure Waist" />
-            </div>
-            <h4>Waist</h4>
-            <p>Measure around the natural waistline</p>
-          </div>
-          <div className="sg-measure-visual-card">
-            <div className="sg-measure-img-wrap">
-              <img src="/images/measure-hips.png" alt="How to measure Hips" />
-            </div>
-            <h4>Hips</h4>
-            <p>Feet together, measure around the fullest part</p>
-          </div>
-          <div className="sg-measure-visual-card">
-            <div className="sg-measure-img-wrap">
-              <img src="/images/measure-inside-leg.png?v=inseam6" alt="How to measure Inseam" />
-            </div>
-            <h4>Inseam</h4>
-            <p>From the crotch seam down to the leg hem. Measure with no shoes on.</p>
-          </div>
-        </div>
       </div>
 
       {/* Contact Concierge */}
