@@ -1268,10 +1268,14 @@ function Editorial({ openShop }) {
     <section className="section-full" style={{ padding: 0 }}>
       <div className="editorial" style={{ minHeight: "60vh" }}>
         <div className="editorial-media tone-5">
-          <picture style={{ display: "block", width: "100%", height: "100%" }}>
-            <source media="(max-width: 768px)" srcSet="/images/tala_cocoon_mobile.png" />
-            <img src="/images/tala_cocoon_desktop.png" alt="HHARA CLOUD" className="img-fill" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-          </picture>
+          <img
+            src="/images/tala_cocoon_desktop.png"
+            srcSet="/images/tala_cocoon_mobile.png 768w, /images/tala_cocoon_desktop.png 1200w"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            alt="HHARA CLOUD"
+            className="img-fill"
+            loading="lazy"
+          />
         </div>
         <div className="editorial-body" style={{ gap: "20px", alignSelf: "center" }}>
           <h2 className="editorial-title" style={{ margin: 0 }}>
@@ -5084,7 +5088,7 @@ function App({ initialProducts, initialCart, initialCustomer }: { initialProduct
                     fontWeight: 700,
                     fontStyle: "italic",
                     color: "#EAE3D9",
-                    marginTop: "4px",
+                    marginTop: "-8px",
                     lineHeight: 0.9,
                     textTransform: "none",
                     letterSpacing: "0.02em",
