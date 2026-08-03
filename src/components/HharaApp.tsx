@@ -272,7 +272,7 @@ const PRODUCTS = [
     swatches: [
       { name: "Camel", hex: "#C19A6B" },
     ],
-    sizes: ["UK 4–7 / US 6–9 / EU 37–40", "UK 8–10 / US 10–12 / EU 41–43", "UK 11–13 / US 13–15 / EU 44–47"],
+    sizes: ["UK 4–7 / US 6–9 / EU 37–40"],
     tone: "tone-1",
     altTone: "tone-2",
     imgKey: "p5",
