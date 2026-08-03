@@ -1756,7 +1756,7 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRout
 
   // Dynamically extract categories, sizes, and color choices from loaded catalog
   const cats = Array.from(new Set(PRODUCTS.map((p) => p.cat).filter(Boolean))) as string[];
-  const sizes = Array.from(new Set(PRODUCTS.flatMap((p) => p.sizes).filter(Boolean))) as string[];
+  const sizes = Array.from(new Set(PRODUCTS.filter((p) => p.cat !== "Accessories").flatMap((p) => p.sizes).filter(Boolean))) as string[];
 
   const colorMap = new Map<string, string>();
   PRODUCTS.flatMap((p) => p.swatches).forEach((s) => {
