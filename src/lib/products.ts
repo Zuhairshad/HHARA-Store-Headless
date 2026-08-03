@@ -3,6 +3,7 @@ import { getProducts, ShopifyProduct } from "./shopify";
 const COLOR_HEX: Record<string, string> = {
   "Chicory Brown": "#3D2B1F",
   "Army Green": "#5F6B4F",
+  "Cream": "#F5F0EB",
   "Default Title": "#888",
 };
 
