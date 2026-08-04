@@ -2671,7 +2671,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
         </div>
 
         {/* Rating summary: avg score · star bars · quality/fit */}
-        <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "32px var(--pad)", display: "grid", gridTemplateColumns: "auto 1fr auto", gap: "48px", alignItems: "center", borderBottom: "1px solid var(--line-soft)" }}>
+        <div className="reviews-summary">
           <div style={{ textAlign: "center", minWidth: "120px" }}>
             <div style={{ fontFamily: "var(--display)", fontSize: "56px", fontWeight: 300, lineHeight: 1, color: "var(--ink)" }}>{averageRating}</div>
             <div style={{ color: "var(--accent)", fontSize: "18px", letterSpacing: "2px", margin: "6px 0" }}>{"★".repeat(Math.round(parseFloat(averageRating)))}</div>
@@ -2680,7 +2680,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
             {[5,4,3,2,1].map(n => <StarRow key={n} stars={n} percentage={starsPercentage(n)} count={starsCount(n)} />)}
           </div>
-          <div style={{ minWidth: "180px" }}>
+          <div className="reviews-summary-sliders">
             <ReviewSlider label="Quality" value="Excellent" position={90} />
             <ReviewSlider label="Fit" value="True to size" position={88} />
           </div>
