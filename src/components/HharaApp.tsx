@@ -5126,16 +5126,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
               {/* Brand Text Overlay */}
               <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 pointer-events-none">
                 <div className="relative flex flex-col items-center justify-center">
-                  <img
-                    src="/images/hhara-logo.png"
-                    alt="HHARA"
-                    style={{
-                      height: "clamp(26px, 3.2vw, 38px)",
-                      width: "auto",
-                      objectFit: "contain",
-                      filter: "brightness(0) saturate(100%) invert(58%) sepia(48%) saturate(542%) hue-rotate(5deg) brightness(92%) contrast(87%)"
-                    }}
-                  />
                   <span style={{
                     fontFamily: "'Bradley Hand', 'Bradley Hand ITC', 'Caveat', cursive",
                     fontSize: "clamp(32px, 4vw, 44px)",
@@ -5181,6 +5171,11 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
 
               {signupStatus !== "success" ? (
                 <div className="w-full max-w-sm mx-auto">
+                  <img
+                    src="/images/hhara-logo.png"
+                    alt="HHARA"
+                    className="brandmark-text mx-auto mb-5"
+                  />
                   <p className="text-xs md:text-sm text-[#2A1F14]/85 mb-5 leading-relaxed font-light text-center">
                     Be the first to discover new collections, limited releases, surprise gifts and exclusive stories from the world of HHARA.
                   </p>
