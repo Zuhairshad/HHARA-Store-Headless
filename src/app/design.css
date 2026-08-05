@@ -2234,7 +2234,7 @@ img { display: block; max-width: 100%; }
   .header-actions button, .header-actions .ha-link { padding: 2px; }
   .header-actions svg { width: 18px; height: 18px; }
   .brandmark-mark { height: 32px; }
-  .brandmark-text { height: 16px; }
+  .brandmark-text { height: 19px; }
   
   /* Announcement bar mobile styling */
   .announce-locale { display: none; }
@@ -6244,6 +6244,7 @@ img { display: block; max-width: 100%; }
 /* ── Signup popup — responsive width ─────────────────────── */
 @media (max-width: 768px) {
   .signup-popup-inner { height: auto !important; min-height: 480px; }
+  .signup-popup-inner .brandmark-text { height: 19px !important; }
 }
 @media (max-width: 480px) {
   .signup-popup-inner { min-height: 400px; }
