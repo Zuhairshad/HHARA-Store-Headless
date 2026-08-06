@@ -6243,11 +6243,11 @@ img { display: block; max-width: 100%; }
 
 /* ── Signup popup — responsive width ─────────────────────── */
 .signup-popup-inner .brandmark-text {
-  transform: translateY(-5px);
+  transform: translateY(-2px);
 }
 @media (max-width: 768px) {
   .signup-popup-inner { height: auto !important; min-height: 480px; }
-  .signup-popup-inner .brandmark-text { height: 19px !important; transform: translateY(-5px); }
+  .signup-popup-inner .brandmark-text { height: 19px !important; transform: translateY(-2px); }
 }
 @media (max-width: 480px) {
   .signup-popup-inner { min-height: 400px; }
