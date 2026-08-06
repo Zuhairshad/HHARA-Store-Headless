@@ -5139,7 +5139,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
                     fontWeight: 700,
                     fontStyle: "italic",
                     color: "#EAE3D9",
-                    marginTop: "-4px",
+                    marginTop: "-9px",
                     lineHeight: 0.9,
                     textTransform: "none",
                     letterSpacing: "0.02em",
