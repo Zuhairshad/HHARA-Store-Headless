@@ -5133,7 +5133,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
                     className="brandmark-text mx-auto mb-1"
                     style={{ filter: "drop-shadow(0px 2px 6px rgba(0,0,0,0.6))" }}
                   />
-                  <span style={{
+                  <span className="insiders-text" style={{
                     fontFamily: "'Bradley Hand', 'Bradley Hand ITC', 'Caveat', cursive",
                     fontSize: "clamp(25px, 4vw, 44px)",
                     fontWeight: 700,
@@ -5143,7 +5143,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
                     lineHeight: 0.9,
                     textTransform: "none",
                     letterSpacing: "0.02em",
-                    transform: "rotate(-2.5deg)",
+                    transform: "rotate(-3.5deg)",
                     display: "inline-block",
                     filter: "drop-shadow(0px 1px 4px rgba(0,0,0,0.3))",
                     whiteSpace: "nowrap"
