@@ -6248,6 +6248,7 @@ img { display: block; max-width: 100%; }
 @media (max-width: 768px) {
   .signup-popup-inner { height: auto !important; min-height: 480px; }
   .signup-popup-inner .brandmark-text { height: 19px !important; transform: translateY(-2px); }
+  .signup-popup-inner .insiders-text { margin-top: -11px !important; }
 }
 @media (max-width: 480px) {
   .signup-popup-inner { min-height: 400px; }
