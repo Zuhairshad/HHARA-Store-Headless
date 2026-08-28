@@ -5389,16 +5389,17 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
           <div className="signup-popup-inner relative max-w-4xl w-full bg-[#EAE3D9] text-[#241811] shadow-2xl overflow-hidden rounded-none grid grid-cols-1 md:grid-cols-2 md:h-[475px] min-h-[475px]">
 
             {/* Left Side (50%) — Editorial Image */}
-            <div className="relative h-56 md:h-full w-full overflow-hidden bg-[#241811]">
+            <div className="relative h-72 md:h-full w-full overflow-hidden bg-[#241811]">
               <img
                 src="/images/Lucy Leaning On Wall.png"
                 alt="HHARA"
                 className="w-full h-full object-cover"
+                style={{ objectPosition: "center top" }}
               />
             </div>
 
             {/* Right Side (50%) — Light Beige Content & Form Container */}
-            <div className="relative p-6 md:px-10 md:py-8 flex flex-col justify-center bg-[#EAE3D9] text-[#241811]">
+            <div className="relative p-4 md:px-10 md:py-8 flex flex-col justify-center bg-[#EAE3D9] text-[#241811]">
               {/* Close Button (X) */}
               <button
                 className="absolute top-4 right-4 z-10 p-2 text-[#241811] hover:opacity-60 transition-opacity"

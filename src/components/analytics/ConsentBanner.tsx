@@ -123,7 +123,7 @@ export function ConsentBanner() {
               flexWrap: "wrap",
               alignItems: "center",
               justifyContent: "flex-end",
-              gap: "12px",
+              gap: "10px",
               marginTop: "4px",
             }}
           >
@@ -131,14 +131,15 @@ export function ConsentBanner() {
               onClick={() => setShowModal(true)}
               style={{
                 background: "transparent",
-                border: "none",
+                border: "1px solid rgba(245, 240, 235, 0.2)",
                 color: "rgba(245, 240, 235, 0.7)",
-                textDecoration: "underline",
+                padding: "9px 18px",
                 fontSize: "12px",
-                letterSpacing: "0.05em",
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                borderRadius: "2px",
                 cursor: "pointer",
-                padding: "8px 12px",
-                marginRight: "auto",
+                transition: "all 0.2s ease",
               }}
             >
               Preferences
@@ -147,7 +148,7 @@ export function ConsentBanner() {
               onClick={handleRejectNonEssential}
               style={{
                 background: "transparent",
-                border: "1px solid rgba(245, 240, 235, 0.25)",
+                border: "1px solid rgba(245, 240, 235, 0.35)",
                 color: "#f5f0eb",
                 padding: "9px 18px",
                 fontSize: "12px",
@@ -166,7 +167,7 @@ export function ConsentBanner() {
                 backgroundColor: "#f5f0eb",
                 border: "1px solid #f5f0eb",
                 color: "#1c1917",
-                padding: "9px 20px",
+                padding: "9px 18px",
                 fontSize: "12px",
                 fontWeight: 600,
                 letterSpacing: "0.08em",
