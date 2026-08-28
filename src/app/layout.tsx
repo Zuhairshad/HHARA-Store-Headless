@@ -24,7 +24,11 @@ const mrDeHaviland = Mr_De_Haviland({
   variable: "--font-signature",
 });
 
+import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
+import { ConsentBanner } from "@/components/analytics/ConsentBanner";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://hhara-store-headless.vercel.app"),
   title: "HHARA | She is Wonder",
   description: "Unapologetically You. Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.",
   keywords: ["HHARA", "Considered Luxury", "Activewear", "Recycled Performance Wear", "UAE Activewear", "Maison HHARA", "Imara Set", "Dahlia Set"],
@@ -65,7 +69,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${cormorant.variable} ${montserrat.variable} ${jetbrains.variable} ${mrDeHaviland.variable}`}>
-      <body>{children}</body>
+      <body>
+        <AnalyticsProvider>
+          {children}
+          <ConsentBanner />
+        </AnalyticsProvider>
+      </body>
     </html>
   );
 }

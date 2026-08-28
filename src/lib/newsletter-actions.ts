@@ -1,6 +1,7 @@
 "use server";
 
 import { shopifyFetch } from "./shopify";
+import { verifyHumanSubmission } from "./bot-protection";
 
 // Create a Shopify customer with marketing consent. Klaviyo (installed in the
 // store) will sync this customer automatically from the Shopify webhook.
@@ -8,11 +9,21 @@ export async function subscribeNewsletter(
   email: string,
   name?: string,
   phone?: string,
-  dob?: string
+  dob?: string,
+  honeypot?: string,
+  formTimestamp?: number
 ): Promise<{ ok: boolean; error?: string }> {
-  if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-    return { ok: false, error: "Invalid email" };
+  // 1. Anti-Bot Verification
+  const botCheck = await verifyHumanSubmission({
+    honeypot,
+    timestamp: formTimestamp,
+    email,
+    action: "newsletter",
+  });
+  if (!botCheck.allowed) {
+    return { ok: false, error: botCheck.error || "Subscription rejected." };
   }
+
   const query = /* GraphQL */ `
     mutation Subscribe($input: CustomerCreateInput!) {
       customerCreate(input: $input) {
@@ -23,7 +34,7 @@ export async function subscribeNewsletter(
   `;
   try {
     const input: any = {
-      email,
+      email: email.trim().toLowerCase(),
       acceptsMarketing: true,
       password: cryptoRandom(),
     };

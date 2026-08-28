@@ -6,6 +6,13 @@ import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
 import { MagneticImpactCard } from "@/components/ui/morphing-cursor";
+import {
+  trackEvent,
+  formatEcommerceItem,
+  appendAttributionToUrl,
+  getStoredAttribution,
+  openConsentPreferences,
+} from "@/lib/analytics";
 
 const ProductsContext = createContext(null);
 const ShopifyCartContext = createContext(null);
@@ -125,19 +132,19 @@ const IMGS: Record<string, string> = {
   p8a: "/images/p8a.jpg",
   p8b: "/images/p8b.jpg",
   editAtelier: "/images/tala_cocoon_desktop.png",
-  atelierHero: "/images/atelierHero.jpg",
-  atelierFlorence: "/images/atelierFlorence.jpg",
-  atelierCloth: "/images/atelierCloth.jpg",
+  atelierHero: "/images/about us banner .png",
+  atelierFlorence: "/images/Lucy on Chair With Book.png",
+  atelierCloth: "/images/Lucy & Angie 2.png",
   atelierVideo: "/images/atelierVideo.jpg",
-  lb1: "/images/lb1.jpg",
-  lb2: "/images/lb2.jpg",
-  lb3: "/images/lb3.jpg",
-  lb4: "/images/lb4.jpg",
-  lb5: "/images/lb5.jpg",
-  lb6: "/images/lb6.jpg",
-  lb7: "/images/lb7.jpg",
-  lb8: "/images/lb8.jpg",
-  lb9: "/images/lb9.jpg",
+  lb1: "/images/Lucy 1.png",
+  lb2: "/images/Lucy with suitcase.png",
+  lb3: "/images/Angie.png",
+  lb4: "/images/Remove the fold on the waist and enhance the image.png",
+  lb5: "/images/Lucy with suitcase.png",
+  lb6: "/images/Lucy 1.png",
+  lb7: "/images/Angie.png",
+  lb8: "/images/Remove the fold on the waist and enhance the image.png",
+  lb9: "/images/lookbook main image .png",
   j1: "/images/j1.jpg",
   j2: "/images/j2.jpg",
   j3: "/images/j3.jpg",
@@ -163,9 +170,8 @@ const IMGS: Record<string, string> = {
 // The video is replaced with a CSS ken-burns image overlay on the hero by default,
 // but the URL is available for any video slots that need real motion.
 const VIDEOS = {
-  // A short, free, public-domain motion loop. If it fails, the poster image shows.
-  motion1: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-  motion2: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+  motion1: "/videos/about-us.mp4",
+  motion2: "/videos/about-us.mp4",
 };
 
 
@@ -181,7 +187,7 @@ const PRODUCTS = [
     price: 0,
     swatches: [
       { name: "Chicory Brown", hex: "#3D2B1F" },
-      { name: "Army Green", hex: "#5F6B4F" },
+      { name: "Olive", hex: "#636b2f" },
     ],
     sizes: ["XS", "S", "M", "L", "XL"],
     tone: "tone-2",
@@ -204,7 +210,7 @@ const PRODUCTS = [
     price: 0,
     swatches: [
       { name: "Chicory Brown", hex: "#3D2B1F" },
-      { name: "Army Green", hex: "#5F6B4F" },
+      { name: "Olive", hex: "#636b2f" },
     ],
     sizes: ["XS", "S", "M", "L", "XL"],
     tone: "tone-1",
@@ -227,7 +233,7 @@ const PRODUCTS = [
     price: 0,
     swatches: [
       { name: "Chicory Brown", hex: "#3D2B1F" },
-      { name: "Army Green", hex: "#5F6B4F" },
+      { name: "Olive", hex: "#636b2f" },
     ],
     sizes: ["XS", "S", "M", "L", "XL"],
     tone: "tone-7",
@@ -249,7 +255,7 @@ const PRODUCTS = [
     price: 0,
     swatches: [
       { name: "Chicory Brown", hex: "#3D2B1F" },
-      { name: "Army Green", hex: "#5F6B4F" },
+      { name: "Olive", hex: "#636b2f" },
     ],
     sizes: ["XS", "S", "M", "L", "XL"],
     tone: "tone-6",
@@ -348,7 +354,7 @@ const PRODUCT_SPECS = {
 const V3_DESCRIPTIONS: Record<string, string> = {
   "Imara Sculpt Scoop Neck Bra": "The Imara Sculpt Scoop Neck Bra is thoughtfully designed to complement the body's natural shape with understated elegance. Sculpted paneling provides gentle support and a beautifully contoured fit, while the clean scoop neckline creates a refined, minimalist silhouette that transitions effortlessly from movement to everyday wear.\n\nA piece defined by quiet confidence, where comfort, structure, and timeless design exist in perfect balance.",
   "Imara Bra": "The Imara Sculpt Scoop Neck Bra is thoughtfully designed to complement the body's natural shape with understated elegance. Sculpted paneling provides gentle support and a beautifully contoured fit, while the clean scoop neckline creates a refined, minimalist silhouette that transitions effortlessly from movement to everyday wear.\n\nA piece defined by quiet confidence, where comfort, structure, and timeless design exist in perfect balance.",
-  
+
   "Imara Seamless Sculpt High Waist Legging": "The Imara Seamless Sculpt High Waist Legging is engineered to complement the body's natural shape, creating a refined foundation for an elevated wardrobe. The high-rise waistband provides sculpted support and a smooth, contoured silhouette, while the seamless construction delivers a second-skin feel that moves effortlessly with you from waist to ankle.\n\nDesigned beyond the studio, this essential transitions seamlessly through every part of your day, from intentional movement to elevated everyday moments, where comfort and refinement meet.",
   "Imara Legging": "The Imara Seamless Sculpt High Waist Legging is engineered to complement the body's natural shape, creating a refined foundation for an elevated wardrobe. The high-rise waistband provides sculpted support and a smooth, contoured silhouette, while the seamless construction delivers a second-skin feel that moves effortlessly with you from waist to ankle.\n\nDesigned beyond the studio, this essential transitions seamlessly through every part of your day, from intentional movement to elevated everyday moments, where comfort and refinement meet.",
 
@@ -483,7 +489,14 @@ function MegaMenu({ open, onClose, setRoute }) {
 function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const closeTimer = useRef(null);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const openMenu = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -494,70 +507,57 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
     closeTimer.current = setTimeout(() => setMenuOpen(false), 120);
   };
 
+  const isHeroPage = route === "home" || !route || route === "atelier" || route === "stores";
+  const isSolid = !isHeroPage || scrolled;
+
   return (
     <>
-      <Announce />
-      <header className="header" style={{ position: "sticky" }}>
-        <div className="header-inner">
-          <button className="mobile-menu-trigger" onClick={() => setMobileMenuOpen(true)}>
-            <Icon.Menu />
-          </button>
-          <nav className="header-nav">
-            <button
-              className={route === "shop" ? "active" : ""}
-              onClick={() => setRoute("shop")}
-              onMouseEnter={openMenu}
-              onMouseLeave={scheduleClose}
-            >
-              Shop
+      <div className="header-wrapper">
+        <Announce />
+        <header className={`header${isSolid ? " header--solid" : ""}`}>
+          <div className="header-inner">
+            <button className="mobile-menu-trigger" onClick={() => setMobileMenuOpen(true)}>
+              <Icon.Menu />
             </button>
-            <button
-              className={route === "lookbook" ? "active" : ""}
-              onClick={() => setRoute("lookbook")}
-            >
-              Lookbook
-            </button>
-            <button
-              className={route === "atelier" ? "active" : ""}
-              onClick={() => setRoute("atelier")}
-            >
-              About Us
-            </button>
-            <button
-              className={route === "stores" ? "active" : ""}
-              onClick={() => setRoute("stores")}
-            >
-              Impact
-            </button>
-          </nav>
-          <div className="brandmark" onClick={() => setRoute("home")}>
-            <img src="/images/hhara-logo.png" alt="HHARA Wordmark" className="brandmark-text" />
+            <nav className="header-nav">
+              <button
+                className={route === "shop" ? "active" : ""}
+                onClick={() => setRoute("shop")}
+                onMouseEnter={openMenu}
+                onMouseLeave={scheduleClose}
+              >
+                Shop
+              </button>
+              <button
+                className={route === "lookbook" ? "active" : ""}
+                onClick={() => setRoute("lookbook")}
+              >
+                Lookbook
+              </button>
+              <button
+                className={route === "atelier" ? "active" : ""}
+                onClick={() => setRoute("atelier")}
+              >
+                About Us
+              </button>
+            </nav>
+            <div className="brandmark" onClick={() => setRoute("home")}>
+              <img src="/images/hhara-logo.png" alt="HHARA Wordmark" className="brandmark-text" />
+            </div>
+            <div className="header-actions">
+              <button onClick={openSearch} className="ha-btn" data-tooltip="Search" aria-label="Search"><Icon.Search /></button>
+              <button onClick={() => setRoute("account")} className="ha-btn" data-tooltip="Account" aria-label="Account"><Icon.Account /></button>
+              <button onClick={openCart} className="ha-btn" data-tooltip="Cart" aria-label="Cart" style={{ position: "relative" }}>
+                <Icon.Bag />
+                {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
+              </button>
+            </div>
           </div>
-          <div className="header-actions">
-            <button onClick={openSearch} className="ha-btn" data-tooltip="Search" aria-label="Search"><Icon.Search /></button>
-            <a
-              href="/orders/track"
-              className="ha-btn ha-link"
-              data-tooltip="Track your order"
-              aria-label="Track your order"
-            >
-              <Icon.Truck />
-            </a>
-            <button onClick={() => setRoute("account")} className="ha-btn" data-tooltip="Account" aria-label="Account"><Icon.Account /></button>
-            <button onClick={() => setRoute("wishlist")} className="ha-btn" data-tooltip="Wishlist" aria-label="Wishlist" style={{ position: "relative" }}>
-              <Icon.Heart />
-              {wishCount > 0 && <span className="cart-count">{wishCount}</span>}
-            </button>
-            <button onClick={openCart} className="ha-btn" data-tooltip="Cart" aria-label="Cart" style={{ position: "relative" }}>
-              <Icon.Bag />
-              {cartCount > 0 && <span className="cart-count">{cartCount}</span>}
-            </button>
+          <div onMouseEnter={openMenu} onMouseLeave={scheduleClose}>
+            <MegaMenu open={menuOpen} onClose={() => setMenuOpen(false)} setRoute={setRoute} />
           </div>
-        </div>
-        <div onMouseEnter={openMenu} onMouseLeave={scheduleClose}>
-          <MegaMenu open={menuOpen} onClose={() => setMenuOpen(false)} setRoute={setRoute} />
-        </div>
-      </header>
+        </header>
+      </div>
 
       <div className={`mobile-menu-backdrop ${mobileMenuOpen ? "open" : ""}`} onClick={() => setMobileMenuOpen(false)}></div>
       <aside className={`mobile-menu-drawer ${mobileMenuOpen ? "open" : ""}`} aria-hidden={!mobileMenuOpen}>
@@ -673,7 +673,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
       <div className="pco-left">
         <div className="pco-left-inner">
           <button className="pco-back" onClick={() => setRoute("shop")}>
-            <svg viewBox="0 0 24 24" className="icon"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            <svg viewBox="0 0 24 24" className="icon"><line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" /></svg>
             Continue Shopping
           </button>
           <h2 className="pco-page-title">Order Review</h2>
@@ -791,7 +791,38 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
           )}
 
           {/* CTA */}
-          <button className="btn btn-primary btn-block" disabled={!checkoutUrl} onClick={() => { if (checkoutUrl) window.open(checkoutUrl, "_self"); }}>
+          <button
+            className="btn btn-primary btn-block"
+            disabled={!checkoutUrl}
+            onClick={() => {
+              if (checkoutUrl) {
+                const totalVal = cart.reduce((a: number, i: any) => a + (i.price || 0) * (i.qty || 1), 0);
+                trackEvent({
+                  name: "checkout_started",
+                  payload: {
+                    currency: "AED",
+                    value: totalVal,
+                    checkout_url: checkoutUrl,
+                    items: cart.map((i: any) =>
+                      formatEcommerceItem({
+                        id: i.variantId || i.id,
+                        name: i.name,
+                        price: i.price,
+                        brand: "HHARA",
+                        category: "Considered Luxury",
+                        variant: `${i.color} / ${i.size}`,
+                        currency: "AED",
+                        quantity: i.qty,
+                      })
+                    ),
+                  },
+                });
+                const attr = getStoredAttribution();
+                const decoratedUrl = appendAttributionToUrl(checkoutUrl, attr);
+                window.open(decoratedUrl, "_self");
+              }
+            }}
+          >
             Proceed to Checkout
             <span className="btn-arrow"><Icon.Arrow /></span>
           </button>
@@ -839,29 +870,13 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
 }
 
 function CookieBanner({ setRoute }) {
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    if (!localStorage.getItem("hhara_cookie_consent")) setVisible(true);
-  }, []);
-  if (!visible) return null;
-  const accept = () => { localStorage.setItem("hhara_cookie_consent", "accepted"); setVisible(false); };
-  const decline = () => { localStorage.setItem("hhara_cookie_consent", "declined"); setVisible(false); };
-  return (
-    <div className="cookie-banner">
-      <p>
-        We use cookies to enhance your browsing experience and analyse site traffic. By clicking "Accept", you consent to our use of cookies.{" "}
-        <a href="#" onClick={(e) => { e.preventDefault(); setRoute("privacy"); }}>Privacy Policy</a>
-      </p>
-      <div className="cookie-banner-actions">
-        <button className="cookie-decline" onClick={decline}>Decline</button>
-        <button className="cookie-accept" onClick={accept}>Accept</button>
-      </div>
-    </div>
-  );
+  return null;
 }
 
 function Footer({ setRoute, route = "" }) {
   const [email, setEmail] = useState("");
+  const [hpCompany, setHpCompany] = useState("");
+  const [formTs] = useState(() => Date.now());
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -869,9 +884,18 @@ function Footer({ setRoute, route = "" }) {
     e.preventDefault();
     if (!email || busy) return;
     setBusy(true); setError(null);
-    const res = await serverSubscribe(email);
+    const res = await serverSubscribe(email, undefined, undefined, undefined, hpCompany, formTs);
     setBusy(false);
-    if (res.ok) setDone(true);
+    if (res.ok) {
+      setDone(true);
+      trackEvent({
+        name: "customer_subscribed",
+        payload: {
+          source: "footer_newsletter",
+          email,
+        },
+      });
+    }
     else setError(res.error || "Subscription failed");
   };
   return (
@@ -883,14 +907,22 @@ function Footer({ setRoute, route = "" }) {
               <img src="/images/monkey-peeking.png" alt="HHARA" className="footer-monkey-logo" />
               <div className="footer-brand-right">
                 <img src="/images/Text-PNG-02.png" alt="HHARA" className="footer-wordmark" />
-                <div className="footer-brand-desc">
-                  <span>Consciously made luxury athleisure.</span>
-                  <span>Worn around the world with intent.</span>
-                  <span>Every piece does more than dress you.</span>
-                </div>
               </div>
             </div>
+            <p className="footer-brand-desc">
+              Consciously made luxury athleisure. Worn around the world with intent. Every piece does more than dress you.
+            </p>
             <form className="footer-newsletter" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="_hp_company"
+                value={hpCompany}
+                onChange={(e) => setHpCompany(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ display: "none", opacity: 0, position: "absolute", left: "-9999px" }}
+              />
               <input
                 type="email"
                 placeholder="Your email"
@@ -931,13 +963,8 @@ function Footer({ setRoute, route = "" }) {
               <h4>Information</h4>
               <ul>
                 <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>About Us</a></li>
-                <li><a onClick={() => setRoute("stores")} style={{ cursor: "pointer" }}>Impact</a></li>
+                <li><a onClick={() => setRoute("stores")} style={{ cursor: "pointer" }}>Social Impact</a></li>
                 <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>E-Gift Card</a></li>
-              </ul>
-            </div>
-            <div className="footer-col">
-              <h4>Legal</h4>
-              <ul>
                 <li><a onClick={() => setRoute("privacy")} style={{ cursor: "pointer" }}>Privacy &amp; Cookie Policy</a></li>
                 <li><a onClick={() => setRoute("terms")} style={{ cursor: "pointer" }}>Terms &amp; Conditions</a></li>
               </ul>
@@ -945,14 +972,41 @@ function Footer({ setRoute, route = "" }) {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© HHARA 2026 · UAE · Dahlia Moxie Trading LLC</span>
-          <div className="pay">
-            <a href="https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" target="_blank" rel="noreferrer">Instagram</a>
-            <a href="https://www.tiktok.com/@thisishhara?_r=1&_t=ZS-98ZT7R2xNId" target="_blank" rel="noreferrer">TikTok</a>
-            <a href="https://www.facebook.com/share/1HgbM6QsDv/?mibextid=wwXIfr" target="_blank" rel="noreferrer">Facebook</a>
-            <a href="https://x.com/thisishhara?s=11&t=AEjr7Nl3uAuFnFM1MDRlTw" target="_blank" rel="noreferrer">Twitter</a>
-            <a href="https://www.linkedin.com/company/thisishhara/" target="_blank" rel="noreferrer">LinkedIn</a>
-            <a href="https://pin.it/5F59avDdF" target="_blank" rel="noreferrer">Pinterest</a>
+          <span>© 2026 HHARA — Dahlia Moxie Trading LLC. All rights reserved.</span>
+          <div className="footer-social-icons">
+            <a href="https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+              </svg>
+            </a>
+            <a href="https://www.tiktok.com/@thisishhara?_r=1&_t=ZS-98ZT7R2xNId" target="_blank" rel="noreferrer" aria-label="TikTok">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.29 6.29 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.27 8.27 0 004.83 1.54V6.78a4.85 4.85 0 01-1.06-.09z"/>
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/share/1HgbM6QsDv/?mibextid=wwXIfr" target="_blank" rel="noreferrer" aria-label="Facebook">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+              </svg>
+            </a>
+            <a href="https://x.com/thisishhara?s=11&t=AEjr7Nl3uAuFnFM1MDRlTw" target="_blank" rel="noreferrer" aria-label="Twitter / X">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/company/thisishhara/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+                <circle cx="4" cy="4" r="2"/>
+              </svg>
+            </a>
+            <a href="https://pin.it/5F59avDdF" target="_blank" rel="noreferrer" aria-label="Pinterest">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.236 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.181-.78 1.172-4.97 1.172-4.97s-.299-.598-.299-1.482c0-1.388.806-2.428 1.808-2.428.853 0 1.267.641 1.267 1.408 0 .858-.546 2.141-.828 3.33-.236.995.499 1.806 1.476 1.806 1.771 0 3.137-1.867 3.137-4.561 0-2.386-1.715-4.054-4.163-4.054-2.835 0-4.498 2.126-4.498 4.324 0 .856.33 1.774.741 2.276a.3.3 0 01.069.284c-.076.309-.242.995-.275 1.134-.044.183-.146.222-.337.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.967-.527-2.292-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.522 0 10-4.477 10-10S17.522 2 12 2z"/>
+              </svg>
+            </a>
           </div>
         </div>
       </div>
@@ -1154,7 +1208,11 @@ function Hero({ openShop }) {
   return (
     <section className="hero">
       <div className={`hero-media ${slide.tone}`}>
-        <img src="/images/HHara.png" alt="" className="img-fill" />
+        <img
+          src="/images/Lucy walkingggggg.png"
+          alt="Woman wearing the HHARA collection reading on a bench"
+          className="img-fill hero-image"
+        />
       </div>
       <div className="hero-overlay"></div>
       <div className="hero-content">
@@ -1226,17 +1284,17 @@ function FeaturedGrid({ setRoute }: { setRoute: (route: string, payload?: any) =
         <em style={{ fontFamily: "var(--display,'Cormorant Garamond',serif)", fontStyle: "italic", fontWeight: 300, color: "#B8892E" }}>Tones.</em>
       </h2>
       <p className="mc-lead" style={{ marginBottom: 40, maxWidth: "640px", textAlign: "center" }}>
-        Chicory Brown and Army Green. Two signature colorways grounded in raw mineral earth and quiet oases, designed to anchor your movement and your day.
+        Chicory Brown and Olive. Two signature colorways grounded in raw mineral earth and quiet oases, designed to anchor your movement and your day.
       </p>
       <div className="mc-cards" style={{ cursor: "default" }}>
-        <div 
-          className="mc-card mc-card-clickable" 
+        <div
+          className="mc-card mc-card-clickable"
           onClick={() => setRoute("shop", "Chicory Brown")}
           style={{ textAlign: "left" }}
         >
           <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "#3D2B1F", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0 }} />
           <div>
-            <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Chicory Brown</h3>
+            <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#241811", marginBottom: 4 }}>Chicory Brown</h3>
             <span className="eyebrow" style={{ letterSpacing: "0.20em", display: "block" }}>Deep Espresso Brown</span>
           </div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
@@ -1246,14 +1304,14 @@ function FeaturedGrid({ setRoute }: { setRoute: (route: string, payload?: any) =
             Her colour. Before the day begins.
           </p>
         </div>
-        <div 
-          className="mc-card mc-card-clickable" 
-          onClick={() => setRoute("shop", "Army Green")}
+        <div
+          className="mc-card mc-card-clickable"
+          onClick={() => setRoute("shop", "Olive")}
           style={{ textAlign: "left" }}
         >
-          <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "#5F6B4F", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0 }} />
+          <div style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: "#636b2f", border: "1px solid rgba(0,0,0,0.08)", flexShrink: 0 }} />
           <div>
-            <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#2A1F14", marginBottom: 4 }}>Army Green</h3>
+            <h3 style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontSize: 32, fontWeight: 300, color: "#241811", marginBottom: 4 }}>Olive</h3>
             <span className="eyebrow" style={{ letterSpacing: "0.20em", display: "block" }}>Deep Green</span>
           </div>
           <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
@@ -1274,10 +1332,8 @@ function Editorial({ openShop }) {
       <div className="editorial" style={{ minHeight: "60vh" }}>
         <div className="editorial-media tone-5">
           <img
-            src="/images/tala_cocoon_desktop.png"
-            srcSet="/images/tala_cocoon_mobile.png 768w, /images/tala_cocoon_desktop.png 1200w"
-            sizes="(max-width: 768px) 100vw, 50vw"
-            alt="HHARA CLOUD"
+            src="/images/Lucy On Bench.png"
+            alt="Woman resting on a bench in the HHARA collection"
             className="img-fill"
             loading="lazy"
           />
@@ -1353,7 +1409,7 @@ function Lookbook({ openLookbook }) {
 
   const tiles = [IMGS.lb1, IMGS.lb2, IMGS.lb3, IMGS.lb4, IMGS.lb5, IMGS.lb6];
   const tones = ["tone-3", "tone-1", "tone-5", "tone-7", "tone-2", "tone-6"];
-  const tags = ["Imara Bra", "Imara Legging", "Dahlia Bra", "Dahlia Short", "Chicory Brown", "Army Green"];
+  const tags = ["Imara Bra", "Imara Legging", "Dahlia Bra", "Dahlia Short", "Chicory Brown", "Olive"];
   return (
     <section className="section" style={{ paddingTop: "10px" }}>
       <div className="section-head">
@@ -1471,14 +1527,14 @@ function ManifestoColourways({ ids, openProduct }: { ids: string[]; openProduct:
         <em style={{ fontFamily: "var(--display,'Cormorant Garamond',serif)", fontStyle: "italic", fontWeight: 300, color: "#B8892E" }}>You.</em>
       </h2>
       <p className="mc-lead">Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.</p>
-      
+
       <div className="pgrid" style={{ width: "100%", maxWidth: "var(--maxw)", marginBottom: 48 }}>
         {list.map((p) => (
           <ProductCard
             key={p.id}
             product={p}
             onClick={() => openProduct(p.id)}
-                     />
+          />
         ))}
       </div>
 
@@ -1510,7 +1566,7 @@ function Pillars() {
       <div className="pillars-container">
         <div className="section-head" style={{ borderBottom: "1px solid rgba(184, 137, 46, 0.12)", paddingBottom: 28, marginBottom: 48 }}>
           <div className="section-head-stack">
-            <h2 className="section-title" style={{ color: "#2A1F14", fontWeight: 300 }}>Luxury within<br /><em style={{ color: "var(--accent)" }}>intention.</em></h2>
+            <h2 className="section-title" style={{ color: "#241811", fontWeight: 300 }}>Luxury within<br /><em style={{ color: "var(--accent)" }}>intention.</em></h2>
           </div>
         </div>
         <div className="pillars-grid">
@@ -1572,7 +1628,7 @@ const TESTIMONIALS = [
     quote: "I've been searching for years for something that doesn't ask me to choose between beauty and function. HHARA finally understood what my mornings actually look like. It's the first brand that dressed me for the whole day, not just the gym.",
     name: "Amira K.",
     location: "Abu Dhabi",
-    product: "Dahlia Set · Army Green",
+    product: "Dahlia Set · Olive",
   },
   {
     quote: "The craftsmanship on the Dahlia Bra is extraordinary, soft against the skin but structured where it matters. Six hours later I forgot I was wearing activewear. I've recommended it to every woman in my circle since.",
@@ -1590,13 +1646,13 @@ const TESTIMONIALS = [
     quote: "Worth every dirham. I bought the Dahlia Short for the gym and I've worn it to dinner twice since. That says everything. It pairs with almost anything and never looks like it's trying too hard.",
     name: "Sara H.",
     location: "Riyadh",
-    product: "Dahlia Short · Army Green",
+    product: "Dahlia Short · Olive",
   },
   {
     quote: "I wore the Imara Set to a gallery opening and three women stopped to ask what I was wearing. HHARA moves with you and speaks for you without trying.",
     name: "Hessa O.",
     location: "Doha",
-    product: "Imara Set · Army Green",
+    product: "Imara Set · Olive",
   },
   {
     quote: "The Dahlia Legging is the most precise piece of activewear I own. The waistband doesn't roll, the fabric holds its shape after forty washes. Nothing comes close.",
@@ -1608,13 +1664,13 @@ const TESTIMONIALS = [
     quote: "I train four days a week and spend the other three in meetings. HHARA is the only thing I own that moves seamlessly between both worlds without compromise.",
     name: "Rania B.",
     location: "Beirut",
-    product: "Imara Bra · Army Green",
+    product: "Imara Bra · Olive",
   },
   {
     quote: "The Imara Legging has outlasted every other pair I own. Three months of daily wear and it still looks brand new. The fabric is something else entirely.",
     name: "Zara A.",
     location: "Abu Dhabi",
-    product: "Imara Legging · Army Green",
+    product: "Imara Legging · Olive",
   },
   {
     quote: "I wore the Dahlia Set to a client dinner and not a single person knew it was activewear. That is the whole point, isn't it? HHARA gets it perfectly.",
@@ -1626,13 +1682,13 @@ const TESTIMONIALS = [
     quote: "The waistband on the Imara Legging is the best I have ever worn. No rolling, no digging. Just stays exactly where it should all day long.",
     name: "Nour T.",
     location: "Cairo",
-    product: "Imara Legging · Army Green",
+    product: "Imara Legging · Olive",
   },
   {
     quote: "Activewear I can wear to the gym, to coffee, and straight into a meeting without a second thought. HHARA solved a problem I didn't know could be solved.",
     name: "Aisha R.",
     location: "Riyadh",
-    product: "Imara Set · Army Green",
+    product: "Imara Set · Olive",
   },
 ];
 
@@ -1719,9 +1775,9 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRout
   const [descExpanded, setDescExpanded] = useState(false);
   const [filters, setFilters] = useState({
     size: [],
-    color: initialColorFilter ? [initialColorFilter] : [], 
-    cat: [], 
-    price: [] 
+    color: initialColorFilter ? [initialColorFilter] : [],
+    cat: [],
+    price: []
   });
 
   useEffect(() => {
@@ -1840,10 +1896,10 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRout
         </div>
         <div className="ctoolbar-r">
           <span style={{ color: "var(--muted)", fontSize: 13 }}>Sort:</span>
-          
+
           <div className="sort-select-wrapper">
-            <select 
-              value={sort} 
+            <select
+              value={sort}
               onChange={(e) => setSort(e.target.value)}
               className="sort-select"
             >
@@ -2040,13 +2096,41 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const [reviewForm, setReviewForm] = useState({ name: "", location: "", rating: 5, quote: "", product: "" });
   const [recentlyViewed, setRecentlyViewed] = useState<string[]>([]);
 
+  useEffect(() => {
+    if (!product) return;
+    const currentVariantId = color?.variantIdByColor || product.variants?.[0]?.id || product.shopifyId || product.id;
+    trackEvent({
+      name: "product_viewed",
+      payload: {
+        currency: "AED",
+        value: product.price || 0,
+        product_id: product.shopifyId || product.id,
+        handle: product.shopifyHandle || product.id,
+        title: product.name,
+        category: product.cat || "Considered Luxury",
+        items: [
+          formatEcommerceItem({
+            id: currentVariantId,
+            name: product.name,
+            price: product.price || 0,
+            brand: "HHARA",
+            category: product.cat || "Considered Luxury",
+            variant: color?.name || "Default",
+            currency: "AED",
+            quantity: 1,
+          }),
+        ],
+      },
+    });
+  }, [product?.id, color?.name]);
+
   // Reviews and Interactive Form States
   const [reviews, setReviews] = useState([
     { id: "r1", name: "Sarah M.", location: "UAE", rating: 5, quote: "Finally a bra that actually holds. Activity is easy, side roll is gone, structured. I wore it straight from class to lunch and felt completely put together.", product: "Imara Bra · Chicory Brown" },
-    { id: "r2", name: "Nour A.", location: "Abu Dhabi", rating: 5, quote: "The fabric is genuinely buttery - I wasn't expecting it to feel this luxurious. The cross-cross back is stunning. Already ordered the legging!", product: "Dahlia Bra · Army Green" },
-    { id: "r3", name: "Layla K.", location: "Riyadh", rating: 4, quote: "Sizing is true to guide. I have a fuller bust and sized up as advised - perfect fit. The Army Green colour is even more beautiful in person.", product: "Dahlia Bra · Army Green" },
+    { id: "r2", name: "Nour A.", location: "Abu Dhabi", rating: 5, quote: "The fabric is genuinely buttery - I wasn't expecting it to feel this luxurious. The cross-cross back is stunning. Already ordered the legging!", product: "Dahlia Bra · Olive" },
+    { id: "r3", name: "Layla K.", location: "Riyadh", rating: 4, quote: "Sizing is true to guide. I have a fuller bust and sized up as advised - perfect fit. The Olive colour is even more beautiful in person.", product: "Dahlia Bra · Olive" },
     { id: "r4", name: "Amira H.", location: "Dubai", rating: 5, quote: "I wore the Imara Set from morning yoga straight to a client lunch. Not once did I feel underdressed. HHARA genuinely gets the way we move through our days.", product: "Imara Set · Chicory Brown" },
-    { id: "r5", name: "Fatima R.", location: "Doha", rating: 5, quote: "The waistband doesn't roll, the fabric doesn't pill, and the colour is even richer in person. Worth every dirham and then some.", product: "Dahlia Legging · Army Green" },
+    { id: "r5", name: "Fatima R.", location: "Doha", rating: 5, quote: "The waistband doesn't roll, the fabric doesn't pill, and the colour is even richer in person. Worth every dirham and then some.", product: "Dahlia Legging · Olive" },
     { id: "r6", name: "Hessa O.", location: "Kuwait City", rating: 5, quote: "Three months of wear and it still looks brand new. I've stopped buying from everywhere else. HHARA is the only activewear I trust now.", product: "Imara Legging · Chicory Brown" },
   ]);
 
@@ -2138,7 +2222,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
       const updated = [productId, ...stored.filter((id) => id !== productId)].slice(0, 8);
       localStorage.setItem(KEY, JSON.stringify(updated));
       setRecentlyViewed(updated.filter((id) => id !== productId));
-    } catch {}
+    } catch { }
   }, [productId]);
 
   // Sync preview play state
@@ -2147,7 +2231,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
       if (reelOpen) {
         previewVideoRef.current.pause();
       } else {
-        previewVideoRef.current.play().catch(() => {});
+        previewVideoRef.current.play().catch(() => { });
       }
     }
   }, [reelOpen]);
@@ -2161,7 +2245,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
       if (reelVideoRef.current) {
         reelVideoRef.current.currentTime = 0;
         reelVideoRef.current.muted = false;
-        reelVideoRef.current.play().catch(() => {});
+        reelVideoRef.current.play().catch(() => { });
       }
     }, 100);
   };
@@ -2176,7 +2260,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const togglePlay = () => {
     if (!reelVideoRef.current) return;
     if (reelVideoRef.current.paused) {
-      reelVideoRef.current.play().catch(() => {});
+      reelVideoRef.current.play().catch(() => { });
       setIsPlaying(true);
     } else {
       reelVideoRef.current.pause();
@@ -2225,7 +2309,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
           reelSelect.style.border = "1.5px solid #c0392b";
           setTimeout(() => {
             if (reelSelect) {
-              reelSelect.style.border = "1px solid rgba(42, 31, 20, 0.25)";
+              reelSelect.style.border = "1px solid rgba(36, 24, 17, 0.25)";
               reelSelect.style.animation = "none";
             }
           }, 1200);
@@ -2454,11 +2538,11 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                     {/* Fabric property icons — socks */}
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px 12px", marginTop: "8px" }}>
                       {[
-                        { label: "4-Way Stretch", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><line x1="20" y1="4" x2="20" y2="36" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/><line x1="4" y1="20" x2="36" y2="20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/><polyline points="16,8 20,4 24,8" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/><polyline points="16,32 20,36 24,32" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/><polyline points="8,16 4,20 8,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/><polyline points="32,16 36,20 32,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>) },
-                        { label: "Ultra Smooth", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M8 14 Q20 10 32 14" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/><path d="M8 20 Q20 16 32 20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/><path d="M8 26 Q20 22 32 26" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/></svg>) },
-                        { label: "Excellent Flexibility", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M12 28 C12 20 16 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/><path d="M28 28 C28 20 24 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/><path d="M10 28 Q20 24 30 28" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/><circle cx="20" cy="9" r="2" fill="#B8892E" opacity="0.7"/></svg>) },
-                        { label: "Breathable", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M20 32 L20 16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/><path d="M20 16 C20 16 14 20 10 16 C8 14 10 10 14 12 C12 8 18 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none"/><path d="M20 16 C20 16 26 20 30 16 C32 14 30 10 26 12 C28 8 22 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65"/></svg>) },
-                        { label: "OEKO-TEX®", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M20 6 C20 6 10 10 10 20 C10 28 14 33 20 35 C26 33 30 28 30 20 C30 10 20 6 20 6Z" stroke="#B8892E" strokeWidth="1.5" strokeLinejoin="round"/><polyline points="14,20 18,24 26,16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>) },
+                        { label: "4-Way Stretch", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><line x1="20" y1="4" x2="20" y2="36" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" /><line x1="4" y1="20" x2="36" y2="20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" /><polyline points="16,8 20,4 24,8" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /><polyline points="16,32 20,36 24,32" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /><polyline points="8,16 4,20 8,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /><polyline points="32,16 36,20 32,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>) },
+                        { label: "Ultra Smooth", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M8 14 Q20 10 32 14" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" /><path d="M8 20 Q20 16 32 20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" /><path d="M8 26 Q20 22 32 26" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" /></svg>) },
+                        { label: "Excellent Flexibility", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M12 28 C12 20 16 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" /><path d="M28 28 C28 20 24 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" /><path d="M10 28 Q20 24 30 28" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" /><circle cx="20" cy="9" r="2" fill="#B8892E" opacity="0.7" /></svg>) },
+                        { label: "Breathable", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M20 32 L20 16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" /><path d="M20 16 C20 16 14 20 10 16 C8 14 10 10 14 12 C12 8 18 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" /><path d="M20 16 C20 16 26 20 30 16 C32 14 30 10 26 12 C28 8 22 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" /></svg>) },
+                        { label: "OEKO-TEX®", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M20 6 C20 6 10 10 10 20 C10 28 14 33 20 35 C26 33 30 28 30 20 C30 10 20 6 20 6Z" stroke="#B8892E" strokeWidth="1.5" strokeLinejoin="round" /><polyline points="14,20 18,24 26,16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
                       ].map(({ label, icon }) => (
                         <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", textAlign: "center" }}>
                           {icon}
@@ -2490,12 +2574,12 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           label: "4-Way Stretch",
                           icon: (
                             <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                              <line x1="20" y1="4" x2="20" y2="36" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
-                              <line x1="4" y1="20" x2="36" y2="20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
-                              <polyline points="16,8 20,4 24,8" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                              <polyline points="16,32 20,36 24,32" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                              <polyline points="8,16 4,20 8,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                              <polyline points="32,16 36,20 32,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                              <line x1="20" y1="4" x2="20" y2="36" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" />
+                              <line x1="4" y1="20" x2="36" y2="20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" />
+                              <polyline points="16,8 20,4 24,8" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                              <polyline points="16,32 20,36 24,32" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                              <polyline points="8,16 4,20 8,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                              <polyline points="32,16 36,20 32,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                             </svg>
                           ),
                         },
@@ -2503,10 +2587,10 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           label: "Body Enhancing",
                           icon: (
                             <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                              <circle cx="20" cy="9" r="3.5" stroke="#B8892E" strokeWidth="1.5"/>
-                              <path d="M14 16 C12 19 12 23 13 27 L15 34" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
-                              <path d="M26 16 C28 19 28 23 27 27 L25 34" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
-                              <path d="M14 16 C16 14 24 14 26 16 C27 20 27 22 26 25 C24 28 16 28 14 25 C13 22 13 20 14 16Z" stroke="#B8892E" strokeWidth="1.5" strokeLinejoin="round"/>
+                              <circle cx="20" cy="9" r="3.5" stroke="#B8892E" strokeWidth="1.5" />
+                              <path d="M14 16 C12 19 12 23 13 27 L15 34" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" />
+                              <path d="M26 16 C28 19 28 23 27 27 L25 34" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" />
+                              <path d="M14 16 C16 14 24 14 26 16 C27 20 27 22 26 25 C24 28 16 28 14 25 C13 22 13 20 14 16Z" stroke="#B8892E" strokeWidth="1.5" strokeLinejoin="round" />
                             </svg>
                           ),
                         },
@@ -2514,9 +2598,9 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           label: "Ultra Smooth",
                           icon: (
                             <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                              <path d="M8 14 Q20 10 32 14" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                              <path d="M8 20 Q20 16 32 20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                              <path d="M8 26 Q20 22 32 26" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
+                              <path d="M8 14 Q20 10 32 14" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                              <path d="M8 20 Q20 16 32 20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                              <path d="M8 26 Q20 22 32 26" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" />
                             </svg>
                           ),
                         },
@@ -2524,10 +2608,10 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           label: "Excellent Flexibility",
                           icon: (
                             <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                              <path d="M12 28 C12 20 16 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                              <path d="M28 28 C28 20 24 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                              <path d="M10 28 Q20 24 30 28" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none"/>
-                              <circle cx="20" cy="9" r="2" fill="#B8892E" opacity="0.7"/>
+                              <path d="M12 28 C12 20 16 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                              <path d="M28 28 C28 20 24 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                              <path d="M10 28 Q20 24 30 28" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                              <circle cx="20" cy="9" r="2" fill="#B8892E" opacity="0.7" />
                             </svg>
                           ),
                         },
@@ -2535,9 +2619,9 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           label: "Breathable",
                           icon: (
                             <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                              <path d="M20 32 L20 16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round"/>
-                              <path d="M20 16 C20 16 14 20 10 16 C8 14 10 10 14 12 C12 8 18 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                              <path d="M20 16 C20 16 26 20 30 16 C32 14 30 10 26 12 C28 8 22 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65"/>
+                              <path d="M20 32 L20 16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" />
+                              <path d="M20 16 C20 16 14 20 10 16 C8 14 10 10 14 12 C12 8 18 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                              <path d="M20 16 C20 16 26 20 30 16 C32 14 30 10 26 12 C28 8 22 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
                             </svg>
                           ),
                         },
@@ -2545,8 +2629,8 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           label: "OEKO-TEX®",
                           icon: (
                             <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                              <path d="M20 6 C20 6 10 10 10 20 C10 28 14 33 20 35 C26 33 30 28 30 20 C30 10 20 6 20 6Z" stroke="#B8892E" strokeWidth="1.5" strokeLinejoin="round"/>
-                              <polyline points="14,20 18,24 26,16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M20 6 C20 6 10 10 10 20 C10 28 14 33 20 35 C26 33 30 28 30 20 C30 10 20 6 20 6Z" stroke="#B8892E" strokeWidth="1.5" strokeLinejoin="round" />
+                              <polyline points="14,20 18,24 26,16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           ),
                         },
@@ -2563,11 +2647,11 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               <Accordion title="Care and Instruction" open={open === "care"} onToggle={() => setOpen(open === "care" ? "" : "care")}>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px 32px", paddingTop: "4px" }}>
                   {[
-                    { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18"><path d="M3 7h18l-1.5 12H4.5L3 7z"/><path d="M1 7h22"/><path d="M8 12c1-1.5 2-1.5 3 0s2 1.5 3 0"/><path d="M12 5v2"/></svg>, label: "Machine Wash Cold" },
-                    { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/><path d="M12 3L3 21h18L12 3z"/></svg>, label: "Do Not Bleach" },
-                    { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="2"/></svg>, label: "Tumble Dry Low" },
-                    { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/><path d="M5 8h10l2 4H3l2-4z"/><path d="M3 12h18v2H3z"/><circle cx="8" cy="16" r="1.5"/><circle cx="16" cy="16" r="1.5"/></svg>, label: "Do Not Iron" },
-                    { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/><circle cx="12" cy="12" r="9"/><text x="9.5" y="16" fontSize="8" fontFamily="sans-serif" fill="currentColor" stroke="none">P</text></svg>, label: "Do Not Dry Clean" },
+                    { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18"><path d="M3 7h18l-1.5 12H4.5L3 7z" /><path d="M1 7h22" /><path d="M8 12c1-1.5 2-1.5 3 0s2 1.5 3 0" /><path d="M12 5v2" /></svg>, label: "Machine Wash Cold" },
+                    { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18"><line x1="4" y1="4" x2="20" y2="20" /><line x1="20" y1="4" x2="4" y2="20" /><path d="M12 3L3 21h18L12 3z" /></svg>, label: "Do Not Bleach" },
+                    { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18"><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="2" /></svg>, label: "Tumble Dry Low" },
+                    { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18"><line x1="4" y1="4" x2="20" y2="20" /><line x1="20" y1="4" x2="4" y2="20" /><path d="M5 8h10l2 4H3l2-4z" /><path d="M3 12h18v2H3z" /><circle cx="8" cy="16" r="1.5" /><circle cx="16" cy="16" r="1.5" /></svg>, label: "Do Not Iron" },
+                    { icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" width="18" height="18"><line x1="4" y1="4" x2="20" y2="20" /><line x1="20" y1="4" x2="4" y2="20" /><circle cx="12" cy="12" r="9" /><text x="9.5" y="16" fontSize="8" fontFamily="sans-serif" fill="currentColor" stroke="none">P</text></svg>, label: "Do Not Dry Clean" },
                     { icon: null, label: "Wash With Like Colors" },
                   ].map(({ icon, label }, i) => (
                     <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", fontFamily: "var(--sans)", fontSize: "12px", color: "var(--ink-soft)" }}>
@@ -2678,7 +2762,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
             <div style={{ fontFamily: "var(--sans)", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--ink-soft)" }}>BASED ON {totalReviews} REVIEWS</div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            {[5,4,3,2,1].map(n => <StarRow key={n} stars={n} percentage={starsPercentage(n)} count={starsCount(n)} />)}
+            {[5, 4, 3, 2, 1].map(n => <StarRow key={n} stars={n} percentage={starsPercentage(n)} count={starsCount(n)} />)}
           </div>
           <div className="reviews-summary-sliders">
             <ReviewSlider label="Quality" value="Excellent" position={90} />
@@ -2807,11 +2891,11 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   </thead>
                   <tbody>
                     {[
-                      { size: "XS",  uk: "6", eu: "34", us: "2", chestCm: "77-81 cm", chestIn: '30.3-31.9"' },
-                      { size: "S",   uk: "8", eu: "36", us: "4", chestCm: "82-86 cm", chestIn: '32.3-33.9"' },
-                      { size: "M",   uk: "10", eu: "38", us: "6", chestCm: "87-91 cm", chestIn: '34.3-35.8"' },
-                      { size: "L",   uk: "12", eu: "40", us: "8", chestCm: "92-96 cm", chestIn: '36.2-37.8"' },
-                      { size: "XL",  uk: "14", eu: "42", us: "10", chestCm: "97-101 cm", chestIn: '38.2-39.8"' },
+                      { size: "XS", uk: "6", eu: "34", us: "2", chestCm: "77-81 cm", chestIn: '30.3-31.9"' },
+                      { size: "S", uk: "8", eu: "36", us: "4", chestCm: "82-86 cm", chestIn: '32.3-33.9"' },
+                      { size: "M", uk: "10", eu: "38", us: "6", chestCm: "87-91 cm", chestIn: '34.3-35.8"' },
+                      { size: "L", uk: "12", eu: "40", us: "8", chestCm: "92-96 cm", chestIn: '36.2-37.8"' },
+                      { size: "XL", uk: "14", eu: "42", us: "10", chestCm: "97-101 cm", chestIn: '38.2-39.8"' },
                       { size: "XXL", uk: "16", eu: "44", us: "12", chestCm: "102-106 cm", chestIn: '40.2-41.7"' },
                     ].map((r) => (
                       <tr key={r.size}>
@@ -2842,21 +2926,21 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   <tbody>
                     {(productCategory === "shorts"
                       ? [
-                          { size: "XS",  uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"', insCm: "14 cm", insIn: '5.5"' },
-                          { size: "S",   uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"', insCm: "14 cm", insIn: '5.5"' },
-                          { size: "M",   uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"', insCm: "14 cm", insIn: '5.5"' },
-                          { size: "L",   uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"', insCm: "14 cm", insIn: '5.5"' },
-                          { size: "XL",  uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"', insCm: "14 cm", insIn: '5.5"' },
-                          { size: "XXL", uk: "16", eu: "44", us: "12", waistCm: "83-87 cm", waistIn: '33.5-35.0"', hipCm: "113-117 cm", hipIn: '44.5-46.1"', insCm: "14 cm", insIn: '5.5"' },
-                        ]
+                        { size: "XS", uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"', insCm: "14 cm", insIn: '5.5"' },
+                        { size: "S", uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"', insCm: "14 cm", insIn: '5.5"' },
+                        { size: "M", uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"', insCm: "14 cm", insIn: '5.5"' },
+                        { size: "L", uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"', insCm: "14 cm", insIn: '5.5"' },
+                        { size: "XL", uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"', insCm: "14 cm", insIn: '5.5"' },
+                        { size: "XXL", uk: "16", eu: "44", us: "12", waistCm: "83-87 cm", waistIn: '33.5-35.0"', hipCm: "113-117 cm", hipIn: '44.5-46.1"', insCm: "14 cm", insIn: '5.5"' },
+                      ]
                       : [
-                          { size: "XS",  uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"', insCm: "66 cm", insIn: '26.0"' },
-                          { size: "S",   uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"', insCm: "66 cm", insIn: '26.0"' },
-                          { size: "M",   uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"', insCm: "66 cm", insIn: '26.0"' },
-                          { size: "L",   uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"', insCm: "66 cm", insIn: '26.0"' },
-                          { size: "XL",  uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"', insCm: "66 cm", insIn: '26.0"' },
-                          { size: "XXL", uk: "16", eu: "44", us: "12", waistCm: "83-87 cm", waistIn: '33.5-35.0"', hipCm: "113-117 cm", hipIn: '44.5-46.1"', insCm: "66 cm", insIn: '26.0"' },
-                        ]
+                        { size: "XS", uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"', insCm: "66 cm", insIn: '26.0"' },
+                        { size: "S", uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"', insCm: "66 cm", insIn: '26.0"' },
+                        { size: "M", uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"', insCm: "66 cm", insIn: '26.0"' },
+                        { size: "L", uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"', insCm: "66 cm", insIn: '26.0"' },
+                        { size: "XL", uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"', insCm: "66 cm", insIn: '26.0"' },
+                        { size: "XXL", uk: "16", eu: "44", us: "12", waistCm: "83-87 cm", waistIn: '33.5-35.0"', hipCm: "113-117 cm", hipIn: '44.5-46.1"', insCm: "66 cm", insIn: '26.0"' },
+                      ]
                     ).map((r) => (
                       <tr key={r.size}>
                         <td><strong>{r.size}</strong></td>
@@ -3013,7 +3097,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
           title="Watch styling video"
           aria-label="Restore styling video"
         >
-          <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
           Video
         </button>
       )}
@@ -3021,20 +3105,20 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
       {/* Expanded Reel Player Modal & Backdrop */}
       {reelOpen && (
         <>
-          <div 
-            className="reel-backdrop open" 
+          <div
+            className="reel-backdrop open"
             onClick={closeReel}
           />
-          <dialog 
-            className="reel-dialog open" 
+          <dialog
+            className="reel-dialog open"
             open
             aria-labelledby="reel-video-title"
           >
             <div className="reel-video-container">
               <div className="reel-header">
                 <span id="reel-video-title" className="reel-title">See It In Action</span>
-                <button 
-                  className="reel-close" 
+                <button
+                  className="reel-close"
                   onClick={closeReel}
                   aria-label="Close video player"
                 >
@@ -3046,7 +3130,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               <div className="reel-play-overlay" onClick={togglePlay}>
                 <div className={`reel-play-icon ${!isPlaying ? "visible" : ""}`}>
                   <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                    <path d="M8 5v14l11-7z"/>
+                    <path d="M8 5v14l11-7z" />
                   </svg>
                 </div>
               </div>
@@ -3063,45 +3147,45 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
               {/* Bottom controls: Timeline, Play/Pause toggle, and Volume toggle */}
               <div className="reel-controls-bar">
-                <button 
-                  className="reel-control-btn" 
+                <button
+                  className="reel-control-btn"
                   onClick={togglePlay}
                   aria-label={isPlaying ? "Pause" : "Play"}
                 >
                   {isPlaying ? (
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                      <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
                     </svg>
                   ) : (
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                      <path d="M8 5v14l11-7z"/>
+                      <path d="M8 5v14l11-7z" />
                     </svg>
                   )}
                 </button>
 
-                <div 
-                  className="reel-timeline-wrapper" 
+                <div
+                  className="reel-timeline-wrapper"
                   onClick={handleScrub}
                   title="Scrub video"
                 >
-                  <div 
-                    className="reel-timeline-fill" 
+                  <div
+                    className="reel-timeline-fill"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
 
-                <button 
-                  className="reel-control-btn" 
+                <button
+                  className="reel-control-btn"
                   onClick={toggleMute}
                   aria-label={isMuted ? "Unmute" : "Mute"}
                 >
                   {isMuted ? (
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                      <path d="M3.63 3.63L2.22 5.05L7 9.83v4.34a1 1 0 0 0 .55.89l3.74 2.2a1 1 0 0 0 1 .05 1 1 0 0 0 .43-.76v-2.31l3.52 3.52a6.83 6.83 0 0 1-2.24.96v2.02a8.87 8.87 0 0 0 3.66-1.57l2.28 2.28 1.41-1.41L3.63 3.63zM10.72 14H9v-2.28l1.72 1.72V14zM12.72 4.3a1 1 0 0 0-1-.05l-3.23 1.9L9.9 7.57l1.82-1.07v1.89l2 2v-4.3a1 1 0 0 0-.43-.76c-.17-.12-.37-.18-.57-.18zM19 12a6.91 6.91 0 0 1-.74 3.09l1.46 1.46A8.88 8.88 0 0 0 21 12a9 9 0 0 0-6-8.47v2.02A7 7 0 0 1 19 12z"/>
+                      <path d="M3.63 3.63L2.22 5.05L7 9.83v4.34a1 1 0 0 0 .55.89l3.74 2.2a1 1 0 0 0 1 .05 1 1 0 0 0 .43-.76v-2.31l3.52 3.52a6.83 6.83 0 0 1-2.24.96v2.02a8.87 8.87 0 0 0 3.66-1.57l2.28 2.28 1.41-1.41L3.63 3.63zM10.72 14H9v-2.28l1.72 1.72V14zM12.72 4.3a1 1 0 0 0-1-.05l-3.23 1.9L9.9 7.57l1.82-1.07v1.89l2 2v-4.3a1 1 0 0 0-.43-.76c-.17-.12-.37-.18-.57-.18zM19 12a6.91 6.91 0 0 1-.74 3.09l1.46 1.46A8.88 8.88 0 0 0 21 12a9 9 0 0 0-6-8.47v2.02A7 7 0 0 1 19 12z" />
                     </svg>
                   ) : (
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                      <path d="M5 9v6h4l5 5V4L9 9H5zm11 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM13.5 3.12v2.06c2.89.86 5 3.54 5 6.82s-2.11 5.96-5 6.82v2.06c4-.9 7-4.52 7-8.88s-3-7.98-7-8.88z"/>
+                      <path d="M5 9v6h4l5 5V4L9 9H5zm11 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM13.5 3.12v2.06c2.89.86 5 3.54 5 6.82s-2.11 5.96-5 6.82v2.06c4-.9 7-4.52 7-8.88s-3-7.98-7-8.88z" />
                     </svg>
                   )}
                 </button>
@@ -3114,12 +3198,12 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                     <img src={product.featuredImage.url} alt={product.name} />
                   )}
                 </div>
-                
+
                 <div className="reel-cta-details">
                   <div className="reel-cta-name" title={product.name}>{product.name}</div>
                   <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "nowrap" }}>
                     <span className="reel-cta-price">AED {product.price.toLocaleString()}</span>
-                    
+
                     {/* Synchronized Size Selector dropdown inside the Reel player */}
                     {product.sizes && product.sizes.length > 0 && (
                       <select
@@ -3129,12 +3213,12 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           fontSize: "8.5px",
                           padding: "2px 4px",
                           borderRadius: "4px",
-                          border: "1px solid rgba(42, 31, 20, 0.25)",
+                          border: "1px solid rgba(36, 24, 17, 0.25)",
                           background: "rgba(255,255,255,0.85)",
                           fontFamily: "var(--sans)",
                           outline: "none",
                           cursor: "pointer",
-                          color: "#2A1F14",
+                          color: "#241811",
                           lineHeight: "1",
                         }}
                       >
@@ -3147,7 +3231,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   </div>
                 </div>
 
-                <button 
+                <button
                   className="reel-cta-action-btn"
                   onClick={handleAdd}
                   disabled={adding}
@@ -3194,13 +3278,53 @@ function Accordion({ title, open, onToggle, children }) {
 
 // === FILE 09-718230b5-91da-4f2c-9517-cb0dc01bac28.jsx ===
 
+function AtelierVideoSection() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          el.play().catch(() => {});
+        } else {
+          el.pause();
+        }
+      },
+      { rootMargin: "300px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section className="atelier-video">
+      <video
+        ref={videoRef}
+        src={inView ? "/videos/about-us.mp4" : undefined}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster="/images/about-us-video-poster.jpg"
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      ></video>
+      <div className="vovr"></div>
+    </section>
+  );
+}
+
 // ============ ATELIER / ABOUT ============
 function AtelierPage({ setRoute }) {
 
   return (
     <>
       <section className="atelier-hero">
-        <img src={IMGS.atelierHero} alt="" className="img-fill motion" />
+        <img src={IMGS.atelierHero} alt="HHARA About Us" className="img-fill" />
         <div className="ovr"></div>
         <div className="copy">
           <h1>She is not just enough.<br /><em>She is extraordinary.</em></h1>
@@ -3239,19 +3363,7 @@ function AtelierPage({ setRoute }) {
         </div>
       </section>
 
-      <section className="atelier-video">
-        <img src={IMGS.atelierVideo} alt="" />
-        <video
-          src={VIDEOS && VIDEOS.motion2}
-          autoPlay muted loop playsInline
-          poster={IMGS.atelierVideo}
-          onError={(e: any) => { e.target.style.display = "none"; }}
-        ></video>
-        <div className="vovr"></div>
-        <div className="play">
-          <svg viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20"></polygon></svg>
-        </div>
-      </section>
+      <AtelierVideoSection />
 
       <section className="atelier-split flip">
         <div className="media">
@@ -3447,7 +3559,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
 
             {/* Checkout Info & Button */}
             <div className="pdp-divider" style={{ margin: "8px 0 0 0" }}></div>
-            
+
             <div className="gc-summary-row">
               <span style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--ink)" }}>Gift card value</span>
               <span style={{ fontSize: 15, fontWeight: 500 }}>AED {total.toLocaleString()}</span>
@@ -3505,7 +3617,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
 
 const JOURNAL = [
   { id: "j1", title: "From plastic waste to performance grade", excerpt: "Inside the regenerative knit: how ocean and industrial plastic become a sensory-grade fabric.", date: "26 May 2026", cat: "Material Transparency", img: "j1" },
-  { id: "j2", title: "On Chicory Brown and Army Green", excerpt: "Two colorways, two languages. Choosing pigments that capture mineral earth and inner energy.", date: "14 May 2026", cat: "The Palette", img: "j2" },
+  { id: "j2", title: "On Chicory Brown and Olive", excerpt: "Two colorways, two languages. Choosing pigments that capture mineral earth and inner energy.", date: "14 May 2026", cat: "The Palette", img: "j2" },
   { id: "j3", title: "Why we make only four pieces", excerpt: "The case for minimalist production: fewer SKUs, lower waste, garments engineered to outlast.", date: "02 May 2026", cat: "Our Ethos", img: "j3" },
   { id: "j4", title: "Wonder, Worn", excerpt: "Three women, two sets: the Imara and Dahlia, photographed across the UAE.", date: "21 April 2026", cat: "The Capsule", img: "j4" },
   { id: "j5", title: "Carbon-neutral, from the UAE", excerpt: "How optimised smart-freight from our regional base offsets every single shipment.", date: "08 April 2026", cat: "Circular Luxury", img: "j5" },
@@ -3580,7 +3692,7 @@ function ArticlePage({ articleId, setRoute, openArticle }) {
 
         <p>
           Each colourway is calibrated in small batches. Chicory Brown, a deep, mineral neutral pulled from raw
-          earth pigment, is set first; Army Green, the muted jewel, is reserved for the second pass. Both are
+          earth pigment, is set first; Olive, the muted jewel, is reserved for the second pass. Both are
           designed to absorb, not reflect, to be worn quietly, not announced.
         </p>
 
@@ -3726,7 +3838,7 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb5} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">Army Green</div></div>
+            <div className="caption"><div className="ttl">Olive</div></div>
           </div>
         </div>
 
@@ -3803,7 +3915,7 @@ function StoresPage({ setRoute }) {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: "rgba(42, 31, 20, 0.45)",
+          backgroundColor: "rgba(36, 24, 17, 0.45)",
           zIndex: 1
         }}></div>
 
@@ -3859,7 +3971,7 @@ function StoresPage({ setRoute }) {
         <div className="pillars-container">
           <div className="section-head" style={{ borderBottom: "1px solid rgba(184, 137, 46, 0.12)", paddingBottom: 28, marginBottom: 48 }}>
             <div className="section-head-stack">
-              <h2 className="section-title" style={{ color: "#2A1F14", fontWeight: 300 }}>Where we <em style={{ color: "#B8892E" }}>give.</em></h2>
+              <h2 className="section-title" style={{ color: "#241811", fontWeight: 300 }}>Where we <em style={{ color: "#B8892E" }}>give.</em></h2>
             </div>
           </div>
           <div className="pillars-grid">
@@ -3933,7 +4045,8 @@ function AccountPage({
 }) {
   const customer = useCustomer();
   const [tab, setTab] = useState("signin");
-  const [form, setForm] = useState({ email: "", password: "", firstName: "", dob: "", acceptsMarketing: false });
+  const [form, setForm] = useState({ email: "", password: "", firstName: "", dob: "", acceptsMarketing: false, hpCompany: "" });
+  const [formTs] = useState(() => Date.now());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -3950,9 +4063,13 @@ function AccountPage({
     e.preventDefault();
     setBusy(true); setError(null);
     const res = await serverSignUp({
-      email: form.email, password: form.password,
-      firstName: form.firstName, dob: form.dob,
+      email: form.email,
+      password: form.password,
+      firstName: form.firstName,
+      dob: form.dob,
       acceptsMarketing: form.acceptsMarketing,
+      honeypot: form.hpCompany,
+      formTimestamp: formTs,
     });
     setBusy(false);
     if (!res.ok) { setError(res.error || "Sign up failed"); return; }
@@ -4050,7 +4167,13 @@ function AccountPage({
               <button
                 type="button"
                 className="btn btn-outline btn-block"
-                onClick={() => { if (checkoutUrl) window.open(checkoutUrl, "_self"); }}
+                onClick={() => {
+                  if (checkoutUrl) {
+                    const attr = getStoredAttribution();
+                    const decoratedUrl = appendAttributionToUrl(checkoutUrl, attr);
+                    window.open(decoratedUrl, "_self");
+                  }
+                }}
               >
                 Checkout as Guest
                 <span className="btn-arrow"><Icon.Arrow /></span>
@@ -4068,6 +4191,16 @@ function AccountPage({
           </form>
         ) : (
           <form className="auth-form" onSubmit={handleSignUp}>
+            <input
+              type="text"
+              name="_hp_company"
+              value={form.hpCompany}
+              onChange={(e) => setForm({ ...form, hpCompany: e.target.value })}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              style={{ display: "none", opacity: 0, position: "absolute", left: "-9999px" }}
+            />
             <div className="field">
               <label>First Name</label>
               <input type="text" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} placeholder="First name" />
@@ -4420,31 +4553,31 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
 
   // Ultimate Leggings Data (Regular Fit — Inseam: 66cm / 26")
   const leggingsRows = [
-    { size: "XS",  uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"', insCm: "66 cm", insIn: '26.0"' },
-    { size: "S",   uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"', insCm: "66 cm", insIn: '26.0"' },
-    { size: "M",   uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"', insCm: "66 cm", insIn: '26.0"' },
-    { size: "L",   uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"', insCm: "66 cm", insIn: '26.0"' },
-    { size: "XL",  uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"', insCm: "66 cm", insIn: '26.0"' },
+    { size: "XS", uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"', insCm: "66 cm", insIn: '26.0"' },
+    { size: "S", uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"', insCm: "66 cm", insIn: '26.0"' },
+    { size: "M", uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"', insCm: "66 cm", insIn: '26.0"' },
+    { size: "L", uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"', insCm: "66 cm", insIn: '26.0"' },
+    { size: "XL", uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"', insCm: "66 cm", insIn: '26.0"' },
     { size: "XXL", uk: "16", eu: "44", us: "12", waistCm: "83-87 cm", waistIn: '33.5-35.0"', hipCm: "113-117 cm", hipIn: '44.5-46.1"', insCm: "66 cm", insIn: '26.0"' },
   ];
 
   // Shorts Data (Crop Short Fit — Inseam: 14cm / 5.5")
   const shortsRows = [
-    { size: "XS",  uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"', insCm: "14 cm", insIn: '5.5"' },
-    { size: "S",   uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"', insCm: "14 cm", insIn: '5.5"' },
-    { size: "M",   uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"', insCm: "14 cm", insIn: '5.5"' },
-    { size: "L",   uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"', insCm: "14 cm", insIn: '5.5"' },
-    { size: "XL",  uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"', insCm: "14 cm", insIn: '5.5"' },
+    { size: "XS", uk: "6", eu: "34", us: "2", waistCm: "58-62 cm", waistIn: '22.8-24.4"', hipCm: "88-92 cm", hipIn: '34.6-36.2"', insCm: "14 cm", insIn: '5.5"' },
+    { size: "S", uk: "8", eu: "36", us: "4", waistCm: "63-67 cm", waistIn: '24.8-26.4"', hipCm: "93-97 cm", hipIn: '36.6-38.2"', insCm: "14 cm", insIn: '5.5"' },
+    { size: "M", uk: "10", eu: "38", us: "6", waistCm: "68-72 cm", waistIn: '26.8-28.3"', hipCm: "98-102 cm", hipIn: '38.6-40.2"', insCm: "14 cm", insIn: '5.5"' },
+    { size: "L", uk: "12", eu: "40", us: "8", waistCm: "73-77 cm", waistIn: '28.7-30.3"', hipCm: "103-107 cm", hipIn: '40.6-42.1"', insCm: "14 cm", insIn: '5.5"' },
+    { size: "XL", uk: "14", eu: "42", us: "10", waistCm: "78-82 cm", waistIn: '30.7-32.3"', hipCm: "108-112 cm", hipIn: '42.5-44.1"', insCm: "14 cm", insIn: '5.5"' },
     { size: "XXL", uk: "16", eu: "44", us: "12", waistCm: "83-87 cm", waistIn: '33.5-35.0"', hipCm: "113-117 cm", hipIn: '44.5-46.1"', insCm: "14 cm", insIn: '5.5"' },
   ];
 
   // Bra Data (XXS - XXXL)
   const braRows = [
-    { size: "XS",  uk: "6", eu: "34", us: "2", chestCm: "77-81 cm", chestIn: '30.3-31.9"' },
-    { size: "S",   uk: "8", eu: "36", us: "4", chestCm: "82-86 cm", chestIn: '32.3-33.9"' },
-    { size: "M",   uk: "10", eu: "38", us: "6", chestCm: "87-91 cm", chestIn: '34.3-35.8"' },
-    { size: "L",   uk: "12", eu: "40", us: "8", chestCm: "92-96 cm", chestIn: '36.2-37.8"' },
-    { size: "XL",  uk: "14", eu: "42", us: "10", chestCm: "97-101 cm", chestIn: '38.2-39.8"' },
+    { size: "XS", uk: "6", eu: "34", us: "2", chestCm: "77-81 cm", chestIn: '30.3-31.9"' },
+    { size: "S", uk: "8", eu: "36", us: "4", chestCm: "82-86 cm", chestIn: '32.3-33.9"' },
+    { size: "M", uk: "10", eu: "38", us: "6", chestCm: "87-91 cm", chestIn: '34.3-35.8"' },
+    { size: "L", uk: "12", eu: "40", us: "8", chestCm: "92-96 cm", chestIn: '36.2-37.8"' },
+    { size: "XL", uk: "14", eu: "42", us: "10", chestCm: "97-101 cm", chestIn: '38.2-39.8"' },
     { size: "XXL", uk: "16", eu: "44", us: "12", chestCm: "102-106 cm", chestIn: '40.2-41.7"' },
   ];
 
@@ -4724,7 +4857,7 @@ function ContactPage({ setRoute }) {
   return (
     <PolicyPage title="Contact Us" eyebrow="Support" setRoute={setRoute}>
       <p className="policy-intro">We are here to assist you with order inquiries, sizing questions, or feedback.</p>
-      
+
       <div className="policy-section">
         <h2 className="policy-section-heading">Email Support</h2>
         <p>For customer service, order changes, returns, or general inquiries, email us at:</p>
@@ -4755,7 +4888,21 @@ function SearchOverlay({ open, onClose, openProduct }) {
 
   const results = q.trim() ? PRODUCTS.filter((p) => (p.name + p.cat).toLowerCase().includes(q.toLowerCase())) : PRODUCTS.slice(0, 6);
   const suggestions = ["Imara Bra", "Imara Legging", "Dahlia Bra", "Dahlia Short", "Chicory Brown"];
-  const trending = ["The Imara Set", "The Dahlia Set", "Army Green"];
+  const trending = ["The Imara Set", "The Dahlia Set", "Olive"];
+
+  useEffect(() => {
+    if (!q || q.trim().length < 2) return;
+    const timer = setTimeout(() => {
+      trackEvent({
+        name: "search_submitted",
+        payload: {
+          search_term: q.trim(),
+          results_count: results.length,
+        },
+      });
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [q, results.length]);
 
   return (
     <div className={`search-overlay ${open ? "open" : ""}`}>
@@ -4807,10 +4954,12 @@ function SearchOverlay({ open, onClose, openProduct }) {
 
 const CART_COLOR_NAME_MAP: Record<string, string> = {
   "Bark Oxides": "Chicory Brown",
-  "Zinc Crimson": "Army Green",
+  "Zinc Crimson": "Olive",
+  "Army Green": "Olive",
 };
 const CART_COLOR_REVERSE_MAP: Record<string, string> = {
   "Chicory Brown": "Bark Oxides",
+  "Olive": "Zinc Crimson",
   "Army Green": "Zinc Crimson",
 };
 
@@ -4840,6 +4989,23 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
     }, 50);
+
+    // Track internal route change page views
+    const pagePath = route === "product" ? `/products/${productId}` : route === "home" ? "/" : `/${route}`;
+    const matched = products.find((p: any) => p.id === productId);
+    const pageTitle = route === "product"
+      ? `${matched?.name || "Product"} | HHARA`
+      : `HHARA | ${route.charAt(0).toUpperCase() + route.slice(1)}`;
+
+    trackEvent({
+      name: "page_viewed",
+      payload: {
+        page_title: pageTitle,
+        page_location: typeof window !== "undefined" ? window.location.href : "",
+        page_path: pagePath,
+        page_type: route,
+      },
+    });
 
     return () => clearTimeout(timer);
   }, [route, productId, articleId]);
@@ -4880,6 +5046,8 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
   const [newsletterDob, setNewsletterDob] = useState("");
   const [newsletterPhone, setNewsletterPhone] = useState("");
   const [newsletterCountryCode, setNewsletterCountryCode] = useState("+971");
+  const [newsletterHp, setNewsletterHp] = useState("");
+  const [popupFormTs, setPopupFormTs] = useState(() => Date.now());
   const [signupStatus, setSignupStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [signupError, setSignupError] = useState("");
 
@@ -4892,7 +5060,8 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
     if (!hasSeen) {
       const timer = setTimeout(() => {
         setSignupPopupOpen(true);
-      }, 6500);
+        setPopupFormTs(Date.now());
+      }, 3500);
       return () => clearTimeout(timer);
     }
   }, [customer]);
@@ -4905,10 +5074,24 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
     try {
       const cleanPhone = newsletterPhone.trim().replace(/\D/g, "");
       const fullPhone = cleanPhone ? `${newsletterCountryCode}${cleanPhone}` : undefined;
-      const res = await serverSubscribe(newsletterEmail, newsletterName, fullPhone, newsletterDob);
+      const res = await serverSubscribe(
+        newsletterEmail,
+        newsletterName,
+        fullPhone,
+        newsletterDob,
+        newsletterHp,
+        popupFormTs
+      );
       if (res.ok) {
         setSignupStatus("success");
         localStorage.setItem("hhara_signup_seen", "true");
+        trackEvent({
+          name: "customer_subscribed",
+          payload: {
+            source: "popup_newsletter",
+            email: newsletterEmail,
+          },
+        });
       } else {
         setSignupStatus("error");
         setSignupError(res.error || "Sign up failed");
@@ -4961,6 +5144,34 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
     ...localCartItems,
   ];
 
+  useEffect(() => {
+    if (cartOpen || route === "pre-checkout") {
+      if (cart && cart.length > 0) {
+        const totalVal = cart.reduce((a: number, i: any) => a + (i.price || 0) * (i.qty || 1), 0);
+        trackEvent({
+          name: "cart_viewed",
+          payload: {
+            currency: "AED",
+            value: totalVal,
+            cart_id: shopifyCart?.id,
+            items: cart.map((i: any) =>
+              formatEcommerceItem({
+                id: i.variantId || i.id,
+                name: i.name,
+                price: i.price,
+                brand: "HHARA",
+                category: "Considered Luxury",
+                variant: `${i.color} / ${i.size}`,
+                currency: "AED",
+                quantity: i.qty,
+              })
+            ),
+          },
+        });
+      }
+    }
+  }, [cartOpen, route]);
+
   const findVariantId = (product: any, color: string, size: string) => {
     if (!product?.variants?.length) return null;
     const rawColor = CART_COLOR_REVERSE_MAP[color] ?? color;
@@ -5004,12 +5215,52 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
       const next = await serverAddLine(variantId, 1);
       setShopifyCart(next);
       setCartOpen(true);
+      trackEvent({
+        name: "product_added_to_cart",
+        payload: {
+          currency: "AED",
+          value: item.price || product?.price || 0,
+          cart_id: next?.id,
+          items: [
+            formatEcommerceItem({
+              id: variantId,
+              name: item.name || product?.name || "Product",
+              price: item.price || product?.price || 0,
+              brand: "HHARA",
+              category: product?.cat || "Considered Luxury",
+              variant: item.color ? `${item.color} / ${item.size || ""}` : "Default",
+              currency: "AED",
+              quantity: 1,
+            }),
+          ],
+        },
+      });
     } catch (e) {
       console.error("addToCart failed - variantId:", variantId, e);
       try {
         const retry = await serverAddLine(variantId, 1);
         setShopifyCart(retry);
         setCartOpen(true);
+        trackEvent({
+          name: "product_added_to_cart",
+          payload: {
+            currency: "AED",
+            value: item.price || product?.price || 0,
+            cart_id: retry?.id,
+            items: [
+              formatEcommerceItem({
+                id: variantId,
+                name: item.name || product?.name || "Product",
+                price: item.price || product?.price || 0,
+                brand: "HHARA",
+                category: product?.cat || "Considered Luxury",
+                variant: item.color ? `${item.color} / ${item.size || ""}` : "Default",
+                currency: "AED",
+                quantity: 1,
+              }),
+            ],
+          },
+        });
       } catch (e2) {
         console.error("addToCart retry also failed", e2);
       }
@@ -5031,6 +5282,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
     }
   };
   const removeItem = async (lineId: string) => {
+    const itemToRemove = cart.find((i: any) => i.lineId === lineId || i.key === lineId);
     if (lineId.startsWith("local-")) {
       setLocalCartItems(prev => prev.filter(i => i.lineId !== lineId));
       return;
@@ -5038,6 +5290,28 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
     try {
       const next = await serverRemoveLine(lineId);
       setShopifyCart(next);
+      if (itemToRemove) {
+        trackEvent({
+          name: "product_removed_from_cart",
+          payload: {
+            currency: "AED",
+            value: (itemToRemove.price || 0) * (itemToRemove.qty || 1),
+            cart_id: next?.id,
+            items: [
+              formatEcommerceItem({
+                id: itemToRemove.variantId || itemToRemove.id,
+                name: itemToRemove.name,
+                price: itemToRemove.price,
+                brand: "HHARA",
+                category: "Considered Luxury",
+                variant: `${itemToRemove.color} / ${itemToRemove.size}`,
+                currency: "AED",
+                quantity: itemToRemove.qty,
+              }),
+            ],
+          },
+        });
+      }
     } catch (e) {
       console.error("removeItem failed", e);
     }
@@ -5111,66 +5385,23 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
   const tweaksUI = (
     <>
       {signupPopupOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#2A1F14]/70 backdrop-blur-md transition-opacity duration-500 animate-fade-in">
-          <div className="signup-popup-inner relative max-w-4xl w-full bg-[#EAE3D9] text-[#2A1F14] shadow-2xl overflow-hidden rounded-none grid grid-cols-1 md:grid-cols-2 min-h-[500px]">
-            
-            {/* Left Side (50%) — Editorial Image & Brand Overlay */}
-            <div className="relative h-64 md:h-full w-full overflow-hidden bg-[#3A2416]">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#241811]/70 backdrop-blur-md transition-opacity duration-500 animate-fade-in">
+          <div className="signup-popup-inner relative max-w-4xl w-full bg-[#EAE3D9] text-[#241811] shadow-2xl overflow-hidden rounded-none grid grid-cols-1 md:grid-cols-2 md:h-[475px] min-h-[475px]">
+
+            {/* Left Side (50%) — Editorial Image */}
+            <div className="relative h-56 md:h-full w-full overflow-hidden bg-[#241811]">
               <img
-                src={IMGS.authMedia || "/images/authMedia.jpg"}
-                alt="HHARA Insiders"
+                src="/images/Lucy Leaning On Wall.png"
+                alt="HHARA"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-              
-              {/* Brand Text Overlay */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 pointer-events-none z-10">
-                <div className="relative flex flex-col items-center justify-center">
-                  {/* HHARA Logo Image */}
-                  <img
-                    src="/images/hhara-logo.png"
-                    alt="HHARA"
-                    className="brandmark-text mx-auto mb-1"
-                    style={{ filter: "drop-shadow(0px 2px 6px rgba(0,0,0,0.6))" }}
-                  />
-                  <span className="insiders-text" style={{
-                    fontFamily: "'Bradley Hand', 'Bradley Hand ITC', 'Caveat', cursive",
-                    fontSize: "clamp(25px, 4vw, 44px)",
-                    fontWeight: 700,
-                    fontStyle: "italic",
-                    color: "#EAE3D9",
-                    marginTop: "-9px",
-                    lineHeight: 0.9,
-                    textTransform: "none",
-                    letterSpacing: "0.02em",
-                    transform: "rotate(-3.5deg)",
-                    display: "inline-block",
-                    filter: "drop-shadow(0px 1px 4px rgba(0,0,0,0.3))",
-                    whiteSpace: "nowrap"
-                  }}>
-                    Insiders
-                  </span>
-                </div>
-                <p style={{
-                  fontFamily: "var(--display)",
-                  fontStyle: "italic",
-                  fontWeight: 300,
-                  fontSize: "clamp(18px, 1.8vw, 24px)",
-                  color: "rgba(255, 255, 255, 0.95)",
-                  marginTop: "16px",
-                  letterSpacing: "0.01em",
-                  textShadow: "0 2px 8px rgba(0,0,0,0.5)"
-                }}>
-                  Where Confidence Comes To Life.
-                </p>
-              </div>
             </div>
 
             {/* Right Side (50%) — Light Beige Content & Form Container */}
-            <div className="relative p-6 md:p-10 flex flex-col justify-center bg-[#EAE3D9] text-[#2A1F14]">
+            <div className="relative p-6 md:px-10 md:py-8 flex flex-col justify-center bg-[#EAE3D9] text-[#241811]">
               {/* Close Button (X) */}
               <button
-                className="absolute top-4 right-4 z-10 p-2 text-[#2A1F14] hover:opacity-60 transition-opacity"
+                className="absolute top-4 right-4 z-10 p-2 text-[#241811] hover:opacity-60 transition-opacity"
                 onClick={closeSignupPopup}
                 aria-label="Close signup invitation"
               >
@@ -5178,21 +5409,37 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
               </button>
 
               {signupStatus !== "success" ? (
-                <div className="w-full max-w-sm mx-auto">
-                  <p className="text-xs md:text-sm text-[#2A1F14]/85 mb-5 leading-relaxed font-light text-center">
+                <div className="w-full max-w-sm mx-auto flex flex-col items-center">
+                  {/* HHARA Logo shifted to top */}
+                  <img
+                    src="/images/hhara-logo.png"
+                    alt="HHARA"
+                    className="h-7 md:h-8 w-auto mb-3"
+                  />
+                  <p className="text-xs text-[#241811]/85 leading-relaxed font-light text-center" style={{ marginBottom: "10px" }}>
                     Be the first to discover new collections, limited releases, surprise gifts and exclusive stories from the world of HHARA.
                   </p>
 
-                  <form onSubmit={handleNewsletterSignup} className="w-full space-y-2.5">
+                  <form onSubmit={handleNewsletterSignup} className="w-full space-y-4">
+                    <input
+                      type="text"
+                      name="_hp_company"
+                      value={newsletterHp}
+                      onChange={(e) => setNewsletterHp(e.target.value)}
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                      style={{ display: "none", opacity: 0, position: "absolute", left: "-9999px" }}
+                    />
                     {/* Row 1: First Name & Birthday */}
-                    <div className="grid grid-cols-2 gap-2.5">
+                    <div className="grid grid-cols-2 gap-4">
                       <input
                         type="text"
                         required
                         placeholder="First Name"
                         value={newsletterName}
                         onChange={(e) => setNewsletterName(e.target.value)}
-                        className="w-full bg-white text-[#2A1F14] border border-[#D0C8BC] focus:border-[#2A1F14] outline-none py-2.5 px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light transition-colors"
+                        className="w-full bg-white text-[#241811] border border-[#D0C8BC] focus:border-[#241811] outline-none py-2.5 px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light transition-colors"
                       />
                       <input
                         type="date"
@@ -5201,16 +5448,16 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
                         onChange={(e) => setNewsletterDob(e.target.value)}
                         max={new Date().toISOString().split("T")[0]}
                         placeholder="Birthday"
-                        className="w-full bg-white text-[#2A1F14] border border-[#D0C8BC] focus:border-[#2A1F14] outline-none py-2.5 px-3.5 text-xs md:text-sm font-light transition-colors [color-scheme:light]"
+                        className="w-full bg-white text-[#241811] border border-[#D0C8BC] focus:border-[#241811] outline-none py-2.5 px-3.5 text-xs md:text-sm font-light transition-colors [color-scheme:light]"
                       />
                     </div>
 
                     {/* Row 2: Phone Number */}
-                    <div className="w-full flex gap-0 border border-[#D0C8BC] focus-within:border-[#2A1F14] transition-colors bg-white">
+                    <div className="w-full flex gap-0 border border-[#D0C8BC] focus-within:border-[#241811] transition-colors bg-white">
                       <select
                         value={newsletterCountryCode}
                         onChange={(e) => setNewsletterCountryCode(e.target.value)}
-                        className="bg-transparent text-[#2A1F14] border-0 border-r border-[#D0C8BC] outline-none py-2.5 px-2 text-xs font-light cursor-pointer shrink-0"
+                        className="bg-transparent text-[#241811] border-0 border-r border-[#D0C8BC] outline-none py-2.5 px-2 text-xs font-light cursor-pointer shrink-0"
                         style={{ width: "76px" }}
                       >
                         <option value="+971">🇦🇪 +971</option>
@@ -5227,24 +5474,24 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
                         placeholder="Phone Number"
                         value={newsletterPhone}
                         onChange={(e) => setNewsletterPhone(e.target.value)}
-                        className="flex-1 min-w-0 bg-transparent text-[#2A1F14] border-0 outline-none py-2.5 px-3 text-xs md:text-sm placeholder-[#7A6555]/60 font-light"
+                        className="flex-1 min-w-0 bg-transparent text-[#241811] border-0 outline-none py-2.5 px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light"
                       />
                     </div>
 
                     {/* Row 3: Email Address + JOIN button attached inline */}
-                    <div className="w-full flex gap-0 border border-[#D0C8BC] focus-within:border-[#2A1F14] transition-colors bg-white">
+                    <div className="w-full flex gap-0 border border-[#D0C8BC] focus-within:border-[#241811] transition-colors bg-white">
                       <input
                         type="email"
                         required
                         placeholder="Email Address"
                         value={newsletterEmail}
                         onChange={(e) => setNewsletterEmail(e.target.value)}
-                        className="flex-1 min-w-0 bg-transparent text-[#2A1F14] border-0 outline-none py-2.5 px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light"
+                        className="flex-1 min-w-0 bg-transparent text-[#241811] border-0 outline-none py-2.5 px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light"
                       />
                       <button
                         type="submit"
                         disabled={signupStatus === "loading"}
-                        className="shrink-0 bg-[#2A1F14] hover:bg-[#3A2416] text-[#F7F3ED] transition-colors tracking-widest text-[11px] uppercase font-medium disabled:opacity-50 px-5"
+                        className="shrink-0 bg-[#241811] hover:bg-[#241811] text-[#F7F3ED] transition-colors tracking-widest text-[11px] uppercase font-medium disabled:opacity-50 px-6"
                       >
                         {signupStatus === "loading" ? "…" : "Join"}
                       </button>
@@ -5255,20 +5502,20 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
                     <p className="text-xs text-red-600 mt-2 text-center">{signupError}</p>
                   )}
 
-                  <p className="text-[10px] text-[#2A1F14]/70 mt-4 leading-relaxed text-center">
+                  <p className="text-xs text-[#241811]/70 mt-5 leading-relaxed text-center font-light">
                     By signing up, you agree to receive marketing emails from HHARA. You can unsubscribe at any time. See our{" "}
-                    <button type="button" onClick={() => { closeSignupPopup(); setRoute("privacy", null); }} className="underline hover:text-[#2A1F14] font-medium">Privacy Policy</button>.
+                    <button type="button" onClick={() => { closeSignupPopup(); setRoute("privacy", null); }} className="underline hover:text-[#241811] font-medium">Privacy Policy</button>.
                   </p>
                 </div>
               ) : (
                 <div className="flex flex-col items-center text-center py-8">
-                  <div className="w-12 h-12 rounded-full border border-[#2A1F14] flex items-center justify-center mb-4">
-                    <svg className="w-6 h-6 stroke-[#2A1F14] fill-none" viewBox="0 0 24 24" strokeWidth="2">
+                  <div className="w-12 h-12 rounded-full border border-[#241811] flex items-center justify-center mb-4">
+                    <svg className="w-6 h-6 stroke-[#241811] fill-none" viewBox="0 0 24 24" strokeWidth="2">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   </div>
                   <h4 style={{ fontFamily: "var(--display)", fontSize: "26px", marginBottom: "8px" }}>Welcome to HHARA</h4>
-                  <p className="text-xs md:text-sm text-[#2A1F14]/80 leading-relaxed font-light">
+                  <p className="text-xs md:text-sm text-[#241811]/80 leading-relaxed font-light">
                     You're on the list. Welcome to HHARA.
                   </p>
                 </div>
@@ -5276,31 +5523,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
             </div>
           </div>
         </div>
-      )}
-
-      {/* Floating Chatpop Icon (only if NOT logged in) */}
-      {!customer && (
-        <button
-          onClick={openSignupPopup}
-          className="fixed bottom-6 right-6 z-[99] bg-[#B8892E] text-[#F7F3ED] hover:bg-[#9A721F] p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center border border-[#F7F3ED]/10 group"
-          aria-label="Open signup invitation"
-        >
-          {/* Custom user/signup SVG */}
-          <svg 
-            className="w-6 h-6 stroke-[#F7F3ED] fill-none" 
-            viewBox="0 0 24 24" 
-            strokeWidth="1.5" 
-            strokeLinecap="round" 
-            strokeLinejoin="round"
-          >
-            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
-          </svg>
-          {/* Tooltip on hover */}
-          <span className="absolute right-14 bg-[#B8892E] text-[#F7F3ED] text-[10px] uppercase tracking-widest px-3 py-1.5 border border-[#F7F3ED]/10 shadow-lg rounded-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
-            Become an Insider
-          </span>
-        </button>
       )}
     </>
   );
@@ -5318,7 +5540,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
               openSearch={() => setSearchOpen(true)}
               wishCount={wishlist.length}
             />
-            <main style={{ flex: 1 }}>
+            <main style={{ flex: 1, paddingTop: ["home", "stores", "atelier"].includes(route) ? 0 : "var(--header-h)" }}>
               {body}
             </main>
             <Footer setRoute={setRouteState} route={route} />

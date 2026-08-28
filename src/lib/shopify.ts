@@ -305,6 +305,26 @@ export async function getCart(cartId: string): Promise<ShopifyCart | null> {
   return data.cart ? normaliseCart(data.cart) : null;
 }
 
+export async function cartAttributesUpdate(
+  cartId: string,
+  attributes: { key: string; value: string }[]
+): Promise<ShopifyCart> {
+  const query = /* GraphQL */ `
+    ${CART_FRAGMENT}
+    mutation CartAttributesUpdate($cartId: ID!, $attributes: [AttributeInput!]!) {
+      cartAttributesUpdate(cartId: $cartId, attributes: $attributes) {
+        cart { ...CartFields }
+        userErrors { message }
+      }
+    }
+  `;
+  const data = await shopifyFetch<{ cartAttributesUpdate: { cart: RawCart; userErrors: { message: string }[] } }>(
+    query,
+    { cartId, attributes }
+  );
+  return normaliseCart(data.cartAttributesUpdate.cart);
+}
+
 type RawCart = Omit<ShopifyCart, "lines"> & { lines: { nodes: ShopifyCart["lines"] } };
 function normaliseCart(c: RawCart): ShopifyCart {
   return { ...c, lines: c.lines.nodes };

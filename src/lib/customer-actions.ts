@@ -9,6 +9,7 @@ import {
   customerAssociateCart,
   shopifyAdminFetch,
 } from "./shopify";
+import { verifyHumanSubmission } from "./bot-protection";
 
 const COOKIE = "hhara_customer_token";
 
@@ -41,8 +42,21 @@ export async function signUp(input: {
   lastName?: string;
   dob?: string;
   acceptsMarketing?: boolean;
+  honeypot?: string;
+  formTimestamp?: number;
 }): Promise<{ ok: boolean; error?: string; status?: "TAKEN" | "ACTIVATION_SENT" | "EXISTS" }> {
-  const { dob, ...rest } = input;
+  // 1. Anti-Bot Verification
+  const botCheck = await verifyHumanSubmission({
+    honeypot: input.honeypot,
+    timestamp: input.formTimestamp,
+    email: input.email,
+    action: "signup",
+  });
+  if (!botCheck.allowed) {
+    return { ok: false, error: botCheck.error || "Signup rejected." };
+  }
+
+  const { dob, honeypot, formTimestamp, ...rest } = input;
   const created = await customerCreate({ ...rest, ...(dob ? { note: `DOB: ${dob}` } : {}) });
   if (created.errors.length) {
     const errorMsg = created.errors[0].message;

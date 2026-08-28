@@ -6,12 +6,14 @@ import {
   cartLinesAdd,
   cartLinesUpdate,
   cartLinesRemove,
+  cartAttributesUpdate,
   getCart,
   ShopifyCart,
   cartDiscountCodesUpdate,
 } from "./shopify";
 
 const COOKIE = "hhara_cart_id";
+const ATTR_COOKIE = "hhara_attr";
 
 async function readCartId(): Promise<string | null> {
   const c = await cookies();
@@ -34,6 +36,29 @@ async function clearCartId() {
   c.delete(COOKIE);
 }
 
+async function getAttributionAttributes(): Promise<{ key: string; value: string }[]> {
+  try {
+    const c = await cookies();
+    const raw = c.get(ATTR_COOKIE)?.value;
+    if (!raw) return [];
+    const attr = JSON.parse(decodeURIComponent(raw));
+    const attributes: { key: string; value: string }[] = [];
+    if (attr.utm_source) attributes.push({ key: "_utm_source", value: String(attr.utm_source) });
+    if (attr.utm_medium) attributes.push({ key: "_utm_medium", value: String(attr.utm_medium) });
+    if (attr.utm_campaign) attributes.push({ key: "_utm_campaign", value: String(attr.utm_campaign) });
+    if (attr.utm_term) attributes.push({ key: "_utm_term", value: String(attr.utm_term) });
+    if (attr.utm_content) attributes.push({ key: "_utm_content", value: String(attr.utm_content) });
+    if (attr.gclid) attributes.push({ key: "_gclid", value: String(attr.gclid) });
+    if (attr.fbclid) attributes.push({ key: "_fbclid", value: String(attr.fbclid) });
+    if (attr.ttclid) attributes.push({ key: "_ttclid", value: String(attr.ttclid) });
+    if (attr.referrer) attributes.push({ key: "_landing_referrer", value: String(attr.referrer) });
+    if (attr.landing_page) attributes.push({ key: "_landing_page", value: String(attr.landing_page) });
+    return attributes;
+  } catch {
+    return [];
+  }
+}
+
 export async function ensureCart(): Promise<ShopifyCart> {
   const id = await readCartId();
   if (id) {
@@ -45,9 +70,31 @@ export async function ensureCart(): Promise<ShopifyCart> {
     }
     await clearCartId();
   }
-  const created = await cartCreate();
+  let created = await cartCreate();
   await writeCartId(created.id);
+
+  // Sync initial attribution attributes if present
+  try {
+    const attrs = await getAttributionAttributes();
+    if (attrs.length > 0) {
+      created = await cartAttributesUpdate(created.id, attrs);
+    }
+  } catch (err) {
+    console.warn("[cart] attribution sync on create error:", err);
+  }
+
   return created;
+}
+
+export async function syncCartAttribution(attributes: { key: string; value: string }[]): Promise<ShopifyCart | null> {
+  const id = await readCartId();
+  if (!id || !attributes.length) return null;
+  try {
+    return await cartAttributesUpdate(id, attributes);
+  } catch (e) {
+    console.warn("[cart] syncCartAttribution error:", e);
+    return null;
+  }
 }
 
 export async function addLine(merchandiseId: string, quantity: number): Promise<ShopifyCart> {

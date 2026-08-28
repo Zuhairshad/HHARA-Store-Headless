@@ -5,6 +5,8 @@ import { subscribeNewsletter } from "@/lib/newsletter-actions";
 
 export function StandaloneFooter() {
   const [email, setEmail] = useState("");
+  const [hpCompany, setHpCompany] = useState("");
+  const [formTs] = useState(() => Date.now());
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +16,14 @@ export function StandaloneFooter() {
     if (!email || busy) return;
     setBusy(true);
     setError(null);
-    const res = await subscribeNewsletter(email);
+    const res = await subscribeNewsletter(
+      email,
+      undefined,
+      undefined,
+      undefined,
+      hpCompany,
+      formTs
+    );
     setBusy(false);
     if (res.ok) setDone(true);
     else setError(res.error || "Subscription failed");
@@ -37,6 +46,16 @@ export function StandaloneFooter() {
               </div>
             </a>
             <form className="footer-newsletter" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="_hp_company"
+                value={hpCompany}
+                onChange={(e) => setHpCompany(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ display: "none", opacity: 0, position: "absolute", left: "-9999px" }}
+              />
               <input
                 type="email"
                 placeholder="Your email"
@@ -87,6 +106,27 @@ export function StandaloneFooter() {
               <ul>
                 <li><a href="/?r=privacy">Privacy &amp; Cookie Policy</a></li>
                 <li><a href="/?r=terms">Terms &amp; Conditions</a></li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (typeof window !== "undefined") {
+                        window.dispatchEvent(new CustomEvent("hhara:open_consent_modal"));
+                      }
+                    }}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      color: "inherit",
+                      font: "inherit",
+                      cursor: "pointer",
+                      textAlign: "left",
+                    }}
+                  >
+                    Cookie Preferences
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
