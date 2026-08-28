@@ -1278,10 +1278,10 @@ function Categories({ onPick }) {
 function FeaturedGrid({ setRoute }: { setRoute: (route: string, payload?: any) => void }) {
   return (
     <section className="manifesto-colourways" style={{ paddingTop: "20px" }}>
-      <span className="eyebrow" style={{ color: "#B8892E", display: "block", textAlign: "center", marginBottom: 16 }}>THE PALETTE</span>
+      <span className="eyebrow" style={{ color: "#A9803D", display: "block", textAlign: "center", marginBottom: 16 }}>THE PALETTE</span>
       <h2 className="mc-headline" style={{ marginBottom: 12 }}>
         Timeless<br />
-        <em style={{ fontFamily: "var(--display,'Cormorant Garamond',serif)", fontStyle: "italic", fontWeight: 300, color: "#B8892E" }}>Tones.</em>
+        <em style={{ fontFamily: "var(--display,'Cormorant Garamond',serif)", fontStyle: "italic", fontWeight: 300, color: "#A9803D" }}>Tones.</em>
       </h2>
       <p className="mc-lead" style={{ marginBottom: 40, maxWidth: "640px", textAlign: "center" }}>
         Chicory Brown and Olive. Two signature colorways grounded in raw mineral earth and quiet oases, designed to anchor your movement and your day.
@@ -1300,7 +1300,7 @@ function FeaturedGrid({ setRoute }: { setRoute: (route: string, payload?: any) =
           <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
             The colour of the first cup. Before the world awakens. Deep, warm, and grounding - a quiet ritual before everything else begins.
           </p>
-          <p style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontStyle: "italic", fontSize: 15, color: "#B8892E", margin: "8px 0 0" }}>
+          <p style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontStyle: "italic", fontSize: 15, color: "#A9803D", margin: "8px 0 0" }}>
             Her colour. Before the day begins.
           </p>
         </div>
@@ -1317,7 +1317,7 @@ function FeaturedGrid({ setRoute }: { setRoute: (route: string, payload?: any) =
           <p style={{ fontFamily: "var(--sans)", fontSize: 15, lineHeight: 1.85, color: "#7A6555", margin: 0 }}>
             The colour of quiet resilience. A soft, mineral shade pulled from the heart of the desert oasis. Peaceful, steady, organic - a tone that does not seek attention, yet holds it completely.
           </p>
-          <p style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontStyle: "italic", fontSize: 15, color: "#B8892E", margin: "8px 0 0" }}>
+          <p style={{ fontFamily: "var(--serif,'Cormorant Garamond',serif)", fontStyle: "italic", fontSize: 15, color: "#A9803D", margin: "8px 0 0" }}>
             Grounded in nature. Quietly powerful.
           </p>
         </div>
@@ -1521,10 +1521,10 @@ function ManifestoColourways({ ids, openProduct }: { ids: string[]; openProduct:
   const list = ids.map((id) => PRODUCTS.find((p) => p.id === id)).filter(Boolean);
   return (
     <section className="manifesto-colourways">
-      <span className="eyebrow" style={{ color: "#B8892E", display: "block", textAlign: "center", marginBottom: 16 }}>THE COLLECTION</span>
+      <span className="eyebrow" style={{ color: "#A9803D", display: "block", textAlign: "center", marginBottom: 16 }}>THE COLLECTION</span>
       <h2 className="mc-headline">
         Unapologetically<br />
-        <em style={{ fontFamily: "var(--display,'Cormorant Garamond',serif)", fontStyle: "italic", fontWeight: 300, color: "#B8892E" }}>You.</em>
+        <em style={{ fontFamily: "var(--display,'Cormorant Garamond',serif)", fontStyle: "italic", fontWeight: 300, color: "#A9803D" }}>You.</em>
       </h2>
       <p className="mc-lead">Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.</p>
 
@@ -1860,7 +1860,7 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRout
           <p style={{ fontWeight: 400, color: "var(--ink-soft)" }}>
             Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.{" "}
             {!descExpanded && (
-              <button onClick={() => setDescExpanded(true)} style={{ fontFamily: "var(--sans)", fontSize: "14px", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
+              <button onClick={() => setDescExpanded(true)} style={{ fontFamily: "var(--sans)", fontSize: "14px", fontWeight: 500, color: "#A9803D", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
                 Read more
               </button>
             )}
@@ -1872,7 +1872,7 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRout
               </p>
               <p style={{ fontSize: "14px", borderTop: "1px solid var(--line-soft)", paddingTop: "12px", marginTop: "8px" }}>
                 <strong>Dahlia (Arabic)</strong> - Gentle | Tender | Delicate &nbsp;·&nbsp; <strong>Imara (Swahili)</strong> - Strong | Firm | Resolute &nbsp;·&nbsp; <em>She is both. Always.</em>{" "}
-                <button onClick={() => setDescExpanded(false)} style={{ fontFamily: "var(--sans)", fontSize: "14px", fontWeight: 500, color: "#B8892E", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
+                <button onClick={() => setDescExpanded(false)} style={{ fontFamily: "var(--sans)", fontSize: "14px", fontWeight: 500, color: "#A9803D", background: "none", border: "none", cursor: "pointer", padding: 0, textDecoration: "underline", textUnderlineOffset: "3px" }}>
                   Read less
                 </button>
               </p>
@@ -2407,7 +2407,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
             <div className="pdp-price">
               {product.priceWas && <span className="was">AED {product.priceWas.toLocaleString()}</span>}
               <span className="now">AED {product.price.toLocaleString()}</span>
-              <span style={{ color: "#B8892E", fontSize: "18px", letterSpacing: "3px", marginLeft: "14px", lineHeight: 1 }}>★★★★★</span>
+              <span style={{ color: "#A9803D", fontSize: "18px", letterSpacing: "3px", marginLeft: "14px", lineHeight: 1 }}>★★★★★</span>
               <span className="pdp-vat-note">+ VAT at checkout</span>
             </div>
 
@@ -2538,11 +2538,11 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                     {/* Fabric property icons — socks */}
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px 12px", marginTop: "8px" }}>
                       {[
-                        { label: "4-Way Stretch", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><line x1="20" y1="4" x2="20" y2="36" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" /><line x1="4" y1="20" x2="36" y2="20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" /><polyline points="16,8 20,4 24,8" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /><polyline points="16,32 20,36 24,32" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /><polyline points="8,16 4,20 8,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /><polyline points="32,16 36,20 32,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>) },
-                        { label: "Ultra Smooth", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M8 14 Q20 10 32 14" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" /><path d="M8 20 Q20 16 32 20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" /><path d="M8 26 Q20 22 32 26" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" /></svg>) },
-                        { label: "Excellent Flexibility", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M12 28 C12 20 16 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" /><path d="M28 28 C28 20 24 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" /><path d="M10 28 Q20 24 30 28" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" /><circle cx="20" cy="9" r="2" fill="#B8892E" opacity="0.7" /></svg>) },
-                        { label: "Breathable", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M20 32 L20 16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" /><path d="M20 16 C20 16 14 20 10 16 C8 14 10 10 14 12 C12 8 18 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" /><path d="M20 16 C20 16 26 20 30 16 C32 14 30 10 26 12 C28 8 22 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" /></svg>) },
-                        { label: "OEKO-TEX®", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M20 6 C20 6 10 10 10 20 C10 28 14 33 20 35 C26 33 30 28 30 20 C30 10 20 6 20 6Z" stroke="#B8892E" strokeWidth="1.5" strokeLinejoin="round" /><polyline points="14,20 18,24 26,16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
+                        { label: "4-Way Stretch", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><line x1="20" y1="4" x2="20" y2="36" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" /><line x1="4" y1="20" x2="36" y2="20" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" /><polyline points="16,8 20,4 24,8" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /><polyline points="16,32 20,36 24,32" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /><polyline points="8,16 4,20 8,24" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /><polyline points="32,16 36,20 32,24" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>) },
+                        { label: "Ultra Smooth", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M8 14 Q20 10 32 14" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" fill="none" /><path d="M8 20 Q20 16 32 20" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" fill="none" /><path d="M8 26 Q20 22 32 26" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" fill="none" /></svg>) },
+                        { label: "Excellent Flexibility", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M12 28 C12 20 16 14 20 10" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" fill="none" /><path d="M28 28 C28 20 24 14 20 10" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" fill="none" /><path d="M10 28 Q20 24 30 28" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" fill="none" /><circle cx="20" cy="9" r="2" fill="#A9803D" opacity="0.7" /></svg>) },
+                        { label: "Breathable", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M20 32 L20 16" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" /><path d="M20 16 C20 16 14 20 10 16 C8 14 10 10 14 12 C12 8 18 6 20 10" stroke="#A9803D" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" /><path d="M20 16 C20 16 26 20 30 16 C32 14 30 10 26 12 C28 8 22 6 20 10" stroke="#A9803D" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" /></svg>) },
+                        { label: "OEKO-TEX®", icon: (<svg viewBox="0 0 40 40" fill="none" width="36" height="36"><path d="M20 6 C20 6 10 10 10 20 C10 28 14 33 20 35 C26 33 30 28 30 20 C30 10 20 6 20 6Z" stroke="#A9803D" strokeWidth="1.5" strokeLinejoin="round" /><polyline points="14,20 18,24 26,16" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>) },
                       ].map(({ label, icon }) => (
                         <div key={label} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", textAlign: "center" }}>
                           {icon}
@@ -2574,12 +2574,12 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           label: "4-Way Stretch",
                           icon: (
                             <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                              <line x1="20" y1="4" x2="20" y2="36" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" />
-                              <line x1="4" y1="20" x2="36" y2="20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" />
-                              <polyline points="16,8 20,4 24,8" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                              <polyline points="16,32 20,36 24,32" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                              <polyline points="8,16 4,20 8,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                              <polyline points="32,16 36,20 32,24" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                              <line x1="20" y1="4" x2="20" y2="36" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" />
+                              <line x1="4" y1="20" x2="36" y2="20" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" />
+                              <polyline points="16,8 20,4 24,8" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                              <polyline points="16,32 20,36 24,32" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                              <polyline points="8,16 4,20 8,24" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                              <polyline points="32,16 36,20 32,24" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                             </svg>
                           ),
                         },
@@ -2587,10 +2587,10 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           label: "Body Enhancing",
                           icon: (
                             <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                              <circle cx="20" cy="9" r="3.5" stroke="#B8892E" strokeWidth="1.5" />
-                              <path d="M14 16 C12 19 12 23 13 27 L15 34" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" />
-                              <path d="M26 16 C28 19 28 23 27 27 L25 34" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" />
-                              <path d="M14 16 C16 14 24 14 26 16 C27 20 27 22 26 25 C24 28 16 28 14 25 C13 22 13 20 14 16Z" stroke="#B8892E" strokeWidth="1.5" strokeLinejoin="round" />
+                              <circle cx="20" cy="9" r="3.5" stroke="#A9803D" strokeWidth="1.5" />
+                              <path d="M14 16 C12 19 12 23 13 27 L15 34" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" />
+                              <path d="M26 16 C28 19 28 23 27 27 L25 34" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" />
+                              <path d="M14 16 C16 14 24 14 26 16 C27 20 27 22 26 25 C24 28 16 28 14 25 C13 22 13 20 14 16Z" stroke="#A9803D" strokeWidth="1.5" strokeLinejoin="round" />
                             </svg>
                           ),
                         },
@@ -2598,9 +2598,9 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           label: "Ultra Smooth",
                           icon: (
                             <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                              <path d="M8 14 Q20 10 32 14" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-                              <path d="M8 20 Q20 16 32 20" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-                              <path d="M8 26 Q20 22 32 26" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                              <path d="M8 14 Q20 10 32 14" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                              <path d="M8 20 Q20 16 32 20" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                              <path d="M8 26 Q20 22 32 26" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" fill="none" />
                             </svg>
                           ),
                         },
@@ -2608,10 +2608,10 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           label: "Excellent Flexibility",
                           icon: (
                             <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                              <path d="M12 28 C12 20 16 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-                              <path d="M28 28 C28 20 24 14 20 10" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-                              <path d="M10 28 Q20 24 30 28" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-                              <circle cx="20" cy="9" r="2" fill="#B8892E" opacity="0.7" />
+                              <path d="M12 28 C12 20 16 14 20 10" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                              <path d="M28 28 C28 20 24 14 20 10" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                              <path d="M10 28 Q20 24 30 28" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" fill="none" />
+                              <circle cx="20" cy="9" r="2" fill="#A9803D" opacity="0.7" />
                             </svg>
                           ),
                         },
@@ -2619,9 +2619,9 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           label: "Breathable",
                           icon: (
                             <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                              <path d="M20 32 L20 16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" />
-                              <path d="M20 16 C20 16 14 20 10 16 C8 14 10 10 14 12 C12 8 18 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                              <path d="M20 16 C20 16 26 20 30 16 C32 14 30 10 26 12 C28 8 22 6 20 10" stroke="#B8892E" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
+                              <path d="M20 32 L20 16" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" />
+                              <path d="M20 16 C20 16 14 20 10 16 C8 14 10 10 14 12 C12 8 18 6 20 10" stroke="#A9803D" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                              <path d="M20 16 C20 16 26 20 30 16 C32 14 30 10 26 12 C28 8 22 6 20 10" stroke="#A9803D" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" fill="none" opacity="0.65" />
                             </svg>
                           ),
                         },
@@ -2629,8 +2629,8 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                           label: "OEKO-TEX®",
                           icon: (
                             <svg viewBox="0 0 40 40" fill="none" width="36" height="36">
-                              <path d="M20 6 C20 6 10 10 10 20 C10 28 14 33 20 35 C26 33 30 28 30 20 C30 10 20 6 20 6Z" stroke="#B8892E" strokeWidth="1.5" strokeLinejoin="round" />
-                              <polyline points="14,20 18,24 26,16" stroke="#B8892E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                              <path d="M20 6 C20 6 10 10 10 20 C10 28 14 33 20 35 C26 33 30 28 30 20 C30 10 20 6 20 6Z" stroke="#A9803D" strokeWidth="1.5" strokeLinejoin="round" />
+                              <polyline points="14,20 18,24 26,16" stroke="#A9803D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           ),
                         },
@@ -3324,7 +3324,10 @@ function AtelierPage({ setRoute }) {
   return (
     <>
       <section className="atelier-hero">
-        <img src={IMGS.atelierHero} alt="HHARA About Us" className="img-fill" />
+        <picture>
+          <source media="(max-width: 768px)" srcSet="/images/Lucy Sleeping On Bench.png" />
+          <img src={IMGS.atelierHero} alt="HHARA About Us" className="img-fill" />
+        </picture>
         <div className="ovr"></div>
         <div className="copy">
           <h1>She is not just enough.<br /><em>She is extraordinary.</em></h1>
@@ -3971,7 +3974,7 @@ function StoresPage({ setRoute }) {
         <div className="pillars-container">
           <div className="section-head" style={{ borderBottom: "1px solid rgba(184, 137, 46, 0.12)", paddingBottom: 28, marginBottom: 48 }}>
             <div className="section-head-stack">
-              <h2 className="section-title" style={{ color: "#241811", fontWeight: 300 }}>Where we <em style={{ color: "#B8892E" }}>give.</em></h2>
+              <h2 className="section-title" style={{ color: "#241811", fontWeight: 300 }}>Where we <em style={{ color: "#A9803D" }}>give.</em></h2>
             </div>
           </div>
           <div className="pillars-grid">
@@ -5385,43 +5388,41 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
   const tweaksUI = (
     <>
       {signupPopupOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#241811]/70 backdrop-blur-md transition-opacity duration-500 animate-fade-in">
-          <div className="signup-popup-inner relative max-w-4xl w-full bg-[#EAE3D9] text-[#241811] shadow-2xl overflow-hidden rounded-none grid grid-cols-1 md:grid-cols-2 md:h-[475px] min-h-[475px]">
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#241811]/70 backdrop-blur-md transition-opacity duration-500 animate-fade-in"
+          onClick={closeSignupPopup}
+        >
+          <div
+            className="signup-popup-inner relative max-w-[360px] md:max-w-4xl w-full bg-[#EAE3D9] text-[#241811] shadow-2xl overflow-hidden rounded-none flex flex-col md:grid md:grid-cols-2 md:h-[475px] h-[90vh] max-h-[700px]"
+            onClick={(e) => e.stopPropagation()}
+          >
 
-            {/* Left Side (50%) — Editorial Image */}
-            <div className="relative h-72 md:h-full w-full overflow-hidden bg-[#241811]">
+            {/* Image — takes all available space on mobile, 50% on desktop */}
+            <div className="relative flex-1 min-h-0 md:flex-none md:h-full w-full overflow-hidden p-3 md:p-0 bg-[#EAE3D9] md:bg-[#241811]">
               <img
                 src="/images/Lucy Leaning On Wall.png"
                 alt="HHARA"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain md:object-cover rounded-sm md:rounded-none"
                 style={{ objectPosition: "center top" }}
               />
             </div>
 
-            {/* Right Side (50%) — Light Beige Content & Form Container */}
-            <div className="relative p-4 md:px-10 md:py-8 flex flex-col justify-center bg-[#EAE3D9] text-[#241811]">
-              {/* Close Button (X) */}
-              <button
-                className="absolute top-4 right-4 z-10 p-2 text-[#241811] hover:opacity-60 transition-opacity"
-                onClick={closeSignupPopup}
-                aria-label="Close signup invitation"
-              >
-                <Icon.Close />
-              </button>
+            {/* Form — compact at bottom on mobile, 50% on desktop */}
+            <div className="relative px-3 pb-3 pt-2 md:px-10 md:py-8 flex flex-col justify-center bg-[#EAE3D9] text-[#241811] shrink-0 md:shrink md:flex-1">
 
               {signupStatus !== "success" ? (
-                <div className="w-full max-w-sm mx-auto flex flex-col items-center">
-                  {/* HHARA Logo shifted to top */}
+                <div className="w-full flex flex-col items-center">
+                  {/* HHARA Logo (Desktop only) */}
                   <img
                     src="/images/hhara-logo.png"
                     alt="HHARA"
-                    className="h-7 md:h-8 w-auto mb-3"
+                    className="hidden md:block h-7 md:h-8 w-auto mb-3"
                   />
-                  <p className="text-xs text-[#241811]/85 leading-relaxed font-light text-center" style={{ marginBottom: "10px" }}>
+                  <p className="text-xs text-[#241811]/85 leading-relaxed font-light text-center mb-2 md:mb-2.5">
                     Be the first to discover new collections, limited releases, surprise gifts and exclusive stories from the world of HHARA.
                   </p>
 
-                  <form onSubmit={handleNewsletterSignup} className="w-full space-y-4">
+                  <form onSubmit={handleNewsletterSignup} className="w-full space-y-2 md:space-y-4">
                     <input
                       type="text"
                       name="_hp_company"
@@ -5433,14 +5434,14 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
                       style={{ display: "none", opacity: 0, position: "absolute", left: "-9999px" }}
                     />
                     {/* Row 1: First Name & Birthday */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-2 md:gap-4">
                       <input
                         type="text"
                         required
                         placeholder="First Name"
                         value={newsletterName}
                         onChange={(e) => setNewsletterName(e.target.value)}
-                        className="w-full bg-white text-[#241811] border border-[#D0C8BC] focus:border-[#241811] outline-none py-2.5 px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light transition-colors"
+                        className="w-full bg-white text-[#241811] border border-[#D0C8BC] focus:border-[#241811] outline-none py-2 md:py-2.5 px-3 md:px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light transition-colors"
                       />
                       <input
                         type="date"
@@ -5449,7 +5450,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
                         onChange={(e) => setNewsletterDob(e.target.value)}
                         max={new Date().toISOString().split("T")[0]}
                         placeholder="Birthday"
-                        className="w-full bg-white text-[#241811] border border-[#D0C8BC] focus:border-[#241811] outline-none py-2.5 px-3.5 text-xs md:text-sm font-light transition-colors [color-scheme:light]"
+                        className="w-full bg-white text-[#241811] border border-[#D0C8BC] focus:border-[#241811] outline-none py-2 md:py-2.5 px-3 md:px-3.5 text-xs md:text-sm font-light transition-colors [color-scheme:light]"
                       />
                     </div>
 
@@ -5458,7 +5459,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
                       <select
                         value={newsletterCountryCode}
                         onChange={(e) => setNewsletterCountryCode(e.target.value)}
-                        className="bg-transparent text-[#241811] border-0 border-r border-[#D0C8BC] outline-none py-2.5 px-2 text-xs font-light cursor-pointer shrink-0"
+                        className="bg-transparent text-[#241811] border-0 border-r border-[#D0C8BC] outline-none py-2 md:py-2.5 px-2 text-xs font-light cursor-pointer shrink-0"
                         style={{ width: "76px" }}
                       >
                         <option value="+971">🇦🇪 +971</option>
@@ -5475,7 +5476,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
                         placeholder="Phone Number"
                         value={newsletterPhone}
                         onChange={(e) => setNewsletterPhone(e.target.value)}
-                        className="flex-1 min-w-0 bg-transparent text-[#241811] border-0 outline-none py-2.5 px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light"
+                        className="flex-1 min-w-0 bg-transparent text-[#241811] border-0 outline-none py-2 md:py-2.5 px-3 md:px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light"
                       />
                     </div>
 
@@ -5487,7 +5488,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
                         placeholder="Email Address"
                         value={newsletterEmail}
                         onChange={(e) => setNewsletterEmail(e.target.value)}
-                        className="flex-1 min-w-0 bg-transparent text-[#241811] border-0 outline-none py-2.5 px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light"
+                        className="flex-1 min-w-0 bg-transparent text-[#241811] border-0 outline-none py-2 md:py-2.5 px-3 md:px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light"
                       />
                       <button
                         type="submit"
@@ -5503,7 +5504,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
                     <p className="text-xs text-red-600 mt-2 text-center">{signupError}</p>
                   )}
 
-                  <p className="text-xs text-[#241811]/70 mt-5 leading-relaxed text-center font-light">
+                  <p className="text-xs text-[#241811]/70 mt-2.5 md:mt-5 leading-relaxed text-center font-light">
                     By signing up, you agree to receive marketing emails from HHARA. You can unsubscribe at any time. See our{" "}
                     <button type="button" onClick={() => { closeSignupPopup(); setRoute("privacy", null); }} className="underline hover:text-[#241811] font-medium">Privacy Policy</button>.
                   </p>

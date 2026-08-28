@@ -281,7 +281,7 @@ export function ConsentBanner() {
                   type="checkbox"
                   checked={analyticsChecked}
                   onChange={(e) => setAnalyticsChecked(e.target.checked)}
-                  style={{ width: "18px", height: "18px", accentColor: "#C19A6B", cursor: "pointer" }}
+                  style={{ width: "18px", height: "18px", accentColor: "#A9803D", cursor: "pointer" }}
                 />
               </label>
 
@@ -307,7 +307,7 @@ export function ConsentBanner() {
                   type="checkbox"
                   checked={marketingChecked}
                   onChange={(e) => setMarketingChecked(e.target.checked)}
-                  style={{ width: "18px", height: "18px", accentColor: "#C19A6B", cursor: "pointer" }}
+                  style={{ width: "18px", height: "18px", accentColor: "#A9803D", cursor: "pointer" }}
                 />
               </label>
             </div>
