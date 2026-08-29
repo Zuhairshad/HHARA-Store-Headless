@@ -1183,7 +1183,7 @@ function ProductCard({ product, onClick }: { product: any; onClick: any }) {
         </div>
       </div>
       <div className="pcard-info">
-        <div className="pcard-swatches">
+        <div className="pcard-swatches" aria-label="Available colours">
           {product.swatches.slice(0, 4).map((s, i) => (
             <span key={i} className="swatch" style={{ background: s.hex }} title={s.name}></span>
           ))}
@@ -2145,6 +2145,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [isReelHovered, setIsReelHovered] = useState(false);
   const reelVideoRef = useRef(null);
   const previewVideoRef = useRef(null);
   const bubbleRef = useRef<HTMLDivElement>(null);
@@ -2252,6 +2253,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
   const closeReel = () => {
     setReelOpen(false);
+    setIsReelHovered(false);
     if (reelVideoRef.current) {
       reelVideoRef.current.pause();
     }
@@ -2369,19 +2371,31 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
         <div className="pdp-main">
           <div className="pdp-gallery">
             {(() => {
-              const a = product.imgKey ? IMGS[product.imgKey + "a"] : (product.featuredImage?.url || product.images?.[0]?.url || null);
-              const b = product.imgKey ? IMGS[product.imgKey + "b"] : (product.images?.[1]?.url || product.featuredImage?.url || null);
-              const shots = [
-                { src: a, style: {} },
-                { src: b, style: {} },
-                { src: a, style: { filter: "brightness(0.92) contrast(1.05)" } },
-                { src: b, style: { filter: "brightness(1.06)" } },
-              ];
+              const fallbackImages = product.imgKey
+                ? [IMGS[product.imgKey + "a"], IMGS[product.imgKey + "b"]]
+                : [product.featuredImage?.url];
+              const galleryImages = product.imgKey
+                ? fallbackImages
+                : (product.images?.length ? product.images.map((image) => image.url) : fallbackImages);
+              const shots = galleryImages.filter(Boolean).slice(0, 4).map((src) => ({ src, style: {} }));
               const main = shots[activeShot] || shots[0];
+              const showGalleryNavigation = shots.length > 1;
+              const showPreviousShot = () => setActiveShot((current) => (current - 1 + shots.length) % shots.length);
+              const showNextShot = () => setActiveShot((current) => (current + 1) % shots.length);
               return (
                 <>
                   <div className={`pdp-gallery-main ${product.tone}`}>
-                    {main.src && <img src={main.src} alt="" className="img-fill" style={main.style} />}
+                    {main?.src && <img src={main.src} alt={`${product.name} view ${activeShot + 1}`} className="img-fill" style={main.style} />}
+                    {showGalleryNavigation && (
+                      <>
+                        <button type="button" className="pdp-gallery-arrow pdp-gallery-arrow--previous" onClick={showPreviousShot} aria-label="View previous product image">
+                          <Icon.Chevron dir="left" />
+                        </button>
+                        <button type="button" className="pdp-gallery-arrow pdp-gallery-arrow--next" onClick={showNextShot} aria-label="View next product image">
+                          <Icon.Chevron dir="right" />
+                        </button>
+                      </>
+                    )}
                     <div className="pdp-model-spec">Model is 5'9 wearing S</div>
                   </div>
                   <div className="pdp-gallery-thumbs">
@@ -2392,7 +2406,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                         className={`pdp-gallery-thumb ${activeShot === i ? "on" : ""}`}
                         onClick={() => setActiveShot(i)}
                       >
-                        {s.src && <img src={s.src} alt="" className="img-fill" style={s.style} />}
+                        {s.src && <img src={s.src} alt={`${product.name} thumbnail ${i + 1}`} className="img-fill" style={s.style} />}
                       </button>
                     ))}
                   </div>
@@ -2437,6 +2451,8 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                     style={{ background: s.hex }}
                     onClick={() => setColor(s)}
                     title={s.name}
+                    aria-label={`Select ${s.name}`}
+                    aria-pressed={color.name === s.name}
                   ></button>
                 ))}
               </div>
@@ -2511,14 +2527,14 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               <div className="pdp-trust-item"><Icon.Leaf /><span>Recycled Materials</span></div>
             </div>
 
-            <div className="pdp-description-section" style={{ marginTop: "40px" }}>
-              <div className="pdp-section-label">Description</div>
-              {((V3_DESCRIPTIONS[product.name] || product.description || "Premium recycled performance knit, engineered for movement, structure, and longevity.")).split("\n\n").map((para, i) => (
-                <p key={i}>{para}</p>
-              ))}
-            </div>
-
             <div className="pdp-accordions" style={{ marginTop: "32px" }}>
+              <Accordion title="Description" open={open === "description"} onToggle={() => setOpen(open === "description" ? "" : "description")}>
+                <div className="pdp-description-copy">
+                  {((V3_DESCRIPTIONS[product.name] || product.description || "Premium recycled performance knit, engineered for movement, structure, and longevity.")).split("\n\n").map((para, i) => (
+                    <p key={i}>{para}</p>
+                  ))}
+                </div>
+              </Accordion>
               <Accordion title="Fabric & Feel" open={open === "details"} onToggle={() => setOpen(open === "details" ? "" : "details")}>
                 {product.cat === "Accessories" ? (
                   <>
@@ -3113,6 +3129,13 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
             className="reel-dialog open"
             open
             aria-labelledby="reel-video-title"
+            data-chrome-visible={!isPlaying || isReelHovered}
+            onPointerEnter={(event) => {
+              if (event.pointerType === "mouse") setIsReelHovered(true);
+            }}
+            onPointerLeave={(event) => {
+              if (event.pointerType === "mouse") setIsReelHovered(false);
+            }}
           >
             <div className="reel-video-container">
               <div className="reel-header">
@@ -3146,7 +3169,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               />
 
               {/* Bottom controls: Timeline, Play/Pause toggle, and Volume toggle */}
-              <div className="reel-controls-bar">
+              <div className="reel-controls-bar reel-bottom-chrome">
                 <button
                   className="reel-control-btn"
                   onClick={togglePlay}
@@ -3192,7 +3215,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               </div>
 
               {/* Conversion-boosting Floating CTA Card */}
-              <div className="reel-cta-card">
+              <div className="reel-cta-card reel-bottom-chrome">
                 <div className="reel-cta-thumb">
                   {product.featuredImage?.url && (
                     <img src={product.featuredImage.url} alt={product.name} />

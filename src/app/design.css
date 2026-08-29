@@ -1698,6 +1698,33 @@ img { display: block; max-width: 100%; }
   background: var(--line-soft);
   overflow: hidden;
 }
+.pdp-gallery-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(247, 243, 237, 0.55);
+  border-radius: 50%;
+  background: rgba(36, 24, 17, 0.46);
+  color: #FAF7F2;
+  backdrop-filter: blur(8px);
+  transform: translateY(-50%);
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+.pdp-gallery-arrow:hover,
+.pdp-gallery-arrow:focus-visible {
+  background: rgba(36, 24, 17, 0.82);
+  border-color: rgba(247, 243, 237, 0.9);
+  transform: translateY(-50%) scale(1.05);
+}
+.pdp-gallery-arrow:focus-visible { outline: 2px solid #FAF7F2; outline-offset: 3px; }
+.pdp-gallery-arrow .icon { width: 19px; height: 19px; }
+.pdp-gallery-arrow--previous { left: 16px; }
+.pdp-gallery-arrow--next { right: 16px; }
 .pdp-gallery-tag {
   position: absolute;
   top: 16px;
@@ -1880,6 +1907,17 @@ img { display: block; max-width: 100%; }
 }
 .pdp-accordion-body ul { padding-left: 18px; margin-top: 8px; }
 .pdp-accordion-body li { margin-bottom: 4px; }
+.pdp-accordion-head .icon { width: 18px; height: 18px; }
+.pdp-description-copy p {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 2;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+}
+.pdp-description-copy p:last-child { margin-bottom: 4px; }
 
 .pdp-meta {
   display: flex;
@@ -4142,6 +4180,20 @@ img { display: block; max-width: 100%; }
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.reel-bottom-chrome {
+  transition: opacity 240ms ease, transform 240ms ease;
+}
+.reel-dialog[data-chrome-visible="false"] .reel-bottom-chrome {
+  opacity: 0;
+  pointer-events: none;
+}
+.reel-dialog[data-chrome-visible="false"] .reel-controls-bar {
+  transform: translateY(8px);
+}
+.reel-dialog[data-chrome-visible="false"] .reel-cta-card {
+  transform: translateY(14px);
+}
+
 .reel-cta-thumb {
   width: 48px;
   height: 48px;
@@ -4219,6 +4271,12 @@ img { display: block; max-width: 100%; }
 
 /* RESPONSIVE LAYOUTS */
 @media (max-width: 768px) {
+  .pdp-gallery-arrow {
+    width: 40px;
+    height: 40px;
+  }
+  .pdp-gallery-arrow--previous { left: 10px; }
+  .pdp-gallery-arrow--next { right: 10px; }
   .floating-video-bubble {
     bottom: 94px; /* Higher to avoid collisions with footer navigation / mobile bars */
     left: 16px;
