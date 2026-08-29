@@ -697,7 +697,7 @@ img { display: block; max-width: 100%; }
   gap: clamp(16px, 3vw, 36px) clamp(10px, 2vw, 20px);
 }
 .pcard {
-  background: #F0EAE0;
+  background: transparent;
   cursor: pointer;
   position: relative;
   transition: transform 0.3s ease;
@@ -763,6 +763,7 @@ img { display: block; max-width: 100%; }
 .pcard-quickadd .btn:hover { background: var(--bg); border-color: var(--bark); color: var(--bark); }
 .pcard-info {
   padding: clamp(12px, 3vw, 24px);
+  background: #F7F4EE;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -808,8 +809,9 @@ img { display: block; max-width: 100%; }
 .pcard-price-sale { color: var(--sale); }
 .pcard-swatches {
   display: flex;
-  gap: 6px;
-  margin-top: 8px;
+  gap: 4px;
+  margin-top: 0;
+  margin-bottom: 6px;
   justify-content: flex-start;
 }
 .swatch {

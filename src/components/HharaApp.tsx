@@ -1183,6 +1183,11 @@ function ProductCard({ product, onClick }: { product: any; onClick: any }) {
         </div>
       </div>
       <div className="pcard-info">
+        <div className="pcard-swatches">
+          {product.swatches.slice(0, 4).map((s, i) => (
+            <span key={i} className="swatch" style={{ background: s.hex }} title={s.name}></span>
+          ))}
+        </div>
         <div className="pcard-name">{product.name}</div>
         {product.tagline && <div className="pcard-tagline">{product.tagline}</div>}
         <div className="pcard-prices">
@@ -1190,11 +1195,6 @@ function ProductCard({ product, onClick }: { product: any; onClick: any }) {
           <span className={`pcard-price ${product.priceWas ? "pcard-price-sale" : ""}`}>
             AED {product.price.toLocaleString()}
           </span>
-        </div>
-        <div className="pcard-swatches">
-          {product.swatches.slice(0, 4).map((s, i) => (
-            <span key={i} className="swatch" style={{ background: s.hex }} title={s.name}></span>
-          ))}
         </div>
       </div>
     </div>
