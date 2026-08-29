@@ -167,3 +167,70 @@ export async function attachCustomerToCart(cartId: string): Promise<void> {
   if (!token) return;
   try { await customerAssociateCart(cartId, token); } catch {}
 }
+
+export async function lookupOrder(orderName: string, email: string): Promise<{
+  ok: boolean;
+  order?: {
+    name: string;
+    financialStatus: string;
+    fulfillmentStatus: string;
+    createdAt: string;
+    tracking: { number: string; url: string } | null;
+    items: { name: string; quantity: number }[];
+    total: string;
+    currency: string;
+  };
+  error?: string;
+}> {
+  const normalized = orderName.trim().replace(/^#/, "");
+  const queryStr = `name:#${normalized} email:${email.trim().toLowerCase()}`;
+  try {
+    const data = await shopifyAdminFetch<{
+      orders: {
+        nodes: Array<{
+          name: string;
+          displayFulfillmentStatus: string;
+          displayFinancialStatus: string;
+          createdAt: string;
+          fulfillments: Array<{ trackingInfo: Array<{ number: string; url: string }> }>;
+          lineItems: { nodes: Array<{ name: string; quantity: number }> };
+          totalPriceSet: { shopMoney: { amount: string; currencyCode: string } };
+        }>;
+      };
+    }>(
+      `query LookupOrder($query: String!) {
+        orders(first: 1, query: $query) {
+          nodes {
+            name
+            displayFulfillmentStatus
+            displayFinancialStatus
+            createdAt
+            fulfillments { trackingInfo { number url } }
+            lineItems(first: 5) { nodes { name quantity } }
+            totalPriceSet { shopMoney { amount currencyCode } }
+          }
+        }
+      }`,
+      { query: queryStr }
+    );
+    const order = data.orders.nodes[0];
+    if (!order) return { ok: false, error: "No order found. Please check your order number and email address." };
+    const trackingInfo = order.fulfillments[0]?.trackingInfo[0] ?? null;
+    return {
+      ok: true,
+      order: {
+        name: order.name,
+        financialStatus: order.displayFinancialStatus,
+        fulfillmentStatus: order.displayFulfillmentStatus,
+        createdAt: order.createdAt,
+        tracking: trackingInfo ? { number: trackingInfo.number, url: trackingInfo.url } : null,
+        items: order.lineItems.nodes.map((i) => ({ name: i.name, quantity: i.quantity })),
+        total: order.totalPriceSet.shopMoney.amount,
+        currency: order.totalPriceSet.shopMoney.currencyCode,
+      },
+    };
+  } catch (e) {
+    console.error("lookupOrder failed", e);
+    return { ok: false, error: "Something went wrong. Please try again." };
+  }
+}
