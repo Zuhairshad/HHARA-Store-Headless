@@ -2,6 +2,7 @@
 // @ts-nocheck
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, react/no-unescaped-entities */
 import React, { useState, useEffect, useRef, useContext, createContext } from "react";
+import Image from "next/image";
 import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount } from "@/lib/cart-actions";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
@@ -1218,10 +1219,10 @@ function ProductCard({ product, onClick, colorOverride }: { product: any; onClic
           <div className={`pcard-badge ${product.badge === "New" ? "new" : ""}`}>{product.badge}</div>
         )}
         <div className={`${product.tone}`} style={{ position: "absolute", inset: 0 }}>
-          {imgA && <img src={imgA} alt={product.name} className="img-fill" loading="lazy" />}
+          {imgA && <Image src={imgA} alt={product.name} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" />}
         </div>
         <div className={`alt ${product.altTone || product.tone}`} style={{ position: "absolute", inset: 0 }}>
-          {imgB && <img src={imgB} alt={product.name} className="img-fill" loading="lazy" />}
+          {imgB && <Image src={imgB} alt={product.name} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" />}
         </div>
       </div>
       <div className="pcard-info">
@@ -1250,10 +1251,13 @@ function Hero({ openShop }) {
   return (
     <section className="hero">
       <div className={`hero-media ${slide.tone}`}>
-        <img
+        <Image
           src="/images/Lucy walkingggggg.png"
           alt="Woman wearing the HHARA collection reading on a bench"
+          fill
           className="img-fill hero-image"
+          sizes="100vw"
+          priority
         />
       </div>
       <div className="hero-overlay"></div>
@@ -2435,7 +2439,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               return (
                 <>
                   <div className={`pdp-gallery-main ${product.tone}`}>
-                    {main?.src && <img src={main.src} alt={`${product.name} view ${activeShot + 1}`} className="img-fill" style={main.style} />}
+                    {main?.src && <Image src={main.src} alt={`${product.name} view ${activeShot + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority={activeShot === 0} style={main.style} />}
                     {showGalleryNavigation && (
                       <>
                         <button type="button" className="pdp-gallery-arrow pdp-gallery-arrow--previous" onClick={showPreviousShot} aria-label="View previous product image">
@@ -2456,7 +2460,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                         className={`pdp-gallery-thumb ${activeShot === i ? "on" : ""}`}
                         onClick={() => setActiveShot(i)}
                       >
-                        {s.src && <img src={s.src} alt={`${product.name} thumbnail ${i + 1}`} className="img-fill" style={s.style} />}
+                        {s.src && <Image src={s.src} alt={`${product.name} thumbnail ${i + 1}`} fill className="img-fill" sizes="120px" style={s.style} />}
                       </button>
                     ))}
                   </div>
