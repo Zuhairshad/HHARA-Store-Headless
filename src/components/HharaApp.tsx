@@ -1225,6 +1225,11 @@ function ProductCard({ product, onClick, colorOverride }: { product: any; onClic
         </div>
       </div>
       <div className="pcard-info">
+        <div className="pcard-swatches" aria-label="Available colours">
+          {product.swatches.slice(0, 4).map((s, i) => (
+            <span key={i} className="swatch" style={{ background: s.hex }} title={s.name}></span>
+          ))}
+        </div>
         <div className="pcard-name">{product.name}</div>
         {product.tagline && <div className="pcard-tagline">{product.tagline}</div>}
         <div className="pcard-prices">
