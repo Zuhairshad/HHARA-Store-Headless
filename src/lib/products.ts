@@ -60,6 +60,18 @@ const TALA_FALLBACK_IMAGES = [
   "https://cdn.shopify.com/s/files/1/0081/8711/7664/files/Dayflex_BandeauBra_Midnight_navy_DETAIL.jpg"
 ];
 
+const IMGKEY_BY_TITLE: Record<string, string> = {
+  "Imara Sculpt Scoop Neck Bra": "p1",
+  "Imara Bra": "p1",
+  "Imara Seamless Sculpt High Waist Legging": "p2",
+  "Imara Legging": "p2",
+  "Dahlia Cross Back Bra": "p3",
+  "Dahlia Bra": "p3",
+  "Dahlia Seamless Sculpt High Waist Shorts": "p4",
+  "Dahlia Short": "p4",
+  "Dahlia Shorts": "p4",
+};
+
 const V3_DESCRIPTIONS: Record<string, string> = {
   "Imara Sculpt Scoop Neck Bra": "The Imara Sculpt Scoop Neck Bra is thoughtfully designed to complement the body's natural shape with understated elegance. Sculpted paneling provides gentle support and a beautifully contoured fit, while the clean scoop neckline creates a refined, minimalist silhouette that transitions effortlessly from movement to everyday wear.\n\nA piece defined by quiet confidence, where comfort, structure, and timeless design exist in perfect balance.",
   "Imara Bra": "The Imara Sculpt Scoop Neck Bra is thoughtfully designed to complement the body's natural shape with understated elegance. Sculpted paneling provides gentle support and a beautifully contoured fit, while the clean scoop neckline creates a refined, minimalist silhouette that transitions effortlessly from movement to everyday wear.\n\nA piece defined by quiet confidence, where comfort, structure, and timeless design exist in perfect balance.",
@@ -123,7 +135,7 @@ function mapShopifyProduct(p: ShopifyProduct, index: number): LocalProduct {
     sizes,
     tone: TONE_CYCLE[index % TONE_CYCLE.length],
     altTone: ALT_TONE_CYCLE[index % ALT_TONE_CYCLE.length],
-    imgKey: null,
+    imgKey: IMGKEY_BY_TITLE[p.title] ?? null,
     featuredImage,
     images,
     variants: p.variants.map((v) => ({
