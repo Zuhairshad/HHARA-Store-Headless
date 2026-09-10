@@ -1198,8 +1198,12 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
 
 // === FILE 06-ce7b1d96-f64b-4723-b417-6dfb0feade07.jsx ===
 
-function ProductCard({ product, onClick }: { product: any; onClick: (colorName?: string) => void }) {
-  const [activeColor, setActiveColor] = useState<string>(product.swatches?.[0]?.name || "");
+function ProductCard({ product, onClick, colorOverride }: { product: any; onClick: (colorName?: string) => void; colorOverride?: string | null }) {
+  const [activeColor, setActiveColor] = useState<string>(colorOverride || product.swatches?.[0]?.name || "");
+
+  useEffect(() => {
+    if (colorOverride) setActiveColor(colorOverride);
+  }, [colorOverride]);
 
   const colorImgs = product.imgKey && PRODUCT_IMAGES[product.imgKey]
     ? getProductColorImages(product.imgKey, activeColor)
@@ -2068,7 +2072,7 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRout
             </div>
           ) : (
             visible.map((p) => (
-              <ProductCard key={p.id} product={p} onClick={(colorName) => openProduct(p.id, colorName)} />
+              <ProductCard key={p.id} product={p} onClick={(colorName) => openProduct(p.id, colorName)} colorOverride={filters.color.length === 1 ? filters.color[0] : null} />
             ))
           )}
         </div>
@@ -2451,7 +2455,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                     <div className="pdp-model-spec">Model is 5'9 wearing S</div>
                   </div>
                   <div className="pdp-gallery-thumbs">
-                    {shots.map((s, i) => (
+                    {shots.slice(0, 4).map((s, i) => (
                       <button
                         key={i}
                         type="button"
