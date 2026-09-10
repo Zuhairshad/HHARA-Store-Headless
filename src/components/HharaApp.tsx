@@ -174,6 +174,40 @@ const VIDEOS = {
   motion2: "/videos/about-us.mp4",
 };
 
+const PRODUCT_IMAGES: Record<string, { olive: string[]; brown: string[] }> = {
+  p1: {
+    olive: ["/images/products/p1_olive_1.jpg", "/images/products/p1_olive_2.jpg", "/images/products/p1_olive_3.jpg", "/images/products/p1_olive_4.jpg", "/images/products/p1_olive_5.jpg"],
+    brown: ["/images/products/p1_brown_1.jpg", "/images/products/p1_brown_2.jpg", "/images/products/p1_brown_3.jpg", "/images/products/p1_brown_4.jpg", "/images/products/p1_brown_5.jpg"],
+  },
+  p2: {
+    olive: ["/images/products/p2_olive_1.jpg", "/images/products/p2_olive_2.jpg", "/images/products/p2_olive_3.jpg", "/images/products/p2_olive_4.jpg", "/images/products/p2_olive_5.jpg"],
+    brown: ["/images/products/p2_brown_1.jpg", "/images/products/p2_brown_2.jpg", "/images/products/p2_brown_3.jpg", "/images/products/p2_brown_4.jpg", "/images/products/p2_brown_5.jpg"],
+  },
+  p3: {
+    olive: ["/images/products/p3_olive_1.jpg", "/images/products/p3_olive_2.jpg", "/images/products/p3_olive_3.jpg", "/images/products/p3_olive_4.jpg", "/images/products/p3_olive_5.jpg"],
+    brown: ["/images/products/p3_brown_1.jpg", "/images/products/p3_brown_2.jpg", "/images/products/p3_brown_3.jpg", "/images/products/p3_brown_4.jpg", "/images/products/p3_brown_5.jpg"],
+  },
+  p4: {
+    olive: ["/images/products/p4_olive_1.jpg", "/images/products/p4_olive_2.jpg", "/images/products/p4_olive_3.jpg", "/images/products/p4_olive_4.jpg", "/images/products/p4_olive_5.jpg"],
+    brown: ["/images/products/p4_brown_1.jpg", "/images/products/p4_brown_2.jpg", "/images/products/p4_brown_3.jpg", "/images/products/p4_brown_4.jpg"],
+  },
+};
+
+const PRODUCT_VIDEOS: Record<string, { olive: string | null; brown: string | null }> = {
+  p1: { olive: "/videos/imara-olive.mp4", brown: "/videos/imara-brown.mp4" },
+  p2: { olive: "/videos/imara-olive.mp4", brown: "/videos/imara-brown.mp4" },
+  p3: { olive: "/videos/dahlia-olive.mp4", brown: "/videos/dahlia-brown.mp4" },
+  p4: { olive: "/videos/dahlia-olive.mp4", brown: "/videos/dahlia-brown.mp4" },
+};
+
+function getProductColorImages(imgKey: string, colorName: string): string[] {
+  const data = PRODUCT_IMAGES[imgKey];
+  if (!data) return [];
+  if (colorName?.toLowerCase() === "olive") return data.olive;
+  if (colorName?.toLowerCase().includes("brown")) return data.brown;
+  return [...data.olive.slice(0, 3), ...data.brown.slice(0, 2)];
+}
+
 
 // If the standalone bundler has inlined resources, swap URLs for blob URLs.
 // (No-op in dev - window.__resources is undefined.)
@@ -1164,13 +1198,17 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
 
 // === FILE 06-ce7b1d96-f64b-4723-b417-6dfb0feade07.jsx ===
 
-function ProductCard({ product, onClick }: { product: any; onClick: any }) {
+function ProductCard({ product, onClick }: { product: any; onClick: (colorName?: string) => void }) {
+  const [activeColor, setActiveColor] = useState<string>(product.swatches?.[0]?.name || "");
 
-  const imgA = product.imgKey ? IMGS[product.imgKey + "a"] : (product.featuredImage?.url || product.images?.[0]?.url || null);
-  const imgB = product.imgKey ? IMGS[product.imgKey + "b"] : (product.images?.[1]?.url || product.featuredImage?.url || null);
+  const colorImgs = product.imgKey && PRODUCT_IMAGES[product.imgKey]
+    ? getProductColorImages(product.imgKey, activeColor)
+    : null;
+  const imgA = colorImgs ? colorImgs[0] : (product.featuredImage?.url || product.images?.[0]?.url || null);
+  const imgB = colorImgs ? colorImgs[1] : (product.images?.[1]?.url || product.featuredImage?.url || null);
 
   return (
-    <div className="pcard" onClick={onClick}>
+    <div className="pcard" onClick={() => onClick(activeColor)}>
       <div className="pcard-media">
         {product.badge && (
           <div className={`pcard-badge ${product.badge === "New" ? "new" : ""}`}>{product.badge}</div>
@@ -1185,7 +1223,13 @@ function ProductCard({ product, onClick }: { product: any; onClick: any }) {
       <div className="pcard-info">
         <div className="pcard-swatches" aria-label="Available colours">
           {product.swatches.slice(0, 4).map((s, i) => (
-            <span key={i} className="swatch" style={{ background: s.hex }} title={s.name}></span>
+            <span
+              key={i}
+              className={`swatch${activeColor === s.name ? " active" : ""}`}
+              style={{ background: s.hex }}
+              title={s.name}
+              onClick={(e) => { e.stopPropagation(); setActiveColor(s.name); }}
+            ></span>
           ))}
         </div>
         <div className="pcard-name">{product.name}</div>
@@ -1516,7 +1560,7 @@ function Newsletter() {
   );
 }
 
-function ManifestoColourways({ ids, openProduct }: { ids: string[]; openProduct: (id: string) => void }) {
+function ManifestoColourways({ ids, openProduct }: { ids: string[]; openProduct: (id: string, colorName?: string) => void }) {
   const PRODUCTS = useProducts();
   const list = ids.map((id) => PRODUCTS.find((p) => p.id === id)).filter(Boolean);
   return (
@@ -1533,7 +1577,7 @@ function ManifestoColourways({ ids, openProduct }: { ids: string[]; openProduct:
           <ProductCard
             key={p.id}
             product={p}
-            onClick={() => openProduct(p.id)}
+            onClick={(colorName) => openProduct(p.id, colorName)}
           />
         ))}
       </div>
@@ -2024,7 +2068,7 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRout
             </div>
           ) : (
             visible.map((p) => (
-              <ProductCard key={p.id} product={p} onClick={() => openProduct(p.id)} />
+              <ProductCard key={p.id} product={p} onClick={(colorName) => openProduct(p.id, colorName)} />
             ))
           )}
         </div>
@@ -2073,11 +2117,12 @@ function StarRow({ stars, percentage, count }: { stars: number, percentage: numb
   );
 }
 
-function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wishlist }) {
+function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wishlist, initialColor }: { productId: any; setRoute: any; addToCart: any; openProduct: any; onWishlistToggle: any; wishlist: any; initialColor?: string | null }) {
   const PRODUCTS = useProducts();
   const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS[0];
   const wishlisted = wishlist?.includes(product?.id);
-  const [color, setColor] = useState(product.swatches[0]);
+  const startSwatch = initialColor ? (product.swatches.find((s) => s.name === initialColor) || product.swatches[0]) : product.swatches[0];
+  const [color, setColor] = useState(startSwatch);
   const [size, setSize] = useState(null);
   const [open, setOpen] = useState("");
   const [added, setAdded] = useState(false);
@@ -2205,10 +2250,12 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
     if (!("touches" in e)) e.preventDefault();
   };
 
-  const videoUrl = product.floatingVideoUrl || "https://videos.pexels.com/video-files/5885664/5885664-sd_360_640_24fps.mp4";
+  const colorKey = color?.name?.toLowerCase().includes("brown") ? "brown" : "olive";
+  const videoUrl = PRODUCT_VIDEOS[product.imgKey]?.[colorKey] || product.floatingVideoUrl || "https://videos.pexels.com/video-files/5885664/5885664-sd_360_640_24fps.mp4";
 
   useEffect(() => {
-    setColor(product.swatches[0]);
+    const startColor = initialColor ? (product.swatches.find((s) => s.name === initialColor) || product.swatches[0]) : product.swatches[0];
+    setColor(startColor);
     setSize(null);
     setAdded(false);
     setReelOpen(false);
@@ -2225,6 +2272,8 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
       setRecentlyViewed(updated.filter((id) => id !== productId));
     } catch { }
   }, [productId]);
+
+  useEffect(() => { setActiveShot(0); }, [color?.name]);
 
   // Sync preview play state
   useEffect(() => {
@@ -2371,13 +2420,16 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
         <div className="pdp-main">
           <div className="pdp-gallery">
             {(() => {
+              const colorImages = product.imgKey && PRODUCT_IMAGES[product.imgKey]
+                ? getProductColorImages(product.imgKey, color?.name)
+                : null;
               const fallbackImages = product.imgKey
                 ? [IMGS[product.imgKey + "a"], IMGS[product.imgKey + "b"]]
                 : [product.featuredImage?.url];
-              const galleryImages = product.imgKey
-                ? fallbackImages
+              const rawImages = colorImages
+                ? colorImages
                 : (product.images?.length ? product.images.map((image) => image.url) : fallbackImages);
-              const shots = galleryImages.filter(Boolean).slice(0, 4).map((src) => ({ src, style: {} }));
+              const shots = rawImages.filter(Boolean).map((src) => ({ src, style: {} }));
               const main = shots[activeShot] || shots[0];
               const showGalleryNavigation = shots.length > 1;
               const showPreviousShot = () => setActiveShot((current) => (current - 1 + shots.length) % shots.length);
@@ -2726,7 +2778,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
           </div>
           <div className="pgrid">
             {completeTheLook.map((p) => (
-              <ProductCard key={p.id} product={p} onClick={() => openProduct(p.id)} />
+              <ProductCard key={p.id} product={p} onClick={(colorName) => openProduct(p.id, colorName)} />
             ))}
           </div>
         </section>
@@ -2742,7 +2794,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
           </div>
           <div className="pgrid">
             {youMayAlsoLike.map((p) => (
-              <ProductCard key={p.id} product={p} onClick={() => openProduct(p.id)} />
+              <ProductCard key={p.id} product={p} onClick={(colorName) => openProduct(p.id, colorName)} />
             ))}
           </div>
         </section>
@@ -3911,7 +3963,7 @@ function LookbookPage({ setRoute, openProduct }) {
         </div>
         <div className="pgrid">
           {PRODUCTS.slice(0, 4).map((p) => (
-            <ProductCard key={p.id} product={p} onClick={() => openProduct(p.id)} />
+            <ProductCard key={p.id} product={p} onClick={(colorName) => openProduct(p.id, colorName)} />
           ))}
         </div>
       </section>
@@ -4285,7 +4337,7 @@ function WishlistPage({ setRoute, openProduct, wishlist, onWishlistToggle }) {
         <div className="wish-grid">
           {items.map((p) => (
             <div key={p.id} style={{ position: "relative" }}>
-              <ProductCard product={p} onClick={() => openProduct(p.id)} />
+              <ProductCard product={p} onClick={(colorName) => openProduct(p.id, colorName)} />
               <button
                 className="wish-remove-btn"
                 onClick={() => onWishlistToggle?.(p.id)}
@@ -4962,7 +5014,7 @@ function SearchOverlay({ open, onClose, openProduct }) {
           </h5>
           <div className="search-results">
             {results.map((p) => (
-              <ProductCard key={p.id} product={p} onClick={() => { openProduct(p.id); onClose(); }} />
+              <ProductCard key={p.id} product={p} onClick={(colorName) => { openProduct(p.id, colorName); onClose(); }} />
             ))}
           </div>
         </div>
@@ -5004,6 +5056,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [wishlistLoaded, setWishlistLoaded] = useState(false);
   const [selectedColorFilter, setSelectedColorFilter] = useState<string | null>(null);
+  const [initialProductColor, setInitialProductColor] = useState<string | null>(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -5138,9 +5191,9 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
     setSignupPopupOpen(true);
   };
 
-  const setRoute = (r, payload) => {
+  const setRoute = (r, payload?, colorName?) => {
     setRouteState(r);
-    if (r === "product" && payload) setProductId(payload);
+    if (r === "product" && payload) { setProductId(payload); setInitialProductColor(colorName || null); }
     if (r === "article" && payload) setArticleId(payload);
     if (r === "shop") {
       setSelectedColorFilter(payload || null);
@@ -5355,14 +5408,14 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
   };
 
   const cartCount = cart.reduce((a: number, i: any) => a + i.qty, 0);
-  const openProduct = (id) => setRoute("product", id);
+  const openProduct = (id, colorName?: string) => setRoute("product", id, colorName);
   const openArticle = (id) => setRoute("article", id);
 
   let body;
   if (route === "shop") {
     body = <CollectionPage setRoute={setRouteState} openProduct={openProduct} initialColorFilter={selectedColorFilter} />;
   } else if (route === "product") {
-    body = <PDP productId={productId} setRoute={setRouteState} addToCart={addToCart} openProduct={openProduct} onWishlistToggle={toggleWishlist} wishlist={wishlist} />;
+    body = <PDP productId={productId} setRoute={setRouteState} addToCart={addToCart} openProduct={openProduct} onWishlistToggle={toggleWishlist} wishlist={wishlist} initialColor={initialProductColor} />;
   } else if (route === "atelier") {
     body = <AtelierPage setRoute={setRouteState} />;
   } else if (route === "journal") {

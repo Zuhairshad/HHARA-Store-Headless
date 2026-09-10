@@ -818,6 +818,11 @@ img { display: block; max-width: 100%; }
   width: 12px; height: 12px;
   border-radius: 50%;
   border: 1px solid var(--line);
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+.swatch.active {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px var(--ink);
 }
 
 /* ====== Editorial split ====== */
