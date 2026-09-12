@@ -133,7 +133,7 @@ const IMGS: Record<string, string> = {
   p8a: "/images/p8a.jpg",
   p8b: "/images/p8b.jpg",
   editAtelier: "/images/tala_cocoon_desktop.png",
-  atelierHero: "/images/about us banner .png",
+  atelierHero: "https://pjvogtsleqosgl0a.public.blob.vercel-storage.com/about-us-banner.png",
   atelierFlorence: "/images/Lucy on Chair With Book.png",
   atelierCloth: "/images/Lucy & Angie 2.png",
   atelierVideo: "/images/atelierVideo.jpg",
@@ -522,7 +522,7 @@ function MegaMenu({ open, onClose, setRoute }) {
         </div>
         <div className="feature" onClick={() => { setRoute("shop"); onClose(); }}>
           {shopImgs.map((src, i) => (
-            <img key={src} src={src} alt="" className="img-fill" style={{ opacity: imgIndex === i ? 1 : 0, transition: "opacity 0.6s ease" }} />
+            <Image key={src} src={src} alt="" fill className="img-fill" sizes="33vw" style={{ opacity: imgIndex === i ? 1 : 0, transition: "opacity 0.6s ease" }} />
           ))}
           <div className="ovr"></div>
           <div className="lbl">
@@ -1521,7 +1521,7 @@ function Lookbook({ openLookbook }) {
       <div className="lookbook">
         {tones.map((t, i) => (
           <div key={i} className={`lookbook-tile t${i + 1} ${t}`} onClick={openLookbook}>
-            {tiles[i] && <img src={tiles[i]} alt={tags[i]} className="img-fill" loading="lazy" style={i === 1 ? { objectPosition: "top center" } : i === 2 ? { objectPosition: "center center" } : i === 4 ? { objectPosition: "center 20%" } : undefined} />}
+            {tiles[i] && <Image src={tiles[i]} alt={tags[i]} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" loading="lazy" style={i === 1 ? { objectPosition: "top center" } : i === 2 ? { objectPosition: "center center" } : i === 4 ? { objectPosition: "center 20%" } : undefined} />}
             <div className="lk-tag">{tags[i]}</div>
           </div>
         ))}
@@ -3441,7 +3441,7 @@ function AtelierVideoSection() {
   }, []);
 
   return (
-    <section className="atelier-split flip">
+    <section className="atelier-split">
       <div className="body">
         <blockquote className="gives-back-quote-banner" style={{ color: "var(--ink)", marginBottom: 24 }}>
           "She moves before the world notices. She carries what others don't see. She is the woman who shows up, for everyone, and still finds a way to show up for herself. HHARA was made for her. From the very first stitch."
@@ -3469,10 +3469,7 @@ function AtelierPage({ setRoute }) {
   return (
     <>
       <section className="atelier-hero">
-        <picture>
-          <source media="(max-width: 768px)" srcSet="/images/Lucy Sleeping On Bench.png" />
-          <img src={IMGS.atelierHero} alt="HHARA About Us" className="img-fill" />
-        </picture>
+        <Image src={IMGS.atelierHero} alt="HHARA About Us" fill className="img-fill" sizes="100vw" priority />
         <div className="ovr"></div>
         <div className="copy">
           <h1>She is not just enough.<br /><em>She is extraordinary.</em></h1>
@@ -3495,7 +3492,7 @@ function AtelierPage({ setRoute }) {
 
       <section className="atelier-split">
         <div className="media">
-          <img src="/images/IMG_5226.jpeg" alt="" className="img-fill" loading="lazy" />
+          <Image src="/images/IMG_5226.jpeg" alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
         </div>
         <div className="body">
           <h2>We&rsquo;ve got your <span style={{ color: "var(--accent)" }}>back</span>,<br /><em>your <span style={{ color: "var(--accent)" }}>legs</span>, And your <span style={{ color: "var(--accent)" }}>day</span>.</em></h2>
@@ -3513,9 +3510,9 @@ function AtelierPage({ setRoute }) {
 
       <AtelierVideoSection />
 
-      <section className="atelier-split flip">
+      <section className="atelier-split">
         <div className="media">
-          <img src="/images/lucy-on-bench.png" alt="Woman in HHARA olive set reading on a bench" className="img-fill" loading="lazy" />
+          <Image src="/images/lucy-on-bench.png" alt="Woman in HHARA olive set reading on a bench" fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
         </div>
         <div className="body">
           <h2>She deserves <span style={{ color: "var(--accent)" }}>luxury</span>.<br /><em>And <span style={{ color: "var(--accent)" }}>a planet</span> worth protecting.</em></h2>
@@ -3777,7 +3774,7 @@ function JournalIndex({ setRoute, openArticle }) {
         {JOURNAL.map((j) => (
           <div className="journal-card" key={j.id} onClick={() => openArticle(j.id)}>
             <div className="img">
-              <img src={IMGS[j.img]} alt={j.title} className="img-fill" loading="lazy" />
+              <Image src={IMGS[j.img]} alt={j.title} fill className="img-fill" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
             </div>
             <div className="meta">
               <span>{j.cat}</span>
@@ -3800,7 +3797,7 @@ function ArticlePage({ articleId, setRoute, openArticle }) {
   return (
     <>
       <section className="article-hero">
-        <img src={IMGS.jHero} alt="" className="img-fill motion" />
+        <Image src={IMGS.jHero} alt="" fill className="img-fill motion" sizes="100vw" priority />
         <div className="ovr"></div>
         <div className="meta">
           <div className="tags">
@@ -3835,7 +3832,7 @@ function ArticlePage({ articleId, setRoute, openArticle }) {
 
         <figure>
           <div className="ph" style={{ background: "var(--line-soft)" }}>
-            <img src={IMGS.jFig1} alt="" className="img-fill" loading="lazy" />
+            <Image src={IMGS.jFig1} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 60vw" loading="lazy" />
           </div>
           <figcaption>Recycled performance knit, pre-cut</figcaption>
         </figure>
@@ -3861,7 +3858,7 @@ function ArticlePage({ articleId, setRoute, openArticle }) {
 
         <figure>
           <div className="ph" style={{ background: "var(--line-soft)" }}>
-            <img src={IMGS.jFig2} alt="" className="img-fill" loading="lazy" />
+            <Image src={IMGS.jFig2} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 60vw" loading="lazy" />
           </div>
           <figcaption>Brushed-gold hardware detail, second pass</figcaption>
         </figure>
@@ -3895,7 +3892,7 @@ function ArticlePage({ articleId, setRoute, openArticle }) {
           {JOURNAL.filter((j) => j.id !== a.id).slice(0, 3).map((j) => (
             <div className="journal-card" key={j.id} onClick={() => openArticle(j.id)}>
               <div className="img">
-                <img src={IMGS[j.img]} alt="" className="img-fill" loading="lazy" />
+                <Image src={IMGS[j.img]} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
               </div>
               <div className="meta">
                 <span>{j.cat}</span>
@@ -3927,7 +3924,7 @@ function LookbookPage({ setRoute, openProduct }) {
       <div className="lb-full">
         <div className="lb-row single">
           <div className="lb-tile hero">
-            <img src={IMGS.lb9} alt="" className="img-fill" loading="lazy" style={{ objectPosition: "75% center" }} />
+            <Image src={IMGS.lb9} alt="" fill className="img-fill" sizes="100vw" loading="lazy" style={{ objectPosition: "75% center" }} />
             <div className="ovr"></div>
             <div className="caption">
               <div>The Dahlia Set</div>
@@ -3941,7 +3938,7 @@ function LookbookPage({ setRoute, openProduct }) {
 
         <div className="lb-row cols-2">
           <div className="lb-tile">
-            <img src={IMGS.lb1} alt="" className="img-fill" loading="lazy" />
+            <Image src={IMGS.lb1} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
             <div className="ovr"></div>
             <div className="caption"><div className="ttl">Dahlia Set</div></div>
             <div className="hotspot" style={{ top: "62%", left: "50%" }} onClick={() => openProduct("p1")}>
@@ -3949,7 +3946,7 @@ function LookbookPage({ setRoute, openProduct }) {
             </div>
           </div>
           <div className="lb-tile">
-            <img src={IMGS.lb2} alt="" className="img-fill" loading="lazy" />
+            <Image src={IMGS.lb2} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
             <div className="ovr"></div>
             <div className="caption"><div className="ttl">Chicory Brown</div></div>
             <div className="hotspot" style={{ top: "48%", left: "55%" }} onClick={() => openProduct("p2")}>
@@ -3960,12 +3957,12 @@ function LookbookPage({ setRoute, openProduct }) {
 
         <div className="lb-row cols-3">
           <div className="lb-tile">
-            <img src={IMGS.lb3} alt="" className="img-fill" loading="lazy" />
+            <Image src={IMGS.lb3} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
             <div className="ovr"></div>
             <div className="caption"><div className="ttl">Olive</div></div>
           </div>
           <div className="lb-tile">
-            <img src={IMGS.lb4} alt="" className="img-fill" loading="lazy" />
+            <Image src={IMGS.lb4} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
             <div className="ovr"></div>
             <div className="caption"><div className="ttl">Imara Leggings</div></div>
             <div className="hotspot" style={{ top: "70%", left: "40%" }} onClick={() => openProduct("p3")}>
@@ -3973,7 +3970,7 @@ function LookbookPage({ setRoute, openProduct }) {
             </div>
           </div>
           <div className="lb-tile">
-            <img src={IMGS.lb5} alt="" className="img-fill" loading="lazy" />
+            <Image src={IMGS.lb5} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
             <div className="ovr"></div>
             <div className="caption"><div className="ttl">Imara Set</div></div>
           </div>
@@ -3981,7 +3978,7 @@ function LookbookPage({ setRoute, openProduct }) {
 
         <div className="lb-row cols-2-flip">
           <div className="lb-tile">
-            <img src={IMGS.lb6} alt="" className="img-fill" loading="lazy" />
+            <Image src={IMGS.lb6} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
             <div className="ovr"></div>
             <div className="caption"><div className="ttl">Imara Leggings</div></div>
             <div className="hotspot" style={{ top: "50%", left: "45%" }} onClick={() => openProduct("p4")}>
@@ -3989,7 +3986,7 @@ function LookbookPage({ setRoute, openProduct }) {
             </div>
           </div>
           <div className="lb-tile">
-            <img src={IMGS.lb7} alt="" className="img-fill" loading="lazy" />
+            <Image src={IMGS.lb7} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
             <div className="ovr"></div>
             <div className="caption">
               <div>The Dahlia Set</div>
@@ -4003,7 +4000,7 @@ function LookbookPage({ setRoute, openProduct }) {
 
         <div className="lb-row single">
           <div className="lb-tile wide">
-            <img src={IMGS.lb8} alt="" className="img-fill" loading="lazy" style={{ objectPosition: "center 30%" }} />
+            <Image src={IMGS.lb8} alt="" fill className="img-fill" sizes="100vw" loading="lazy" style={{ objectPosition: "center 30%" }} />
             <div className="ovr"></div>
             <div className="caption">
               <div className="ttl">Considered luxury, around the world.</div>
