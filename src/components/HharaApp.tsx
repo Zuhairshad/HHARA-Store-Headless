@@ -176,22 +176,23 @@ const VIDEOS = {
   motion2: "/videos/about-us.mp4",
 };
 
+const B = "https://pjvogtsleqosgl0a.public.blob.vercel-storage.com/products";
 const PRODUCT_IMAGES: Record<string, { olive: string[]; brown: string[] }> = {
   p1: {
-    olive: ["/images/products/p1_olive_4.jpg", "/images/products/p1_olive_2.jpg", "/images/products/p1_olive_1.jpg", "/images/products/p1_olive_3.jpg", "/images/products/p1_olive_5.jpg"],
-    brown: ["/images/products/p1_brown_4.jpg", "/images/products/p1_brown_2.jpg", "/images/products/p1_brown_1.jpg", "/images/products/p1_brown_3.jpg", "/images/products/p1_brown_5.jpg"],
+    olive: [`${B}/p1_olive_4.jpg`, `${B}/p1_olive_2.jpg`, `${B}/p1_olive_1.jpg`, `${B}/p1_olive_3.jpg`, `${B}/p1_olive_5.jpg`],
+    brown: [`${B}/p1_brown_4.jpg`, `${B}/p1_brown_2.jpg`, `${B}/p1_brown_1.jpg`, `${B}/p1_brown_3.jpg`, `${B}/p1_brown_5.jpg`],
   },
   p2: {
-    olive: ["/images/products/p2_olive_1.jpg", "/images/products/p2_olive_2.jpg", "/images/products/p2_olive_3.jpg", "/images/products/p2_olive_4.jpg", "/images/products/p2_olive_5.jpg"],
-    brown: ["/images/products/p2_brown_1.jpg", "/images/products/p2_brown_2.jpg", "/images/products/p2_brown_3.jpg", "/images/products/p2_brown_4.jpg", "/images/products/p2_brown_5.jpg"],
+    olive: [`${B}/p2_olive_1.jpg`, `${B}/p2_olive_2.jpg`, `${B}/p2_olive_3.jpg`, `${B}/p2_olive_4.jpg`, `${B}/p2_olive_5.jpg`],
+    brown: [`${B}/p2_brown_1.jpg`, `${B}/p2_brown_2.jpg`, `${B}/p2_brown_3.jpg`, `${B}/p2_brown_4.jpg`, `${B}/p2_brown_5.jpg`],
   },
   p3: {
-    olive: ["/images/products/p3_olive_1.jpg", "/images/products/p3_olive_4.jpg", "/images/products/p3_olive_2.jpg", "/images/products/p3_olive_3.jpg", "/images/products/p3_olive_5.jpg"],
-    brown: ["/images/products/p3_brown_4.jpg", "/images/products/p3_brown_2.jpg", "/images/products/p3_brown_1.jpg", "/images/products/p3_brown_3.jpg", "/images/products/p3_brown_5.jpg"],
+    olive: [`${B}/p3_olive_1.jpg`, `${B}/p3_olive_4.jpg`, `${B}/p3_olive_2.jpg`, `${B}/p3_olive_3.jpg`, `${B}/p3_olive_5.jpg`],
+    brown: [`${B}/p3_brown_4.jpg`, `${B}/p3_brown_2.jpg`, `${B}/p3_brown_1.jpg`, `${B}/p3_brown_3.jpg`, `${B}/p3_brown_5.jpg`],
   },
   p4: {
-    olive: ["/images/products/p4_olive_4.jpg", "/images/products/p4_olive_1.jpg", "/images/dshorts-olive-hover.jpg", "/images/products/p4_olive_2.jpg", "/images/products/p4_olive_3.jpg", "/images/products/p4_olive_5.jpg"],
-    brown: ["/images/dshorts-brown-hover.jpg", "/images/products/p4_brown_2.jpg", "/images/products/p4_brown_1.jpg", "/images/products/p4_brown_3.jpg"],
+    olive: [`${B}/p4_olive_4.jpg`, `${B}/p4_olive_1.jpg`, "/images/dshorts-olive-hover.jpg", `${B}/p4_olive_2.jpg`, `${B}/p4_olive_3.jpg`, `${B}/p4_olive_5.jpg`],
+    brown: ["/images/dshorts-brown-hover.jpg", `${B}/p4_brown_2.jpg`, `${B}/p4_brown_1.jpg`, `${B}/p4_brown_3.jpg`],
   },
 };
 
@@ -3450,7 +3451,7 @@ function AtelierVideoSection() {
       <div className="media" style={{ aspectRatio: "9 / 16", height: "100vh" }}>
         <video
           ref={videoRef}
-          src={inView ? "/images/about-us-video.mp4" : undefined}
+          src={inView ? "https://pjvogtsleqosgl0a.public.blob.vercel-storage.com/about-us-video.mp4" : undefined}
           autoPlay
           muted
           playsInline

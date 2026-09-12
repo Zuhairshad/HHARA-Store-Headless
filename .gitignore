@@ -9,3 +9,5 @@ scripts/
 *.tsbuildinfo
 *_screenshot.js
 public/images/about-us-video.mp4
+public/images/products/
+.env*
