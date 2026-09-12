@@ -137,15 +137,15 @@ const IMGS: Record<string, string> = {
   atelierFlorence: "/images/Lucy on Chair With Book.png",
   atelierCloth: "/images/Lucy & Angie 2.png",
   atelierVideo: "/images/atelierVideo.jpg",
-  lb1: "/images/Lucy 1.png",
+  lb1: "/images/wonder-worn-card2.jpeg",
   lb2: "/images/Lucy with suitcase.png",
   lb3: "/images/Angie.png",
-  lb4: "/images/Remove the fold on the waist and enhance the image.png",
-  lb5: "/images/Lucy with suitcase.png",
-  lb6: "/images/Lucy 1.png",
-  lb7: "/images/Angie.png",
-  lb8: "/images/Remove the fold on the waist and enhance the image.png",
-  lb9: "/images/lookbook main image .png",
+  lb4: "/images/wonder-worn-fourth-card.jpeg",
+  lb5: "/images/Lucy Walking.png",
+  lb6: "/images/wonder-worn-second-card.jpeg",
+  lb7: "/images/IMG_5275.jpeg",
+  lb8: "/images/Lucy-Angie-2.png",
+  lb9: "/images/lookbook-hero.png",
   j1: "/images/j1.jpg",
   j2: "/images/j2.jpg",
   j3: "/images/j3.jpg",
@@ -162,7 +162,8 @@ const IMGS: Record<string, string> = {
   sLondon: "/images/sLondon.jpg",
   sDubai: "/images/sDubai.jpg",
   authMedia: "/images/authMedia.jpg",
-  mmShop: "/images/mmShop.jpg",
+  mmShop1: "/images/shop-hover-1.jpeg",
+  mmShop2: "/images/shop-hover-2.jpeg",
   mmAtelier: "/images/mmAtelier.jpg"
 };
 
@@ -177,20 +178,20 @@ const VIDEOS = {
 
 const PRODUCT_IMAGES: Record<string, { olive: string[]; brown: string[] }> = {
   p1: {
-    olive: ["/images/products/p1_olive_1.jpg", "/images/products/p1_olive_2.jpg", "/images/products/p1_olive_3.jpg", "/images/products/p1_olive_4.jpg", "/images/products/p1_olive_5.jpg"],
-    brown: ["/images/products/p1_brown_1.jpg", "/images/products/p1_brown_2.jpg", "/images/products/p1_brown_3.jpg", "/images/products/p1_brown_4.jpg", "/images/products/p1_brown_5.jpg"],
+    olive: ["/images/products/p1_olive_4.jpg", "/images/products/p1_olive_2.jpg", "/images/products/p1_olive_1.jpg", "/images/products/p1_olive_3.jpg", "/images/products/p1_olive_5.jpg"],
+    brown: ["/images/products/p1_brown_4.jpg", "/images/products/p1_brown_2.jpg", "/images/products/p1_brown_1.jpg", "/images/products/p1_brown_3.jpg", "/images/products/p1_brown_5.jpg"],
   },
   p2: {
     olive: ["/images/products/p2_olive_1.jpg", "/images/products/p2_olive_2.jpg", "/images/products/p2_olive_3.jpg", "/images/products/p2_olive_4.jpg", "/images/products/p2_olive_5.jpg"],
     brown: ["/images/products/p2_brown_1.jpg", "/images/products/p2_brown_2.jpg", "/images/products/p2_brown_3.jpg", "/images/products/p2_brown_4.jpg", "/images/products/p2_brown_5.jpg"],
   },
   p3: {
-    olive: ["/images/products/p3_olive_1.jpg", "/images/products/p3_olive_2.jpg", "/images/products/p3_olive_3.jpg", "/images/products/p3_olive_4.jpg", "/images/products/p3_olive_5.jpg"],
-    brown: ["/images/products/p3_brown_1.jpg", "/images/products/p3_brown_2.jpg", "/images/products/p3_brown_3.jpg", "/images/products/p3_brown_4.jpg", "/images/products/p3_brown_5.jpg"],
+    olive: ["/images/products/p3_olive_1.jpg", "/images/products/p3_olive_4.jpg", "/images/products/p3_olive_2.jpg", "/images/products/p3_olive_3.jpg", "/images/products/p3_olive_5.jpg"],
+    brown: ["/images/products/p3_brown_4.jpg", "/images/products/p3_brown_2.jpg", "/images/products/p3_brown_1.jpg", "/images/products/p3_brown_3.jpg", "/images/products/p3_brown_5.jpg"],
   },
   p4: {
-    olive: ["/images/products/p4_olive_1.jpg", "/images/products/p4_olive_2.jpg", "/images/products/p4_olive_3.jpg", "/images/products/p4_olive_4.jpg", "/images/products/p4_olive_5.jpg"],
-    brown: ["/images/products/p4_brown_1.jpg", "/images/products/p4_brown_2.jpg", "/images/products/p4_brown_3.jpg", "/images/products/p4_brown_4.jpg"],
+    olive: ["/images/products/p4_olive_4.jpg", "/images/products/p4_olive_1.jpg", "/images/dshorts-olive-hover.jpg", "/images/products/p4_olive_2.jpg", "/images/products/p4_olive_3.jpg", "/images/products/p4_olive_5.jpg"],
+    brown: ["/images/dshorts-brown-hover.jpg", "/images/products/p4_brown_2.jpg", "/images/products/p4_brown_1.jpg", "/images/products/p4_brown_3.jpg"],
   },
 };
 
@@ -411,7 +412,7 @@ const PRODUCT_TAGLINES = {
 };
 
 // Featured / homepage subsets
-const FEATURED_IDS = ["p1", "p2", "p3", "p4"];
+const FEATURED_IDS = ["p2", "p1", "p4", "p3"];
 const NEW_IDS = ["p1", "p2", "p3", "p4"];
 
 const CATEGORIES = [
@@ -471,50 +472,62 @@ function Announce() {
 }
 
 function MegaMenu({ open, onClose, setRoute }) {
+  const [imgIndex, setImgIndex] = useState(0);
+  const shopImgs = [IMGS.mmShop1, IMGS.mmShop2];
+
+  useEffect(() => {
+    if (!open) return;
+    setImgIndex(0);
+    const id = setInterval(() => setImgIndex(i => (i + 1) % 2), 2000);
+    return () => clearInterval(id);
+  }, [open]);
 
   if (!open) return null;
   return (
     <div className={`megamenu ${open ? "open" : ""}`} onMouseLeave={onClose}>
-      <div>
-        <h6>The Collection</h6>
-        <ul>
-          <li><a onClick={() => { setRoute("shop"); onClose(); }}>Shop All</a></li>
-          <li><a onClick={() => { setRoute("shop"); onClose(); }}>The Imara Set</a></li>
-          <li><a onClick={() => { setRoute("shop"); onClose(); }}>The Dahlia Set</a></li>
-          <li><a onClick={() => { setRoute("lookbook"); onClose(); }}>The Lookbook</a></li>
-        </ul>
-      </div>
-      <div className="cols">
+      <div className="megamenu-inner">
         <div>
-          <h6>The Imara Set</h6>
+          <h6>The Collection</h6>
           <ul>
-            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Imara Bra</a></li>
-            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Imara Legging</a></li>
-            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Shop The Set</a></li>
+            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Shop All</a></li>
+            <li><a onClick={() => { setRoute("shop"); onClose(); }}>The Imara Set</a></li>
+            <li><a onClick={() => { setRoute("shop"); onClose(); }}>The Dahlia Set</a></li>
+            <li><a onClick={() => { setRoute("lookbook"); onClose(); }}>The Lookbook</a></li>
           </ul>
         </div>
-        <div>
-          <h6>The Dahlia Set</h6>
-          <ul>
-            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Dahlia Bra</a></li>
-            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Dahlia Short</a></li>
-            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Shop The Set</a></li>
-          </ul>
+        <div className="cols">
+          <div>
+            <h6>The Imara Set</h6>
+            <ul>
+              <li><a onClick={() => { setRoute("shop"); onClose(); }}>Imara Bra</a></li>
+              <li><a onClick={() => { setRoute("shop"); onClose(); }}>Imara Legging</a></li>
+              <li><a onClick={() => { setRoute("shop"); onClose(); }}>Shop The Set</a></li>
+            </ul>
+          </div>
+          <div>
+            <h6>The Dahlia Set</h6>
+            <ul>
+              <li><a onClick={() => { setRoute("shop"); onClose(); }}>Dahlia Bra</a></li>
+              <li><a onClick={() => { setRoute("shop"); onClose(); }}>Dahlia Short</a></li>
+              <li><a onClick={() => { setRoute("shop"); onClose(); }}>Shop The Set</a></li>
+            </ul>
+          </div>
+          <div>
+            <h6>Accessories</h6>
+            <ul>
+              <li><a onClick={() => { setRoute("gift-card"); onClose(); }}>E-Gift Card</a></li>
+            </ul>
+          </div>
         </div>
-        <div>
-          <h6>Accessories</h6>
-          <ul>
-            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Accessories</a></li>
-            <li><a onClick={() => { setRoute("gift-card"); onClose(); }}>E-Gift Card</a></li>
-          </ul>
-        </div>
-      </div>
-      <div className="feature" onClick={() => { setRoute("shop"); onClose(); }}>
-        <img src={IMGS.mmShop} alt="" className="img-fill" />
-        <div className="ovr"></div>
-        <div className="lbl">
-          <div className="e">Now Showing</div>
-          <div className="t">The Imara &amp; Dahlia Sets</div>
+        <div className="feature" onClick={() => { setRoute("shop"); onClose(); }}>
+          {shopImgs.map((src, i) => (
+            <img key={src} src={src} alt="" className="img-fill" style={{ opacity: imgIndex === i ? 1 : 0, transition: "opacity 0.6s ease" }} />
+          ))}
+          <div className="ovr"></div>
+          <div className="lbl">
+            <div className="e">Now Showing</div>
+            <div className="t">The Imara &amp; Dahlia Sets</div>
+          </div>
         </div>
       </div>
     </div>
@@ -980,7 +993,6 @@ function Footer({ setRoute, route = "" }) {
                 <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Dahlia Set</a></li>
                 <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Imara Set</a></li>
                 <li><a onClick={() => setRoute("lookbook")} style={{ cursor: "pointer" }}>The Lookbook</a></li>
-                <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>Accessories</a></li>
               </ul>
             </div>
             <div className="footer-col">
@@ -1011,35 +1023,35 @@ function Footer({ setRoute, route = "" }) {
           <div className="footer-social-icons">
             <a href="https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" target="_blank" rel="noreferrer" aria-label="Instagram">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                <circle cx="12" cy="12" r="4"/>
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
               </svg>
             </a>
             <a href="https://www.tiktok.com/@thisishhara?_r=1&_t=ZS-98ZT7R2xNId" target="_blank" rel="noreferrer" aria-label="TikTok">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.29 6.29 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.27 8.27 0 004.83 1.54V6.78a4.85 4.85 0 01-1.06-.09z"/>
+                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.29 6.29 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.27 8.27 0 004.83 1.54V6.78a4.85 4.85 0 01-1.06-.09z" />
               </svg>
             </a>
             <a href="https://www.facebook.com/share/1HgbM6QsDv/?mibextid=wwXIfr" target="_blank" rel="noreferrer" aria-label="Facebook">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
               </svg>
             </a>
             <a href="https://x.com/thisishhara?s=11&t=AEjr7Nl3uAuFnFM1MDRlTw" target="_blank" rel="noreferrer" aria-label="Twitter / X">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
               </svg>
             </a>
             <a href="https://www.linkedin.com/company/thisishhara/" target="_blank" rel="noreferrer" aria-label="LinkedIn">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
-                <circle cx="4" cy="4" r="2"/>
+                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
+                <circle cx="4" cy="4" r="2" />
               </svg>
             </a>
             <a href="https://pin.it/5F59avDdF" target="_blank" rel="noreferrer" aria-label="Pinterest">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.236 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.181-.78 1.172-4.97 1.172-4.97s-.299-.598-.299-1.482c0-1.388.806-2.428 1.808-2.428.853 0 1.267.641 1.267 1.408 0 .858-.546 2.141-.828 3.33-.236.995.499 1.806 1.476 1.806 1.771 0 3.137-1.867 3.137-4.561 0-2.386-1.715-4.054-4.163-4.054-2.835 0-4.498 2.126-4.498 4.324 0 .856.33 1.774.741 2.276a.3.3 0 01.069.284c-.076.309-.242.995-.275 1.134-.044.183-.146.222-.337.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.967-.527-2.292-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.522 0 10-4.477 10-10S17.522 2 12 2z"/>
+                <path d="M12 2C6.477 2 2 6.477 2 12c0 4.236 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.181-.78 1.172-4.97 1.172-4.97s-.299-.598-.299-1.482c0-1.388.806-2.428 1.808-2.428.853 0 1.267.641 1.267 1.408 0 .858-.546 2.141-.828 3.33-.236.995.499 1.806 1.476 1.806 1.771 0 3.137-1.867 3.137-4.561 0-2.386-1.715-4.054-4.163-4.054-2.835 0-4.498 2.126-4.498 4.324 0 .856.33 1.774.741 2.276a.3.3 0 01.069.284c-.076.309-.242.995-.275 1.134-.044.183-.146.222-.337.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.967-.527-2.292-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.522 0 10-4.477 10-10S17.522 2 12 2z" />
               </svg>
             </a>
           </div>
@@ -1199,18 +1211,49 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
 
 // === FILE 06-ce7b1d96-f64b-4723-b417-6dfb0feade07.jsx ===
 
-function ProductCard({ product, onClick, colorOverride }: { product: any; onClick: (colorName?: string) => void; colorOverride?: string | null }) {
+const HOMEPAGE_IMARA_IMAGES = {
+  olive: ["/images/Homepage.jpeg", "/images/Homepage 3.jpeg"] as [string, string],
+  brown: ["/images/Homepage 1.jpeg", "/images/Homepage 4.jpeg"] as [string, string],
+};
+
+const HOMEPAGE_LEGGING_IMAGES = {
+  olive: ["/images/Legging-1.jpg", "/images/Legging-olive-hover.jpeg"] as [string, string],
+  brown: ["/images/Legging-2.jpg", "/images/Legging-4.jpg"] as [string, string],
+};
+
+const HOMEPAGE_DAHLIA_BRA_IMAGES = {
+  olive: ["/images/dbra-olive-default.jpg", "/images/dbra-olive-hover.jpg"] as [string, string],
+  brown: ["/images/dbra-brown-default.jpg", "/images/dbra-brown-hover.jpg"] as [string, string],
+};
+
+const HOMEPAGE_DAHLIA_SHORTS_IMAGES = {
+  olive: ["/images/dshorts-olive-default.jpg", "/images/dshorts-olive-hover.jpg"] as [string, string],
+  brown: ["/images/dshorts-brown-default.jpeg", "/images/dshorts-brown-hover.jpg"] as [string, string],
+  brownPos: "30% center",
+};
+
+const REEL_THUMB_IMAGES: Record<string, { olive: string; brown: string }> = {
+  p1: { olive: "/images/Homepage.jpeg", brown: "/images/Homepage 1.jpeg" },
+  p2: { olive: "/images/Legging-1.jpg", brown: "/images/Legging-2.jpg" },
+  p3: { olive: "/images/dbra-olive-default.jpg", brown: "/images/dbra-brown-default.jpg" },
+  p4: { olive: "/images/dshorts-olive-default.jpg", brown: "/images/dshorts-brown-default.jpeg" },
+};
+
+function ProductCard({ product, onClick, colorOverride, homepageImages }: { product: any; onClick: (colorName?: string) => void; colorOverride?: string | null; homepageImages?: { olive: [string, string]; brown: [string, string]; olivePos?: string; brownPos?: string } }) {
   const [activeColor, setActiveColor] = useState<string>(colorOverride || product.swatches?.[0]?.name || "");
 
   useEffect(() => {
     if (colorOverride) setActiveColor(colorOverride);
   }, [colorOverride]);
 
-  const colorImgs = product.imgKey && PRODUCT_IMAGES[product.imgKey]
-    ? getProductColorImages(product.imgKey, activeColor)
-    : null;
-  const imgA = colorImgs ? colorImgs[0] : (product.featuredImage?.url || product.images?.[0]?.url || null);
-  const imgB = colorImgs ? colorImgs[1] : (product.images?.[1]?.url || product.featuredImage?.url || null);
+  const isBrown = activeColor.toLowerCase().includes("brown");
+  const imgA = homepageImages
+    ? (isBrown ? homepageImages.brown[0] : homepageImages.olive[0])
+    : (() => { const colorImgs = product.imgKey && PRODUCT_IMAGES[product.imgKey] ? getProductColorImages(product.imgKey, activeColor) : null; return colorImgs ? colorImgs[0] : (product.featuredImage?.url || product.images?.[0]?.url || null); })();
+  const imgB = homepageImages
+    ? (isBrown ? homepageImages.brown[1] : homepageImages.olive[1])
+    : (() => { const colorImgs = product.imgKey && PRODUCT_IMAGES[product.imgKey] ? getProductColorImages(product.imgKey, activeColor) : null; return colorImgs ? colorImgs[1] : (product.images?.[1]?.url || product.featuredImage?.url || null); })();
+  const imgPos = homepageImages ? (isBrown ? homepageImages.brownPos : homepageImages.olivePos) : undefined;
 
   return (
     <div className="pcard" onClick={() => onClick(activeColor)}>
@@ -1219,16 +1262,23 @@ function ProductCard({ product, onClick, colorOverride }: { product: any; onClic
           <div className={`pcard-badge ${product.badge === "New" ? "new" : ""}`}>{product.badge}</div>
         )}
         <div className={`${product.tone}`} style={{ position: "absolute", inset: 0 }}>
-          {imgA && <Image src={imgA} alt={product.name} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" />}
+          {imgA && <Image src={imgA} alt={product.name} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" style={imgPos ? { objectPosition: imgPos } : undefined} />}
         </div>
         <div className={`alt ${product.altTone || product.tone}`} style={{ position: "absolute", inset: 0 }}>
-          {imgB && <Image src={imgB} alt={product.name} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" />}
+          {imgB && <Image src={imgB} alt={product.name} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" style={imgPos ? { objectPosition: imgPos } : undefined} />}
         </div>
       </div>
       <div className="pcard-info">
         <div className="pcard-swatches" aria-label="Available colours">
           {product.swatches.slice(0, 4).map((s, i) => (
-            <span key={i} className="swatch" style={{ background: s.hex }} title={s.name}></span>
+            <span
+              key={i}
+              className={`swatch${s.name === activeColor ? " active" : ""}`}
+              style={{ background: s.hex }}
+              title={s.name}
+              onMouseEnter={() => homepageImages && setActiveColor(s.name)}
+              onClick={(e) => { if (homepageImages) e.stopPropagation(); }}
+            ></span>
           ))}
         </div>
         <div className="pcard-name">{product.name}</div>
@@ -1252,11 +1302,12 @@ function Hero({ openShop }) {
     <section className="hero">
       <div className={`hero-media ${slide.tone}`}>
         <Image
-          src="/images/Lucy walkingggggg.png"
-          alt="Woman wearing the HHARA collection reading on a bench"
+          src="/images/hero-banner.png"
+          alt="Woman wearing the HHARA collection walking by a G-Wagon"
           fill
           className="img-fill hero-image"
           sizes="100vw"
+          quality={100}
           priority
         />
       </div>
@@ -1378,10 +1429,11 @@ function Editorial({ openShop }) {
       <div className="editorial" style={{ minHeight: "60vh" }}>
         <div className="editorial-media tone-5">
           <img
-            src="/images/Lucy On Bench.png"
-            alt="Woman resting on a bench in the HHARA collection"
+            src="/images/every-version.png"
+            alt="Woman in HHARA olive set with tote bag"
             className="img-fill"
             loading="lazy"
+            style={{ objectFit: "cover", objectPosition: "right top" }}
           />
         </div>
         <div className="editorial-body" style={{ gap: "20px", alignSelf: "center" }}>
@@ -1453,9 +1505,9 @@ function Marquee() {
 
 function Lookbook({ openLookbook }) {
 
-  const tiles = [IMGS.lb1, IMGS.lb2, IMGS.lb3, IMGS.lb4, IMGS.lb5, IMGS.lb6];
+  const tiles = [IMGS.lb5, IMGS.lb1, IMGS.lb2, IMGS.lb4, IMGS.lb3, IMGS.lb6];
   const tones = ["tone-3", "tone-1", "tone-5", "tone-7", "tone-2", "tone-6"];
-  const tags = ["Imara Bra", "Imara Legging", "Dahlia Bra", "Dahlia Short", "Chicory Brown", "Olive"];
+  const tags = ["Dahlia Bra", "Imara Leggings", "Imara Legging", "Dahlia Short", "Chicory Brown", "Olive"];
   return (
     <section className="section" style={{ paddingTop: "10px" }}>
       <div className="section-head">
@@ -1468,7 +1520,7 @@ function Lookbook({ openLookbook }) {
       <div className="lookbook">
         {tones.map((t, i) => (
           <div key={i} className={`lookbook-tile t${i + 1} ${t}`} onClick={openLookbook}>
-            {tiles[i] && <img src={tiles[i]} alt={tags[i]} className="img-fill" loading="lazy" />}
+            {tiles[i] && <img src={tiles[i]} alt={tags[i]} className="img-fill" loading="lazy" style={i === 2 ? { objectPosition: "top center", transform: "scale(1.2) translateY(-10%)" } : i === 4 ? { objectPosition: "center 20%" } : undefined} />}
             <div className="lk-tag">{tags[i]}</div>
           </div>
         ))}
@@ -1580,6 +1632,8 @@ function ManifestoColourways({ ids, openProduct }: { ids: string[]; openProduct:
             key={p.id}
             product={p}
             onClick={(colorName) => openProduct(p.id, colorName)}
+            homepageImages={p.id === "p1" ? HOMEPAGE_IMARA_IMAGES : p.id === "p2" ? HOMEPAGE_LEGGING_IMAGES : p.id === "p3" ? HOMEPAGE_DAHLIA_BRA_IMAGES : p.id === "p4" ? HOMEPAGE_DAHLIA_SHORTS_IMAGES : undefined}
+            colorOverride={p.id === "p2" || p.id === "p3" ? "Olive" : p.id === "p4" ? "Chicory Brown" : undefined}
           />
         ))}
       </div>
@@ -2291,12 +2345,11 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const openReel = () => {
     setReelOpen(true);
     setIsPlaying(true);
-    setIsMuted(false); // Unmute on click expand
     setProgress(0);
     setTimeout(() => {
       if (reelVideoRef.current) {
         reelVideoRef.current.currentTime = 0;
-        reelVideoRef.current.muted = false;
+        reelVideoRef.current.muted = true;
         reelVideoRef.current.play().catch(() => { });
       }
     }, 100);
@@ -2431,7 +2484,16 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               const rawImages = colorImages
                 ? colorImages
                 : (product.images?.length ? product.images.map((image) => image.url) : fallbackImages);
-              const shots = rawImages.filter(Boolean).map((src) => ({ src, style: {} }));
+              const isBrownColor = color?.name?.toLowerCase().includes("brown");
+              const homepageCardImg = REEL_THUMB_IMAGES[product.imgKey]
+                ? (isBrownColor ? REEL_THUMB_IMAGES[product.imgKey].brown : REEL_THUMB_IMAGES[product.imgKey].olive)
+                : null;
+              const orderedImages = rawImages.filter(Boolean);
+              if (orderedImages.length >= 2) [orderedImages[0], orderedImages[1]] = [orderedImages[1], orderedImages[0]];
+              const shots = [
+                ...orderedImages.map((src) => ({ src, style: {} })),
+                ...(homepageCardImg ? [{ src: homepageCardImg, style: {} }] : [])
+              ];
               const main = shots[activeShot] || shots[0];
               const showGalleryNavigation = shots.length > 1;
               const showPreviousShot = () => setActiveShot((current) => (current - 1 + shots.length) % shots.length);
@@ -2439,7 +2501,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               return (
                 <>
                   <div className={`pdp-gallery-main ${product.tone}`}>
-                    {main?.src && <Image src={main.src} alt={`${product.name} view ${activeShot + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority={activeShot === 0} style={main.style} />}
+                    {main?.src && <Image key={main.src} src={main.src} alt={`${product.name} view ${activeShot + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority={activeShot === 0} style={main.style} />}
                     {showGalleryNavigation && (
                       <>
                         <button type="button" className="pdp-gallery-arrow pdp-gallery-arrow--previous" onClick={showPreviousShot} aria-label="View previous product image">
@@ -2450,10 +2512,10 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                         </button>
                       </>
                     )}
-                    <div className="pdp-model-spec">Model is 5'9 wearing S</div>
+                    <div className="pdp-model-spec">Model is 5'7 wearing M</div>
                   </div>
                   <div className="pdp-gallery-thumbs">
-                    {shots.slice(0, 4).map((s, i) => (
+                    {shots.slice(0, 5).map((s, i) => (
                       <button
                         key={i}
                         type="button"
@@ -3217,6 +3279,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                 src={videoUrl}
                 loop
                 playsInline
+                muted
                 onTimeUpdate={handleTimeUpdate}
                 onClick={togglePlay}
                 autoPlay
@@ -3251,29 +3314,15 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   />
                 </div>
 
-                <button
-                  className="reel-control-btn"
-                  onClick={toggleMute}
-                  aria-label={isMuted ? "Unmute" : "Mute"}
-                >
-                  {isMuted ? (
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                      <path d="M3.63 3.63L2.22 5.05L7 9.83v4.34a1 1 0 0 0 .55.89l3.74 2.2a1 1 0 0 0 1 .05 1 1 0 0 0 .43-.76v-2.31l3.52 3.52a6.83 6.83 0 0 1-2.24.96v2.02a8.87 8.87 0 0 0 3.66-1.57l2.28 2.28 1.41-1.41L3.63 3.63zM10.72 14H9v-2.28l1.72 1.72V14zM12.72 4.3a1 1 0 0 0-1-.05l-3.23 1.9L9.9 7.57l1.82-1.07v1.89l2 2v-4.3a1 1 0 0 0-.43-.76c-.17-.12-.37-.18-.57-.18zM19 12a6.91 6.91 0 0 1-.74 3.09l1.46 1.46A8.88 8.88 0 0 0 21 12a9 9 0 0 0-6-8.47v2.02A7 7 0 0 1 19 12z" />
-                    </svg>
-                  ) : (
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                      <path d="M5 9v6h4l5 5V4L9 9H5zm11 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM13.5 3.12v2.06c2.89.86 5 3.54 5 6.82s-2.11 5.96-5 6.82v2.06c4-.9 7-4.52 7-8.88s-3-7.98-7-8.88z" />
-                    </svg>
-                  )}
-                </button>
               </div>
 
               {/* Conversion-boosting Floating CTA Card */}
               <div className="reel-cta-card reel-bottom-chrome">
                 <div className="reel-cta-thumb">
-                  {product.featuredImage?.url && (
-                    <img src={product.featuredImage.url} alt={product.name} />
-                  )}
+                  {(() => {
+                    const thumb = REEL_THUMB_IMAGES[product.imgKey]?.[colorKey] || product.featuredImage?.url;
+                    return thumb ? <img src={thumb} alt={product.name} /> : null;
+                  })()}
                 </div>
 
                 <div className="reel-cta-details">
@@ -3366,7 +3415,7 @@ function AtelierVideoSection() {
       ([entry]) => {
         if (entry.isIntersecting) {
           setInView(true);
-          el.play().catch(() => {});
+          el.play().catch(() => { });
         } else {
           el.pause();
         }
@@ -3377,20 +3426,38 @@ function AtelierVideoSection() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    const onLoaded = () => { el.currentTime = 5; };
+    const onTimeUpdate = () => { if (el.currentTime >= 9) el.currentTime = 5; };
+    el.addEventListener("loadedmetadata", onLoaded);
+    el.addEventListener("timeupdate", onTimeUpdate);
+    return () => {
+      el.removeEventListener("loadedmetadata", onLoaded);
+      el.removeEventListener("timeupdate", onTimeUpdate);
+    };
+  }, []);
+
   return (
-    <section className="atelier-video">
-      <video
-        ref={videoRef}
-        src={inView ? "/videos/about-us.mp4" : undefined}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        poster="/images/about-us-video-poster.jpg"
-        style={{ width: "100%", height: "100%", objectFit: "cover" }}
-      ></video>
-      <div className="vovr"></div>
+    <section className="atelier-split flip">
+      <div className="body">
+        <blockquote className="gives-back-quote-banner" style={{ color: "var(--ink)", marginBottom: 24 }}>
+          "She moves before the world notices. She carries what others don't see. She is the woman who shows up, for everyone, and still finds a way to show up for herself. HHARA was made for her. From the very first stitch."
+        </blockquote>
+        <div style={{ fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", color: "var(--accent)", textAlign: "center" }}>She is Wonder. She is HHARA.</div>
+      </div>
+      <div className="media" style={{ aspectRatio: "9 / 16", height: "100vh" }}>
+        <video
+          ref={videoRef}
+          src={inView ? "/images/about-us-video.mp4" : undefined}
+          autoPlay
+          muted
+          playsInline
+          preload="auto"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+        />
+      </div>
     </section>
   );
 }
@@ -3427,7 +3494,7 @@ function AtelierPage({ setRoute }) {
 
       <section className="atelier-split">
         <div className="media">
-          <img src={IMGS.atelierFlorence} alt="" className="img-fill" loading="lazy" />
+          <img src="/images/IMG_5226.jpeg" alt="" className="img-fill" loading="lazy" />
         </div>
         <div className="body">
           <h2>We&rsquo;ve got your <span style={{ color: "var(--accent)" }}>back</span>,<br /><em>your <span style={{ color: "var(--accent)" }}>legs</span>, And your <span style={{ color: "var(--accent)" }}>day</span>.</em></h2>
@@ -3447,7 +3514,7 @@ function AtelierPage({ setRoute }) {
 
       <section className="atelier-split flip">
         <div className="media">
-          <img src={IMGS.atelierCloth} alt="" className="img-fill" loading="lazy" />
+          <img src="/images/lucy-on-bench.png" alt="Woman in HHARA olive set reading on a bench" className="img-fill" loading="lazy" />
         </div>
         <div className="body">
           <h2>She deserves <span style={{ color: "var(--accent)" }}>luxury</span>.<br /><em>And <span style={{ color: "var(--accent)" }}>a planet</span> worth protecting.</em></h2>
@@ -3463,14 +3530,6 @@ function AtelierPage({ setRoute }) {
         </div>
       </section>
 
-      <section className="gives-back-section dark" style={{ padding: "clamp(60px, 8vh, 100px) var(--pad)", backgroundColor: "var(--bark)", textAlign: "center" }}>
-        <div className="gives-back-content-width" style={{ maxWidth: 800, margin: "0 auto" }}>
-          <blockquote className="gives-back-quote-banner" style={{ fontStyle: "italic", fontSize: 32, lineHeight: 2.2, marginBottom: 16, color: "#FAF7F2", fontFamily: "var(--display)", fontWeight: 300 }}>
-            "She moves before the world notices. She carries what others don't see. She is the woman who shows up, for everyone, and still finds a way to show up for herself. HHARA was made for her. From the very first stitch."
-          </blockquote>
-          <div style={{ marginTop: 24, fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", color: "var(--accent)" }}>She is Wonder. She is HHARA.</div>
-        </div>
-      </section>
     </>
   );
 }
@@ -3520,11 +3579,8 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
         {/* Left Column: Image/Placeholder */}
         <div className="gc-gallery">
           <div className="gc-placeholder">
-            <div className="gc-placeholder-star">✦</div>
-            <div className="gc-placeholder-title">Image Placeholder</div>
-            <div className="gc-placeholder-desc">
-              Lifestyle or product photo - e.g. model holding the card, or styled flat-lay with the Dahlia / Imara Set
-            </div>
+            <img src="/images/monkey-peeking.png" alt="HHARA" style={{ width: 200, height: 200, objectFit: "contain", marginBottom: 24, opacity: 0.9 }} />
+            <div style={{ fontFamily: "var(--sans)", fontWeight: 600, fontSize: 15, letterSpacing: "0.3em", textTransform: "uppercase", color: "var(--bg)" }}>EGift Card</div>
           </div>
           {/* Intro text removed per request */}
         </div>
@@ -3870,10 +3926,10 @@ function LookbookPage({ setRoute, openProduct }) {
       <div className="lb-full">
         <div className="lb-row single">
           <div className="lb-tile hero">
-            <img src={IMGS.lb9} alt="" className="img-fill" loading="lazy" />
+            <img src={IMGS.lb9} alt="" className="img-fill" loading="lazy" style={{ objectPosition: "75% center" }} />
             <div className="ovr"></div>
             <div className="caption">
-              <div>The Imara Set</div>
+              <div>The Dahlia Set</div>
               <div className="ttl">Strength, In Form</div>
             </div>
             <div className="hotspot" style={{ top: "55%", left: "38%" }} onClick={() => openProduct("p1")}>
@@ -3886,7 +3942,7 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb1} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">Imara Bra</div></div>
+            <div className="caption"><div className="ttl">Dahlia Set</div></div>
             <div className="hotspot" style={{ top: "62%", left: "50%" }} onClick={() => openProduct("p1")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
@@ -3894,7 +3950,7 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb2} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">Imara Legging</div></div>
+            <div className="caption"><div className="ttl">Chicory Brown</div></div>
             <div className="hotspot" style={{ top: "48%", left: "55%" }} onClick={() => openProduct("p2")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
@@ -3905,12 +3961,12 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb3} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">Chicory Brown</div></div>
+            <div className="caption"><div className="ttl">Olive</div></div>
           </div>
           <div className="lb-tile">
             <img src={IMGS.lb4} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">Dahlia Bra</div></div>
+            <div className="caption"><div className="ttl">Imara Leggings</div></div>
             <div className="hotspot" style={{ top: "70%", left: "40%" }} onClick={() => openProduct("p3")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
@@ -3918,7 +3974,7 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb5} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">Olive</div></div>
+            <div className="caption"><div className="ttl">Imara Set</div></div>
           </div>
         </div>
 
@@ -3926,7 +3982,7 @@ function LookbookPage({ setRoute, openProduct }) {
           <div className="lb-tile">
             <img src={IMGS.lb6} alt="" className="img-fill" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">Dahlia Short</div></div>
+            <div className="caption"><div className="ttl">Imara Leggings</div></div>
             <div className="hotspot" style={{ top: "50%", left: "45%" }} onClick={() => openProduct("p4")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
@@ -3946,7 +4002,7 @@ function LookbookPage({ setRoute, openProduct }) {
 
         <div className="lb-row single">
           <div className="lb-tile wide">
-            <img src={IMGS.lb8} alt="" className="img-fill" loading="lazy" />
+            <img src={IMGS.lb8} alt="" className="img-fill" loading="lazy" style={{ objectPosition: "center 30%" }} />
             <div className="ovr"></div>
             <div className="caption">
               <div className="ttl">Considered luxury, around the world.</div>
@@ -5478,7 +5534,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
             {/* Image — takes all available space on mobile, 50% on desktop */}
             <div className="relative flex-1 min-h-0 md:flex-none md:h-full w-full overflow-hidden p-3 md:p-0 bg-[#EAE3D9] md:bg-[#241811]">
               <img
-                src="/images/Lucy Leaning On Wall.png"
+                src="/images/signup-popup.jpeg"
                 alt="HHARA"
                 className="w-full h-full object-contain md:object-cover rounded-sm md:rounded-none"
                 style={{ objectPosition: "center top" }}

@@ -6,7 +6,7 @@ const nextConfig = {
       { protocol: "https", hostname: "cdn.shopify.com" },
       { protocol: "https", hostname: "*.myshopify.com" },
     ],
-    formats: ["image/avif", "image/webp"],
+    formats: ["image/webp"],
   },
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
