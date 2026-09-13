@@ -144,7 +144,7 @@ const IMGS: Record<string, string> = {
   lb5: "/images/Lucy Walking.png",
   lb6: "/images/wonder-worn-second-card.jpeg",
   lb7: "/images/IMG_5275.jpeg",
-  lb8: "/images/Lucy-Angie-2.png",
+  lb8: "/images/lucy-angie-2.png",
   lb9: "/images/lookbook-hero.png",
   j1: "/images/j1.jpg",
   j2: "/images/j2.jpg",
@@ -3923,7 +3923,7 @@ function LookbookPage({ setRoute, openProduct }) {
       <div className="lb-full">
         <div className="lb-row single">
           <div className="lb-tile hero">
-            <Image src={IMGS.lb9} alt="" fill className="img-fill" sizes="100vw" loading="lazy" style={{ objectPosition: "75% center" }} />
+            <Image src={IMGS.lb9} alt="" fill className="img-fill" sizes="100vw" loading="lazy" unoptimized style={{ objectPosition: "75% center" }} />
             <div className="ovr"></div>
             <div className="caption">
               <div>The Dahlia Set</div>
