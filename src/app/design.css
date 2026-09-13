@@ -2977,11 +2977,12 @@ img { display: block; max-width: 100%; }
   background: var(--line-soft);
 }
 .auth-wrap .panel {
-  padding: clamp(48px, 7vw, 96px);
+  padding: clamp(48px, 6vw, 80px) clamp(48px, 7vw, 96px);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 540px;
+  max-width: 660px;
+  width: 100%;
 }
 .auth-wrap .panel .btn-ghost {
   border-color: rgba(36, 24, 17, 0.3);
