@@ -3488,7 +3488,7 @@ function AtelierVideoSection() {
         <blockquote className="gives-back-quote-banner" style={{ color: "var(--ink)", marginBottom: 24, fontSize: "clamp(22px, 2.2vw, 36px)" }}>
           "She moves before the world notices. She carries what others don't see. She is the woman who shows up, for everyone, and still finds a way to show up for herself. HHARA was made for her. From the very first stitch."
         </blockquote>
-        <div style={{ fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", color: "var(--accent)", textAlign: "center" }}>She is Wonder. She is HHARA.</div>
+        <div style={{ fontSize: 13, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--accent)", textAlign: "center" }}>She is Wonder. She is HHARA.</div>
       </div>
       <div className="media" style={{ aspectRatio: "9 / 16", height: "100vh", marginLeft: "30px" }}>
         <video
