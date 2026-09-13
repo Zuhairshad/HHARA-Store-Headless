@@ -2226,6 +2226,16 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const [adding, setAdding] = useState(false);
   const [sizePrompt, setSizePrompt] = useState(false);
   const [activeShot, setActiveShot] = useState(0);
+
+  // Preload all images for all colors so switching is instant
+  useEffect(() => {
+    if (!product?.imgKey) return;
+    product.swatches.forEach((s: any) => {
+      getProductColorImages(product.imgKey, s.name).forEach((src) => {
+        if (src) { const img = new window.Image(); img.src = src; }
+      });
+    });
+  }, [product?.id]);
   const [writeReviewOpen, setWriteReviewOpen] = useState(false);
   const [reviewForm, setReviewForm] = useState({ name: "", location: "", rating: 5, quote: "", product: "" });
   const [recentlyViewed, setRecentlyViewed] = useState<string[]>([]);
