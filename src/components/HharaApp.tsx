@@ -3490,7 +3490,7 @@ function AtelierVideoSection() {
         </blockquote>
         <div style={{ fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", color: "var(--accent)", textAlign: "center" }}>She is Wonder. She is HHARA.</div>
       </div>
-      <div className="media" style={{ aspectRatio: "9 / 16", height: "100vh", marginLeft: "auto" }}>
+      <div className="media" style={{ aspectRatio: "9 / 16", height: "100vh", marginLeft: "30px" }}>
         <video
           ref={videoRef}
           src={inView ? "https://pjvogtsleqosgl0a.public.blob.vercel-storage.com/about-us-video.mp4" : undefined}
