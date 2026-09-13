@@ -2349,6 +2349,7 @@ img { display: block; max-width: 100%; }
     aspect-ratio: 3 / 4;
   }
   .lookbook-tile.t1, .lookbook-tile.t6 { grid-column: span 2; aspect-ratio: 16 / 10; }
+  .lookbook-tile.t1 .img-fill { object-position: center -30px; }
 
   /* Numbers grid */
   .numbers { grid-template-columns: repeat(2, 1fr); }
