@@ -3483,9 +3483,9 @@ function AtelierVideoSection() {
   }, []);
 
   return (
-    <section className="atelier-split">
+    <section className="atelier-split" style={{ maxWidth: "100%", paddingLeft: "clamp(40px, 8vw, 160px)", paddingRight: 0, gap: 48 }}>
       <div className="body">
-        <blockquote className="gives-back-quote-banner" style={{ color: "var(--ink)", marginBottom: 24 }}>
+        <blockquote className="gives-back-quote-banner" style={{ color: "var(--ink)", marginBottom: 24, fontSize: "clamp(26px, 2.8vw, 44px)" }}>
           "She moves before the world notices. She carries what others don't see. She is the woman who shows up, for everyone, and still finds a way to show up for herself. HHARA was made for her. From the very first stitch."
         </blockquote>
         <div style={{ fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", color: "var(--accent)", textAlign: "center" }}>She is Wonder. She is HHARA.</div>
