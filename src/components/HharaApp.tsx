@@ -161,7 +161,7 @@ const IMGS: Record<string, string> = {
   sNY: "/images/sNY.jpg",
   sLondon: "/images/sLondon.jpg",
   sDubai: "/images/sDubai.jpg",
-  authMedia: "/images/authMedia.jpg",
+  authMedia: "/images/Lucy Walking (1).png",
   mmShop1: "/images/shop-hover-1.jpeg",
   mmShop2: "/images/shop-hover-2.jpeg",
   mmAtelier: "/images/mmAtelier.jpg"
