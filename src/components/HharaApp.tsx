@@ -179,20 +179,20 @@ const VIDEOS = {
 const B = "https://pjvogtsleqosgl0a.public.blob.vercel-storage.com/products";
 const PRODUCT_IMAGES: Record<string, { olive: string[]; brown: string[] }> = {
   p1: {
-    olive: [`${B}/p1_olive_4.jpg`, `${B}/p1_olive_2.jpg`, `${B}/p1_olive_1.jpg`, `${B}/p1_olive_3.jpg`, `${B}/p1_olive_5.jpg`],
-    brown: [`${B}/p1_brown_4.jpg`, `${B}/p1_brown_2.jpg`, `${B}/p1_brown_1.jpg`, `${B}/p1_brown_3.jpg`, `${B}/p1_brown_5.jpg`],
+    olive: [`${B}/p1_olive_2.jpg`, `${B}/p1_olive_4.jpg`, `${B}/p1_olive_1.jpg`, `${B}/p1_olive_3.jpg`, `${B}/p1_olive_5.jpg`],
+    brown: [`${B}/p1_brown_2.jpg`, `${B}/p1_brown_4.jpg`, `${B}/p1_brown_1.jpg`, `${B}/p1_brown_3.jpg`, `${B}/p1_brown_5.jpg`],
   },
   p2: {
     olive: [`${B}/p2_olive_1.jpg`, `${B}/p2_olive_2.jpg`, `${B}/p2_olive_3.jpg`, `${B}/p2_olive_4.jpg`, `${B}/p2_olive_5.jpg`],
     brown: [`${B}/p2_brown_1.jpg`, `${B}/p2_brown_2.jpg`, `${B}/p2_brown_3.jpg`, `${B}/p2_brown_4.jpg`, `${B}/p2_brown_5.jpg`],
   },
   p3: {
-    olive: [`${B}/p3_olive_1.jpg`, `${B}/p3_olive_4.jpg`, `${B}/p3_olive_2.jpg`, `${B}/p3_olive_3.jpg`, `${B}/p3_olive_5.jpg`],
-    brown: [`${B}/p3_brown_4.jpg`, `${B}/p3_brown_2.jpg`, `${B}/p3_brown_1.jpg`, `${B}/p3_brown_3.jpg`, `${B}/p3_brown_5.jpg`],
+    olive: [`${B}/p3_olive_4.jpg`, `${B}/p3_olive_1.jpg`, `${B}/p3_olive_2.jpg`, `${B}/p3_olive_3.jpg`, `${B}/p3_olive_5.jpg`],
+    brown: [`${B}/p3_brown_2.jpg`, `${B}/p3_brown_4.jpg`, `${B}/p3_brown_1.jpg`, `${B}/p3_brown_3.jpg`, `${B}/p3_brown_5.jpg`],
   },
   p4: {
-    olive: [`${B}/p4_olive_4.jpg`, `${B}/p4_olive_1.jpg`, "/images/dshorts-olive-hover.jpg", `${B}/p4_olive_2.jpg`, `${B}/p4_olive_3.jpg`, `${B}/p4_olive_5.jpg`],
-    brown: ["/images/dshorts-brown-hover.jpg", `${B}/p4_brown_2.jpg`, `${B}/p4_brown_1.jpg`, `${B}/p4_brown_3.jpg`],
+    olive: [`${B}/p4_olive_1.jpg`, `${B}/p4_olive_4.jpg`, "/images/dshorts-olive-hover.jpg", `${B}/p4_olive_2.jpg`, `${B}/p4_olive_3.jpg`, `${B}/p4_olive_5.jpg`],
+    brown: [`${B}/p4_brown_2.jpg`, "/images/dshorts-brown-hover.jpg", `${B}/p4_brown_1.jpg`, `${B}/p4_brown_3.jpg`],
   },
 };
 
@@ -674,10 +674,14 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
 
   // Stable upsell recommendations (items remain visible in Pairs Well With when added)
   const firstCartId = cart[0]?.id;
-  const upsells = (products.filter((p: any) => p.id !== firstCartId).length >= 2
-    ? products.filter((p: any) => p.id !== firstCartId)
-    : products
-  ).slice(0, 2);
+  const PAIRS: Record<string, string[]> = {
+    p1: ["p2", "p4"],
+    p2: ["p1", "p3"],
+    p3: ["p2", "p4"],
+    p4: ["p1", "p3"],
+  };
+  const pairIds = PAIRS[firstCartId] ?? products.filter((p: any) => p.id !== firstCartId).map((p: any) => p.id).slice(0, 2);
+  const upsells = pairIds.map((id: string) => products.find((p: any) => p.id === id)).filter(Boolean);
 
   const handleAddUpsell = (p: any, sel: string) => {
     addToCart({
@@ -730,8 +734,9 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
             {cart.map((item: any) => (
               <div className="pco-item" key={item.key}>
                 <div className={`pco-item-thumb ${item.tone}`}>
-                  {item.featuredImage
-                    ? <img src={item.featuredImage} alt={item.name} className="img-fill" />
+                  {item.featuredImage === "gift-card-monkey"
+                    ? <div style={{ position: "absolute", inset: 0, background: "#3D2014", display: "flex", alignItems: "center", justifyContent: "center" }}><img src="/images/monkey-peeking.png" alt="HHARA" style={{ width: "70%", height: "70%", objectFit: "contain" }} /></div>
+                    : item.featuredImage ? <img src={item.featuredImage} alt={item.name} className="img-fill" />
                     : <div className="ph">{item.name?.toLowerCase()}</div>}
                 </div>
                 <div className="pco-item-body">
@@ -1129,7 +1134,9 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
                 return (
                   <div className="cart-item" key={it.key}>
                     <div className={`thumb ${it.tone}`}>
-                      {img ? <img src={img} alt="" className="img-fill" /> : <div className="ph">{it.name.toLowerCase()}</div>}
+                      {img === "gift-card-monkey"
+                        ? <div style={{ position: "absolute", inset: 0, background: "#3D2014", display: "flex", alignItems: "center", justifyContent: "center" }}><img src="/images/monkey-peeking.png" alt="HHARA" style={{ width: "70%", height: "70%", objectFit: "contain" }} /></div>
+                        : img ? <img src={img} alt="" className="img-fill" /> : <div className="ph">{it.name.toLowerCase()}</div>}
                     </div>
                     <div className="ci-body">
                       <div className="ci-row">
@@ -1211,8 +1218,8 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
 // === FILE 06-ce7b1d96-f64b-4723-b417-6dfb0feade07.jsx ===
 
 const HOMEPAGE_IMARA_IMAGES = {
-  olive: ["/images/Homepage.jpeg", "/images/Homepage 3.jpeg"] as [string, string],
-  brown: ["/images/Homepage 1.jpeg", "/images/Homepage 4.jpeg"] as [string, string],
+  olive: ["/images/Homepage 3.jpeg", "/images/Homepage.jpeg"] as [string, string],
+  brown: ["/images/Homepage 4.jpeg", "/images/Homepage 1.jpeg"] as [string, string],
 };
 
 const HOMEPAGE_LEGGING_IMAGES = {
@@ -1221,21 +1228,21 @@ const HOMEPAGE_LEGGING_IMAGES = {
 };
 
 const HOMEPAGE_DAHLIA_BRA_IMAGES = {
-  olive: ["/images/dbra-olive-default.jpg", "/images/dbra-olive-hover.jpg"] as [string, string],
-  brown: ["/images/dbra-brown-default.jpg", "/images/dbra-brown-hover.jpg"] as [string, string],
+  olive: ["/images/dbra-olive-hover.jpg", "/images/dbra-olive-default.jpg"] as [string, string],
+  brown: ["/images/dbra-brown-hover.jpg", "/images/dbra-brown-default.jpg"] as [string, string],
 };
 
 const HOMEPAGE_DAHLIA_SHORTS_IMAGES = {
-  olive: ["/images/dshorts-olive-default.jpg", "/images/dshorts-olive-hover.jpg"] as [string, string],
-  brown: ["/images/dshorts-brown-default.jpeg", "/images/dshorts-brown-hover.jpg"] as [string, string],
+  olive: ["/images/dshorts-olive-hover.jpg", "/images/dshorts-olive-default.jpg"] as [string, string],
+  brown: ["/images/dshorts-brown-hover.jpg", "/images/dshorts-brown-default.jpeg"] as [string, string],
   brownPos: "30% center",
 };
 
 const REEL_THUMB_IMAGES: Record<string, { olive: string; brown: string }> = {
-  p1: { olive: "/images/Homepage.jpeg", brown: "/images/Homepage 1.jpeg" },
+  p1: { olive: "/images/Homepage 3.jpeg", brown: "/images/Homepage 4.jpeg" },
   p2: { olive: "/images/Legging-1.jpg", brown: "/images/Legging-2.jpg" },
-  p3: { olive: "/images/dbra-olive-default.jpg", brown: "/images/dbra-brown-default.jpg" },
-  p4: { olive: "/images/dshorts-olive-default.jpg", brown: "/images/dshorts-brown-default.jpeg" },
+  p3: { olive: "/images/dbra-olive-hover.jpg", brown: "/images/dbra-brown-hover.jpg" },
+  p4: { olive: "/images/dshorts-olive-hover.jpg", brown: "/images/dshorts-brown-hover.jpg" },
 };
 
 function ProductCard({ product, onClick, colorOverride, homepageImages }: { product: any; onClick: (colorName?: string) => void; colorOverride?: string | null; homepageImages?: { olive: [string, string]; brown: [string, string]; olivePos?: string; brownPos?: string } }) {
@@ -1245,14 +1252,25 @@ function ProductCard({ product, onClick, colorOverride, homepageImages }: { prod
     if (colorOverride) setActiveColor(colorOverride);
   }, [colorOverride]);
 
-  const isBrown = activeColor.toLowerCase().includes("brown");
-  const imgA = homepageImages
-    ? (isBrown ? homepageImages.brown[0] : homepageImages.olive[0])
-    : (() => { const colorImgs = product.imgKey && PRODUCT_IMAGES[product.imgKey] ? getProductColorImages(product.imgKey, activeColor) : null; return colorImgs ? colorImgs[0] : (product.featuredImage?.url || product.images?.[0]?.url || null); })();
-  const imgB = homepageImages
-    ? (isBrown ? homepageImages.brown[1] : homepageImages.olive[1])
-    : (() => { const colorImgs = product.imgKey && PRODUCT_IMAGES[product.imgKey] ? getProductColorImages(product.imgKey, activeColor) : null; return colorImgs ? colorImgs[1] : (product.images?.[1]?.url || product.featuredImage?.url || null); })();
-  const imgPos = homepageImages ? (isBrown ? homepageImages.brownPos : homepageImages.olivePos) : undefined;
+  // Build image pairs for every swatch upfront so all images are rendered (and preloaded) on mount
+  const swatchImages = product.swatches.slice(0, 4).map((s) => {
+    const isBrown = s.name.toLowerCase().includes("brown");
+    if (homepageImages) {
+      return {
+        name: s.name,
+        imgA: isBrown ? homepageImages.brown[0] : homepageImages.olive[0],
+        imgB: isBrown ? homepageImages.brown[1] : homepageImages.olive[1],
+        imgPos: isBrown ? homepageImages.brownPos : homepageImages.olivePos,
+      };
+    }
+    const colorImgs = product.imgKey && PRODUCT_IMAGES[product.imgKey] ? getProductColorImages(product.imgKey, s.name) : null;
+    return {
+      name: s.name,
+      imgA: colorImgs?.[0] ?? product.featuredImage?.url ?? product.images?.[0]?.url ?? null,
+      imgB: colorImgs?.[1] ?? product.images?.[1]?.url ?? product.featuredImage?.url ?? null,
+      imgPos: undefined,
+    };
+  });
 
   return (
     <div className="pcard" onClick={() => onClick(activeColor)}>
@@ -1260,12 +1278,19 @@ function ProductCard({ product, onClick, colorOverride, homepageImages }: { prod
         {product.badge && (
           <div className={`pcard-badge ${product.badge === "New" ? "new" : ""}`}>{product.badge}</div>
         )}
-        <div className={`${product.tone}`} style={{ position: "absolute", inset: 0 }}>
-          {imgA && <Image src={imgA} alt={product.name} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" style={imgPos ? { objectPosition: imgPos } : undefined} />}
-        </div>
-        <div className={`alt ${product.altTone || product.tone}`} style={{ position: "absolute", inset: 0 }}>
-          {imgB && <Image src={imgB} alt={product.name} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" style={imgPos ? { objectPosition: imgPos } : undefined} />}
-        </div>
+        {swatchImages.map(({ name, imgA, imgB, imgPos }) => {
+          const active = name === activeColor;
+          return (
+            <div key={name} style={{ position: "absolute", inset: 0, opacity: active ? 1 : 0, transition: "opacity 0.3s ease", pointerEvents: "none" }}>
+              <div className={`${product.tone}`} style={{ position: "absolute", inset: 0 }}>
+                {imgA && <Image src={imgA} alt={product.name} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" style={imgPos ? { objectPosition: imgPos } : undefined} />}
+              </div>
+              <div className={`alt ${product.altTone || product.tone}`} style={{ position: "absolute", inset: 0 }}>
+                {imgB && <Image src={imgB} alt={product.name} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" style={imgPos ? { objectPosition: imgPos } : undefined} />}
+              </div>
+            </div>
+          );
+        })}
       </div>
       <div className="pcard-info">
         <div className="pcard-swatches" aria-label="Available colours">
@@ -1502,11 +1527,19 @@ function Marquee() {
   );
 }
 
-function Lookbook({ openLookbook }) {
+function Lookbook({ openLookbook, openProduct, setRoute }) {
 
   const tiles = [IMGS.lb5, IMGS.lb1, IMGS.lb2, IMGS.lb4, IMGS.lb3, IMGS.lb6];
   const tones = ["tone-3", "tone-1", "tone-5", "tone-7", "tone-2", "tone-6"];
-  const tags = ["Dahlia Bra", "Imara Leggings", "Imara Legging", "Dahlia Short", "Chicory Brown", "Olive"];
+  const tags = ["Dahlia Bra", "Imara Legging", "Imara Legging", "Dahlia Shorts", "Chicory Brown", "Olive"];
+  const handlers = [
+    () => openProduct("p3"),
+    () => openProduct("p2"),
+    () => openProduct("p2"),
+    () => openProduct("p4"),
+    () => setRoute("shop", "Chicory Brown"),
+    () => setRoute("shop", "Olive"),
+  ];
   return (
     <section className="section" style={{ paddingTop: "10px" }}>
       <div className="section-head">
@@ -1518,7 +1551,7 @@ function Lookbook({ openLookbook }) {
       </div>
       <div className="lookbook">
         {tones.map((t, i) => (
-          <div key={i} className={`lookbook-tile t${i + 1} ${t}`} onClick={openLookbook}>
+          <div key={i} className={`lookbook-tile t${i + 1} ${t}`} onClick={handlers[i]} style={{ cursor: "pointer" }}>
             {tiles[i] && <Image src={tiles[i]} alt={tags[i]} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" loading="lazy" style={(i === 0 || i === 1 || i === 5) ? { objectPosition: "top center" } : i === 2 ? { objectPosition: "center center" } : i === 4 ? { objectPosition: "center 20%" } : undefined} />}
             <div className="lk-tag">{tags[i]}</div>
           </div>
@@ -1856,7 +1889,7 @@ function Home(props) {
       />
       <FeaturedGrid setRoute={props.setRoute} />
       <Editorial openShop={() => props.setRoute("atelier")} />
-      <Lookbook openLookbook={() => props.setRoute("lookbook")} />
+      <Lookbook openLookbook={() => props.setRoute("lookbook")} openProduct={props.openProduct} setRoute={props.setRoute} />
       <Pillars />
       <Testimonials />
       <Proclamation />
@@ -2231,7 +2264,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
     { id: "r2", name: "Nour A.", location: "Abu Dhabi", rating: 5, quote: "The fabric is genuinely buttery - I wasn't expecting it to feel this luxurious. The cross-cross back is stunning. Already ordered the legging!", product: "Dahlia Bra · Olive" },
     { id: "r3", name: "Layla K.", location: "Riyadh", rating: 4, quote: "Sizing is true to guide. I have a fuller bust and sized up as advised - perfect fit. The Olive colour is even more beautiful in person.", product: "Dahlia Bra · Olive" },
     { id: "r4", name: "Amira H.", location: "Dubai", rating: 5, quote: "I wore the Imara Set from morning yoga straight to a client lunch. Not once did I feel underdressed. HHARA genuinely gets the way we move through our days.", product: "Imara Set · Chicory Brown" },
-    { id: "r5", name: "Fatima R.", location: "Doha", rating: 5, quote: "The waistband doesn't roll, the fabric doesn't pill, and the colour is even richer in person. Worth every dirham and then some.", product: "Dahlia Legging · Olive" },
+    { id: "r5", name: "Fatima R.", location: "Doha", rating: 4, quote: "The waistband doesn't roll, the fabric doesn't pill, and the colour is even richer in person. Worth every dirham and then some.", product: "Dahlia Legging · Olive" },
     { id: "r6", name: "Hessa O.", location: "Kuwait City", rating: 5, quote: "Three months of wear and it still looks brand new. I've stopped buying from everywhere else. HHARA is the only activewear I trust now.", product: "Imara Legging · Chicory Brown" },
   ]);
 
@@ -2501,7 +2534,11 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               return (
                 <>
                   <div className={`pdp-gallery-main ${product.tone}`}>
-                    {main?.src && <Image key={main.src} src={main.src} alt={`${product.name} view ${activeShot + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority={activeShot === 0} style={main.style} />}
+                    {shots.map((s, idx) => s.src && (
+                      <div key={idx} style={{ position: "absolute", inset: 0, opacity: idx === activeShot ? 1 : 0, transition: "opacity 0.3s ease", pointerEvents: idx === activeShot ? "auto" : "none" }}>
+                        <Image src={s.src} alt={`${product.name} view ${idx + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority={idx === 0} style={s.style} />
+                      </div>
+                    ))}
                     {showGalleryNavigation && (
                       <>
                         <button type="button" className="pdp-gallery-arrow pdp-gallery-arrow--previous" onClick={showPreviousShot} aria-label="View previous product image">
@@ -2858,7 +2895,13 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
           </div>
           <div className="pgrid">
             {youMayAlsoLike.map((p) => (
-              <ProductCard key={p.id} product={p} onClick={(colorName) => openProduct(p.id, colorName)} />
+              <ProductCard
+                key={p.id}
+                product={p}
+                onClick={(colorName) => openProduct(p.id, colorName)}
+                homepageImages={p.id === "p1" ? HOMEPAGE_IMARA_IMAGES : p.id === "p2" ? HOMEPAGE_LEGGING_IMAGES : p.id === "p3" ? HOMEPAGE_DAHLIA_BRA_IMAGES : p.id === "p4" ? HOMEPAGE_DAHLIA_SHORTS_IMAGES : undefined}
+                colorOverride={p.id === "p2" || p.id === "p3" ? "Olive" : p.id === "p4" ? "Chicory Brown" : undefined}
+              />
             ))}
           </div>
         </section>
@@ -3447,7 +3490,7 @@ function AtelierVideoSection() {
         </blockquote>
         <div style={{ fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", color: "var(--accent)", textAlign: "center" }}>She is Wonder. She is HHARA.</div>
       </div>
-      <div className="media" style={{ aspectRatio: "9 / 16", height: "100vh" }}>
+      <div className="media" style={{ width: "100%", aspectRatio: "16 / 9" }}>
         <video
           ref={videoRef}
           src={inView ? "https://pjvogtsleqosgl0a.public.blob.vercel-storage.com/about-us-video.mp4" : undefined}
@@ -3948,9 +3991,6 @@ function LookbookPage({ setRoute, openProduct }) {
             <Image src={IMGS.lb2} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
             <div className="ovr"></div>
             <div className="caption"><div className="ttl">Chicory Brown</div></div>
-            <div className="hotspot" style={{ top: "48%", left: "55%" }} onClick={() => openProduct("p2")}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-            </div>
           </div>
         </div>
 
@@ -3972,6 +4012,9 @@ function LookbookPage({ setRoute, openProduct }) {
             <Image src={IMGS.lb5} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
             <div className="ovr"></div>
             <div className="caption"><div className="ttl">Imara Set</div></div>
+            <div className="hotspot" style={{ top: "60%", left: "50%" }} onClick={() => setRoute("shop", "The Imara Set")}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </div>
           </div>
         </div>
 
@@ -4018,7 +4061,13 @@ function LookbookPage({ setRoute, openProduct }) {
         </div>
         <div className="pgrid">
           {PRODUCTS.slice(0, 4).map((p) => (
-            <ProductCard key={p.id} product={p} onClick={(colorName) => openProduct(p.id, colorName)} />
+            <ProductCard
+              key={p.id}
+              product={p}
+              onClick={(colorName) => openProduct(p.id, colorName)}
+              homepageImages={p.id === "p1" ? HOMEPAGE_IMARA_IMAGES : p.id === "p2" ? HOMEPAGE_LEGGING_IMAGES : p.id === "p3" ? HOMEPAGE_DAHLIA_BRA_IMAGES : p.id === "p4" ? HOMEPAGE_DAHLIA_SHORTS_IMAGES : undefined}
+              colorOverride={p.id === "p2" || p.id === "p3" ? "Olive" : p.id === "p4" ? "Chicory Brown" : undefined}
+            />
           ))}
         </div>
       </section>
@@ -5187,10 +5236,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
   const [signupError, setSignupError] = useState("");
 
   useEffect(() => {
-    // If user is already logged in, do not trigger the popup
-    if (customer) return;
-
-    // Check if user has already dismissed or signed up
     const hasSeen = localStorage.getItem("hhara_signup_seen");
     if (!hasSeen) {
       const timer = setTimeout(() => {
@@ -5199,7 +5244,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
       }, 3500);
       return () => clearTimeout(timer);
     }
-  }, [customer]);
+  }, []);
 
   const handleNewsletterSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -5343,7 +5388,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
         color: "-",
         size: "-",
         tone: "tone-4",
-        featuredImage: null,
+        featuredImage: "gift-card-monkey",
         isGiftCard: true,
       }]);
       setCartOpen(true);
