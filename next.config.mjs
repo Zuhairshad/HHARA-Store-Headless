@@ -5,7 +5,7 @@ const nextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "cdn.shopify.com" },
       { protocol: "https", hostname: "*.myshopify.com" },
-      { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
+      { protocol: "https", hostname: "pjvogtsleqosgl0a.public.blob.vercel-storage.com" },
     ],
     formats: ["image/webp"],
   },

@@ -1521,7 +1521,7 @@ function Lookbook({ openLookbook }) {
       <div className="lookbook">
         {tones.map((t, i) => (
           <div key={i} className={`lookbook-tile t${i + 1} ${t}`} onClick={openLookbook}>
-            {tiles[i] && <Image src={tiles[i]} alt={tags[i]} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" loading="lazy" style={i === 1 ? { objectPosition: "top center" } : i === 2 ? { objectPosition: "center center" } : i === 4 ? { objectPosition: "center 20%" } : undefined} />}
+            {tiles[i] && <Image src={tiles[i]} alt={tags[i]} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" loading="lazy" style={(i === 0 || i === 1 || i === 5) ? { objectPosition: "top center" } : i === 2 ? { objectPosition: "center center" } : i === 4 ? { objectPosition: "center 20%" } : undefined} />}
             <div className="lk-tag">{tags[i]}</div>
           </div>
         ))}
