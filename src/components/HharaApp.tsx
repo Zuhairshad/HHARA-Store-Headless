@@ -2206,49 +2206,6 @@ function StarRow({ stars, percentage, count }: { stars: number, percentage: numb
   );
 }
 
-function BeforeAfterSlider({ imgA, imgB, labelA, labelB }: { imgA: string; imgB: string; labelA: string; labelB: string }) {
-  const [pos, setPos] = useState(50);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const dragging = useRef(false);
-
-  const updatePos = (clientX: number) => {
-    const rect = containerRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    setPos(Math.min(98, Math.max(2, ((clientX - rect.left) / rect.width) * 100)));
-  };
-
-  return (
-    <div
-      ref={containerRef}
-      style={{ position: "absolute", inset: 0, overflow: "hidden", userSelect: "none", cursor: "ew-resize" }}
-      onMouseMove={(e) => { if (dragging.current) updatePos(e.clientX); }}
-      onMouseUp={() => { dragging.current = false; }}
-      onMouseLeave={() => { dragging.current = false; }}
-      onTouchMove={(e) => updatePos(e.touches[0].clientX)}
-    >
-      {/* Image B — right side (behind) */}
-      <img src={imgB} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-      {/* Image A — left side (clipped) */}
-      <div style={{ position: "absolute", inset: 0, clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
-        <img src={imgA} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-      </div>
-      {/* Divider */}
-      <div style={{ position: "absolute", top: 0, bottom: 0, left: `${pos}%`, width: 2, background: "white", transform: "translateX(-50%)", pointerEvents: "none" }} />
-      {/* Handle */}
-      <div
-        style={{ position: "absolute", top: "50%", left: `${pos}%`, transform: "translate(-50%, -50%)", width: 44, height: 44, borderRadius: "50%", background: "white", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 12px rgba(0,0,0,0.25)", cursor: "ew-resize", gap: 4 }}
-        onMouseDown={() => { dragging.current = true; }}
-        onTouchStart={() => { dragging.current = true; }}
-      >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: "scaleX(-1)" }}><polyline points="15 18 9 12 15 6"/></svg>
-      </div>
-      {/* Labels */}
-      <span style={{ position: "absolute", bottom: 20, left: 20, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "white", textShadow: "0 1px 4px rgba(0,0,0,0.5)", opacity: pos > 15 ? 1 : 0, transition: "opacity 0.2s" }}>{labelA}</span>
-      <span style={{ position: "absolute", bottom: 20, right: 20, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "white", textShadow: "0 1px 4px rgba(0,0,0,0.5)", opacity: pos < 85 ? 1 : 0, transition: "opacity 0.2s" }}>{labelB}</span>
-    </div>
-  );
-}
 
 function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wishlist, initialColor }: { productId: any; setRoute: any; addToCart: any; openProduct: any; onWishlistToggle: any; wishlist: any; initialColor?: string | null }) {
   const PRODUCTS = useProducts();
@@ -2588,23 +2545,12 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               return (
                 <>
                   <div className={`pdp-gallery-main ${product.tone}`}>
-                    {(() => {
-                      const sw1 = product.swatches[0];
-                      const sw2 = product.swatches[1];
-                      if (sw2) {
-                        const imgsA = getProductColorImages(product.imgKey, sw1.name).filter(Boolean);
-                        const imgsB = getProductColorImages(product.imgKey, sw2.name).filter(Boolean);
-                        const imgA = imgsA[activeShot] || imgsA[0];
-                        const imgB = imgsB[activeShot] || imgsB[0];
-                        if (imgA && imgB) return <BeforeAfterSlider imgA={imgA} imgB={imgB} labelA={sw1.name} labelB={sw2.name} />;
-                      }
-                      return shots.map((s, idx) => s.src && (
-                        <div key={idx} style={{ position: "absolute", inset: 0, opacity: idx === activeShot ? 1 : 0, transition: "opacity 0.3s ease", pointerEvents: idx === activeShot ? "auto" : "none" }}>
-                          <Image src={s.src} alt={`${product.name} view ${idx + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority={idx === 0} style={s.style} />
-                        </div>
-                      ));
-                    })()}
-                    {showGalleryNavigation && !product.swatches[1] && (
+                    {shots.map((s, idx) => s.src && (
+                      <div key={idx} style={{ position: "absolute", inset: 0, opacity: idx === activeShot ? 1 : 0, transition: "opacity 0.3s ease", pointerEvents: idx === activeShot ? "auto" : "none" }}>
+                        <Image src={s.src} alt={`${product.name} view ${idx + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority={idx === 0} style={s.style} />
+                      </div>
+                    ))}
+                    {showGalleryNavigation && (
                       <>
                         <button type="button" className="pdp-gallery-arrow pdp-gallery-arrow--previous" onClick={showPreviousShot} aria-label="View previous product image">
                           <Icon.Chevron dir="left" />
