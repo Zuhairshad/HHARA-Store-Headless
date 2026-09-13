@@ -2536,7 +2536,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   <div className={`pdp-gallery-main ${product.tone}`}>
                     {shots.map((s, idx) => s.src && (
                       <div key={idx} style={{ position: "absolute", inset: 0, opacity: idx === activeShot ? 1 : 0, transition: "opacity 0.3s ease", pointerEvents: idx === activeShot ? "auto" : "none" }}>
-                        <Image src={s.src} alt={`${product.name} view ${idx + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority={idx === 0} style={s.style} />
+                        <Image src={s.src} alt={`${product.name} view ${idx + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority style={s.style} />
                       </div>
                     ))}
                     {showGalleryNavigation && (
@@ -3490,7 +3490,7 @@ function AtelierVideoSection() {
         </blockquote>
         <div style={{ fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", color: "var(--accent)", textAlign: "center" }}>She is Wonder. She is HHARA.</div>
       </div>
-      <div className="media" style={{ width: "100%", aspectRatio: "16 / 9" }}>
+      <div className="media" style={{ aspectRatio: "9 / 16", height: "100vh" }}>
         <video
           ref={videoRef}
           src={inView ? "https://pjvogtsleqosgl0a.public.blob.vercel-storage.com/about-us-video.mp4" : undefined}
