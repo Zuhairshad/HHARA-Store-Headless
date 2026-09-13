@@ -491,8 +491,8 @@ function MegaMenu({ open, onClose, setRoute }) {
           <h6>The Collection</h6>
           <ul>
             <li><a onClick={() => { setRoute("shop"); onClose(); }}>Shop All</a></li>
-            <li><a onClick={() => { setRoute("shop"); onClose(); }}>The Imara Set</a></li>
-            <li><a onClick={() => { setRoute("shop"); onClose(); }}>The Dahlia Set</a></li>
+            <li><a onClick={() => { setRoute("shop", "The Imara Set"); onClose(); }}>The Imara Set</a></li>
+            <li><a onClick={() => { setRoute("shop", "The Dahlia Set"); onClose(); }}>The Dahlia Set</a></li>
             <li><a onClick={() => { setRoute("lookbook"); onClose(); }}>The Lookbook</a></li>
           </ul>
         </div>
@@ -500,17 +500,17 @@ function MegaMenu({ open, onClose, setRoute }) {
           <div>
             <h6>The Imara Set</h6>
             <ul>
-              <li><a onClick={() => { setRoute("shop"); onClose(); }}>Imara Bra</a></li>
-              <li><a onClick={() => { setRoute("shop"); onClose(); }}>Imara Legging</a></li>
-              <li><a onClick={() => { setRoute("shop"); onClose(); }}>Shop The Set</a></li>
+              <li><a onClick={() => { setRoute("product", "p1"); onClose(); }}>Imara Bra</a></li>
+              <li><a onClick={() => { setRoute("product", "p2"); onClose(); }}>Imara Legging</a></li>
+              <li><a onClick={() => { setRoute("shop", "The Imara Set"); onClose(); }}>Shop The Set</a></li>
             </ul>
           </div>
           <div>
             <h6>The Dahlia Set</h6>
             <ul>
-              <li><a onClick={() => { setRoute("shop"); onClose(); }}>Dahlia Bra</a></li>
-              <li><a onClick={() => { setRoute("shop"); onClose(); }}>Dahlia Short</a></li>
-              <li><a onClick={() => { setRoute("shop"); onClose(); }}>Shop The Set</a></li>
+              <li><a onClick={() => { setRoute("product", "p3"); onClose(); }}>Dahlia Bra</a></li>
+              <li><a onClick={() => { setRoute("product", "p4"); onClose(); }}>Dahlia Short</a></li>
+              <li><a onClick={() => { setRoute("shop", "The Dahlia Set"); onClose(); }}>Shop The Set</a></li>
             </ul>
           </div>
           <div>
@@ -771,9 +771,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
                 return (
                   <div className="pco-upsell-item" key={p.id}>
                     <div className={`pco-upsell-thumb ${p.tone}`} onClick={() => setRoute("product", p.id)} style={{ cursor: "pointer" }}>
-                      {p.featuredImage?.url
-                        ? <img src={p.featuredImage.url} alt={p.name} className="img-fill" />
-                        : <div className="ph">{p.name?.toLowerCase()}</div>}
+                      {(() => { const imgs = p.imgKey && PRODUCT_IMAGES[p.imgKey] ? getProductColorImages(p.imgKey, "olive") : null; const src = imgs?.[0] || p.featuredImage?.url; return src ? <img src={src} alt={p.name} className="img-fill" /> : <div className="ph">{p.name?.toLowerCase()}</div>; })()}
                     </div>
                     <div className="pco-upsell-body">
                       <div className="pco-upsell-name" onClick={() => setRoute("product", p.id)} style={{ cursor: "pointer" }}>{p.name}</div>
@@ -991,8 +989,8 @@ function Footer({ setRoute, route = "" }) {
               <h4>The Collection</h4>
               <ul>
                 <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>Shop All</a></li>
-                <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Dahlia Set</a></li>
-                <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>The Imara Set</a></li>
+                <li><a onClick={() => setRoute("shop", "The Dahlia Set")} style={{ cursor: "pointer" }}>The Dahlia Set</a></li>
+                <li><a onClick={() => setRoute("shop", "The Imara Set")} style={{ cursor: "pointer" }}>The Imara Set</a></li>
                 <li><a onClick={() => setRoute("lookbook")} style={{ cursor: "pointer" }}>The Lookbook</a></li>
               </ul>
             </div>
@@ -1277,8 +1275,8 @@ function ProductCard({ product, onClick, colorOverride, homepageImages }: { prod
               className={`swatch${s.name === activeColor ? " active" : ""}`}
               style={{ background: s.hex }}
               title={s.name}
-              onMouseEnter={() => homepageImages && setActiveColor(s.name)}
-              onClick={(e) => { if (homepageImages) e.stopPropagation(); }}
+              onMouseEnter={() => setActiveColor(s.name)}
+              onClick={(e) => e.stopPropagation()}
             ></span>
           ))}
         </div>
@@ -1870,23 +1868,24 @@ function Home(props) {
 
 // === FILE 07-9214c1d3-74f7-4bc2-bccb-7476bbfce9dc.jsx ===
 
-function CollectionPage({ setRoute, openProduct, initialColorFilter }: { setRoute: any; openProduct: any; initialColorFilter?: string | null }) {
+function CollectionPage({ setRoute, openProduct, initialColorFilter, initialCatFilter }: { setRoute: any; openProduct: any; initialColorFilter?: string | null; initialCatFilter?: string | null }) {
   const PRODUCTS = useProducts();
   const [sort, setSort] = useState("Featured");
   const [descExpanded, setDescExpanded] = useState(false);
   const [filters, setFilters] = useState({
     size: [],
     color: initialColorFilter ? [initialColorFilter] : [],
-    cat: [],
+    cat: initialCatFilter ? [initialCatFilter] : [],
     price: []
   });
 
   useEffect(() => {
     setFilters(f => ({
       ...f,
-      color: initialColorFilter ? [initialColorFilter] : []
+      color: initialColorFilter ? [initialColorFilter] : [],
+      cat: initialCatFilter ? [initialCatFilter] : [],
     }));
-  }, [initialColorFilter]);
+  }, [initialColorFilter, initialCatFilter]);
 
   const PRICE_RANGES = [
     { label: "Under AED 500", min: 0, max: 500 },
@@ -3930,7 +3929,7 @@ function LookbookPage({ setRoute, openProduct }) {
               <div>The Dahlia Set</div>
               <div className="ttl">Strength, In Form</div>
             </div>
-            <div className="hotspot" style={{ top: "55%", left: "38%" }} onClick={() => openProduct("p1")}>
+            <div className="hotspot" style={{ top: "55%", left: "38%" }} onClick={() => openProduct("p3")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
           </div>
@@ -3941,7 +3940,7 @@ function LookbookPage({ setRoute, openProduct }) {
             <Image src={IMGS.lb1} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
             <div className="ovr"></div>
             <div className="caption"><div className="ttl">Dahlia Set</div></div>
-            <div className="hotspot" style={{ top: "62%", left: "50%" }} onClick={() => openProduct("p1")}>
+            <div className="hotspot" style={{ top: "62%", left: "50%" }} onClick={() => openProduct("p3")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
           </div>
@@ -3965,7 +3964,7 @@ function LookbookPage({ setRoute, openProduct }) {
             <Image src={IMGS.lb4} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
             <div className="ovr"></div>
             <div className="caption"><div className="ttl">Imara Leggings</div></div>
-            <div className="hotspot" style={{ top: "70%", left: "40%" }} onClick={() => openProduct("p3")}>
+            <div className="hotspot" style={{ top: "70%", left: "40%" }} onClick={() => openProduct("p2")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
           </div>
@@ -3981,7 +3980,7 @@ function LookbookPage({ setRoute, openProduct }) {
             <Image src={IMGS.lb6} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
             <div className="ovr"></div>
             <div className="caption"><div className="ttl">Imara Leggings</div></div>
-            <div className="hotspot" style={{ top: "50%", left: "45%" }} onClick={() => openProduct("p4")}>
+            <div className="hotspot" style={{ top: "50%", left: "45%" }} onClick={() => openProduct("p2")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
           </div>
@@ -5112,6 +5111,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [wishlistLoaded, setWishlistLoaded] = useState(false);
   const [selectedColorFilter, setSelectedColorFilter] = useState<string | null>(null);
+  const [selectedCatFilter, setSelectedCatFilter] = useState<string | null>(null);
   const [initialProductColor, setInitialProductColor] = useState<string | null>(null);
 
   useEffect(() => {
@@ -5252,7 +5252,8 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
     if (r === "product" && payload) { setProductId(payload); setInitialProductColor(colorName || null); }
     if (r === "article" && payload) setArticleId(payload);
     if (r === "shop") {
-      setSelectedColorFilter(payload || null);
+      setSelectedColorFilter(typeof payload === "string" && !payload.startsWith("The ") ? payload : null);
+      setSelectedCatFilter(typeof payload === "string" && payload.startsWith("The ") ? payload : null);
     }
     window.scrollTo({ top: 0, behavior: "instant" });
   };
@@ -5273,7 +5274,16 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
         color: (() => { const raw = opts.color || opts.colour || opts.colorway || "-"; return CART_COLOR_NAME_MAP[raw] ?? raw; })(),
         size: opts.size || "-",
         tone: productMatch?.tone || "tone-2",
-        featuredImage: line.merchandise.image?.url || productMatch?.featuredImage?.url || null,
+        featuredImage: (() => {
+          const colorRaw = opts.color || opts.colour || opts.colorway || "";
+          const colorName = CART_COLOR_NAME_MAP[colorRaw] ?? colorRaw;
+          const imgKey = productMatch?.imgKey;
+          if (imgKey && PRODUCT_IMAGES[imgKey]) {
+            const imgs = getProductColorImages(imgKey, colorName);
+            if (imgs?.[0]) return imgs[0];
+          }
+          return line.merchandise.image?.url || productMatch?.featuredImage?.url || null;
+        })(),
       };
     }),
     ...localCartItems,
@@ -5469,7 +5479,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
 
   let body;
   if (route === "shop") {
-    body = <CollectionPage setRoute={setRouteState} openProduct={openProduct} initialColorFilter={selectedColorFilter} />;
+    body = <CollectionPage setRoute={setRouteState} openProduct={openProduct} initialColorFilter={selectedColorFilter} initialCatFilter={selectedCatFilter} />;
   } else if (route === "product") {
     body = <PDP productId={productId} setRoute={setRouteState} addToCart={addToCart} openProduct={openProduct} onWishlistToggle={toggleWishlist} wishlist={wishlist} initialColor={initialProductColor} />;
   } else if (route === "atelier") {
@@ -5668,7 +5678,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
           <div className="app">
             <Header
               route={route}
-              setRoute={setRouteState}
+              setRoute={setRoute}
               cartCount={cartCount}
               openCart={() => setCartOpen(true)}
               openSearch={() => setSearchOpen(true)}
@@ -5677,7 +5687,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
             <main style={{ flex: 1, paddingTop: ["home", "stores", "atelier"].includes(route) ? 0 : "var(--header-h)" }}>
               {body}
             </main>
-            <Footer setRoute={setRouteState} route={route} />
+            <Footer setRoute={setRoute} route={route} />
             <CartDrawer
               open={cartOpen}
               onClose={() => setCartOpen(false)}
