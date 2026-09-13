@@ -5053,7 +5053,7 @@ function ContactPage({ setRoute }) {
 }
 
 // ============ SEARCH OVERLAY ============
-function SearchOverlay({ open, onClose, openProduct }) {
+function SearchOverlay({ open, onClose, openProduct, setRoute }) {
   const PRODUCTS = useProducts();
   const [q, setQ] = useState("");
 
@@ -5068,23 +5068,32 @@ function SearchOverlay({ open, onClose, openProduct }) {
     }
   }, [open]);
 
-  const results = q.trim() ? PRODUCTS.filter((p) => (p.name + p.cat).toLowerCase().includes(q.toLowerCase())) : PRODUCTS.slice(0, 6);
-  const suggestions = ["Imara Bra", "Imara Legging", "Dahlia Bra", "Dahlia Short", "Chicory Brown"];
-  const trending = ["The Imara Set", "The Dahlia Set", "Olive"];
+  const results = q.trim()
+    ? PRODUCTS.filter((p) => {
+        const text = (p.name + " " + p.cat + " " + p.swatches.map((s: any) => s.name).join(" ")).toLowerCase();
+        return text.includes(q.toLowerCase());
+      })
+    : PRODUCTS;
 
   useEffect(() => {
     if (!q || q.trim().length < 2) return;
     const timer = setTimeout(() => {
-      trackEvent({
-        name: "search_submitted",
-        payload: {
-          search_term: q.trim(),
-          results_count: results.length,
-        },
-      });
+      trackEvent({ name: "search_submitted", payload: { search_term: q.trim(), results_count: results.length } });
     }, 400);
     return () => clearTimeout(timer);
   }, [q, results.length]);
+
+  const navigate = (label: string) => {
+    const productMap: Record<string, string> = {
+      "Imara Bra": "p1", "Imara Legging": "p2", "Dahlia Bra": "p3", "Dahlia Short": "p4",
+    };
+    if (productMap[label]) { openProduct(productMap[label]); onClose(); return; }
+    if (label === "The Imara Set" || label === "The Dahlia Set") { setRoute("shop", label); onClose(); return; }
+    setRoute("shop", label); onClose();
+  };
+
+  const suggestions = ["Imara Bra", "Imara Legging", "Dahlia Bra", "Dahlia Short"];
+  const trending = ["The Imara Set", "The Dahlia Set", "Olive", "Chicory Brown"];
 
   return (
     <div className={`search-overlay ${open ? "open" : ""}`}>
@@ -5102,24 +5111,28 @@ function SearchOverlay({ open, onClose, openProduct }) {
           <h5>Popular</h5>
           <ul>
             {suggestions.map((s) => (
-              <li key={s}><a onClick={() => setQ(s)}>{s}</a></li>
+              <li key={s}><a onClick={() => navigate(s)}>{s}</a></li>
             ))}
           </ul>
-          <h5>Trending Categories</h5>
+          <h5>Trending</h5>
           <ul>
             {trending.map((s) => (
-              <li key={s}><a onClick={() => setQ(s)}>{s}</a></li>
+              <li key={s}><a onClick={() => navigate(s)}>{s}</a></li>
             ))}
           </ul>
         </div>
         <div>
           <h5 style={{ fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 24 }}>
-            {q ? `${results.length} results for "${q}"` : "Suggested Pieces"}
+            {q ? `${results.length} result${results.length !== 1 ? "s" : ""} for "${q}"` : "All Pieces"}
           </h5>
           <div className="search-results">
-            {results.map((p) => (
-              <ProductCard key={p.id} product={p} onClick={(colorName) => { openProduct(p.id, colorName); onClose(); }} />
-            ))}
+            {results.length > 0 ? (
+              results.map((p) => (
+                <ProductCard key={p.id} product={p} onClick={(colorName) => { openProduct(p.id, colorName); onClose(); }} />
+              ))
+            ) : (
+              <p style={{ color: "var(--muted)", fontSize: 14, gridColumn: "1/-1" }}>No products found for "{q}". Try "Imara" or "Dahlia".</p>
+            )}
           </div>
         </div>
       </div>
@@ -5748,6 +5761,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
               open={searchOpen}
               onClose={() => setSearchOpen(false)}
               openProduct={openProduct}
+              setRoute={setRoute}
             />
             {tweaksUI}
             <CookieBanner setRoute={setRouteState} />

@@ -2977,7 +2977,7 @@ img { display: block; max-width: 100%; }
   background: var(--line-soft);
 }
 .auth-wrap .panel {
-  padding: clamp(48px, 6vw, 80px) 48px clamp(48px, 6vw, 80px) clamp(48px, 7vw, 96px);
+  padding: clamp(48px, 6vw, 80px) 96px clamp(48px, 6vw, 80px) clamp(48px, 7vw, 96px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -2998,7 +2998,7 @@ img { display: block; max-width: 100%; }
 }
 .auth-wrap .panel .field input {
   font-size: 15px;
-  padding: 12px 0;
+  padding: 14px 16px;
 }
 
 .auth-tabs {
