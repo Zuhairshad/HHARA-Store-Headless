@@ -921,7 +921,11 @@ img { display: block; max-width: 100%; }
   letter-spacing: -0.005em;
   text-transform: none;
   z-index: 2;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+}
+.lookbook-tile.t6 .lk-tag {
+  color: var(--ink);
+  text-shadow: none;
 }
 
 /* ====== Three column callouts ====== */
