@@ -1228,12 +1228,12 @@ const HOMEPAGE_LEGGING_IMAGES = {
 };
 
 const HOMEPAGE_DAHLIA_BRA_IMAGES = {
-  olive: ["/images/dbra-olive-hover.jpg", "/images/dbra-olive-default.jpg"] as [string, string],
-  brown: ["/images/dbra-brown-hover.jpg", "/images/dbra-brown-default.jpg"] as [string, string],
+  olive: ["/images/dbra-olive-default.jpg", "/images/dbra-olive-hover.jpg"] as [string, string],
+  brown: ["/images/dbra-brown-default.jpg", "/images/dbra-brown-hover.jpg"] as [string, string],
 };
 
 const HOMEPAGE_DAHLIA_SHORTS_IMAGES = {
-  olive: ["/images/dshorts-olive-hover.jpg", "/images/dshorts-olive-default.jpg"] as [string, string],
+  olive: ["/images/dshorts-olive-default.jpg", "/images/dshorts-olive-hover.jpg"] as [string, string],
   brown: ["/images/dshorts-brown-default.jpeg", "/images/dshorts-brown-hover.jpg"] as [string, string],
   brownPos: "30% center",
 };
@@ -1665,7 +1665,7 @@ function ManifestoColourways({ ids, openProduct }: { ids: string[]; openProduct:
             product={p}
             onClick={(colorName) => openProduct(p.id, colorName)}
             homepageImages={p.id === "p1" ? HOMEPAGE_IMARA_IMAGES : p.id === "p2" ? HOMEPAGE_LEGGING_IMAGES : p.id === "p3" ? HOMEPAGE_DAHLIA_BRA_IMAGES : p.id === "p4" ? HOMEPAGE_DAHLIA_SHORTS_IMAGES : undefined}
-            colorOverride={p.id === "p2" || p.id === "p3" ? "Olive" : p.id === "p4" ? "Chicory Brown" : undefined}
+            colorOverride={p.id === "p2" ? "Olive" : p.id === "p3" ? "Chicory Brown" : p.id === "p4" ? "Olive" : undefined}
           />
         ))}
       </div>
@@ -2900,7 +2900,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                 product={p}
                 onClick={(colorName) => openProduct(p.id, colorName)}
                 homepageImages={p.id === "p1" ? HOMEPAGE_IMARA_IMAGES : p.id === "p2" ? HOMEPAGE_LEGGING_IMAGES : p.id === "p3" ? HOMEPAGE_DAHLIA_BRA_IMAGES : p.id === "p4" ? HOMEPAGE_DAHLIA_SHORTS_IMAGES : undefined}
-                colorOverride={p.id === "p2" || p.id === "p3" ? "Olive" : p.id === "p4" ? "Chicory Brown" : undefined}
+                colorOverride={p.id === "p2" ? "Olive" : p.id === "p3" ? "Chicory Brown" : p.id === "p4" ? "Olive" : undefined}
               />
             ))}
           </div>
@@ -4066,7 +4066,7 @@ function LookbookPage({ setRoute, openProduct }) {
               product={p}
               onClick={(colorName) => openProduct(p.id, colorName)}
               homepageImages={p.id === "p1" ? HOMEPAGE_IMARA_IMAGES : p.id === "p2" ? HOMEPAGE_LEGGING_IMAGES : p.id === "p3" ? HOMEPAGE_DAHLIA_BRA_IMAGES : p.id === "p4" ? HOMEPAGE_DAHLIA_SHORTS_IMAGES : undefined}
-              colorOverride={p.id === "p2" || p.id === "p3" ? "Olive" : p.id === "p4" ? "Chicory Brown" : undefined}
+              colorOverride={p.id === "p2" ? "Olive" : p.id === "p3" ? "Chicory Brown" : p.id === "p4" ? "Olive" : undefined}
             />
           ))}
         </div>
