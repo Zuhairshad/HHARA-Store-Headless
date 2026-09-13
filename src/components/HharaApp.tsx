@@ -1538,7 +1538,7 @@ function Lookbook({ openLookbook, openProduct, setRoute }) {
     () => setRoute("shop", "Chicory Brown"),
     () => openProduct("p2"),
     () => setRoute("shop", "Olive"),
-    () => setRoute("shop", "The Imara Set"),
+    () => openProduct("p2"),
   ];
   return (
     <section className="section" style={{ paddingTop: "10px" }}>
