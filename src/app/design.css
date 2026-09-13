@@ -923,7 +923,7 @@ img { display: block; max-width: 100%; }
   z-index: 2;
   text-shadow: 0 1px 6px rgba(0,0,0,0.6);
 }
-.lookbook-tile.t6 .lk-tag {
+.lookbook-tile.t4 .lk-tag {
   color: var(--ink);
   text-shadow: none;
 }

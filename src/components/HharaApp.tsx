@@ -1531,14 +1531,14 @@ function Lookbook({ openLookbook, openProduct, setRoute }) {
 
   const tiles = [IMGS.lb5, IMGS.lb1, IMGS.lb2, IMGS.lb4, IMGS.lb3, IMGS.lb6];
   const tones = ["tone-3", "tone-1", "tone-5", "tone-7", "tone-2", "tone-6"];
-  const tags = ["Imara Set", "Dahlia Set", "Chicory Brown", "", "Olive", "Imara Leggings"];
+  const tags = ["Imara Set", "Dahlia Set", "Chicory Brown", "Imara Leggings", "Olive", "Imara Set"];
   const handlers = [
     () => setRoute("shop", "The Imara Set"),
     () => setRoute("shop", "The Dahlia Set"),
     () => setRoute("shop", "Chicory Brown"),
-    () => setRoute("shop", "Olive"),
-    () => setRoute("shop", "Olive"),
     () => openProduct("p2"),
+    () => setRoute("shop", "Olive"),
+    () => setRoute("shop", "The Imara Set"),
   ];
   return (
     <section className="section" style={{ paddingTop: "10px" }}>
