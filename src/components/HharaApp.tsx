@@ -5547,7 +5547,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
   } else if (route === "article") {
     body = <ArticlePage articleId={articleId} setRoute={setRouteState} openArticle={openArticle} />;
   } else if (route === "lookbook") {
-    body = <LookbookPage setRoute={setRouteState} openProduct={openProduct} />;
+    body = <LookbookPage setRoute={setRoute} openProduct={openProduct} />;
   } else if (route === "stores") {
     body = <StoresPage setRoute={setRouteState} />;
   } else if (route === "gift-card") {
