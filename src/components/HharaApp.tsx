@@ -179,20 +179,20 @@ const VIDEOS = {
 const B = "https://pjvogtsleqosgl0a.public.blob.vercel-storage.com/products";
 const PRODUCT_IMAGES: Record<string, { olive: string[]; brown: string[] }> = {
   p1: {
-    olive: [`${B}/p1_olive_2.jpg`, `${B}/p1_olive_4.jpg`, `${B}/p1_olive_1.jpg`, `${B}/p1_olive_3.jpg`, `${B}/p1_olive_5.jpg`],
-    brown: [`${B}/p1_brown_2.jpg`, `${B}/p1_brown_4.jpg`, `${B}/p1_brown_1.jpg`, `${B}/p1_brown_3.jpg`, `${B}/p1_brown_5.jpg`],
+    olive: [`${B}/p1_olive_4.jpg`, `${B}/p1_olive_2.jpg`, `${B}/p1_olive_1.jpg`, `${B}/p1_olive_3.jpg`, `${B}/p1_olive_5.jpg`],
+    brown: [`${B}/p1_brown_4.jpg`, `${B}/p1_brown_2.jpg`, `${B}/p1_brown_1.jpg`, `${B}/p1_brown_3.jpg`, `${B}/p1_brown_5.jpg`],
   },
   p2: {
     olive: [`${B}/p2_olive_1.jpg`, `${B}/p2_olive_2.jpg`, `${B}/p2_olive_3.jpg`, `${B}/p2_olive_4.jpg`, `${B}/p2_olive_5.jpg`],
     brown: [`${B}/p2_brown_1.jpg`, `${B}/p2_brown_2.jpg`, `${B}/p2_brown_3.jpg`, `${B}/p2_brown_4.jpg`, `${B}/p2_brown_5.jpg`],
   },
   p3: {
-    olive: [`${B}/p3_olive_4.jpg`, `${B}/p3_olive_1.jpg`, `${B}/p3_olive_2.jpg`, `${B}/p3_olive_3.jpg`, `${B}/p3_olive_5.jpg`],
-    brown: [`${B}/p3_brown_2.jpg`, `${B}/p3_brown_4.jpg`, `${B}/p3_brown_1.jpg`, `${B}/p3_brown_3.jpg`, `${B}/p3_brown_5.jpg`],
+    olive: [`${B}/p3_olive_1.jpg`, `${B}/p3_olive_4.jpg`, `${B}/p3_olive_2.jpg`, `${B}/p3_olive_3.jpg`, `${B}/p3_olive_5.jpg`],
+    brown: [`${B}/p3_brown_4.jpg`, `${B}/p3_brown_2.jpg`, `${B}/p3_brown_1.jpg`, `${B}/p3_brown_3.jpg`, `${B}/p3_brown_5.jpg`],
   },
   p4: {
-    olive: [`${B}/p4_olive_1.jpg`, `${B}/p4_olive_4.jpg`, "/images/dshorts-olive-hover.jpg", `${B}/p4_olive_2.jpg`, `${B}/p4_olive_3.jpg`, `${B}/p4_olive_5.jpg`],
-    brown: [`${B}/p4_brown_2.jpg`, "/images/dshorts-brown-hover.jpg", `${B}/p4_brown_1.jpg`, `${B}/p4_brown_3.jpg`],
+    olive: [`${B}/p4_olive_4.jpg`, `${B}/p4_olive_1.jpg`, "/images/dshorts-olive-hover.jpg", `${B}/p4_olive_2.jpg`, `${B}/p4_olive_3.jpg`, `${B}/p4_olive_5.jpg`],
+    brown: ["/images/dshorts-brown-hover.jpg", `${B}/p4_brown_2.jpg`, `${B}/p4_brown_1.jpg`, `${B}/p4_brown_3.jpg`],
   },
 };
 
@@ -1218,8 +1218,8 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
 // === FILE 06-ce7b1d96-f64b-4723-b417-6dfb0feade07.jsx ===
 
 const HOMEPAGE_IMARA_IMAGES = {
-  olive: ["/images/Homepage.jpeg", "/images/Homepage 3.jpeg"] as [string, string],
-  brown: ["/images/Homepage 1.jpeg", "/images/Homepage 4.jpeg"] as [string, string],
+  olive: ["/images/Homepage 3.jpeg", "/images/Homepage.jpeg"] as [string, string],
+  brown: ["/images/Homepage 4.jpeg", "/images/Homepage 1.jpeg"] as [string, string],
 };
 
 const HOMEPAGE_LEGGING_IMAGES = {
@@ -1228,13 +1228,13 @@ const HOMEPAGE_LEGGING_IMAGES = {
 };
 
 const HOMEPAGE_DAHLIA_BRA_IMAGES = {
-  olive: ["/images/dbra-olive-hover.jpg", "/images/dbra-olive-default.jpg"] as [string, string],
-  brown: ["/images/dbra-brown-hover.jpg", "/images/dbra-brown-default.jpg"] as [string, string],
+  olive: ["/images/dbra-olive-default.jpg", "/images/dbra-olive-hover.jpg"] as [string, string],
+  brown: ["/images/dbra-brown-default.jpg", "/images/dbra-brown-hover.jpg"] as [string, string],
 };
 
 const HOMEPAGE_DAHLIA_SHORTS_IMAGES = {
-  olive: ["/images/dshorts-olive-hover.jpg", "/images/dshorts-olive-default.jpg"] as [string, string],
-  brown: ["/images/dshorts-brown-hover.jpg", "/images/dshorts-brown-default.jpeg"] as [string, string],
+  olive: ["/images/dshorts-olive-default.jpg", "/images/dshorts-olive-hover.jpg"] as [string, string],
+  brown: ["/images/dshorts-brown-default.jpeg", "/images/dshorts-brown-hover.jpg"] as [string, string],
   brownPos: "30% center",
 };
 
