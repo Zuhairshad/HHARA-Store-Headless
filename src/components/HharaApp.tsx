@@ -1234,8 +1234,7 @@ const HOMEPAGE_DAHLIA_BRA_IMAGES = {
 
 const HOMEPAGE_DAHLIA_SHORTS_IMAGES = {
   olive: ["/images/dshorts-olive-default.jpg", "/images/dshorts-olive-hover.jpg"] as [string, string],
-  brown: ["/images/dshorts-brown-default.jpeg", "/images/dshorts-brown-hover.jpg"] as [string, string],
-  brownPos: "30% center",
+  brown: [`${B}/p4_brown_1.jpg`, "/images/dshorts-brown-hover.jpg"] as [string, string],
 };
 
 const REEL_THUMB_IMAGES: Record<string, { olive: string; brown: string }> = {
