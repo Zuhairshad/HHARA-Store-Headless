@@ -1234,6 +1234,11 @@ const HOMEPAGE_DAHLIA_BRA_IMAGES = {
 
 const HOMEPAGE_DAHLIA_SHORTS_IMAGES = {
   olive: ["/images/dshorts-olive-default.jpg", "/images/dshorts-olive-hover.jpg"] as [string, string],
+  brown: ["/images/dshorts-brown-default.jpeg", "/images/dshorts-brown-hover.jpg"] as [string, string],
+};
+
+const SHOPPAGE_DAHLIA_SHORTS_IMAGES = {
+  olive: ["/images/dshorts-olive-default.jpg", "/images/dshorts-olive-hover.jpg"] as [string, string],
   brown: [`${B}/p4_brown_1.jpg`, "/images/dshorts-brown-hover.jpg"] as [string, string],
 };
 
@@ -2156,7 +2161,7 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter, initialCatF
             </div>
           ) : (
             visible.map((p) => (
-              <ProductCard key={p.id} product={p} onClick={(colorName) => openProduct(p.id, colorName)} colorOverride={filters.color.length === 1 ? filters.color[0] : null} homepageImages={p.id === "p1" ? HOMEPAGE_IMARA_IMAGES : p.id === "p2" ? HOMEPAGE_LEGGING_IMAGES : p.id === "p3" ? HOMEPAGE_DAHLIA_BRA_IMAGES : p.id === "p4" ? HOMEPAGE_DAHLIA_SHORTS_IMAGES : undefined} />
+              <ProductCard key={p.id} product={p} onClick={(colorName) => openProduct(p.id, colorName)} colorOverride={filters.color.length === 1 ? filters.color[0] : null} homepageImages={p.id === "p1" ? HOMEPAGE_IMARA_IMAGES : p.id === "p2" ? HOMEPAGE_LEGGING_IMAGES : p.id === "p3" ? HOMEPAGE_DAHLIA_BRA_IMAGES : p.id === "p4" ? SHOPPAGE_DAHLIA_SHORTS_IMAGES : undefined} />
             ))
           )}
         </div>
