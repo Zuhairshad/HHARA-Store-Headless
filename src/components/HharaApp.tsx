@@ -192,7 +192,7 @@ const PRODUCT_IMAGES: Record<string, { olive: string[]; brown: string[] }> = {
   },
   p4: {
     olive: [`${B}/p4_olive_4.jpg`, `${B}/p4_olive_1.jpg`, "/images/dshorts-olive-hover.jpg", `${B}/p4_olive_2.jpg`, `${B}/p4_olive_3.jpg`, `${B}/p4_olive_5.jpg`],
-    brown: ["/images/dshorts-brown-hover.jpg", `${B}/p4_brown_2.jpg`, `${B}/p4_brown_1.jpg`, `${B}/p4_brown_3.jpg`],
+    brown: ["/images/dshorts-brown-hover.jpg", `${B}/p4_brown_2.jpg`, `${B}/p4_brown_1.jpg`, `${B}/p4_brown_3.jpg`, "/images/dshorts-brown-default.jpeg"],
   },
 };
 
