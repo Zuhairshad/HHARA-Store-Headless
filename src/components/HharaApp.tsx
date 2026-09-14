@@ -5249,15 +5249,13 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
   const [signupError, setSignupError] = useState("");
 
   useEffect(() => {
-    const hasSeen = localStorage.getItem("hhara_signup_seen");
-    if (!hasSeen) {
-      const timer = setTimeout(() => {
-        setSignupPopupOpen(true);
-        setPopupFormTs(Date.now());
-      }, 3500);
-      return () => clearTimeout(timer);
-    }
-  }, []);
+    if (customer) return;
+    const timer = setTimeout(() => {
+      setSignupPopupOpen(true);
+      setPopupFormTs(Date.now());
+    }, 3500);
+    return () => clearTimeout(timer);
+  }, [customer]);
 
   const handleNewsletterSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -5277,7 +5275,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
       );
       if (res.ok) {
         setSignupStatus("success");
-        localStorage.setItem("hhara_signup_seen", "true");
         trackEvent({
           name: "customer_subscribed",
           payload: {
@@ -5298,7 +5295,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
 
   const closeSignupPopup = () => {
     setSignupPopupOpen(false);
-    localStorage.setItem("hhara_signup_seen", "true");
   };
 
   const openSignupPopup = () => {
@@ -5589,7 +5585,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
     <>
       {signupPopupOpen && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#241811]/70 backdrop-blur-md transition-opacity duration-500 animate-fade-in"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 transition-opacity duration-500 animate-fade-in"
           onClick={closeSignupPopup}
         >
           <div
