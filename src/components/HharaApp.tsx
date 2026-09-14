@@ -2157,7 +2157,7 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter, initialCatF
             </div>
           ) : (
             visible.map((p) => (
-              <ProductCard key={p.id} product={p} onClick={(colorName) => openProduct(p.id, colorName)} colorOverride={filters.color.length === 1 ? filters.color[0] : null} />
+              <ProductCard key={p.id} product={p} onClick={(colorName) => openProduct(p.id, colorName)} colorOverride={filters.color.length === 1 ? filters.color[0] : null} homepageImages={p.id === "p1" ? HOMEPAGE_IMARA_IMAGES : p.id === "p2" ? HOMEPAGE_LEGGING_IMAGES : p.id === "p3" ? HOMEPAGE_DAHLIA_BRA_IMAGES : p.id === "p4" ? HOMEPAGE_DAHLIA_SHORTS_IMAGES : undefined} />
             ))
           )}
         </div>
