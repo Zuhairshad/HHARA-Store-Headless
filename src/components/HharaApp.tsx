@@ -1218,8 +1218,8 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
 // === FILE 06-ce7b1d96-f64b-4723-b417-6dfb0feade07.jsx ===
 
 const HOMEPAGE_IMARA_IMAGES = {
-  olive: ["/images/Homepage 3.jpeg", "/images/Homepage.jpeg"] as [string, string],
-  brown: ["/images/Homepage 4.jpeg", "/images/Homepage 1.jpeg"] as [string, string],
+  olive: ["/images/Homepage.jpeg", "/images/Homepage 3.jpeg"] as [string, string],
+  brown: ["/images/Homepage 1.jpeg", "/images/Homepage 4.jpeg"] as [string, string],
 };
 
 const HOMEPAGE_LEGGING_IMAGES = {
@@ -1228,13 +1228,13 @@ const HOMEPAGE_LEGGING_IMAGES = {
 };
 
 const HOMEPAGE_DAHLIA_BRA_IMAGES = {
-  olive: ["/images/dbra-olive-default.jpg", "/images/dbra-olive-hover.jpg"] as [string, string],
-  brown: ["/images/dbra-brown-default.jpg", "/images/dbra-brown-hover.jpg"] as [string, string],
+  olive: ["/images/dbra-olive-hover.jpg", "/images/dbra-olive-default.jpg"] as [string, string],
+  brown: ["/images/dbra-brown-hover.jpg", "/images/dbra-brown-default.jpg"] as [string, string],
 };
 
 const HOMEPAGE_DAHLIA_SHORTS_IMAGES = {
-  olive: ["/images/dshorts-olive-default.jpg", "/images/dshorts-olive-hover.jpg"] as [string, string],
-  brown: ["/images/dshorts-brown-default.jpeg", "/images/dshorts-brown-hover.jpg"] as [string, string],
+  olive: ["/images/dshorts-olive-hover.jpg", "/images/dshorts-olive-default.jpg"] as [string, string],
+  brown: ["/images/dshorts-brown-hover.jpg", "/images/dshorts-brown-default.jpeg"] as [string, string],
   brownPos: "30% center",
 };
 
