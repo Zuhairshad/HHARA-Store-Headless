@@ -98,19 +98,6 @@ const PRODUCTS = [
     imgKey: "p4",
     tagline: "Omnidirectional stretch short",
   },
-  {
-    id: "p5",
-    name: "HHARA Comfort Socks",
-    cat: "Accessories",
-    price: 65,
-    swatches: [{ name: "Camel", hex: "#C19A6B" }],
-    sizes: ["UK 4–7"],
-    tone: "tone-1",
-    altTone: "tone-2",
-    imgKey: "p5",
-    featuredImage: { url: "https://images.unsplash.com/photo-1640025867572-f6b3a8410c81?auto=format&fit=crop&q=80&w=1200", altText: "HHARA Comfort Socks Camel" },
-    tagline: "Refined comfort for every step",
-  },
 ];
 
 const CART_COLOR_NAME_MAP: Record<string, string> = {

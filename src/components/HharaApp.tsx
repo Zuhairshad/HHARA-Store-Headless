@@ -309,31 +309,6 @@ const PRODUCTS = [
       "Machine wash cold · do not tumble dry",
     ],
   },
-  {
-    id: "p5",
-    name: "HHARA Comfort Socks",
-    cat: "Accessories",
-    price: 65,
-    swatches: [
-      { name: "Camel", hex: "#C19A6B" },
-    ],
-    sizes: ["UK 4–7"],
-    tone: "tone-1",
-    altTone: "tone-2",
-    imgKey: "p5",
-    featuredImage: { url: "https://images.unsplash.com/photo-1640025867572-f6b3a8410c81?auto=format&fit=crop&q=80&w=1200", altText: "HHARA Comfort Socks Camel" },
-    images: [
-      { url: "https://images.unsplash.com/photo-1640025867572-f6b3a8410c81?auto=format&fit=crop&q=80&w=1200", altText: "HHARA Comfort Socks Camel" },
-      { url: "https://images.unsplash.com/photo-1640026199235-c24aa417b552?auto=format&fit=crop&q=80&w=1200", altText: "HHARA Comfort Socks detail" },
-    ],
-    tagline: "Refined comfort for every step",
-    description: "An elevated essential designed with the same attention to detail as the collection, the HHARA Comfort Socks bring refined comfort to every step. A cushioned footbed provides gentle support, while a hand-linked toe seam ensures a smooth, seamless finish. The sleek design adds the finishing touch to any look, from intentional movement to everyday styling.\n\nSimple in form, effortless in function, and created to complement the HHARA lifestyle.",
-    details: [
-      "Cushioned footbed support",
-      "Sleek ribbed performance fit",
-      "Machine wash cold · do not tumble dry",
-    ],
-  },
 ];
 
 // Name-meaning boxes shown on the PDP, keyed by capsule (product.cat)
