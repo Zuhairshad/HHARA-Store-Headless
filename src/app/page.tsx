@@ -5,8 +5,7 @@ import { getStorefrontProducts } from "@/lib/products";
 import { getCurrentCart } from "@/lib/cart-actions";
 import { getCurrentCustomer } from "@/lib/customer-actions";
 
-// Revalidate every 5 minutes — products and hero content change infrequently.
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 const VALID_ROUTES = new Set([
   "shop", "lookbook", "atelier", "stores", "account", "faq",

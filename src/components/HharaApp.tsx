@@ -221,7 +221,7 @@ function getProductColorImages(imgKey: string, colorName: string): string[] {
 const PRODUCTS = [
   {
     id: "p1",
-    name: "Imara Bra",
+    name: "Imara Sculpt Scoop Neck Bra",
     cat: "The Imara Set",
     price: 0,
     swatches: [
@@ -244,7 +244,7 @@ const PRODUCTS = [
   },
   {
     id: "p2",
-    name: "Imara Legging",
+    name: "Imara Seamless Sculpt High Waist Legging",
     cat: "The Imara Set",
     price: 0,
     swatches: [
@@ -267,7 +267,7 @@ const PRODUCTS = [
   },
   {
     id: "p3",
-    name: "Dahlia Bra",
+    name: "Dahlia Cross Back Bra",
     cat: "The Dahlia Set",
     price: 0,
     swatches: [
@@ -289,7 +289,7 @@ const PRODUCTS = [
   },
   {
     id: "p4",
-    name: "Dahlia Short",
+    name: "Dahlia Seamless Sculpt High Waist Shorts",
     cat: "The Dahlia Set",
     price: 0,
     swatches: [
