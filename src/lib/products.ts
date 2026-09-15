@@ -156,7 +156,9 @@ function mapShopifyProduct(p: ShopifyProduct, index: number): LocalProduct {
 export async function getStorefrontProducts(): Promise<LocalProduct[]> {
   try {
     const products = await getProducts(50);
-    return products.map(mapShopifyProduct);
+    return products
+      .filter((p) => !/sock/i.test(p.title))
+      .map(mapShopifyProduct);
   } catch (err) {
     console.error("[shopify] product fetch failed:", err);
     return [];
