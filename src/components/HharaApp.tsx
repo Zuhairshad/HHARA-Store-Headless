@@ -1595,7 +1595,7 @@ function Callouts() {
           }
           return (
             <a key={i} href={card.link} target="_blank" rel="noopener noreferrer" className="insta-card">
-              <img src={card.img} alt={`HHARA Lifestyle ${i + 1}`} />
+              <Image src={card.img} alt={`HHARA Lifestyle ${i + 1}`} fill className="img-fill" sizes="(max-width: 640px) 50vw, 33vw" loading="lazy" />
               <div className="insta-card-overlay"></div>
               {card.icon !== "none" && (
                 <span className="insta-icon-badge">

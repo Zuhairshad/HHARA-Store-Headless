@@ -70,6 +70,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${cormorant.variable} ${montserrat.variable} ${jetbrains.variable} ${mrDeHaviland.variable}`}>
+      <head>
+        {/* @ts-ignore */}
+        <link rel="preload" as="image" fetchPriority="high" imageSrcSet="/_next/image?url=%2Fimages%2Fhero-banner.png&w=640&q=85 640w, /_next/image?url=%2Fimages%2Fhero-banner.png&w=750&q=85 750w, /_next/image?url=%2Fimages%2Fhero-banner.png&w=828&q=85 828w, /_next/image?url=%2Fimages%2Fhero-banner.png&w=1080&q=85 1080w, /_next/image?url=%2Fimages%2Fhero-banner.png&w=1200&q=85 1200w, /_next/image?url=%2Fimages%2Fhero-banner.png&w=1920&q=85 1920w" imageSizes="100vw" />
+      </head>
       <body>
         <FontLoader />
         <AnalyticsProvider>
