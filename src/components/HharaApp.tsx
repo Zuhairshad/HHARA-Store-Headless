@@ -3,6 +3,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, react/no-unescaped-entities */
 import React, { useState, useEffect, useRef, useContext, createContext } from "react";
 import Image from "next/image";
+import { useCart } from "@/components/providers/CartProvider";
+import { useUI } from "@/components/providers/UIProvider";
 import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount } from "@/lib/cart-actions";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
@@ -5187,14 +5189,12 @@ const CART_COLOR_REVERSE_MAP: Record<string, string> = {
 
 function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { initialProducts?: any[]; initialCart?: any; initialCustomer?: any; initialRoute?: string }) {
   const products = (initialProducts && initialProducts.length) ? initialProducts : PRODUCTS;
-  const [shopifyCart, setShopifyCart] = useState<any>(initialCart || null);
-  const [localCartItems, setLocalCartItems] = useState<any[]>([]);
+  const { shopifyCart, setShopifyCart, localCartItems, setLocalCartItems, cart, addToCart, removeItem, updateQty, applyDiscount } = useCart();
+  const { cartOpen, setCartOpen, searchOpen, setSearchOpen, signupPopupOpen, setSignupPopupOpen } = useUI();
   const [customer, setCustomer] = useState<any>(initialCustomer || null);
   const [route, setRouteState] = useState(initialRoute || "home");
   const [productId, setProductId] = useState("p1");
   const [articleId, setArticleId] = useState("j1");
-  const [cartOpen, setCartOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [wishlistLoaded, setWishlistLoaded] = useState(false);
   const [selectedColorFilter, setSelectedColorFilter] = useState<string | null>(null);
@@ -5262,7 +5262,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
     setWishlist((w) => w.includes(id) ? w.filter((x) => x !== id) : [...w, id]);
   };
 
-  const [signupPopupOpen, setSignupPopupOpen] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterName, setNewsletterName] = useState("");
   const [newsletterDob, setNewsletterDob] = useState("");
@@ -5335,221 +5334,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
       setSelectedCatFilter(typeof payload === "string" && payload.startsWith("The ") ? payload : null);
     }
     window.scrollTo({ top: 0, behavior: "instant" });
-  };
-
-  // Derive cart UI items from the Shopify cart structure
-  const cart = [
-    ...(shopifyCart?.lines || []).map((line: any) => {
-      const productMatch = products.find((p: any) => p.variants?.some((v: any) => v.id === line.merchandise.id));
-      const opts = Object.fromEntries(line.merchandise.selectedOptions.map((o: any) => [o.name.toLowerCase(), o.value]));
-      return {
-        key: line.id,
-        lineId: line.id,
-        variantId: line.merchandise.id,
-        id: productMatch?.id || line.merchandise.product.handle,
-        name: line.merchandise.product.title,
-        price: parseFloat(line.cost.totalAmount.amount) / Math.max(line.quantity, 1),
-        qty: line.quantity,
-        color: (() => { const raw = opts.color || opts.colour || opts.colorway || "-"; return CART_COLOR_NAME_MAP[raw] ?? raw; })(),
-        size: opts.size || "-",
-        tone: productMatch?.tone || "tone-2",
-        featuredImage: (() => {
-          const colorRaw = opts.color || opts.colour || opts.colorway || "";
-          const colorName = CART_COLOR_NAME_MAP[colorRaw] ?? colorRaw;
-          const imgKey = productMatch?.imgKey;
-          if (imgKey && PRODUCT_IMAGES[imgKey]) {
-            const imgs = getProductColorImages(imgKey, colorName);
-            if (imgs?.[0]) return imgs[0];
-          }
-          return line.merchandise.image?.url || productMatch?.featuredImage?.url || null;
-        })(),
-      };
-    }),
-    ...localCartItems,
-  ];
-
-  useEffect(() => {
-    if (cartOpen || route === "pre-checkout") {
-      if (cart && cart.length > 0) {
-        const totalVal = cart.reduce((a: number, i: any) => a + (i.price || 0) * (i.qty || 1), 0);
-        trackEvent({
-          name: "cart_viewed",
-          payload: {
-            currency: "AED",
-            value: totalVal,
-            cart_id: shopifyCart?.id,
-            items: cart.map((i: any) =>
-              formatEcommerceItem({
-                id: i.variantId || i.id,
-                name: i.name,
-                price: i.price,
-                brand: "HHARA",
-                category: "Considered Luxury",
-                variant: `${i.color} / ${i.size}`,
-                currency: "AED",
-                quantity: i.qty,
-              })
-            ),
-          },
-        });
-      }
-    }
-  }, [cartOpen, route]);
-
-  const findVariantId = (product: any, color: string, size: string) => {
-    if (!product?.variants?.length) return null;
-    const rawColor = CART_COLOR_REVERSE_MAP[color] ?? color;
-    const match = product.variants.find((v: any) => {
-      const opts = Object.fromEntries(v.selectedOptions.map((o: any) => [o.name.toLowerCase(), o.value]));
-      const cOk = !color || Object.values(opts).includes(rawColor) || Object.values(opts).includes(color);
-      const sOk = !size || Object.values(opts).includes(size);
-      return cOk && sOk;
-    });
-    return match?.id || product.variants[0].id;
-  };
-
-  const addToCart = async (item) => {
-    if (item.isGiftCard) {
-      const localId = `local-gc-${Date.now()}`;
-      setLocalCartItems(prev => [...prev, {
-        key: localId,
-        lineId: localId,
-        variantId: null,
-        id: "gift-card",
-        name: item.name,
-        price: item.price,
-        qty: 1,
-        color: "-",
-        size: "-",
-        tone: "tone-4",
-        featuredImage: "gift-card-monkey",
-        isGiftCard: true,
-      }]);
-      setCartOpen(true);
-      return;
-    }
-    const product = products.find((p: any) => p.id === item.id);
-    const variantId = item.variantId || findVariantId(product, item.color, item.size);
-    if (!variantId) {
-      console.warn("No variant resolved for", item, "- product:", product?.name, "variants:", product?.variants?.length);
-      setCartOpen(true);
-      return;
-    }
-    try {
-      const next = await serverAddLine(variantId, 1);
-      setShopifyCart(next);
-      setCartOpen(true);
-      trackEvent({
-        name: "product_added_to_cart",
-        payload: {
-          currency: "AED",
-          value: item.price || product?.price || 0,
-          cart_id: next?.id,
-          items: [
-            formatEcommerceItem({
-              id: variantId,
-              name: item.name || product?.name || "Product",
-              price: item.price || product?.price || 0,
-              brand: "HHARA",
-              category: product?.cat || "Considered Luxury",
-              variant: item.color ? `${item.color} / ${item.size || ""}` : "Default",
-              currency: "AED",
-              quantity: 1,
-            }),
-          ],
-        },
-      });
-    } catch (e) {
-      console.error("addToCart failed - variantId:", variantId, e);
-      try {
-        const retry = await serverAddLine(variantId, 1);
-        setShopifyCart(retry);
-        setCartOpen(true);
-        trackEvent({
-          name: "product_added_to_cart",
-          payload: {
-            currency: "AED",
-            value: item.price || product?.price || 0,
-            cart_id: retry?.id,
-            items: [
-              formatEcommerceItem({
-                id: variantId,
-                name: item.name || product?.name || "Product",
-                price: item.price || product?.price || 0,
-                brand: "HHARA",
-                category: product?.cat || "Considered Luxury",
-                variant: item.color ? `${item.color} / ${item.size || ""}` : "Default",
-                currency: "AED",
-                quantity: 1,
-              }),
-            ],
-          },
-        });
-      } catch (e2) {
-        console.error("addToCart retry also failed", e2);
-      }
-    }
-  };
-
-
-  const updateQty = async (lineId: string, qty: number) => {
-    if (lineId.startsWith("local-")) {
-      if (qty <= 0) setLocalCartItems(prev => prev.filter(i => i.lineId !== lineId));
-      else setLocalCartItems(prev => prev.map(i => i.lineId === lineId ? { ...i, qty } : i));
-      return;
-    }
-    try {
-      const next = await serverUpdateLine(lineId, qty);
-      setShopifyCart(next);
-    } catch (e) {
-      console.error("updateQty failed", e);
-    }
-  };
-  const removeItem = async (lineId: string) => {
-    const itemToRemove = cart.find((i: any) => i.lineId === lineId || i.key === lineId);
-    if (lineId.startsWith("local-")) {
-      setLocalCartItems(prev => prev.filter(i => i.lineId !== lineId));
-      return;
-    }
-    try {
-      const next = await serverRemoveLine(lineId);
-      setShopifyCart(next);
-      if (itemToRemove) {
-        trackEvent({
-          name: "product_removed_from_cart",
-          payload: {
-            currency: "AED",
-            value: (itemToRemove.price || 0) * (itemToRemove.qty || 1),
-            cart_id: next?.id,
-            items: [
-              formatEcommerceItem({
-                id: itemToRemove.variantId || itemToRemove.id,
-                name: itemToRemove.name,
-                price: itemToRemove.price,
-                brand: "HHARA",
-                category: "Considered Luxury",
-                variant: `${itemToRemove.color} / ${itemToRemove.size}`,
-                currency: "AED",
-                quantity: itemToRemove.qty,
-              }),
-            ],
-          },
-        });
-      }
-    } catch (e) {
-      console.error("removeItem failed", e);
-    }
-  };
-
-  const applyDiscount = async (code: string) => {
-    try {
-      const next = await serverApplyDiscount(code);
-      setShopifyCart(next);
-      return next;
-    } catch (e) {
-      console.error("applyDiscount failed", e);
-      throw e;
-    }
   };
 
   const cartCount = cart.reduce((a: number, i: any) => a + i.qty, 0);

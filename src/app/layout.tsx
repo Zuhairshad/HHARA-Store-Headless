@@ -27,6 +27,8 @@ const mrDeHaviland = Mr_De_Haviland({
 import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 import { ConsentBanner } from "@/components/analytics/ConsentBanner";
 import { FontLoader } from "@/components/FontLoader";
+import { CartProvider } from "@/components/providers/CartProvider";
+import { UIProvider } from "@/components/providers/UIProvider";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://hhara-store-headless.vercel.app"),
@@ -77,7 +79,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <FontLoader />
         <AnalyticsProvider>
-          {children}
+          <CartProvider initialCart={null}>
+            <UIProvider>
+              {children}
+            </UIProvider>
+          </CartProvider>
           <ConsentBanner />
         </AnalyticsProvider>
       </body>
