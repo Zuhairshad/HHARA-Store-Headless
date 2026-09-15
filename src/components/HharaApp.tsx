@@ -669,11 +669,13 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
   const [promoBusy, setPromoBusy] = useState(false);
   const [promoError, setPromoError] = useState("");
   const [upsellSizes, setUpsellSizes] = useState<Record<string, string>>({});
+  const [upsellColors, setUpsellColors] = useState<Record<string, string>>({});
   const [addedUpsellIds, setAddedUpsellIds] = useState<Record<string, boolean>>({});
   const [shipOpen, setShipOpen] = useState(false);
 
   // Stable upsell recommendations (items remain visible in Pairs Well With when added)
   const firstCartId = cart[0]?.id;
+  const cartColor = cart[0]?.color || "olive";
   const PAIRS: Record<string, string[]> = {
     p1: ["p2", "p4"],
     p2: ["p1", "p3"],
@@ -683,12 +685,12 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
   const pairIds = PAIRS[firstCartId] ?? products.filter((p: any) => p.id !== firstCartId).map((p: any) => p.id).slice(0, 2);
   const upsells = pairIds.map((id: string) => products.find((p: any) => p.id === id)).filter(Boolean);
 
-  const handleAddUpsell = (p: any, sel: string) => {
+  const handleAddUpsell = (p: any, sel: string, color: string) => {
     addToCart({
       id: p.id,
       name: p.name,
       price: p.price,
-      color: p.swatches?.[0]?.name,
+      color,
       size: sel,
       tone: p.tone,
     });
@@ -772,15 +774,31 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
               <h4 className="pco-section-label">Pairs Well With</h4>
               {upsells.slice(0, 2).map((p: any) => {
                 const sel = upsellSizes[p.id] || p.sizes?.[0] || "";
+                const selectedColor = upsellColors[p.id] || cartColor;
                 const isAdded = addedUpsellIds[p.id];
+                const imgs = p.imgKey && PRODUCT_IMAGES[p.imgKey] ? getProductColorImages(p.imgKey, selectedColor) : null;
+                const src = imgs?.[0] || p.featuredImage?.url;
                 return (
                   <div className="pco-upsell-item" key={p.id}>
                     <div className={`pco-upsell-thumb ${p.tone}`} onClick={() => setRoute("product", p.id)} style={{ cursor: "pointer" }}>
-                      {(() => { const imgs = p.imgKey && PRODUCT_IMAGES[p.imgKey] ? getProductColorImages(p.imgKey, "olive") : null; const src = imgs?.[0] || p.featuredImage?.url; return src ? <img src={src} alt={p.name} className="img-fill" /> : <div className="ph">{p.name?.toLowerCase()}</div>; })()}
+                      {src ? <img src={src} alt={p.name} className="img-fill" /> : <div className="ph">{p.name?.toLowerCase()}</div>}
                     </div>
                     <div className="pco-upsell-body">
                       <div className="pco-upsell-name" onClick={() => setRoute("product", p.id)} style={{ cursor: "pointer" }}>{p.name}</div>
                       <div className="pco-upsell-price">AED {p.price?.toLocaleString()}</div>
+                      {p.swatches?.length > 0 && (
+                        <div className="pco-upsell-swatches">
+                          {p.swatches.map((sw: any) => (
+                            <button
+                              key={sw.name}
+                              title={sw.name}
+                              className={`pco-upsell-swatch${selectedColor?.toLowerCase().includes(sw.name?.toLowerCase().split(" ")[0]) ? " active" : ""}`}
+                              style={{ background: sw.hex }}
+                              onClick={() => setUpsellColors(prev => ({ ...prev, [p.id]: sw.name }))}
+                            />
+                          ))}
+                        </div>
+                      )}
                       {p.sizes?.length > 0 && (
                         <select className="pco-upsell-size" aria-label="Select size" value={sel} onChange={(e) => setUpsellSizes(prev => ({ ...prev, [p.id]: e.target.value }))}>
                           {p.sizes.map((s: string) => <option key={s} value={s}>{s}</option>)}
@@ -788,7 +806,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
                       )}
                       <button
                         className="pco-upsell-add"
-                        onClick={() => handleAddUpsell(p, sel)}
+                        onClick={() => handleAddUpsell(p, sel, selectedColor)}
                         disabled={isAdded}
                         style={isAdded ? { background: "var(--accent)", color: "#fff" } : {}}
                       >

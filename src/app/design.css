@@ -1463,6 +1463,13 @@ img { display: block; max-width: 100%; }
   margin-top: 4px;
 }
 .pco-upsell-add:hover { background: var(--bg); color: var(--bark); }
+.pco-upsell-swatches { display: flex; gap: 6px; flex-wrap: wrap; }
+.pco-upsell-swatch {
+  width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid transparent;
+  cursor: pointer; padding: 0; transition: border-color 0.15s;
+}
+.pco-upsell-swatch.active { border-color: var(--ink); }
+.pco-upsell-swatch:hover { border-color: var(--ink-soft); }
 
 /* Promo */
 .pco-promo-form { display: flex; gap: 0; border-bottom: 1px solid var(--line); }
