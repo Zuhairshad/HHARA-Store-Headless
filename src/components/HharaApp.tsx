@@ -490,33 +490,33 @@ function MegaMenu({ open, onClose, setRoute }) {
         <div>
           <h6>The Collection</h6>
           <ul>
-            <li><a onClick={() => { setRoute("shop"); onClose(); }}>Shop All</a></li>
-            <li><a onClick={() => { setRoute("shop", "The Imara Set"); onClose(); }}>The Imara Set</a></li>
-            <li><a onClick={() => { setRoute("shop", "The Dahlia Set"); onClose(); }}>The Dahlia Set</a></li>
-            <li><a onClick={() => { setRoute("lookbook"); onClose(); }}>The Lookbook</a></li>
+            <li><a href="/shop" onClick={(e) => { e.preventDefault(); setRoute("shop"); onClose(); }}>Shop All</a></li>
+            <li><a href="/shop" onClick={(e) => { e.preventDefault(); setRoute("shop", "The Imara Set"); onClose(); }}>The Imara Set</a></li>
+            <li><a href="/shop" onClick={(e) => { e.preventDefault(); setRoute("shop", "The Dahlia Set"); onClose(); }}>The Dahlia Set</a></li>
+            <li><a href="/lookbook" onClick={(e) => { e.preventDefault(); setRoute("lookbook"); onClose(); }}>The Lookbook</a></li>
           </ul>
         </div>
         <div className="cols">
           <div>
             <h6>The Imara Set</h6>
             <ul>
-              <li><a onClick={() => { setRoute("product", "p1"); onClose(); }}>Imara Bra</a></li>
-              <li><a onClick={() => { setRoute("product", "p2"); onClose(); }}>Imara Legging</a></li>
-              <li><a onClick={() => { setRoute("shop", "The Imara Set"); onClose(); }}>Shop The Set</a></li>
+              <li><a href="/products/imara-bra" onClick={(e) => { e.preventDefault(); setRoute("product", "p1"); onClose(); }}>Imara Bra</a></li>
+              <li><a href="/products/imara-legging" onClick={(e) => { e.preventDefault(); setRoute("product", "p2"); onClose(); }}>Imara Legging</a></li>
+              <li><a href="/shop" onClick={(e) => { e.preventDefault(); setRoute("shop", "The Imara Set"); onClose(); }}>Shop The Set</a></li>
             </ul>
           </div>
           <div>
             <h6>The Dahlia Set</h6>
             <ul>
-              <li><a onClick={() => { setRoute("product", "p3"); onClose(); }}>Dahlia Bra</a></li>
-              <li><a onClick={() => { setRoute("product", "p4"); onClose(); }}>Dahlia Short</a></li>
-              <li><a onClick={() => { setRoute("shop", "The Dahlia Set"); onClose(); }}>Shop The Set</a></li>
+              <li><a href="/products/dahlia-bra" onClick={(e) => { e.preventDefault(); setRoute("product", "p3"); onClose(); }}>Dahlia Bra</a></li>
+              <li><a href="/products/dahlia-short" onClick={(e) => { e.preventDefault(); setRoute("product", "p4"); onClose(); }}>Dahlia Short</a></li>
+              <li><a href="/shop" onClick={(e) => { e.preventDefault(); setRoute("shop", "The Dahlia Set"); onClose(); }}>Shop The Set</a></li>
             </ul>
           </div>
           <div>
             <h6>Accessories</h6>
             <ul>
-              <li><a onClick={() => { setRoute("gift-card"); onClose(); }}>E-Gift Card</a></li>
+              <li><a href="/gift-card" onClick={(e) => { e.preventDefault(); setRoute("gift-card"); onClose(); }}>E-Gift Card</a></li>
             </ul>
           </div>
         </div>
@@ -565,7 +565,7 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
         <Announce />
         <header className={`header${isSolid ? " header--solid" : ""}`}>
           <div className="header-inner">
-            <button className="mobile-menu-trigger" onClick={() => setMobileMenuOpen(true)}>
+            <button className="mobile-menu-trigger" aria-label="Open menu" aria-expanded={mobileMenuOpen} onClick={() => setMobileMenuOpen(true)}>
               <Icon.Menu />
             </button>
             <nav className="header-nav">
@@ -782,7 +782,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
                       <div className="pco-upsell-name" onClick={() => setRoute("product", p.id)} style={{ cursor: "pointer" }}>{p.name}</div>
                       <div className="pco-upsell-price">AED {p.price?.toLocaleString()}</div>
                       {p.sizes?.length > 0 && (
-                        <select className="pco-upsell-size" value={sel} onChange={(e) => setUpsellSizes(prev => ({ ...prev, [p.id]: e.target.value }))}>
+                        <select className="pco-upsell-size" aria-label="Select size" value={sel} onChange={(e) => setUpsellSizes(prev => ({ ...prev, [p.id]: e.target.value }))}>
                           {p.sizes.map((s: string) => <option key={s} value={s}>{s}</option>)}
                         </select>
                       )}
@@ -993,10 +993,10 @@ function Footer({ setRoute, route = "" }) {
             <div className="footer-col">
               <h4>The Collection</h4>
               <ul>
-                <li><a onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>Shop All</a></li>
-                <li><a onClick={() => setRoute("shop", "The Dahlia Set")} style={{ cursor: "pointer" }}>The Dahlia Set</a></li>
-                <li><a onClick={() => setRoute("shop", "The Imara Set")} style={{ cursor: "pointer" }}>The Imara Set</a></li>
-                <li><a onClick={() => setRoute("lookbook")} style={{ cursor: "pointer" }}>The Lookbook</a></li>
+                <li><a href="/shop" onClick={(e) => { e.preventDefault(); setRoute("shop"); }} style={{ cursor: "pointer" }}>Shop All</a></li>
+                <li><a href="/shop" onClick={(e) => { e.preventDefault(); setRoute("shop", "The Dahlia Set"); }} style={{ cursor: "pointer" }}>The Dahlia Set</a></li>
+                <li><a href="/shop" onClick={(e) => { e.preventDefault(); setRoute("shop", "The Imara Set"); }} style={{ cursor: "pointer" }}>The Imara Set</a></li>
+                <li><a href="/lookbook" onClick={(e) => { e.preventDefault(); setRoute("lookbook"); }} style={{ cursor: "pointer" }}>The Lookbook</a></li>
               </ul>
             </div>
             <div className="footer-col">
@@ -1013,8 +1013,8 @@ function Footer({ setRoute, route = "" }) {
             <div className="footer-col">
               <h4>Information</h4>
               <ul>
-                <li><a onClick={() => setRoute("atelier")} style={{ cursor: "pointer" }}>About Us</a></li>
-                <li><a onClick={() => setRoute("stores")} style={{ cursor: "pointer" }}>Social Impact</a></li>
+                <li><a href="/atelier" onClick={(e) => { e.preventDefault(); setRoute("atelier"); }} style={{ cursor: "pointer" }}>About Us</a></li>
+                <li><a href="/stores" onClick={(e) => { e.preventDefault(); setRoute("stores"); }} style={{ cursor: "pointer" }}>Social Impact</a></li>
                 <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>E-Gift Card</a></li>
                 <li><a onClick={() => setRoute("privacy")} style={{ cursor: "pointer" }}>Privacy &amp; Cookie Policy</a></li>
                 <li><a onClick={() => setRoute("terms")} style={{ cursor: "pointer" }}>Terms &amp; Conditions</a></li>
@@ -1335,7 +1335,7 @@ function Hero({ openShop }) {
           fill
           className="img-fill hero-image"
           sizes="100vw"
-          quality={100}
+          quality={85}
           priority
         />
       </div>
@@ -1456,10 +1456,12 @@ function Editorial({ openShop }) {
     <section className="section-full" style={{ padding: 0 }}>
       <div className="editorial" style={{ minHeight: "60vh" }}>
         <div className="editorial-media tone-5">
-          <img
+          <Image
             src="/images/every-version.png"
             alt="Woman in HHARA olive set with tote bag"
+            fill
             className="img-fill"
+            sizes="(max-width: 768px) 100vw, 50vw"
             loading="lazy"
             style={{ objectFit: "cover", objectPosition: "right top" }}
           />
@@ -2039,6 +2041,7 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter, initialCatF
               value={sort}
               onChange={(e) => setSort(e.target.value)}
               className="sort-select"
+              aria-label="Sort products"
             >
               {["Featured", "Newest", "Price, low to high", "Price, high to low"].map((s) => (
                 <option key={s} value={s}>{s}</option>
@@ -5657,6 +5660,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
                     {/* Row 2: Phone Number */}
                     <div className="w-full flex gap-0 border border-[#D0C8BC] focus-within:border-[#241811] transition-colors bg-white">
                       <select
+                        aria-label="Country code"
                         value={newsletterCountryCode}
                         onChange={(e) => setNewsletterCountryCode(e.target.value)}
                         className="bg-transparent text-[#241811] border-0 border-r border-[#D0C8BC] outline-none py-2 md:py-2.5 px-2 text-xs font-light cursor-pointer shrink-0"

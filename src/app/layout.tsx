@@ -26,6 +26,7 @@ const mrDeHaviland = Mr_De_Haviland({
 
 import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 import { ConsentBanner } from "@/components/analytics/ConsentBanner";
+import { FontLoader } from "@/components/FontLoader";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://hhara-store-headless.vercel.app"),
@@ -70,6 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${cormorant.variable} ${montserrat.variable} ${jetbrains.variable} ${mrDeHaviland.variable}`}>
       <body>
+        <FontLoader />
         <AnalyticsProvider>
           {children}
           <ConsentBanner />
