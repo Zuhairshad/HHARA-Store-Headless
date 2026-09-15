@@ -175,7 +175,7 @@ export async function getProducts(first = 50): Promise<ShopifyProduct[]> {
   const query = /* GraphQL */ `
     ${PRODUCT_FRAGMENT}
     query Products($first: Int!) {
-      products(first: $first) {
+      products(first: $first, query: "available_for_sale:true") {
         nodes { ...ProductFields }
       }
     }
