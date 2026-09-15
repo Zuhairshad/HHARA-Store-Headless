@@ -5602,11 +5602,14 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
 
             {/* Image — takes all available space on mobile, 50% on desktop */}
             <div className="relative flex-1 min-h-0 md:flex-none md:h-full w-full overflow-hidden p-3 md:p-0 bg-[#EAE3D9] md:bg-[#241811]">
-              <img
+              <Image
                 src="/images/signup-popup.jpeg"
                 alt="HHARA"
-                className="w-full h-full object-contain md:object-cover rounded-sm md:rounded-none"
+                fill
+                className="signup-popup-img rounded-sm md:rounded-none"
                 style={{ objectPosition: "center top" }}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
               />
             </div>
 
