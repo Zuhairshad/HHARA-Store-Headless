@@ -5187,13 +5187,13 @@ const CART_COLOR_REVERSE_MAP: Record<string, string> = {
 
 // === FILE 10-180e2df1-7549-448a-8bbb-f6c3acb791f4.jsx ===
 
-function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { initialProducts?: any[]; initialCart?: any; initialCustomer?: any; initialRoute?: string }) {
+function App({ initialProducts, initialCart, initialCustomer, initialRoute, initialProductId }: { initialProducts?: any[]; initialCart?: any; initialCustomer?: any; initialRoute?: string; initialProductId?: string }) {
   const products = (initialProducts && initialProducts.length) ? initialProducts : PRODUCTS;
   const { shopifyCart, setShopifyCart, localCartItems, setLocalCartItems, cart, addToCart, removeItem, updateQty, applyDiscount } = useCart();
   const { cartOpen, setCartOpen, searchOpen, setSearchOpen, signupPopupOpen, setSignupPopupOpen } = useUI();
   const [customer, setCustomer] = useState<any>(initialCustomer || null);
   const [route, setRouteState] = useState(initialRoute || "home");
-  const [productId, setProductId] = useState("p1");
+  const [productId, setProductId] = useState(initialProductId || "p1");
   const [articleId, setArticleId] = useState("j1");
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [wishlistLoaded, setWishlistLoaded] = useState(false);
