@@ -12,6 +12,7 @@ const nextConfig = {
     imageSizes: [16, 32, 64, 96, 128, 256, 384],
     qualities: [75, 85, 90],
   },
+  experimental: { optimizeCss: true },
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
 };
