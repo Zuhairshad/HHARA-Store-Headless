@@ -36,6 +36,7 @@ export type LocalProduct = {
   variants: {
     id: string;
     title: string;
+    sku: string | null;
     availableForSale: boolean;
     price: number;
     selectedOptions: { name: string; value: string }[];
@@ -141,6 +142,7 @@ function mapShopifyProduct(p: ShopifyProduct, index: number): LocalProduct {
     variants: p.variants.map((v) => ({
       id: v.id,
       title: v.title,
+      sku: v.sku || null,
       availableForSale: v.availableForSale,
       price: parseFloat(v.price.amount) || 0,
       selectedOptions: v.selectedOptions,
