@@ -5197,14 +5197,20 @@ const CART_COLOR_REVERSE_MAP: Record<string, string> = {
 
 // === FILE 10-180e2df1-7549-448a-8bbb-f6c3acb791f4.jsx ===
 
-function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { initialProducts?: any[]; initialCart?: any; initialCustomer?: any; initialRoute?: string }) {
+function App({ initialProducts, initialCart, initialCustomer, initialRoute, initialProductHandle, initialArticleId: initialArticleIdProp }: { initialProducts?: any[]; initialCart?: any; initialCustomer?: any; initialRoute?: string; initialProductHandle?: string; initialArticleId?: string }) {
   const products = (initialProducts && initialProducts.length) ? initialProducts : PRODUCTS;
   const [shopifyCart, setShopifyCart] = useState<any>(initialCart || null);
   const [localCartItems, setLocalCartItems] = useState<any[]>([]);
   const [customer, setCustomer] = useState<any>(initialCustomer || null);
   const [route, setRouteState] = useState(initialRoute || "home");
-  const [productId, setProductId] = useState("p1");
-  const [articleId, setArticleId] = useState("j1");
+  const [productId, setProductId] = useState(() => {
+    if (initialProductHandle) {
+      const found = ((initialProducts && initialProducts.length) ? initialProducts : PRODUCTS).find((p: any) => p.shopifyHandle === initialProductHandle);
+      return found?.id || "p1";
+    }
+    return "p1";
+  });
+  const [articleId, setArticleId] = useState(initialArticleIdProp || "j1");
   const [cartOpen, setCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [wishlist, setWishlist] = useState<string[]>([]);
@@ -5224,20 +5230,22 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
       document.documentElement.scrollTop = 0;
     }, 50);
 
-    // Build a meaningful virtual URL for each internal route so analytics tools
-    // (Shopify, GA4) can attribute sessions to the correct landing page.
+    const matched = products.find((p: any) => p.id === productId);
+    const productHandle = matched?.shopifyHandle || productId;
     const pagePath =
       route === "home" ? "/" :
-      route === "product" ? `/products/${productId}` :
+      route === "product" ? `/products/${productHandle}` :
       route === "article" ? `/journal/${articleId}` :
       `/${route}`;
 
-    const matched = products.find((p: any) => p.id === productId);
     const pageTitle = route === "product"
       ? `${matched?.name || "Product"} | HHARA`
       : `HHARA | ${route.charAt(0).toUpperCase() + route.slice(1)}`;
 
     const pageLocation = `${window.location.origin}${pagePath}`;
+
+    window.history.pushState({ route, productId, articleId }, pageTitle, pagePath);
+    document.title = pageTitle;
 
     trackEvent({
       name: "page_viewed",
@@ -5280,11 +5288,16 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
   }, [route, productId, articleId]);
 
   useEffect(() => {
-    if (initialRoute) {
-      const url = new URL(window.location.href);
-      url.searchParams.delete("r");
-      window.history.replaceState(null, "", url.pathname + (url.search || ""));
-    }
+    const onPop = (e: PopStateEvent) => {
+      const state = e.state;
+      if (state?.route) {
+        setRouteState(state.route);
+        if (state.productId) setProductId(state.productId);
+        if (state.articleId) setArticleId(state.articleId);
+      }
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
   }, []);
 
   useEffect(() => {
