@@ -5,6 +5,7 @@ import { shouldEmitEvent } from "./deduplication";
 import { emitGA4 } from "./providers/ga4";
 import { emitMeta } from "./providers/meta";
 import { emitTikTok } from "./providers/tiktok";
+import { emitShopify } from "./providers/shopify";
 
 export * from "./types";
 export * from "./consent";
@@ -56,4 +57,9 @@ export function trackEvent(event: AnalyticsEvent) {
       console.warn("[analytics:tiktok] emission error:", err);
     }
   }
+
+  // 7. Shopify (sendShopifyAnalytics via hydrogen-react + analytics.publish shim)
+  emitShopify(event).catch((err) => {
+    console.warn("[analytics:shopify] emission error:", err);
+  });
 }

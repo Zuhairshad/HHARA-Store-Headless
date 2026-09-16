@@ -26,6 +26,7 @@ const mrDeHaviland = Mr_De_Haviland({
 
 import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 import { ConsentBanner } from "@/components/analytics/ConsentBanner";
+import { ShopifyWebPixels } from "@/components/analytics/ShopifyWebPixels";
 import { FontLoader } from "@/components/FontLoader";
 
 export const metadata: Metadata = {
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <FontLoader />
+        <ShopifyWebPixels />
         <AnalyticsProvider>
           {children}
           <ConsentBanner />
