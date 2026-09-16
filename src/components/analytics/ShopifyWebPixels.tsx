@@ -6,27 +6,68 @@ import { useShopifyCookies } from "@shopify/hydrogen-react";
 import { getConsentPreferences, subscribeConsent } from "@/lib/analytics/consent";
 import { SHOPIFY_CONFIG } from "@/lib/shopify/analytics-config";
 
+function callSetTrackingConsent(analyticsAllowed: boolean, marketingAllowed: boolean) {
+  try {
+    window.Shopify?.customerPrivacy?.setTrackingConsent(
+      {
+        analyticsAllowed,
+        marketingAllowed,
+        saleOfDataAllowed: marketingAllowed,
+        headlessStorefront: true,
+        checkoutRootDomain: "cuxtmt-tw.myshopify.com",
+        storefrontRootDomain: "site.hhara.com",
+        storefrontAccessToken: "3685b9997a838dde0680bcad84bad603",
+      },
+      (err) => {
+        if (err) console.warn("[analytics] setTrackingConsent error:", err);
+      }
+    );
+  } catch (err) {
+    console.warn("[analytics] setTrackingConsent threw:", err);
+  }
+}
+
 export function ShopifyWebPixels() {
   const [hasAnalyticsConsent, setHasAnalyticsConsent] = useState(() => {
     const prefs = getConsentPreferences();
     // Undecided visitors treated as consented — matches behaviour for non-GDPR regions (UAE).
-    // For GDPR/strict regions, change this to: return prefs.decided && prefs.analytics
     return !prefs.decided || prefs.analytics;
   });
 
   useEffect(() => {
     return subscribeConsent((prefs) => {
-      setHasAnalyticsConsent(!prefs.decided || prefs.analytics);
+      const analytics = !prefs.decided || prefs.analytics;
+      const marketing = !prefs.decided || prefs.marketing;
+      setHasAnalyticsConsent(analytics);
+      // Re-notify Shopify when consent changes
+      if (window.Shopify?.customerPrivacy) {
+        callSetTrackingConsent(analytics, marketing);
+      }
     });
   }, []);
 
-  // Fetches from /api/unstable/graphql.json (same-origin proxy) so the browser
-  // can read Server-Timing headers containing _shopify_y / _shopify_s visitor tokens.
-  // getTrackingValues() in hydrogen-react reads those via PerformanceResourceTiming.serverTiming,
-  // then sets the cookies used by sendShopifyAnalytics.
+  // Load Customer Privacy API then call setTrackingConsent.
+  // Without this Shopify's analytics pipeline doesn't recognise headless storefront traffic.
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://cdn.shopify.com/shopifycloud/consent-tracking-api/v0.1/consent-tracking-api.js";
+    script.async = true;
+    script.onload = () => {
+      const prefs = getConsentPreferences();
+      const analytics = !prefs.decided || prefs.analytics;
+      const marketing = !prefs.decided || prefs.marketing;
+      callSetTrackingConsent(analytics, marketing);
+    };
+    document.head.appendChild(script);
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+
   // No checkoutDomain — checkout is on cuxtmt-tw.myshopify.com (different root from site.hhara.com).
   // Passing it would make useShopifyCookies compute ".com" as the shared root, which browsers
   // reject as a public suffix, preventing _shopify_y/_shopify_s from being set at all.
+  // The proxy at /api/unstable/graphql.json sets cookies directly instead.
   useShopifyCookies({
     hasUserConsent: hasAnalyticsConsent,
     fetchTrackingValues: true,

@@ -19,6 +19,20 @@ declare global {
         publish: (eventName: string, payload: unknown, options?: unknown) => void;
         replayQueue?: Array<[string, unknown, unknown?]>;
       };
+      customerPrivacy?: {
+        setTrackingConsent: (
+          consent: {
+            analyticsAllowed: boolean;
+            marketingAllowed: boolean;
+            saleOfDataAllowed: boolean;
+            headlessStorefront: boolean;
+            checkoutRootDomain: string;
+            storefrontRootDomain: string;
+            storefrontAccessToken: string;
+          },
+          callback?: (err?: Error) => void
+        ) => void;
+      };
     };
   }
 }
