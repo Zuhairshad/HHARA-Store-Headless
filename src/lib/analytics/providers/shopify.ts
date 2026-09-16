@@ -45,10 +45,17 @@ const BASE_PAYLOAD = {
   acceptedLanguage: SHOPIFY_CONFIG.acceptedLanguage,
 } as const;
 
-function hasUserConsent(): boolean {
-  if (typeof window === "undefined") return false;
+function getConsentPayload() {
+  if (typeof window === "undefined") return { analyticsAllowed: false, marketingAllowed: false, saleOfDataAllowed: false, hasUserConsent: false };
   const prefs = getConsentPreferences();
-  return !prefs.decided || prefs.analytics;
+  const analyticsAllowed = !prefs.decided || prefs.analytics;
+  const marketingAllowed = !prefs.decided || prefs.marketing;
+  return {
+    analyticsAllowed,
+    marketingAllowed,
+    saleOfDataAllowed: marketingAllowed,
+    hasUserConsent: analyticsAllowed,
+  };
 }
 
 function publishShim(eventName: string, payload: unknown) {
@@ -62,8 +69,15 @@ function publishShim(eventName: string, payload: unknown) {
 export async function emitShopify(event: AnalyticsEvent): Promise<void> {
   if (typeof window === "undefined") return;
 
-  const consent = hasUserConsent();
+  const consentPayload = getConsentPayload();
   const browserParams = getClientBrowserParameters();
+
+  // Common base shared by all sendShopifyAnalytics calls
+  const BASE = {
+    ...BASE_PAYLOAD,
+    ...browserParams,
+    ...consentPayload,
+  };
 
   switch (event.name) {
     case "page_viewed": {
@@ -80,16 +94,8 @@ export async function emitShopify(event: AnalyticsEvent): Promise<void> {
           ? AnalyticsPageType.cart
           : AnalyticsPageType.page;
 
-      const pageViewPayload = {
-        ...BASE_PAYLOAD,
-        ...browserParams,
-        hasUserConsent: consent,
-        canonicalUrl: event.payload.page_location,
-        pageType,
-      };
-
       await sendShopifyAnalytics(
-        { eventName: AnalyticsEventName.PAGE_VIEW, payload: pageViewPayload },
+        { eventName: AnalyticsEventName.PAGE_VIEW, payload: { ...BASE, canonicalUrl: event.payload.page_location, pageType } },
         SHOPIFY_CONFIG.shopDomain
       );
 
@@ -102,26 +108,25 @@ export async function emitShopify(event: AnalyticsEvent): Promise<void> {
     }
 
     case "product_viewed": {
-      const productViewPayload = {
-        ...BASE_PAYLOAD,
-        ...browserParams,
-        hasUserConsent: consent,
-        canonicalUrl: typeof window !== "undefined" ? window.location.href : "",
-        pageType: AnalyticsPageType.product,
-        resourceId: event.payload.product_id,
-        totalValue: event.payload.value,
-        products: event.payload.items.map((item) => ({
-          productGid: item.item_id,
-          name: item.item_name,
-          brand: item.item_brand || "HHARA",
-          category: item.item_category || "Considered Luxury",
-          price: String(item.price),
-          quantity: item.quantity,
-        })),
-      };
-
       await sendShopifyAnalytics(
-        { eventName: AnalyticsEventName.PAGE_VIEW, payload: productViewPayload },
+        {
+          eventName: AnalyticsEventName.PAGE_VIEW,
+          payload: {
+            ...BASE,
+            canonicalUrl: window.location.href,
+            pageType: AnalyticsPageType.product,
+            resourceId: event.payload.product_id,
+            totalValue: event.payload.value,
+            products: event.payload.items.map((item) => ({
+              productGid: item.item_id,
+              name: item.item_name,
+              brand: item.item_brand || "HHARA",
+              category: item.item_category || "Considered Luxury",
+              price: String(item.price),
+              quantity: item.quantity,
+            })),
+          },
+        },
         SHOPIFY_CONFIG.shopDomain
       );
 
@@ -139,24 +144,23 @@ export async function emitShopify(event: AnalyticsEvent): Promise<void> {
     }
 
     case "collection_viewed": {
-      const collectionPayload = {
-        ...BASE_PAYLOAD,
-        ...browserParams,
-        hasUserConsent: consent,
-        canonicalUrl: typeof window !== "undefined" ? window.location.href : "",
-        pageType: AnalyticsPageType.collection,
-        collectionHandle: event.payload.collection_handle,
-        products: event.payload.items.map((item) => ({
-          productGid: item.item_id,
-          name: item.item_name,
-          brand: item.item_brand || "HHARA",
-          price: String(item.price),
-          quantity: item.quantity,
-        })),
-      };
-
       await sendShopifyAnalytics(
-        { eventName: AnalyticsEventName.PAGE_VIEW, payload: collectionPayload },
+        {
+          eventName: AnalyticsEventName.PAGE_VIEW,
+          payload: {
+            ...BASE,
+            canonicalUrl: window.location.href,
+            pageType: AnalyticsPageType.collection,
+            collectionHandle: event.payload.collection_handle,
+            products: event.payload.items.map((item) => ({
+              productGid: item.item_id,
+              name: item.item_name,
+              brand: item.item_brand || "HHARA",
+              price: String(item.price),
+              quantity: item.quantity,
+            })),
+          },
+        },
         SHOPIFY_CONFIG.shopDomain
       );
 
@@ -167,17 +171,11 @@ export async function emitShopify(event: AnalyticsEvent): Promise<void> {
     }
 
     case "search_submitted": {
-      const searchPayload = {
-        ...BASE_PAYLOAD,
-        ...browserParams,
-        hasUserConsent: consent,
-        canonicalUrl: typeof window !== "undefined" ? window.location.href : "",
-        pageType: AnalyticsPageType.search,
-        searchString: event.payload.search_term,
-      };
-
       await sendShopifyAnalytics(
-        { eventName: AnalyticsEventName.PAGE_VIEW, payload: searchPayload },
+        {
+          eventName: AnalyticsEventName.PAGE_VIEW,
+          payload: { ...BASE, canonicalUrl: window.location.href, pageType: AnalyticsPageType.search, searchString: event.payload.search_term },
+        },
         SHOPIFY_CONFIG.shopDomain
       );
       break;
@@ -185,24 +183,23 @@ export async function emitShopify(event: AnalyticsEvent): Promise<void> {
 
     case "product_added_to_cart": {
       const cartId = event.payload.cart_id || "";
-      const addToCartPayload = {
-        ...BASE_PAYLOAD,
-        ...browserParams,
-        hasUserConsent: consent,
-        cartId,
-        totalValue: event.payload.value,
-        products: event.payload.items.map((item) => ({
-          productGid: item.item_id,
-          name: item.item_name,
-          brand: item.item_brand || "HHARA",
-          price: String(item.price),
-          quantity: item.quantity,
-          variantName: item.item_variant,
-        })),
-      };
-
       await sendShopifyAnalytics(
-        { eventName: AnalyticsEventName.ADD_TO_CART, payload: addToCartPayload },
+        {
+          eventName: AnalyticsEventName.ADD_TO_CART,
+          payload: {
+            ...BASE,
+            cartId,
+            totalValue: event.payload.value,
+            products: event.payload.items.map((item) => ({
+              productGid: item.item_id,
+              name: item.item_name,
+              brand: item.item_brand || "HHARA",
+              price: String(item.price),
+              quantity: item.quantity,
+              variantName: item.item_variant,
+            })),
+          },
+        },
         SHOPIFY_CONFIG.shopDomain
       );
 
