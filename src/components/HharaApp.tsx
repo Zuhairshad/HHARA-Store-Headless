@@ -1343,22 +1343,34 @@ function ProductCard({ product, onClick, colorOverride, homepageImages }: { prod
 function Hero({ openShop }) {
   const { HEROES } = HHRAA_DATA;
   const slide = HEROES[0];
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const imgRef = useRef(null);
+
+  useEffect(() => {
+    if (imgRef.current?.complete) {
+      setImageLoaded(true);
+      return;
+    }
+    const timer = setTimeout(() => setImageLoaded(true), 2500);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <section className="hero">
-      <div className={`hero-media ${slide.tone}`}>
-        <Image
+      <div className="hero-media">
+        <img
+          ref={imgRef}
           src="/images/hero-banner.png"
           alt="Woman wearing the HHARA collection walking by a G-Wagon"
-          fill
-          className="img-fill hero-image"
-          sizes="100vw"
-          quality={85}
-          priority
+          className={`img-fill hero-image ${imageLoaded ? "is-loaded" : "is-loading"}`}
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+          onLoad={() => setImageLoaded(true)}
         />
       </div>
-      <div className="hero-overlay"></div>
-      <div className="hero-content">
+      <div className={`hero-overlay ${imageLoaded ? "is-loaded" : "is-loading"}`}></div>
+      <div className={`hero-content ${imageLoaded ? "is-loaded" : "is-loading"}`}>
         {slide.eyebrow && <div className="hero-eyebrow">{slide.eyebrow}</div>}
         <h1 className="hero-title">
           {slide.title.split("\n").map((line, i, arr) => {
@@ -5227,10 +5239,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
 
     const pageLocation = `${window.location.origin}${pagePath}`;
 
-    // Keep the browser URL in sync so back/forward works and share links resolve
-    window.history.pushState({ route, productId, articleId }, pageTitle, pagePath);
-    document.title = pageTitle;
-
     trackEvent({
       name: "page_viewed",
       payload: {
@@ -5270,20 +5278,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
 
     return () => clearTimeout(timer);
   }, [route, productId, articleId]);
-
-  // Restore SPA route when user presses browser back/forward
-  useEffect(() => {
-    const onPop = (e: PopStateEvent) => {
-      const state = e.state;
-      if (state?.route) {
-        setRouteState(state.route);
-        if (state.productId) setProductId(state.productId);
-        if (state.articleId) setArticleId(state.articleId);
-      }
-    };
-    window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
-  }, []);
 
   useEffect(() => {
     if (initialRoute) {
