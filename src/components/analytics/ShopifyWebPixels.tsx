@@ -24,9 +24,11 @@ export function ShopifyWebPixels() {
   // can read Server-Timing headers containing _shopify_y / _shopify_s visitor tokens.
   // getTrackingValues() in hydrogen-react reads those via PerformanceResourceTiming.serverTiming,
   // then sets the cookies used by sendShopifyAnalytics.
+  // No checkoutDomain — checkout is on cuxtmt-tw.myshopify.com (different root from site.hhara.com).
+  // Passing it would make useShopifyCookies compute ".com" as the shared root, which browsers
+  // reject as a public suffix, preventing _shopify_y/_shopify_s from being set at all.
   useShopifyCookies({
     hasUserConsent: hasAnalyticsConsent,
-    checkoutDomain: SHOPIFY_CONFIG.checkoutDomain,
     fetchTrackingValues: true,
   });
 

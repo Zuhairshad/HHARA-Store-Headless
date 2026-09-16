@@ -114,7 +114,7 @@ export function appendAttributionToUrl(rawUrl: string, attr: AttributionData | n
   if (!rawUrl || !attr) return rawUrl;
 
   try {
-    const base = typeof window !== "undefined" && window.location ? window.location.origin : "https://hhara.com";
+    const base = typeof window !== "undefined" && window.location ? window.location.origin : "https://site.hhara.com";
     const url = new URL(rawUrl, base);
 
     if (attr.utm_source && !url.searchParams.has("utm_source")) url.searchParams.set("utm_source", attr.utm_source);
