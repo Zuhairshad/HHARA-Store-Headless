@@ -5212,25 +5212,78 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute }: { 
       document.documentElement.scrollTop = 0;
     }, 50);
 
-    // Track internal route change page views
-    const pagePath = route === "product" ? `/products/${productId}` : route === "home" ? "/" : `/${route}`;
+    // Build a meaningful virtual URL for each internal route so analytics tools
+    // (Shopify, GA4) can attribute sessions to the correct landing page.
+    const pagePath =
+      route === "home" ? "/" :
+      route === "product" ? `/products/${productId}` :
+      route === "article" ? `/journal/${articleId}` :
+      `/${route}`;
+
     const matched = products.find((p: any) => p.id === productId);
     const pageTitle = route === "product"
       ? `${matched?.name || "Product"} | HHARA`
       : `HHARA | ${route.charAt(0).toUpperCase() + route.slice(1)}`;
 
+    const pageLocation = `${window.location.origin}${pagePath}`;
+
+    // Keep the browser URL in sync so back/forward works and share links resolve
+    window.history.pushState({ route, productId, articleId }, pageTitle, pagePath);
+    document.title = pageTitle;
+
     trackEvent({
       name: "page_viewed",
       payload: {
         page_title: pageTitle,
-        page_location: typeof window !== "undefined" ? window.location.href : "",
+        page_location: pageLocation,
         page_path: pagePath,
         page_type: route,
       },
     });
 
+    // Shopify also needs collection_viewed when landing on the shop page
+    if (route === "shop") {
+      const collectionItems = products
+        .filter((p: any) => !p.archived)
+        .slice(0, 20)
+        .map((p: any) =>
+          formatEcommerceItem({
+            id: p.shopifyId || p.id,
+            name: p.name,
+            price: p.price || 0,
+            brand: "HHARA",
+            category: p.cat || "Considered Luxury",
+            variant: "Default",
+            currency: "AED",
+            quantity: 1,
+          })
+        );
+      trackEvent({
+        name: "collection_viewed",
+        payload: {
+          collection_title: "All Products",
+          collection_handle: "all",
+          items: collectionItems,
+        },
+      });
+    }
+
     return () => clearTimeout(timer);
   }, [route, productId, articleId]);
+
+  // Restore SPA route when user presses browser back/forward
+  useEffect(() => {
+    const onPop = (e: PopStateEvent) => {
+      const state = e.state;
+      if (state?.route) {
+        setRouteState(state.route);
+        if (state.productId) setProductId(state.productId);
+        if (state.articleId) setArticleId(state.articleId);
+      }
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
 
   useEffect(() => {
     if (initialRoute) {
