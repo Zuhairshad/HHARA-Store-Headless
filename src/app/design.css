@@ -23,9 +23,9 @@
 }
 
 :root {
-  --bg: #F7F4EE;
-  --bg-elev: #F0EAE0;
-  --bg-deep: #E8DFD2;
+  --bg: #FFFFFF;
+  --bg-elev: #F5F5F5;
+  --bg-deep: #EBEBEB;
   --ink: #241811;
   --ink-soft: #7A6555;
   --muted: #7A6555;
@@ -160,7 +160,7 @@ img { display: block; max-width: 100%; }
 .header:hover,
 .header--scrolled,
 .header--solid {
-  background: #F7F4EE;
+  background: var(--bg);
   border-bottom: 1px solid var(--line);
 }
 .header-inner {
@@ -786,7 +786,7 @@ img { display: block; max-width: 100%; }
 .pcard-quickadd .btn:hover { background: var(--bg); border-color: var(--bark); color: var(--bark); }
 .pcard-info {
   padding: clamp(12px, 3vw, 24px);
-  background: #F7F4EE;
+  background: var(--bg);
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -3747,7 +3747,7 @@ img { display: block; max-width: 100%; }
 
 /* ====== Pillars Section ====== */
 .pillars-section {
-  background-color: #FAF7F2;
+  background-color: #FFFFFF;
   padding: clamp(56px, 8vh, 100px) 80px;
 }
 

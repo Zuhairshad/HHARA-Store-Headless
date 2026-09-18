@@ -1771,7 +1771,7 @@ function Philanthropy() {
 
 function Proclamation() {
   return (
-    <section className="section" style={{ textAlign: "center", background: "#F7F3ED", color: "#5C4632" }}>
+    <section className="section" style={{ textAlign: "center", background: "#FFFFFF", color: "#5C4632" }}>
       <div style={{ maxWidth: 820, margin: "0 auto", padding: "0 24px" }}>
         <p style={{ fontFamily: "var(--serif, 'Cormorant Garamond', serif)", fontStyle: "italic", fontSize: 32, lineHeight: 1.4, color: "#5C4632" }}>
           &ldquo;Silence is the most powerful of powers. It&apos;s the unwavering, measured silence of a woman
