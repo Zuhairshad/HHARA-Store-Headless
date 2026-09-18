@@ -141,7 +141,7 @@ const IMGS: Record<string, string> = {
   lb2: "/images/Lucy with suitcase.png",
   lb3: "/images/Angie.png",
   lb4: "/images/wonder-worn-fourth-card.jpeg",
-  lb5: "/images/Lucy Walking.png",
+  lb5: "/images/IMG_5270.jpeg",
   lb6: "/images/wonder-worn-second-card.jpeg",
   lb7: "/images/IMG_5275.jpeg",
   lb8: "/images/lucy-angie-2.png",
@@ -1569,7 +1569,7 @@ function Lookbook({ openLookbook, openProduct, setRoute }) {
   const tones = ["tone-3", "tone-1", "tone-5", "tone-7", "tone-2", "tone-6"];
   const tags = ["Imara Set", "Dahlia Set", "Chicory Brown", "Imara Leggings", "Olive", "Imara Set"];
   const handlers = [
-    () => setRoute("shop", "The Imara Set"),
+    () => setRoute("shop", ["The Imara Set", "Olive"]),
     () => setRoute("shop", "The Dahlia Set"),
     () => setRoute("shop", "Chicory Brown"),
     () => setRoute("product", "p2"),
@@ -2014,13 +2014,6 @@ function CollectionPage({ setRoute, openProduct, initialColorFilter, initialCatF
   return (
     <>
       <div className="cph">
-        <div className="cph-crumbs">
-          <span onClick={() => setRoute("home")} style={{ cursor: "pointer" }}>Home</span>
-          <span className="sep">/</span>
-          <span>Shop</span>
-          <span className="sep">/</span>
-          <span>The Collection</span>
-        </div>
         <h1>The Collection</h1>
         <div className="cph-desc" style={{ maxWidth: "680px", margin: "16px 0 0", display: "flex", flexDirection: "column", gap: "16px", fontSize: "14px", lineHeight: "1.8", color: "var(--ink-soft)" }}>
           <p style={{ fontFamily: "var(--display)", fontSize: "20px", fontStyle: "italic", color: "var(--accent)", margin: 0 }}>
@@ -5406,8 +5399,13 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     if (r === "product" && payload) { setProductId(payload); setInitialProductColor(colorName || null); }
     if (r === "article" && payload) setArticleId(payload);
     if (r === "shop") {
-      setSelectedColorFilter(typeof payload === "string" && !payload.startsWith("The ") ? payload : null);
-      setSelectedCatFilter(typeof payload === "string" && payload.startsWith("The ") ? payload : null);
+      if (Array.isArray(payload)) {
+        setSelectedColorFilter(payload.find((p: string) => !p.startsWith("The ")) ?? null);
+        setSelectedCatFilter(payload.find((p: string) => p.startsWith("The ")) ?? null);
+      } else {
+        setSelectedColorFilter(typeof payload === "string" && !payload.startsWith("The ") ? payload : null);
+        setSelectedCatFilter(typeof payload === "string" && payload.startsWith("The ") ? payload : null);
+      }
     }
     window.scrollTo({ top: 0, behavior: "instant" });
   };
