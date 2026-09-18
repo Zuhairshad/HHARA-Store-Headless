@@ -2545,14 +2545,6 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   return (
     <>
       <div className="pdp">
-        <div className="pdp-crumbs">
-          <span onClick={() => setRoute("home")} style={{ cursor: "pointer" }}>Home</span>
-          <span className="sep">/</span>
-          <span onClick={() => setRoute("shop")} style={{ cursor: "pointer" }}>{product.cat}</span>
-          <span className="sep">/</span>
-          <span>{product.name}</span>
-        </div>
-
         <div className="pdp-main">
           <div className="pdp-gallery">
             {(() => {
