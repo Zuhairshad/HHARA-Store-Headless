@@ -2571,9 +2571,17 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               const showGalleryNavigation = shots.length > 1;
               const showPreviousShot = () => setActiveShot((current) => (current - 1 + shots.length) % shots.length);
               const showNextShot = () => setActiveShot((current) => (current + 1) % shots.length);
+              const touchStartX = { current: 0 };
               return (
                 <>
-                  <div className={`pdp-gallery-main ${product.tone}`}>
+                  <div
+                    className={`pdp-gallery-main ${product.tone}`}
+                    onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+                    onTouchEnd={(e) => {
+                      const diff = touchStartX.current - e.changedTouches[0].clientX;
+                      if (Math.abs(diff) > 40) diff > 0 ? showNextShot() : showPreviousShot();
+                    }}
+                  >
                     {shots.map((s, idx) => s.src && (
                       <div key={idx} style={{ position: "absolute", inset: 0, opacity: idx === activeShot ? 1 : 0, transition: "opacity 0.3s ease", pointerEvents: idx === activeShot ? "auto" : "none" }}>
                         <Image src={s.src} alt={`${product.name} view ${idx + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority={idx === 0} style={s.style} />
@@ -2581,16 +2589,23 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                     ))}
                     {showGalleryNavigation && (
                       <>
-                        <button type="button" className="pdp-gallery-arrow pdp-gallery-arrow--previous" onClick={showPreviousShot} aria-label="View previous product image">
+                        <button type="button" className="pdp-gallery-arrow pdp-gallery-arrow--previous pdp-gallery-arrow--desktop" onClick={showPreviousShot} aria-label="View previous product image">
                           <Icon.Chevron dir="left" />
                         </button>
-                        <button type="button" className="pdp-gallery-arrow pdp-gallery-arrow--next" onClick={showNextShot} aria-label="View next product image">
+                        <button type="button" className="pdp-gallery-arrow pdp-gallery-arrow--next pdp-gallery-arrow--desktop" onClick={showNextShot} aria-label="View next product image">
                           <Icon.Chevron dir="right" />
                         </button>
                       </>
                     )}
                     <div className="pdp-model-spec">Model is 5'7 wearing M</div>
                   </div>
+                  {shots.length > 1 && (
+                    <div className="pdp-gallery-dots">
+                      {shots.map((_, i) => (
+                        <button key={i} className={`pdp-gallery-dot ${i === activeShot ? "on" : ""}`} onClick={() => setActiveShot(i)} aria-label={`View image ${i + 1}`} />
+                      ))}
+                    </div>
+                  )}
                   <div className="pdp-gallery-thumbs">
                     {shots.slice(0, 5).map((s, i) => (
                       <button
