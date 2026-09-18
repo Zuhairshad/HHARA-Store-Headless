@@ -2323,6 +2323,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
   // Floating Video & Reel Player States
   const [videoDismissed, setVideoDismissed] = useState(false);
+  const [bubbleHidden, setBubbleHidden] = useState(false);
   const [reelOpen, setReelOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
@@ -2353,6 +2354,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
     };
     const onTouchMove = (e: TouchEvent) => {
       if (!dragOrigin.current.active) return;
+      e.preventDefault();
       const t = e.touches[0];
       const dx = t.clientX - dragOrigin.current.startX;
       const dy = t.clientY - dragOrigin.current.startY;
@@ -2366,7 +2368,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
     };
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
-    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
     window.addEventListener("touchend", onTouchEnd);
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
@@ -2374,6 +2376,12 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("touchend", onTouchEnd);
     };
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setBubbleHidden(window.scrollY > window.innerHeight * 0.6);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const onBubbleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
@@ -3289,7 +3297,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
       {!videoDismissed && (
         <div
           ref={bubbleRef}
-          className={`floating-video-bubble${isDragging ? " dragging" : ""}`}
+          className={`floating-video-bubble${isDragging ? " dragging" : ""}${bubbleHidden ? " bubble-scroll-hidden" : ""}`}
           onClick={() => { if (!didDrag.current) openReel(); }}
           onMouseDown={onBubbleDragStart}
           onTouchStart={onBubbleDragStart}
