@@ -5662,29 +5662,39 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     <>
       {signupPopupOpen && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 transition-opacity duration-500 animate-fade-in"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 transition-opacity duration-500 animate-fade-in bg-black/40"
           onClick={closeSignupPopup}
         >
           <div
-            className="signup-popup-inner relative max-w-[360px] md:max-w-4xl w-full bg-white text-[#241811] shadow-2xl overflow-hidden rounded-none flex flex-col md:grid md:grid-cols-2 md:h-[475px] h-[90vh] max-h-[700px]"
+            className="signup-popup-inner relative max-w-[360px] md:max-w-4xl w-full bg-white text-[#241811] shadow-[0_0_0_1px_#fff] overflow-hidden rounded-none flex flex-col md:grid md:grid-cols-2 md:h-[475px] h-[90vh] max-h-[700px]"
             onClick={(e) => e.stopPropagation()}
           >
 
+            {/* Close button */}
+            <button
+              onClick={closeSignupPopup}
+              className="absolute top-3 right-3 z-10 w-7 h-7 flex items-center justify-center text-[#241811]/60 hover:text-[#241811] transition-colors"
+              aria-label="Close"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+            </button>
+
             {/* Image — takes all available space on mobile, 50% on desktop */}
-            <div className="relative flex-1 min-h-0 md:flex-none md:h-full w-full overflow-hidden p-3 md:p-0 bg-white md:bg-[#241811]">
-              <Image
-                src="/images/signup-popup.jpeg"
-                alt="HHARA"
-                fill
-                className="signup-popup-img rounded-sm md:rounded-none"
-                style={{ objectPosition: "center top" }}
-                sizes="(max-width: 768px) 100vw, 50vw"
-                priority
-              />
+            <div className="relative flex-1 min-h-0 md:flex-none md:h-full w-full bg-white md:bg-[#241811] pt-5 px-5 pb-[50px] md:p-0">
+              <div className="relative w-full h-full overflow-hidden rounded-sm md:rounded-none">
+                <Image
+                  src="/images/signup-popup.jpeg"
+                  alt="HHARA"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority
+                />
+              </div>
             </div>
 
             {/* Form — compact at bottom on mobile, 50% on desktop */}
-            <div className="relative px-3 pb-3 pt-2 md:px-10 md:py-8 flex flex-col justify-center bg-white text-[#241811] shrink-0 md:shrink md:flex-1">
+            <div className="relative px-3 pb-3 pt-2 -mt-[30px] md:mt-0 md:px-10 md:py-8 flex flex-col justify-center bg-white text-[#241811] shrink-0 md:shrink md:flex-1">
 
               {signupStatus !== "success" ? (
                 <div className="w-full flex flex-col items-center">
@@ -5694,7 +5704,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                     alt="HHARA"
                     className="hidden md:block h-7 md:h-8 w-auto mb-3"
                   />
-                  <p className="text-xs text-[#241811]/85 leading-relaxed font-light text-center mb-2 md:mb-2.5">
+                  <p className="text-xs text-[#241811]/85 leading-relaxed font-light text-center mb-2 md:mb-2.5 -mt-3 md:mt-0">
                     Be the first to discover new collections, limited releases, surprise gifts and exclusive stories from the world of HHARA.
                   </p>
 

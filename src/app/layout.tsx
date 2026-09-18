@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     siteName: "HHARA",
     images: [
       {
-        url: "/images/hero1.jpg",
+        url: "/images/lucy-home-hero.png",
         width: 1200,
         height: 630,
         alt: "HHARA | She is Wonder Capsule Collection",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "HHARA | She is Wonder",
     description: "Unapologetically You. Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.",
-    images: ["/images/hero1.jpg"],
+    images: ["/images/lucy-home-hero.png"],
   },
   robots: {
     index: true,
