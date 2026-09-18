@@ -1360,7 +1360,7 @@ function Hero({ openShop }) {
       <div className="hero-media">
         <img
           ref={imgRef}
-          src="/images/hero-banner.png"
+          src="/images/lucy-home-hero.png"
           alt="Woman wearing the HHARA collection walking by a G-Wagon"
           className={`img-fill hero-image ${imageLoaded ? "is-loaded" : "is-loading"}`}
           loading="eager"
@@ -5666,12 +5666,12 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
           onClick={closeSignupPopup}
         >
           <div
-            className="signup-popup-inner relative max-w-[360px] md:max-w-4xl w-full bg-[#EAE3D9] text-[#241811] shadow-2xl overflow-hidden rounded-none flex flex-col md:grid md:grid-cols-2 md:h-[475px] h-[90vh] max-h-[700px]"
+            className="signup-popup-inner relative max-w-[360px] md:max-w-4xl w-full bg-white text-[#241811] shadow-2xl overflow-hidden rounded-none flex flex-col md:grid md:grid-cols-2 md:h-[475px] h-[90vh] max-h-[700px]"
             onClick={(e) => e.stopPropagation()}
           >
 
             {/* Image — takes all available space on mobile, 50% on desktop */}
-            <div className="relative flex-1 min-h-0 md:flex-none md:h-full w-full overflow-hidden p-3 md:p-0 bg-[#EAE3D9] md:bg-[#241811]">
+            <div className="relative flex-1 min-h-0 md:flex-none md:h-full w-full overflow-hidden p-3 md:p-0 bg-white md:bg-[#241811]">
               <Image
                 src="/images/signup-popup.jpeg"
                 alt="HHARA"
@@ -5684,7 +5684,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
             </div>
 
             {/* Form — compact at bottom on mobile, 50% on desktop */}
-            <div className="relative px-3 pb-3 pt-2 md:px-10 md:py-8 flex flex-col justify-center bg-[#EAE3D9] text-[#241811] shrink-0 md:shrink md:flex-1">
+            <div className="relative px-3 pb-3 pt-2 md:px-10 md:py-8 flex flex-col justify-center bg-white text-[#241811] shrink-0 md:shrink md:flex-1">
 
               {signupStatus !== "success" ? (
                 <div className="w-full flex flex-col items-center">

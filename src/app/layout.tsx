@@ -73,7 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${cormorant.variable} ${montserrat.variable} ${jetbrains.variable} ${mrDeHaviland.variable}`}>
       <head>
         {/* @ts-ignore */}
-        <link rel="preload" as="image" href="/images/hero-banner.png" fetchPriority="high" />
+        <link rel="preload" as="image" href="/images/lucy-home-hero.png" fetchPriority="high" />
       </head>
       <body>
         <FontLoader />
