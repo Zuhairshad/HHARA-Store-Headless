@@ -65,6 +65,7 @@ export default function TrackClient({ initialOrderName = "", initialEmail = "" }
               disabled={pending}
               defaultValue={initialOrderName}
               aria-describedby="order-hint"
+              maxLength={10}
             />
             <p id="order-hint" className="ot-hint">
               Look for it at the top of your HHARA order confirmation - it starts with a #.
@@ -82,6 +83,7 @@ export default function TrackClient({ initialOrderName = "", initialEmail = "" }
               disabled={pending}
               defaultValue={initialEmail}
               aria-describedby="email-hint"
+              maxLength={254}
             />
             <p id="email-hint" className="ot-hint">
               We use this to verify the order is yours - it must match the email you checked out with.

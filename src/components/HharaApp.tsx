@@ -168,7 +168,7 @@ const IMGS: Record<string, string> = {
   sNY: "/images/sNY.jpg",
   sLondon: "/images/sLondon.jpg",
   sDubai: "/images/sDubai.jpg",
-  authMedia: "/images/Lucy Walking (1).png",
+  authMedia: "/images/lucy-home-hero.png",
   mmShop1: "/images/shop-hover-1.jpeg",
   mmShop2: "/images/shop-hover-2.jpeg",
   mmAtelier: "/images/mmAtelier.jpg"
@@ -826,22 +826,6 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
             </div>
           )}
 
-          {/* Discount code */}
-          <div className="pco-section">
-            {!activeDiscount ? (
-              <form onSubmit={handlePromo} className="pco-promo-form">
-                <input type="text" placeholder="Discount Code" value={promo} onChange={(e) => setPromo(e.target.value)} disabled={promoBusy} className="pco-promo-input" />
-                <button type="submit" disabled={promoBusy || !promo} className="pco-promo-btn">{promoBusy ? "..." : "Apply"}</button>
-              </form>
-            ) : (
-              <div className="pco-discount-applied">
-                <span>Code: <strong>{activeDiscount.code}</strong></span>
-                <button onClick={() => applyDiscount("")}>Remove</button>
-              </div>
-            )}
-            {promoError && <div className="pco-promo-error">{promoError}</div>}
-          </div>
-
           {/* Order totals */}
           <div className="pco-summary">
             <div className="pco-summary-row"><span>Subtotal</span><span>AED {subtotal.toLocaleString()}</span></div>
@@ -1006,6 +990,7 @@ function Footer({ setRoute, route = "" }) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={done || busy}
+                maxLength={50}
                 required
               />
               <button type="submit" disabled={done || busy}>
@@ -1185,27 +1170,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
               })}
             </div>
             <div className="cart-foot">
-              {!activeDiscount ? (
-                <form onSubmit={handleApplyPromo} className="promo-form" style={{ display: "flex", gap: 8, margin: "0 0 16px" }}>
-                  <input
-                    type="text"
-                    placeholder="Promo Code"
-                    value={promo}
-                    onChange={(e) => setPromo(e.target.value)}
-                    disabled={busy}
-                    style={{ flex: 1, padding: "8px 12px", border: "1px solid var(--line-soft)", background: "transparent", fontSize: 13 }}
-                  />
-                  <button type="submit" disabled={busy || !promo} className="btn" style={{ padding: "8px 16px", fontSize: 12, minHeight: "unset" }}>
-                    {busy ? "Applying..." : "Apply"}
-                  </button>
-                </form>
-              ) : (
-                <div className="cart-row discount-row" style={{ display: "flex", justifyContent: "space-between", color: "#7a2e3a", fontSize: 13, margin: "0 0 16px", border: "1px solid var(--line-soft)", padding: "8px 12px" }}>
-                  <span>Code Applied: <strong>{activeDiscount.code}</strong></span>
-                  <button onClick={() => applyDiscount("")} style={{ background: "none", border: "none", color: "var(--ink-soft)", textDecoration: "underline", fontSize: 12, cursor: "pointer", padding: 0 }}>Remove</button>
-                </div>
-              )}
-              {error && <div style={{ color: "#7a2e3a", fontSize: 12, marginTop: -8, marginBottom: 16 }}>{error}</div>}
+                {error && <div style={{ color: "#7a2e3a", fontSize: 12, marginBottom: 16 }}>{error}</div>}
               <div className="cart-row">
                 <span>Subtotal</span>
                 <span>AED {subtotal.toLocaleString()}</span>
@@ -1243,23 +1208,36 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
 // === FILE 06-ce7b1d96-f64b-4723-b417-6dfb0feade07.jsx ===
 
 const HOMEPAGE_IMARA_IMAGES = {
-  olive: ["/images/Homepage 3.jpeg", "/images/Homepage.jpeg"] as [string, string],
-  brown: ["/images/Homepage 1.jpeg", "/images/Homepage 4.jpeg"] as [string, string],
+  olive: ["/images/Homepage.jpeg", "/images/Homepage 3.jpeg"] as [string, string],
+  brown: ["/images/homepage card 2 borwn default .jpeg", "/images/imara bra hover .jpeg"] as [string, string],
+  brownDefaultStyle: { transform: "scale(1.30)", transformOrigin: "center center" },
+  oliveDefaultStyle: { transform: "scale(1.25)", transformOrigin: "center center" },
 };
 
 const HOMEPAGE_LEGGING_IMAGES = {
   olive: ["/images/Legging-1.jpg", "/images/Legging-olive-hover.jpeg"] as [string, string],
   brown: ["/images/Legging-2.jpg", "/images/Legging-4.jpg"] as [string, string],
+  oliveDefaultStyle: { transform: "scale(1.15)", transformOrigin: "center center" },
+  oliveHoverStyle:   { transform: "scale(1.22)", transformOrigin: "center center" },
+  brownDefaultStyle: { transform: "scale(1.25)", transformOrigin: "center top" },
+  brownPos: "center top",
+  brownHoverStyle:   { transform: "scale(1.22)", transformOrigin: "center center" },
 };
 
 const HOMEPAGE_DAHLIA_BRA_IMAGES = {
   olive: ["/images/dbra-olive-default.jpg", "/images/dbra-olive-hover.jpg"] as [string, string],
   brown: ["/images/dbra-brown-default.jpg", "/images/dbra-brown-hover.jpg"] as [string, string],
+  brownDefaultStyle: { transform: "scale(1.25)", transformOrigin: "center center" },
+  oliveDefaultStyle: { transform: "scale(1.15)", transformOrigin: "center top" },
+  olivePos: "center 10%",
 };
 
 const HOMEPAGE_DAHLIA_SHORTS_IMAGES = {
   olive: ["/images/dshorts-olive-default.jpg", "/images/dshorts-olive-hover.jpg"] as [string, string],
-  brown: ["/images/dshorts-brown-default.jpeg", "/images/dshorts-brown-hover.jpg"] as [string, string],
+  brown: ["/images/dshorts-brown-default.jpeg", "/images/dahliashorts cards(home) hover.jpeg"] as [string, string],
+  brownDefaultStyle: { transform: "scale(1.25)", transformOrigin: "center center" },
+  brownHoverStyle: { transform: "scale(1.30)", transformOrigin: "center center" },
+  oliveDefaultStyle: { transform: "scale(1.30)", transformOrigin: "center center" },
 };
 
 const SHOPPAGE_DAHLIA_SHORTS_IMAGES = {
@@ -1274,7 +1252,7 @@ const REEL_THUMB_IMAGES: Record<string, { olive: string; brown: string }> = {
   p4: { olive: "/images/dshorts-olive-hover.jpg", brown: "/images/dshorts-brown-hover.jpg" },
 };
 
-function ProductCard({ product, onClick, colorOverride, homepageImages }: { product: any; onClick: (colorName?: string) => void; colorOverride?: string | null; homepageImages?: { olive: [string, string]; brown: [string, string]; olivePos?: string; brownPos?: string } }) {
+function ProductCard({ product, onClick, colorOverride, homepageImages }: { product: any; onClick: (colorName?: string) => void; colorOverride?: string | null; homepageImages?: { olive: [string, string]; brown: [string, string]; olivePos?: string; brownPos?: string; brownDefaultStyle?: React.CSSProperties; oliveDefaultStyle?: React.CSSProperties; brownHoverStyle?: React.CSSProperties; oliveHoverStyle?: React.CSSProperties } }) {
   const [activeColor, setActiveColor] = useState<string>(colorOverride || product.swatches?.[0]?.name || "");
 
   useEffect(() => {
@@ -1311,10 +1289,10 @@ function ProductCard({ product, onClick, colorOverride, homepageImages }: { prod
           const active = name === activeColor;
           return (
             <div key={name} style={{ position: "absolute", inset: 0, opacity: active ? 1 : 0, transition: "opacity 0.3s ease", pointerEvents: "none" }}>
-              <div className={`${product.tone}`} style={{ position: "absolute", inset: 0 }}>
+              <div className={`${product.tone}`} style={{ position: "absolute", inset: 0, ...(name.toLowerCase().includes("brown") && homepageImages?.brownDefaultStyle ? homepageImages.brownDefaultStyle : name.toLowerCase().includes("olive") && homepageImages?.oliveDefaultStyle ? homepageImages.oliveDefaultStyle : {}) }}>
                 {imgA && <Image src={imgA} alt={product.name} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" style={imgPos ? { objectPosition: imgPos } : undefined} />}
               </div>
-              <div className={`alt ${product.altTone || product.tone}`} style={{ position: "absolute", inset: 0 }}>
+              <div className={`alt ${product.altTone || product.tone}`} style={{ position: "absolute", inset: 0, ...(name.toLowerCase().includes("brown") && homepageImages?.brownHoverStyle ? homepageImages.brownHoverStyle : name.toLowerCase().includes("olive") && homepageImages?.oliveHoverStyle ? homepageImages.oliveHoverStyle : {}) }}>
                 {imgB && <Image src={imgB} alt={product.name} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" style={imgPos ? { objectPosition: imgPos } : undefined} />}
               </div>
             </div>
@@ -1577,9 +1555,9 @@ function Lookbook({ openLookbook, openProduct, setRoute }) {
   const tags = ["Imara Set", "Dahlia Set", "Chicory Brown", "Imara Leggings", "Olive", "Imara Set"];
   const handlers = [
     () => setRoute("shop", ["The Imara Set", "Olive"]),
-    () => setRoute("shop", "The Dahlia Set"),
+    () => setRoute("shop", ["The Dahlia Set", "Olive"]),
     () => setRoute("shop", "Chicory Brown"),
-    () => setRoute("product", "p2"),
+    () => setRoute("product", "p2", "Olive"),
     () => setRoute("shop", "Olive"),
     () => setRoute("shop", "The Imara Set"),
   ];
@@ -1677,6 +1655,7 @@ function Newsletter() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={done || busy}
+            maxLength={50}
             required
           />
           <button type="submit" disabled={done || busy}>
@@ -1928,7 +1907,7 @@ function Home(props) {
       <Hero openShop={() => props.setRoute("shop")} />
       <ManifestoColourways
         ids={HHRAA_DATA.FEATURED_IDS}
-        openProduct={(id) => props.setRoute("product", id)}
+        openProduct={(id, colorName) => props.setRoute("product", id, colorName)}
       />
       <FeaturedGrid setRoute={props.setRoute} />
       <Editorial openShop={() => props.setRoute("atelier")} />
@@ -3742,7 +3721,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
                 placeholder="First name"
                 value={recipientName}
                 onChange={(e) => setRecipientName(e.target.value)}
-                maxLength={50}
+                maxLength={35}
               />
             </div>
 
@@ -3755,7 +3734,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
                 placeholder="Where it should arrive"
                 value={recipientEmail}
                 onChange={(e) => setRecipientEmail(e.target.value)}
-                maxLength={254}
+                maxLength={35}
               />
             </div>
 
@@ -3768,7 +3747,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
                 placeholder="From"
                 value={senderName}
                 onChange={(e) => setSenderName(e.target.value)}
-                maxLength={50}
+                maxLength={20}
               />
             </div>
 
@@ -4135,9 +4114,9 @@ function StoresPage({ setRoute }) {
     <div className="gives-back-container">
       {/* HERO SECTION */}
       <section className="gives-back-hero" style={{
-        backgroundImage: "url('/images/gives-back-hero.jpg')", // children/background image placeholder
+        backgroundImage: "url('/images/social impact hero .jpg')",
         backgroundSize: "cover",
-        backgroundPosition: "center 20%",
+        backgroundPosition: "center 50%",
         padding: "120px var(--pad)",
         display: "flex",
         justifyContent: "center",
@@ -4326,7 +4305,7 @@ function AccountPage({
     return (
       <div className="auth-wrap">
         <div className="media">
-          <img src={IMGS.authMedia} alt="" className="img-fill motion" />
+          <img src={IMGS.authMedia} alt="" className="img-fill" />
         </div>
         <div className="panel">
           <div className="eyebrow" style={{ marginBottom: 20 }}>Account</div>
@@ -4370,7 +4349,7 @@ function AccountPage({
   return (
     <div className="auth-wrap">
       <div className="media">
-        <img src={IMGS.authMedia} alt="" className="img-fill motion" />
+        <img src={IMGS.authMedia} alt="" className="img-fill" />
       </div>
       <div className="panel">
         <div className="eyebrow" style={{ marginBottom: 20 }}>Account</div>
@@ -4386,12 +4365,12 @@ function AccountPage({
           <form className="auth-form" onSubmit={handleSignIn}>
             <div className="field">
               <label>Email</label>
-              <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" maxLength={254} />
+              <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" maxLength={35} />
             </div>
             <div className="field">
               <label>Password</label>
               <div style={{ position: "relative" }}>
-                <input type={showPassword ? "text" : "password"} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="••••••••" maxLength={72} style={{ width: "100%", paddingRight: 40 }} />
+                <input type={showPassword ? "text" : "password"} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="••••••••" maxLength={35} style={{ width: "100%", paddingRight: 40 }} />
                 <button type="button" onClick={() => setShowPassword(v => !v)} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", padding: 0, color: "var(--ink-soft)", display: "flex", alignItems: "center" }}>
                   {showPassword ? <Icon.EyeOff /> : <Icon.Eye />}
                 </button>
@@ -4446,20 +4425,20 @@ function AccountPage({
             />
             <div className="field">
               <label>First Name</label>
-              <input type="text" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} placeholder="First name" maxLength={50} />
+              <input type="text" value={form.firstName} onChange={(e) => { const val = e.target.value.replace(/[^a-zA-Z\s]/g, ""); setForm({ ...form, firstName: val }); }} placeholder="First name" maxLength={20} />
             </div>
             <div className="field">
               <label>Date of Birth</label>
-              <input type="date" value={form.dob} onChange={(e) => setForm({ ...form, dob: e.target.value })} />
+              <input type="date" value={form.dob} min="1900-01-01" max={new Date().toISOString().split("T")[0]} onKeyDown={(e) => e.preventDefault()} onChange={(e) => setForm({ ...form, dob: e.target.value })} />
             </div>
             <div className="field">
               <label>Email</label>
-              <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" maxLength={254} />
+              <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" maxLength={35} />
             </div>
             <div className="field">
               <label>Password</label>
               <div style={{ position: "relative" }}>
-                <input type={showPassword ? "text" : "password"} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="At least 8 characters" maxLength={72} style={{ width: "100%", paddingRight: 40 }} />
+                <input type={showPassword ? "text" : "password"} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="At least 8 characters" maxLength={35} style={{ width: "100%", paddingRight: 40 }} />
                 <button type="button" onClick={() => setShowPassword(v => !v)} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", padding: 0, color: "var(--ink-soft)", display: "flex", alignItems: "center" }}>
                   {showPassword ? <Icon.EyeOff /> : <Icon.Eye />}
                 </button>
@@ -4473,7 +4452,7 @@ function AccountPage({
               {busy ? "Creating account…" : "Join the Circle"}
               <span className="btn-arrow"><Icon.Arrow /></span>
             </button>
-            <div className="auth-foot">By creating an account you accept our Terms and Privacy.</div>
+            <div className="auth-foot">By creating an account you accept our <a href="/terms" onClick={(e) => { e.preventDefault(); setRoute("terms"); }}>Terms</a> and <a href="/privacy" onClick={(e) => { e.preventDefault(); setRoute("privacy"); }}>Privacy</a>.</div>
           </form>
         )}
       </div>
@@ -4530,7 +4509,6 @@ function PolicyPage({ title, eyebrow, children, setRoute, headerRight }: { title
       <div className="policy-hero">
         <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: "16px" }}>
           <div>
-            <button className="policy-back" onClick={() => setRoute("home")}>← Back</button>
             <span className="eyebrow" style={{ color: "var(--accent)" }}>{eyebrow}</span>
             <h1 className="policy-title">{title}</h1>
           </div>
@@ -5169,7 +5147,7 @@ function SearchOverlay({ open, onClose, openProduct, setRoute }) {
           placeholder="What are you looking for…"
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          maxLength={25}
+          maxLength={50}
         />
         <button onClick={onClose}><Icon.Close /></button>
       </div>
@@ -5769,7 +5747,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                         required
                         placeholder="First Name"
                         value={newsletterName}
-                        onChange={(e) => setNewsletterName(e.target.value)}
+                        onChange={(e) => setNewsletterName(e.target.value.replace(/[^a-zA-Z\s]/g, ""))}
                         className="w-full bg-white text-[#241811] border border-[#D0C8BC] focus:border-[#241811] outline-none py-2 md:py-2.5 px-3 md:px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light transition-colors"
                       />
                       <input

@@ -3166,6 +3166,11 @@ img { display: block; max-width: 100%; }
   color: var(--muted);
   text-align: center;
 }
+.auth-foot a {
+  color: var(--ink-soft);
+  text-decoration: underline;
+  cursor: pointer;
+}
 
 /* ============ WISHLIST ============ */
 .wish-grid {

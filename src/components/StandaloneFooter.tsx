@@ -58,11 +58,11 @@ export function StandaloneFooter() {
               />
               <input
                 type="email"
-                placeholder="Your email"
+                placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={done || busy}
-                maxLength={254}
+                maxLength={50}
                 required
               />
               <button type="submit" disabled={done || busy}>
