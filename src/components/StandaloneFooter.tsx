@@ -62,6 +62,7 @@ export function StandaloneFooter() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={done || busy}
+                maxLength={254}
                 required
               />
               <button type="submit" disabled={done || busy}>

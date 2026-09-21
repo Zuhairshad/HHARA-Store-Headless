@@ -1,5 +1,11 @@
 /* Google script fonts loaded non-blocking via <link> in layout.tsx */
 
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 @font-face {
   font-family: "ES Allizance";
   src: url("/fonts/ES-Allizance.woff2") format("woff2"),

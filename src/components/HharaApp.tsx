@@ -82,6 +82,13 @@ const Icon = {
       <circle cx="12" cy="12" r="3" />
     </svg>
   ),
+  EyeOff: () => (
+    <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+      <line x1="1" y1="1" x2="23" y2="23" />
+    </svg>
+  ),
   Person: () => (
     <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
@@ -3735,6 +3742,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
                 placeholder="First name"
                 value={recipientName}
                 onChange={(e) => setRecipientName(e.target.value)}
+                maxLength={50}
               />
             </div>
 
@@ -3747,6 +3755,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
                 placeholder="Where it should arrive"
                 value={recipientEmail}
                 onChange={(e) => setRecipientEmail(e.target.value)}
+                maxLength={254}
               />
             </div>
 
@@ -3759,6 +3768,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
                 placeholder="From"
                 value={senderName}
                 onChange={(e) => setSenderName(e.target.value)}
+                maxLength={50}
               />
             </div>
 
@@ -4276,6 +4286,7 @@ function AccountPage({
   const [formTs] = useState(() => Date.now());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -4375,11 +4386,16 @@ function AccountPage({
           <form className="auth-form" onSubmit={handleSignIn}>
             <div className="field">
               <label>Email</label>
-              <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" />
+              <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" maxLength={254} />
             </div>
             <div className="field">
               <label>Password</label>
-              <input type="password" required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="••••••••" />
+              <div style={{ position: "relative" }}>
+                <input type={showPassword ? "text" : "password"} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="••••••••" maxLength={72} style={{ width: "100%", paddingRight: 40 }} />
+                <button type="button" onClick={() => setShowPassword(v => !v)} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", padding: 0, color: "var(--ink-soft)", display: "flex", alignItems: "center" }}>
+                  {showPassword ? <Icon.EyeOff /> : <Icon.Eye />}
+                </button>
+              </div>
             </div>
             <button className="btn btn-primary btn-block" style={{ marginTop: 12 }} disabled={busy}>
               {busy ? "Signing in…" : "Sign In"}
@@ -4430,7 +4446,7 @@ function AccountPage({
             />
             <div className="field">
               <label>First Name</label>
-              <input type="text" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} placeholder="First name" />
+              <input type="text" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} placeholder="First name" maxLength={50} />
             </div>
             <div className="field">
               <label>Date of Birth</label>
@@ -4438,11 +4454,16 @@ function AccountPage({
             </div>
             <div className="field">
               <label>Email</label>
-              <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" />
+              <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" maxLength={254} />
             </div>
             <div className="field">
               <label>Password</label>
-              <input type="password" required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="At least 8 characters" />
+              <div style={{ position: "relative" }}>
+                <input type={showPassword ? "text" : "password"} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="At least 8 characters" maxLength={72} style={{ width: "100%", paddingRight: 40 }} />
+                <button type="button" onClick={() => setShowPassword(v => !v)} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", padding: 0, color: "var(--ink-soft)", display: "flex", alignItems: "center" }}>
+                  {showPassword ? <Icon.EyeOff /> : <Icon.Eye />}
+                </button>
+              </div>
             </div>
             <label style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 13, color: "var(--ink-soft)", margin: "8px 0" }}>
               <input type="checkbox" checked={form.acceptsMarketing} onChange={(e) => setForm({ ...form, acceptsMarketing: e.target.checked })} style={{ accentColor: "var(--accent)" }} />
@@ -5148,6 +5169,7 @@ function SearchOverlay({ open, onClose, openProduct, setRoute }) {
           placeholder="What are you looking for…"
           value={q}
           onChange={(e) => setQ(e.target.value)}
+          maxLength={25}
         />
         <button onClick={onClose}><Icon.Close /></button>
       </div>
