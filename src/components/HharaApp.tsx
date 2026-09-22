@@ -2210,6 +2210,17 @@ function ReviewSlider({ label, value, position }: { label: string, value: string
   );
 }
 
+function StarRating({ rating, size = 18 }: { rating: number; size?: number }) {
+  return (
+    <span style={{ position: "relative", display: "inline-block", color: "#D0C8BC", fontSize: size, letterSpacing: "2px", lineHeight: 1 }}>
+      ★★★★★
+      <span style={{ position: "absolute", left: 0, top: 0, overflow: "hidden", width: `${(rating / 5) * 100}%`, color: "var(--accent)", whiteSpace: "nowrap" }}>
+        ★★★★★
+      </span>
+    </span>
+  );
+}
+
 function StarRow({ stars, percentage, count }: { stars: number, percentage: number, count: number }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: "12px", fontSize: "12px", color: "var(--ink-soft)" }}>
@@ -2222,6 +2233,46 @@ function StarRow({ stars, percentage, count }: { stars: number, percentage: numb
   );
 }
 
+
+// SLIDER — local only, not pushed
+function BeforeAfterSlider({ imgA, imgB, labelA, labelB }: { imgA: string; imgB: string; labelA: string; labelB: string }) {
+  const [pos, setPos] = useState(50);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const dragging = useRef(false);
+
+  const updatePos = (clientX: number) => {
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    setPos(Math.min(98, Math.max(2, ((clientX - rect.left) / rect.width) * 100)));
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      style={{ position: "absolute", inset: 0, overflow: "hidden", userSelect: "none", cursor: "ew-resize" }}
+      onMouseMove={(e) => { if (dragging.current) updatePos(e.clientX); }}
+      onMouseUp={() => { dragging.current = false; }}
+      onMouseLeave={() => { dragging.current = false; }}
+      onTouchMove={(e) => updatePos(e.touches[0].clientX)}
+    >
+      <img src={imgB} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+      <div style={{ position: "absolute", inset: 0, clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
+        <img src={imgA} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+      </div>
+      <div style={{ position: "absolute", top: 0, bottom: 0, left: `${pos}%`, width: 2, background: "white", transform: "translateX(-50%)", pointerEvents: "none" }} />
+      <div
+        style={{ position: "absolute", top: "50%", left: `${pos}%`, transform: "translate(-50%, -50%)", width: 44, height: 44, borderRadius: "50%", background: "white", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 12px rgba(0,0,0,0.25)", cursor: "ew-resize", gap: 4 }}
+        onMouseDown={() => { dragging.current = true; }}
+        onTouchStart={() => { dragging.current = true; }}
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ transform: "scaleX(-1)" }}><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+      <span style={{ position: "absolute", bottom: 20, left: 20, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "white", textShadow: "0 1px 4px rgba(0,0,0,0.5)", opacity: pos > 15 ? 1 : 0, transition: "opacity 0.2s" }}>{labelA}</span>
+      <span style={{ position: "absolute", bottom: 20, right: 20, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "white", textShadow: "0 1px 4px rgba(0,0,0,0.5)", opacity: pos < 85 ? 1 : 0, transition: "opacity 0.2s" }}>{labelB}</span>
+    </div>
+  );
+}
 
 function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wishlist, initialColor }: { productId: any; setRoute: any; addToCart: any; openProduct: any; onWishlistToggle: any; wishlist: any; initialColor?: string | null }) {
   const PRODUCTS = useProducts();
@@ -2289,9 +2340,9 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   const [reviews, setReviews] = useState([
     { id: "r1", name: "Sarah M.", location: "UAE", rating: 5, quote: "Finally a bra that actually holds. Activity is easy, side roll is gone, structured. I wore it straight from class to lunch and felt completely put together.", product: "Imara Bra · Chicory Brown" },
     { id: "r2", name: "Nour A.", location: "Abu Dhabi", rating: 5, quote: "The fabric is genuinely buttery - I wasn't expecting it to feel this luxurious. The cross-cross back is stunning. Already ordered the legging!", product: "Dahlia Bra · Olive" },
-    { id: "r3", name: "Layla K.", location: "Riyadh", rating: 4, quote: "Sizing is true to guide. I have a fuller bust and sized up as advised - perfect fit. The Olive colour is even more beautiful in person.", product: "Dahlia Bra · Olive" },
-    { id: "r4", name: "Amira H.", location: "Dubai", rating: 5, quote: "I wore the Imara Set from morning yoga straight to a client lunch. Not once did I feel underdressed. HHARA genuinely gets the way we move through our days.", product: "Imara Set · Chicory Brown" },
-    { id: "r5", name: "Fatima R.", location: "Doha", rating: 4, quote: "The waistband doesn't roll, the fabric doesn't pill, and the colour is even richer in person. Worth every dirham and then some.", product: "Dahlia Legging · Olive" },
+    { id: "r3", name: "Layla K.", location: "Riyadh", rating: 4.3, quote: "Sizing is true to guide. I have a fuller bust and sized up as advised - perfect fit. The Olive colour is even more beautiful in person.", product: "Dahlia Bra · Olive" },
+    { id: "r4", name: "Amira H.", location: "Dubai", rating: 4, quote: "I wore the Imara Set from morning yoga straight to a client lunch. Not once did I feel underdressed. HHARA genuinely gets the way we move through our days.", product: "Imara Set · Chicory Brown" },
+    { id: "r5", name: "Fatima R.", location: "Doha", rating: 4.3, quote: "The waistband doesn't roll, the fabric doesn't pill, and the colour is even richer in person. Worth every dirham and then some.", product: "Dahlia Legging · Olive" },
     { id: "r6", name: "Hessa O.", location: "Kuwait City", rating: 5, quote: "Three months of wear and it still looks brand new. I've stopped buying from everywhere else. HHARA is the only activewear I trust now.", product: "Imara Legging · Chicory Brown" },
   ]);
 
@@ -2550,6 +2601,13 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                 : null;
               const orderedImages = rawImages.filter(Boolean);
               if (orderedImages.length >= 2) [orderedImages[0], orderedImages[1]] = [orderedImages[1], orderedImages[0]];
+              const productImgData = product.imgKey ? PRODUCT_IMAGES[product.imgKey] : null;
+              const oliveOrdered = productImgData ? [...productImgData.olive] : null;
+              const brownOrdered = productImgData ? [...productImgData.brown] : null;
+              if (oliveOrdered && oliveOrdered.length >= 2) [oliveOrdered[0], oliveOrdered[1]] = [oliveOrdered[1], oliveOrdered[0]];
+              if (brownOrdered && brownOrdered.length >= 2) [brownOrdered[0], brownOrdered[1]] = [brownOrdered[1], brownOrdered[0]];
+              const labelOlive = product.swatches.find((s: any) => s.name.toLowerCase().includes("olive"))?.name || "Olive";
+              const labelBrown = product.swatches.find((s: any) => s.name.toLowerCase().includes("brown"))?.name || "Brown";
               const shots = [
                 ...orderedImages.map((src) => ({ src, style: {} })),
                 ...(homepageCardImg ? [{ src: homepageCardImg, style: {} }] : [])
@@ -2569,9 +2627,12 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                       if (Math.abs(diff) > 40) diff > 0 ? showNextShot() : showPreviousShot();
                     }}
                   >
-                    {shots.map((s, idx) => s.src && (
+                    {shots.map((s, idx) => (
                       <div key={idx} style={{ position: "absolute", inset: 0, opacity: idx === activeShot ? 1 : 0, transition: "opacity 0.3s ease", pointerEvents: idx === activeShot ? "auto" : "none" }}>
-                        <Image src={s.src} alt={`${product.name} view ${idx + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority={idx === 0} style={s.style} />
+                        {oliveOrdered && brownOrdered && idx === orderedImages.length - 1
+                          ? <BeforeAfterSlider imgA={oliveOrdered[idx] || oliveOrdered[oliveOrdered.length - 1]} imgB={brownOrdered[idx] || brownOrdered[brownOrdered.length - 1]} labelA={labelOlive} labelB={labelBrown} />
+                          : s.src && <Image src={s.src} alt={`${product.name} view ${idx + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority={idx === 0} style={s.style} />
+                        }
                       </div>
                     ))}
                     {showGalleryNavigation && (
@@ -2616,7 +2677,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
             <div className="pdp-price">
               {product.priceWas && <span className="was">AED {product.priceWas.toLocaleString()}</span>}
               <span className="now">AED {product.price.toLocaleString()}</span>
-              <span style={{ color: "#A9803D", fontSize: "18px", letterSpacing: "3px", marginLeft: "14px", lineHeight: 1 }}>★★★★★</span>
+              <span style={{ marginLeft: "14px", lineHeight: 1 }}><StarRating rating={parseFloat(averageRating)} size={18} /></span>
               <span className="pdp-vat-note">+ VAT at checkout</span>
             </div>
 
@@ -2975,7 +3036,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
         <div className="reviews-summary">
           <div style={{ textAlign: "center", minWidth: "120px" }}>
             <div style={{ fontFamily: "var(--display)", fontSize: "56px", fontWeight: 300, lineHeight: 1, color: "var(--ink)" }}>{averageRating}</div>
-            <div style={{ color: "var(--accent)", fontSize: "18px", letterSpacing: "2px", margin: "6px 0" }}>{"★".repeat(Math.round(parseFloat(averageRating)))}</div>
+            <div style={{ margin: "6px 0" }}><StarRating rating={parseFloat(averageRating)} size={18} /></div>
             <div style={{ fontFamily: "var(--sans)", fontSize: "11px", letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--ink-soft)" }}>BASED ON {totalReviews} REVIEWS</div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -2990,7 +3051,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
         <div className="reviews-track pdp-reviews-track">
           {reviews.map((r) => (
             <div key={r.id} className="review-card">
-              <div className="review-stars">{"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}</div>
+              <div className="review-stars"><StarRating rating={r.rating} size={15} /></div>
               <blockquote className="review-quote">{r.quote}</blockquote>
               <div className="review-author">{r.name}</div>
               <div className="review-meta">{r.location} · {r.product}</div>
@@ -3020,11 +3081,11 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }} className="pdp-review-form-cols">
                 <div className="gc-field">
                   <label>Your Name</label>
-                  <input type="text" required placeholder="Enter your name" value={reviewForm.name} onChange={e => setReviewForm(p => ({ ...p, name: e.target.value }))} />
+                  <input type="text" required placeholder="Enter your name" maxLength={20} value={reviewForm.name} onChange={e => setReviewForm(p => ({ ...p, name: e.target.value.replace(/[0-9]/g, "") }))} />
                 </div>
                 <div className="gc-field">
                   <label>Location (e.g. Dubai, UAE)</label>
-                  <input type="text" required placeholder="Enter your location" value={reviewForm.location} onChange={e => setReviewForm(p => ({ ...p, location: e.target.value }))} />
+                  <input type="text" required placeholder="Enter your location" maxLength={20} value={reviewForm.location} onChange={e => setReviewForm(p => ({ ...p, location: e.target.value.replace(/[0-9]/g, "") }))} />
                 </div>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }} className="pdp-review-form-cols">
@@ -3040,12 +3101,12 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                 </div>
                 <div className="gc-field">
                   <label>Product</label>
-                  <input type="text" placeholder="e.g. Imara Bra · Chicory Brown" value={reviewForm.product} onChange={e => setReviewForm(p => ({ ...p, product: e.target.value }))} />
+                  <input type="text" placeholder="e.g. Imara Bra · Chicory Brown" maxLength={50} value={reviewForm.product} onChange={e => setReviewForm(p => ({ ...p, product: e.target.value.replace(/[0-9]/g, "") }))} />
                 </div>
               </div>
               <div className="gc-field">
                 <label>Your Review</label>
-                <textarea rows={4} required placeholder="Tell us what you think about the fabric, fit, and style..." value={reviewForm.quote} onChange={e => setReviewForm(p => ({ ...p, quote: e.target.value }))} />
+                <textarea rows={4} required placeholder="Tell us what you think about the fabric, fit, and style..." maxLength={250} value={reviewForm.quote} onChange={e => setReviewForm(p => ({ ...p, quote: e.target.value.replace(/[0-9]/g, "") }))} />
               </div>
               <div style={{ display: "flex", gap: "16px", marginTop: "8px" }}>
                 <button type="submit" className="btn btn-primary" style={{ padding: "16px 32px" }}>Submit Review</button>
@@ -5781,9 +5842,11 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                       </select>
                       <input
                         type="tel"
+                        inputMode="numeric"
                         placeholder="Phone Number"
+                        maxLength={15}
                         value={newsletterPhone}
-                        onChange={(e) => setNewsletterPhone(e.target.value)}
+                        onChange={(e) => setNewsletterPhone(e.target.value.replace(/[^0-9]/g, ""))}
                         className="flex-1 min-w-0 bg-transparent text-[#241811] border-0 outline-none py-2 md:py-2.5 px-3 md:px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light"
                       />
                     </div>
