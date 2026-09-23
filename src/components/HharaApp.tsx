@@ -152,7 +152,7 @@ const IMGS: Record<string, string> = {
   lb6: "/images/wonder-worn-second-card.jpeg",
   lb7: "/images/IMG_5275.jpeg",
   lb8: "/images/lucy-angie-2.png",
-  lb9: "/images/lookbook-hero.png",
+  lb9: "/images/lookbook hero .png",
   j1: "/images/j1.jpg",
   j2: "/images/j2.jpg",
   j3: "/images/j3.jpg",
@@ -228,7 +228,7 @@ const PRODUCTS = [
     id: "p1",
     name: "Imara Bra",
     cat: "The Imara Set",
-    price: 0,
+    price: 360,
     swatches: [
       { name: "Chicory Brown", hex: "#3D2B1F" },
       { name: "Olive", hex: "#636b2f" },
@@ -251,7 +251,7 @@ const PRODUCTS = [
     id: "p2",
     name: "Imara Legging",
     cat: "The Imara Set",
-    price: 0,
+    price: 490,
     swatches: [
       { name: "Chicory Brown", hex: "#3D2B1F" },
       { name: "Olive", hex: "#636b2f" },
@@ -274,7 +274,7 @@ const PRODUCTS = [
     id: "p3",
     name: "Dahlia Bra",
     cat: "The Dahlia Set",
-    price: 0,
+    price: 350,
     swatches: [
       { name: "Chicory Brown", hex: "#3D2B1F" },
       { name: "Olive", hex: "#636b2f" },
@@ -296,7 +296,7 @@ const PRODUCTS = [
     id: "p4",
     name: "Dahlia Short",
     cat: "The Dahlia Set",
-    price: 0,
+    price: 330,
     swatches: [
       { name: "Chicory Brown", hex: "#3D2B1F" },
       { name: "Olive", hex: "#636b2f" },
@@ -2629,10 +2629,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   >
                     {shots.map((s, idx) => (
                       <div key={idx} style={{ position: "absolute", inset: 0, opacity: idx === activeShot ? 1 : 0, transition: "opacity 0.3s ease", pointerEvents: idx === activeShot ? "auto" : "none" }}>
-                        {oliveOrdered && brownOrdered && idx === orderedImages.length - 1
-                          ? <BeforeAfterSlider imgA={oliveOrdered[idx] || oliveOrdered[oliveOrdered.length - 1]} imgB={brownOrdered[idx] || brownOrdered[brownOrdered.length - 1]} labelA={labelOlive} labelB={labelBrown} />
-                          : s.src && <Image src={s.src} alt={`${product.name} view ${idx + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority={idx === 0} style={s.style} />
-                        }
+                        {s.src && <Image src={s.src} alt={`${product.name} view ${idx + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority={idx === 0} style={s.style} />}
                       </div>
                     ))}
                     {showGalleryNavigation && (

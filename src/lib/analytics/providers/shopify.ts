@@ -79,7 +79,8 @@ export async function emitShopify(event: AnalyticsEvent): Promise<void> {
     ...consentPayload,
   };
 
-  try { switch (event.name) {
+  try {
+    switch (event.name) {
     case "page_viewed": {
       const pageType =
         event.payload.page_type === "home"
@@ -267,5 +268,8 @@ export async function emitShopify(event: AnalyticsEvent): Promise<void> {
         source: event.payload.source,
       });
       break;
-  } } catch { /* network errors from sendShopifyAnalytics are non-critical */ }
+    }
+  } catch {
+    // network errors from sendShopifyAnalytics are non-critical
+  }
 }
