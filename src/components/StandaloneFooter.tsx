@@ -34,7 +34,7 @@ export function StandaloneFooter() {
       <div className="footer-inner">
         <div className="footer-top">
           <div className="footer-brand">
-            <a href="/" className="footer-brand-logo" style={{ cursor: "pointer" }}>
+            <a href="/home" className="footer-brand-logo" style={{ cursor: "pointer" }}>
               <img src="/images/monkey-peeking.png" alt="HHARA" className="footer-monkey-logo" />
               <div className="footer-brand-right">
                 <img src="/images/Text-PNG-02.png" alt="HHARA" className="footer-wordmark" />
@@ -76,37 +76,37 @@ export function StandaloneFooter() {
             <div className="footer-col">
               <h4>The Collection</h4>
               <ul>
-                <li><a href="/?r=shop">Shop All</a></li>
-                <li><a href="/?r=shop">The Dahlia Set</a></li>
-                <li><a href="/?r=shop">The Imara Set</a></li>
-                <li><a href="/?r=lookbook">The Lookbook</a></li>
-                <li><a href="/?r=shop">Accessories</a></li>
+                <li><a href="/home?r=shop">Shop All</a></li>
+                <li><a href="/home?r=shop">The Dahlia Set</a></li>
+                <li><a href="/home?r=shop">The Imara Set</a></li>
+                <li><a href="/home?r=lookbook">The Lookbook</a></li>
+                <li><a href="/home?r=shop">Accessories</a></li>
               </ul>
             </div>
             <div className="footer-col">
               <h4>Customer Service</h4>
               <ul>
-                <li><a href="/?r=faq">FAQ</a></li>
-                <li><a href="/?r=shipping">Shipping &amp; Delivery</a></li>
+                <li><a href="/home?r=faq">FAQ</a></li>
+                <li><a href="/home?r=shipping">Shipping &amp; Delivery</a></li>
                 <li><a href="/orders/track">Track Order</a></li>
-                <li><a href="/?r=returns">Returns &amp; Refunds</a></li>
-                <li><a href="/?r=size-guide">Size Guide</a></li>
-                <li><a href="/?r=contact">Contact</a></li>
+                <li><a href="/home?r=returns">Returns &amp; Refunds</a></li>
+                <li><a href="/home?r=size-guide">Size Guide</a></li>
+                <li><a href="/home?r=contact">Contact</a></li>
               </ul>
             </div>
             <div className="footer-col">
               <h4>Information</h4>
               <ul>
-                <li><a href="/?r=atelier">About Us</a></li>
-                <li><a href="/?r=stores">Impact</a></li>
-                <li><a href="/?r=gift-card">E-Gift Card</a></li>
+                <li><a href="/home?r=atelier">About Us</a></li>
+                <li><a href="/home?r=stores">Impact</a></li>
+                <li><a href="/home?r=gift-card">E-Gift Card</a></li>
               </ul>
             </div>
             <div className="footer-col">
               <h4>Legal</h4>
               <ul>
-                <li><a href="/?r=privacy">Privacy &amp; Cookie Policy</a></li>
-                <li><a href="/?r=terms">Terms &amp; Conditions</a></li>
+                <li><a href="/home?r=privacy">Privacy &amp; Cookie Policy</a></li>
+                <li><a href="/home?r=terms">Terms &amp; Conditions</a></li>
                 <li>
                   <button
                     type="button"

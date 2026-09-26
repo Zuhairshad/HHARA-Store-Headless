@@ -4058,7 +4058,7 @@ function LookbookPage({ setRoute, openProduct }) {
       <div className="lb-full">
         <div className="lb-row single">
           <div className="lb-tile hero">
-            <Image src={IMGS.lb9} alt="" fill className="img-fill" sizes="100vw" loading="lazy" unoptimized style={{ objectPosition: "center" }} />
+            <Image src={IMGS.lb9} alt="" fill className="img-fill" sizes="100vw" loading="lazy" unoptimized style={{ objectPosition: "center 25%" }} />
             <div className="ovr"></div>
             <div className="caption">
               <div>The Dahlia Set</div>
@@ -5299,7 +5299,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     const matched = products.find((p: any) => p.id === productId);
     const productHandle = matched?.shopifyHandle || productId;
     const pagePath =
-      route === "home" ? "/" :
+      route === "home" ? "/home" :
       route === "product" ? `/products/${productHandle}` :
       route === "article" ? `/journal/${articleId}` :
       `/${route}`;

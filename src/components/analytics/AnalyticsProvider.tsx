@@ -28,7 +28,7 @@ function RouteChangeListener() {
         page_title: title,
         page_location: typeof window !== "undefined" ? window.location.href : "",
         page_path: path,
-        page_type: pathname === "/" ? "home" : pathname.replace(/^\//, ""),
+        page_type: pathname === "/home" ? "home" : pathname.replace(/^\//, ""),
       },
     });
   }, [pathname, searchParams]);

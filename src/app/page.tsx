@@ -1,23 +1,21 @@
-import HharaApp from "@/components/HharaApp";
-import { getStorefrontProducts } from "@/lib/products";
-import { getCurrentCart } from "@/lib/cart-actions";
-import { getCurrentCustomer } from "@/lib/customer-actions";
+import type { Metadata } from "next";
+import "./coming-soon.css";
 
-export const revalidate = 0;
+export const metadata: Metadata = {
+  title: "HHARA | Coming Soon",
+  description: "Something wonderful is on its way. HHARA is coming soon.",
+};
 
-const VALID_ROUTES = new Set(["shop", "lookbook", "atelier", "stores", "account", "faq", "shipping", "returns", "size-guide", "contact", "gift-card", "privacy", "terms", "wishlist"]);
-
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ r?: string }>;
-}) {
-  const { r } = await searchParams;
-  const initialRoute = r && VALID_ROUTES.has(r) ? r : undefined;
-  const [products, cart, customer] = await Promise.all([
-    getStorefrontProducts(),
-    getCurrentCart(),
-    getCurrentCustomer(),
-  ]);
-  return <HharaApp initialProducts={products} initialCart={cart} initialCustomer={customer} initialRoute={initialRoute} />;
+export default function ComingSoon() {
+  return (
+    <main className="cs">
+      <img src="/images/hhara-logo.png" alt="HHARA" className="cs-logo" />
+      <span className="cs-eyebrow">She is Wonder</span>
+      <h1 className="cs-title">Coming <em>Soon</em></h1>
+      <p className="cs-lead">
+        Something considered is on its way. Four elevated essentials, two timeless colourways — designed for every version of your day.
+      </p>
+      <p className="cs-contact">hello@hhara.com</p>
+    </main>
+  );
 }

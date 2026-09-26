@@ -46,18 +46,18 @@ export function StandaloneNav() {
           </button>
 
           <nav className="header-nav">
-            <a href="/?r=shop">Shop</a>
-            <a href="/?r=lookbook">Lookbook</a>
-            <a href="/?r=atelier">About Us</a>
-            <a href="/?r=stores">Impact</a>
+            <a href="/home?r=shop">Shop</a>
+            <a href="/home?r=lookbook">Lookbook</a>
+            <a href="/home?r=atelier">About Us</a>
+            <a href="/home?r=stores">Impact</a>
           </nav>
 
-          <a href="/" className="brandmark">
+          <a href="/home" className="brandmark">
             <img src="/images/hhara-logo.png" alt="HHARA" className="brandmark-text" />
           </a>
 
           <div className="header-actions">
-            <a href="/" className="ha-btn ha-link" data-tooltip="Search" aria-label="Search">
+            <a href="/home" className="ha-btn ha-link" data-tooltip="Search" aria-label="Search">
               <svg className="icon" viewBox="0 0 24 24">
                 <circle cx="11" cy="11" r="7" />
                 <line x1="16.5" y1="16.5" x2="21" y2="21" />
@@ -71,18 +71,18 @@ export function StandaloneNav() {
                 <circle cx="17.5" cy="18" r="1.8" />
               </svg>
             </a>
-            <a href="/" className="ha-btn ha-link" data-tooltip="Account" aria-label="Account">
+            <a href="/home" className="ha-btn ha-link" data-tooltip="Account" aria-label="Account">
               <svg className="icon" viewBox="0 0 24 24">
                 <circle cx="12" cy="9" r="3.5" />
                 <path d="M5 20c1.5-3.5 4-5 7-5s5.5 1.5 7 5" />
               </svg>
             </a>
-            <a href="/" className="ha-btn ha-link" data-tooltip="Wishlist" aria-label="Wishlist">
+            <a href="/home" className="ha-btn ha-link" data-tooltip="Wishlist" aria-label="Wishlist">
               <svg className="icon" viewBox="0 0 24 24">
                 <path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z" />
               </svg>
             </a>
-            <a href="/" className="ha-btn ha-link" data-tooltip="Cart" aria-label="Cart">
+            <a href="/home" className="ha-btn ha-link" data-tooltip="Cart" aria-label="Cart">
               <svg className="icon" viewBox="0 0 24 24">
                 <path d="M5 8h14l-1 12H6L5 8z" />
                 <path d="M9 8V6a3 3 0 0 1 6 0v2" />
@@ -111,10 +111,10 @@ export function StandaloneNav() {
         </div>
         <div className="mobile-menu-body">
           <nav className="mobile-menu-nav">
-            <a href="/?r=shop">Shop All</a>
-            <a href="/?r=lookbook">Lookbook</a>
-            <a href="/?r=atelier">About Us</a>
-            <a href="/?r=stores">Impact</a>
+            <a href="/home?r=shop">Shop All</a>
+            <a href="/home?r=lookbook">Lookbook</a>
+            <a href="/home?r=atelier">About Us</a>
+            <a href="/home?r=stores">Impact</a>
             <a href="/orders/track" className="active">Track Order</a>
           </nav>
         </div>

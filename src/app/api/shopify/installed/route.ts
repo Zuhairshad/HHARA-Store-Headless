@@ -9,7 +9,7 @@ export async function GET() {
       <pre style="background:#f5f5f5;padding:12px;border-radius:6px">npm run dev</pre>
       <p>Then run the seed script to create the 4 HHARA products and delete the 8 mocks:</p>
       <pre style="background:#f5f5f5;padding:12px;border-radius:6px">node scripts/seed-shopify.mjs</pre>
-      <p><a href="/">← Back to storefront</a></p>
+      <p><a href="/home">← Back to storefront</a></p>
     </body></html>`,
     { headers: { "Content-Type": "text/html" } }
   );
