@@ -4075,7 +4075,7 @@ function LookbookPage({ setRoute, openProduct }) {
             <Image src={IMGS.lb1} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" loading="lazy" />
             <div className="ovr"></div>
             <div className="caption"><div className="ttl">Dahlia Set</div></div>
-            <div className="hotspot" style={{ top: "62%", left: "50%" }} onClick={() => setRoute("shop", "The Dahlia Set")}>
+            <div className="hotspot" style={{ top: "62%", left: "50%" }} onClick={() => setRoute("shop", ["The Dahlia Set", "Olive"])}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
           </div>
@@ -4096,7 +4096,7 @@ function LookbookPage({ setRoute, openProduct }) {
             <Image src={IMGS.lb4} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
             <div className="ovr"></div>
             <div className="caption"><div className="ttl">Imara Leggings</div></div>
-            <div className="hotspot" style={{ top: "70%", left: "40%" }} onClick={() => openProduct("p2")}>
+            <div className="hotspot" style={{ top: "70%", left: "40%" }} onClick={() => openProduct("p2", "Olive")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
           </div>
