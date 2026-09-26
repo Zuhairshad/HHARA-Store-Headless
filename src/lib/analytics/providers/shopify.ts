@@ -37,6 +37,19 @@ declare global {
   }
 }
 
+// hydrogen-react catches failed monorail requests (ad blockers, offline) and logs them
+// via console.error, which Next.js dev surfaces as an error overlay. They're non-critical,
+// so drop just that message and pass everything else through.
+const SHOPIFY_ANALYTICS_ERROR = "sendShopifyAnalytics request is unsuccessful";
+if (typeof window !== "undefined" && !(window as any).__hharaShopifyErrorFilter) {
+  (window as any).__hharaShopifyErrorFilter = true;
+  const originalError = console.error;
+  console.error = (...args: unknown[]) => {
+    if (typeof args[0] === "string" && args[0].startsWith(SHOPIFY_ANALYTICS_ERROR)) return;
+    originalError(...args);
+  };
+}
+
 const BASE_PAYLOAD = {
   shopId: SHOPIFY_CONFIG.shopId,
   currency: SHOPIFY_CONFIG.currency,
