@@ -28,19 +28,20 @@ import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 import { ConsentBanner } from "@/components/analytics/ConsentBanner";
 import { ShopifyWebPixels } from "@/components/analytics/ShopifyWebPixels";
 import { FontLoader } from "@/components/FontLoader";
+import { IS_LAUNCHED, KEYWORDS, SITE_URL, organizationJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://hhara-store-headless.vercel.app"),
+  metadataBase: new URL(SITE_URL),
   title: "HHARA | She is Wonder",
   description: "Unapologetically You. Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.",
-  keywords: ["HHARA", "Considered Luxury", "Activewear", "Recycled Performance Wear", "UAE Activewear", "Maison HHARA", "Imara Set", "Dahlia Set"],
+  keywords: KEYWORDS,
   icons: {
     icon: "/images/monkey-logo.jpg",
   },
   openGraph: {
     title: "HHARA | She is Wonder",
     description: "Unapologetically You. Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.",
-    url: "https://hhara-store-headless.vercel.app",
+    url: SITE_URL,
     siteName: "HHARA",
     images: [
       {
@@ -60,8 +61,11 @@ export const metadata: Metadata = {
     images: ["/images/lucy-home-hero.png"],
   },
   robots: {
-    index: true,
-    follow: true,
+    index: IS_LAUNCHED,
+    follow: IS_LAUNCHED,
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
   },
   other: {
     "p:domain_verify": "0dc9f529f63919981bd143dd195a7fd9",
@@ -74,6 +78,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         {/* @ts-ignore */}
         <link rel="preload" as="image" href="/images/lucy-home-hero.png" fetchPriority="high" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
       </head>
       <body>
         <FontLoader />

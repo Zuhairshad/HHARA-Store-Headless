@@ -3,15 +3,16 @@
 import { shopifyFetch } from "./shopify";
 import { verifyHumanSubmission } from "./bot-protection";
 
-// Create a Shopify customer with marketing consent. Klaviyo (installed in the
-// store) will sync this customer automatically from the Shopify webhook.
+// Create a Shopify customer with marketing consent, and subscribe the email
+// directly to a Klaviyo list (when KLAVIYO_PRIVATE_API_KEY and KLAVIYO_LIST_ID are set).
 export async function subscribeNewsletter(
   email: string,
   name?: string,
   phone?: string,
   dob?: string,
   honeypot?: string,
-  formTimestamp?: number
+  formTimestamp?: number,
+  source?: string
 ): Promise<{ ok: boolean; error?: string }> {
   // 1. Anti-Bot Verification
   const botCheck = await verifyHumanSubmission({
@@ -24,6 +25,21 @@ export async function subscribeNewsletter(
     return { ok: false, error: botCheck.error || "Subscription rejected." };
   }
 
+  const [shopify, klaviyoOk] = await Promise.all([
+    subscribeShopify(email, name, phone, dob),
+    subscribeKlaviyo(email, source),
+  ]);
+  // Klaviyo alone is enough to count as subscribed if Shopify rejected the request
+  if (!shopify.ok && klaviyoOk) return { ok: true };
+  return shopify;
+}
+
+async function subscribeShopify(
+  email: string,
+  name?: string,
+  phone?: string,
+  dob?: string
+): Promise<{ ok: boolean; error?: string }> {
   const query = /* GraphQL */ `
     mutation Subscribe($input: CustomerCreateInput!) {
       customerCreate(input: $input) {
@@ -64,6 +80,54 @@ export async function subscribeNewsletter(
     return { ok: true };
   } catch (err: any) {
     return { ok: false, error: err.message || "Failed to subscribe" };
+  }
+}
+
+// Subscribe an email to a Klaviyo list with email marketing consent.
+// Returns false (never throws) when not configured or on failure.
+async function subscribeKlaviyo(email: string, source?: string): Promise<boolean> {
+  const apiKey = process.env.KLAVIYO_PRIVATE_API_KEY;
+  const listId = process.env.KLAVIYO_LIST_ID;
+  if (!apiKey || !listId) return false;
+
+  try {
+    const res = await fetch("https://a.klaviyo.com/api/profile-subscription-bulk-create-jobs", {
+      method: "POST",
+      headers: {
+        Authorization: `Klaviyo-API-Key ${apiKey}`,
+        revision: "2025-01-15",
+        accept: "application/vnd.api+json",
+        "content-type": "application/vnd.api+json",
+      },
+      body: JSON.stringify({
+        data: {
+          type: "profile-subscription-bulk-create-job",
+          attributes: {
+            custom_source: source || "Website Newsletter",
+            profiles: {
+              data: [
+                {
+                  type: "profile",
+                  attributes: {
+                    email: email.trim().toLowerCase(),
+                    subscriptions: { email: { marketing: { consent: "SUBSCRIBED" } } },
+                  },
+                },
+              ],
+            },
+          },
+          relationships: { list: { data: { type: "list", id: listId } } },
+        },
+      }),
+    });
+    if (!res.ok) {
+      console.error("Klaviyo subscribe failed", res.status, await res.text());
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("Klaviyo subscribe error", err);
+    return false;
   }
 }
 

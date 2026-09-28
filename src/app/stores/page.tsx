@@ -2,6 +2,9 @@ import HharaApp from "@/components/HharaApp";
 import { getStorefrontProducts } from "@/lib/products";
 import { getCurrentCart } from "@/lib/cart-actions";
 import { getCurrentCustomer } from "@/lib/customer-actions";
+import { pageMetadata } from "@/lib/seo";
+
+export const metadata = pageMetadata("/stores");
 
 export const revalidate = 0;
 

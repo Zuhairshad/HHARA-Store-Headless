@@ -3,6 +3,7 @@ import HharaApp from "@/components/HharaApp";
 import { getStorefrontProducts } from "@/lib/products";
 import { getCurrentCart } from "@/lib/cart-actions";
 import { getCurrentCustomer } from "@/lib/customer-actions";
+import { SITE_URL } from "@/lib/seo";
 
 export const revalidate = 0;
 
@@ -17,6 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
   if (!product) return { title: "Product | HHARA" };
   return {
     title: `${product.name} | HHARA`,
+    alternates: { canonical: `/products/${handle}` },
     description: product.description?.split("\n")[0] || `${product.name} — Considered Luxury Activewear by HHARA`,
     openGraph: {
       title: `${product.name} | HHARA`,
@@ -42,7 +44,8 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
     description: product.description?.split("\n")[0] || product.name,
     sku: product.variants[0]?.sku || handle,
     brand: { "@type": "Brand", name: "HHARA" },
-    url: `https://site.hhara.com/products/${handle}`,
+    manufacturer: { "@id": `${SITE_URL}/#organization` },
+    url: `${SITE_URL}/products/${handle}`,
     image: product.featuredImage?.url,
     offers: product.variants.map((v) => ({
       "@type": "Offer",
@@ -53,7 +56,7 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
       availability: v.availableForSale
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
-      url: `https://site.hhara.com/products/${handle}`,
+      url: `${SITE_URL}/products/${handle}`,
     })),
   } : null;
 
