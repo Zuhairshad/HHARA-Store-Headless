@@ -460,8 +460,8 @@ img { display: block; max-width: 100%; }
 @media (max-width: 768px) {
   .hero-image { object-position: 60% calc(50% - 30px); }
 }
+/* Keep the hero visible from first paint (an opacity fade delays LCP); only the zoom animates. */
 .hero-image.is-loading {
-  opacity: 0;
   transform: scale(1.24);
 }
 .hero-image.is-loaded {

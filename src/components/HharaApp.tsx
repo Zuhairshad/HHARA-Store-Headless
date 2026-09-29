@@ -5402,11 +5402,16 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
 
   useEffect(() => {
     if (customer) return;
-    const timer = setTimeout(() => {
+    // Open on first meaningful scroll rather than a timer, so the popup never
+    // competes with the hero for Largest Contentful Paint.
+    const onScroll = () => {
+      if (window.scrollY < 200) return;
+      window.removeEventListener("scroll", onScroll);
       setSignupPopupOpen(true);
       setPopupFormTs(Date.now());
-    }, 3500);
-    return () => clearTimeout(timer);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, [customer]);
 
   const handleNewsletterSignup = async (e: React.FormEvent) => {
