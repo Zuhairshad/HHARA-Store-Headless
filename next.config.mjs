@@ -11,6 +11,15 @@ const nextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     imageSizes: [16, 32, 64, 96, 128, 256, 384],
     qualities: [75, 85, 90],
+    minimumCacheTTL: 2678400, // 31 days: keep optimized images cached at the edge
+  },
+  async headers() {
+    return [
+      {
+        source: "/images/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" }],
+      },
+    ];
   },
   experimental: { optimizeCss: true },
   typescript: { ignoreBuildErrors: true },

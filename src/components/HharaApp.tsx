@@ -1350,6 +1350,7 @@ function Hero({ openShop }) {
           className={`img-fill hero-image ${imageLoaded ? "is-loaded" : "is-loading"}`}
           fill
           priority
+          fetchPriority="high"
           sizes="100vw"
           quality={85}
           onLoad={() => setImageLoaded(true)}

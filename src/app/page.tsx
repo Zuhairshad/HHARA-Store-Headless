@@ -28,6 +28,7 @@ export default function ComingSoon() {
             alt="HHARA campaign image"
             fill
             priority
+            fetchPriority="high"
             sizes="(max-width: 900px) 100vw, 60vw"
             quality={75}
             className="cs-image-img"
