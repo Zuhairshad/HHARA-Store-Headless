@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ComingSoonForm } from "./ComingSoonForm";
 import "./coming-soon.css";
 
@@ -16,12 +17,22 @@ export default function ComingSoon() {
 
       <header className="cs-header">
         <span className="cs-left cs-tagline">Unapologetically<br /><em>You.</em></span>
-        <img src="/images/hhara-logo.png" alt="HHARA" className="cs-logo" />
+        <img src="/images/hhara-logo.png" alt="HHARA" className="cs-logo" width={400} height={73} />
         <a className="cs-right cs-tracked" href="https://instagram.com/thisishhara" target="_blank" rel="noopener">@thisishhara</a>
       </header>
 
       <main className="cs-main">
-        <div className="cs-image" role="img" aria-label="HHARA campaign image" />
+        <div className="cs-image">
+          <Image
+            src="/images/IMG_5275.jpeg"
+            alt="HHARA campaign image"
+            fill
+            priority
+            sizes="(max-width: 900px) 100vw, 60vw"
+            quality={75}
+            className="cs-image-img"
+          />
+        </div>
         <section className="cs-content">
           <div className="cs-rule" aria-hidden="true" />
           <p className="cs-eyebrow cs-tracked">Coming soon</p>

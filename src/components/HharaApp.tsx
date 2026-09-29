@@ -168,7 +168,7 @@ const IMGS: Record<string, string> = {
   sNY: "/images/sNY.jpg",
   sLondon: "/images/sLondon.jpg",
   sDubai: "/images/sDubai.jpg",
-  authMedia: "/images/lucy-home-hero.png",
+  authMedia: "/images/lucy-home-hero.jpg",
   mmShop1: "/images/shop-hover-1.jpeg",
   mmShop2: "/images/shop-hover-2.jpeg",
   mmAtelier: "/images/mmAtelier.jpg"
@@ -1343,14 +1343,15 @@ function Hero({ openShop }) {
   return (
     <section className="hero">
       <div className="hero-media">
-        <img
+        <Image
           ref={imgRef}
-          src="/images/lucy-home-hero.png"
+          src="/images/lucy-home-hero.jpg"
           alt="Woman wearing the HHARA collection walking by a G-Wagon"
           className={`img-fill hero-image ${imageLoaded ? "is-loaded" : "is-loading"}`}
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
+          fill
+          priority
+          sizes="100vw"
+          quality={85}
           onLoad={() => setImageLoaded(true)}
         />
       </div>

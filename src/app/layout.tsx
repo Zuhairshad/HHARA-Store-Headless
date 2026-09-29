@@ -17,17 +17,18 @@ const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-mono",
+  preload: false,
 });
 const mrDeHaviland = Mr_De_Haviland({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-signature",
+  preload: false,
 });
 
 import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 import { ConsentBanner } from "@/components/analytics/ConsentBanner";
 import { ShopifyWebPixels } from "@/components/analytics/ShopifyWebPixels";
-import { FontLoader } from "@/components/FontLoader";
 import { IS_LAUNCHED, KEYWORDS, SITE_URL, organizationJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
     siteName: "HHARA",
     images: [
       {
-        url: "/images/lucy-home-hero.png",
+        url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "HHARA | She is Wonder Capsule Collection",
@@ -58,7 +59,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "HHARA | She is Wonder",
     description: "Unapologetically You. Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.",
-    images: ["/images/lucy-home-hero.png"],
+    images: ["/images/og-image.jpg"],
   },
   robots: {
     index: IS_LAUNCHED,
@@ -76,15 +77,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${cormorant.variable} ${montserrat.variable} ${jetbrains.variable} ${mrDeHaviland.variable}`}>
       <head>
-        {/* @ts-ignore */}
-        <link rel="preload" as="image" href="/images/lucy-home-hero.png" fetchPriority="high" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
       </head>
       <body>
-        <FontLoader />
         <ShopifyWebPixels />
         <AnalyticsProvider>
           {children}

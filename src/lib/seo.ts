@@ -10,7 +10,7 @@ export const IS_LAUNCHED = process.env.NEXT_PUBLIC_SITE_LAUNCHED === "true";
 export const SITE_NAME = "HHARA";
 export const DEFAULT_DESCRIPTION =
   "Unapologetically You. Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.";
-export const DEFAULT_OG_IMAGE = "/images/lucy-home-hero.png";
+export const DEFAULT_OG_IMAGE = "/images/og-image.jpg";
 
 export const KEYWORDS = [
   "HHARA",

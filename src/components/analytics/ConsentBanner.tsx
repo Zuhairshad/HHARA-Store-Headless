@@ -91,7 +91,7 @@ export function ConsentBanner() {
           }}
         >
           <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <h3
+            <h2
               style={{
                 fontFamily: "var(--font-display, Cormorant Garamond, serif)",
                 fontSize: "20px",
@@ -102,7 +102,7 @@ export function ConsentBanner() {
               }}
             >
               Your Privacy & Experience
-            </h3>
+            </h2>
             <p
               style={{
                 fontSize: "13px",
