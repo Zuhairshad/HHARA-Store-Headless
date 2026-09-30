@@ -28,7 +28,6 @@ const mrDeHaviland = Mr_De_Haviland({
 
 import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 import { ConsentBanner } from "@/components/analytics/ConsentBanner";
-import { ShopifyWebPixels } from "@/components/analytics/ShopifyWebPixels";
 import { IS_LAUNCHED, KEYWORDS, SITE_URL, organizationJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -83,7 +82,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <ShopifyWebPixels />
         <AnalyticsProvider>
           {children}
           <ConsentBanner />
