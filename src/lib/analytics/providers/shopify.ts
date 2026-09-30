@@ -22,9 +22,10 @@ declare global {
       customerPrivacy?: {
         setTrackingConsent: (
           consent: {
-            analyticsAllowed: boolean;
-            marketingAllowed: boolean;
-            saleOfDataAllowed: boolean;
+            analytics: boolean;
+            marketing: boolean;
+            preferences: boolean;
+            sale_of_data: boolean;
             headlessStorefront: boolean;
             checkoutRootDomain: string;
             storefrontRootDomain: string;

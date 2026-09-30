@@ -10,12 +10,13 @@ function callSetTrackingConsent(analyticsAllowed: boolean, marketingAllowed: boo
   try {
     window.Shopify?.customerPrivacy?.setTrackingConsent(
       {
-        analyticsAllowed,
-        marketingAllowed,
-        saleOfDataAllowed: marketingAllowed,
+        analytics: analyticsAllowed,
+        marketing: marketingAllowed,
+        preferences: analyticsAllowed,
+        sale_of_data: marketingAllowed,
         headlessStorefront: true,
         checkoutRootDomain: "cuxtmt-tw.myshopify.com",
-        storefrontRootDomain: "site.hhara.com",
+        storefrontRootDomain: "hhara.com",
         storefrontAccessToken: "3685b9997a838dde0680bcad84bad603",
       },
       (err) => {
