@@ -6,7 +6,8 @@
     "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start -p 3000",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:forms": "node e2e/test-forms.mjs"
   },
   "dependencies": {
     "@shopify/hydrogen-react": "^2026.4.3",
@@ -28,6 +29,7 @@
     "autoprefixer": "^10.4.20",
     "critters": "^0.0.23",
     "postcss": "^8.5.10",
+    "puppeteer-core": "^23.11.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.3"
   }

@@ -12,3 +12,6 @@ public/images/about-us-video.mp4
 public/images/products/
 .env*
 *.bak
+
+# form test output
+.form-test/

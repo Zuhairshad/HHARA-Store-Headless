@@ -25,6 +25,15 @@ async function writeToken(token: string, expiresAt: string) {
   });
 }
 
+// A newly issued Shopify access token returns no customer for about a second. Wait until it
+// works, so the page reloaded after sign-in or sign-up shows the customer as signed in.
+async function waitUntilTokenWorks(token: string) {
+  for (let i = 0; i < 10; i++) {
+    try { if (await getCustomer(token)) return; } catch {}
+    await new Promise((r) => setTimeout(r, 400));
+  }
+}
+
 async function readToken(): Promise<string | null> {
   const c = await cookies();
   return c.get(COOKIE)?.value || null;
@@ -117,7 +126,9 @@ export async function signUp(input: {
   const tok = await customerAccessTokenCreate(input.email, input.password);
   if (!tok.token) return { ok: false, error: tok.errors[0]?.message || "Login after signup failed" };
   await writeToken(tok.token.accessToken, tok.token.expiresAt);
-  
+
+  await waitUntilTokenWorks(tok.token.accessToken);
+
   // Link guest cart to customer account if present
   const cCookie = await cookies();
   const cartId = cCookie.get("hhara_cart_id")?.value;
@@ -136,6 +147,7 @@ export async function signIn(email: string, password: string): Promise<{ ok: boo
     return { ok: false, error: "Incorrect email or password." };
   }
   await writeToken(tok.token.accessToken, tok.token.expiresAt);
+  await waitUntilTokenWorks(tok.token.accessToken);
 
   // Link guest cart to customer account if present
   const cCookie = await cookies();
@@ -159,7 +171,14 @@ export async function getCurrentCustomer() {
   const token = await readToken();
   if (!token) return null;
   try {
-    return await getCustomer(token);
+    // Right after sign-in Shopify can briefly answer "no customer" for a valid token;
+    // retry a few times so a new login doesn't look signed out.
+    for (let i = 0; i < 4; i++) {
+      const customer = await getCustomer(token);
+      if (customer) return customer;
+      await new Promise((r) => setTimeout(r, 400));
+    }
+    return null;
   } catch {
     await clearToken();
     return null;
