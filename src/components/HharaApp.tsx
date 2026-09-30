@@ -990,7 +990,7 @@ function Footer({ setRoute, route = "" }) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={done || busy}
-                maxLength={50}
+                maxLength={254}
                 required
               />
               <button type="submit" disabled={done || busy}>
@@ -1657,7 +1657,7 @@ function Newsletter() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={done || busy}
-            maxLength={50}
+            maxLength={254}
             required
           />
           <button type="submit" disabled={done || busy}>
@@ -3794,7 +3794,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
                 placeholder="Where it should arrive"
                 value={recipientEmail}
                 onChange={(e) => setRecipientEmail(e.target.value)}
-                maxLength={35}
+                maxLength={254}
               />
             </div>
 
@@ -4425,7 +4425,7 @@ function AccountPage({
           <form className="auth-form" onSubmit={handleSignIn}>
             <div className="field">
               <label>Email</label>
-              <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" maxLength={35} />
+              <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" maxLength={254} />
             </div>
             <div className="field">
               <label>Password</label>
@@ -4493,7 +4493,7 @@ function AccountPage({
             </div>
             <div className="field">
               <label>Email</label>
-              <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" maxLength={35} />
+              <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" maxLength={254} />
             </div>
             <div className="field">
               <label>Password</label>

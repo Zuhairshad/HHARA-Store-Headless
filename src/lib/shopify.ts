@@ -370,8 +370,31 @@ export async function customerCreate(input: {
       }
     }
   `;
-  const data = await shopifyFetch<{ customerCreate: { customer: any; customerUserErrors: { message: string; field?: string[] }[] } }>(query, { input });
-  return { customer: data.customerCreate.customer, errors: data.customerCreate.customerUserErrors };
+  // The Storefront API has no `note` field on CustomerCreateInput, so it's saved via the Admin API afterwards
+  const { note, ...storefrontInput } = input;
+  const data = await shopifyFetch<{ customerCreate: { customer: any; customerUserErrors: { message: string; field?: string[] }[] } }>(query, { input: storefrontInput });
+  const customer = data.customerCreate.customer;
+  if (customer && note) await setCustomerNote(customer.id, note);
+  return { customer, errors: data.customerCreate.customerUserErrors };
+}
+
+// Best effort: a failure here must not fail the signup itself.
+export async function setCustomerNote(customerId: string, note: string): Promise<void> {
+  const query = /* GraphQL */ `
+    mutation SetCustomerNote($input: CustomerInput!) {
+      customerUpdate(input: $input) {
+        userErrors { field message }
+      }
+    }
+  `;
+  try {
+    const data = await shopifyAdminFetch<{ customerUpdate: { userErrors: { message: string }[] } }>(query, {
+      input: { id: customerId, note },
+    });
+    if (data.customerUpdate.userErrors.length) console.error("[setCustomerNote]", data.customerUpdate.userErrors);
+  } catch (err) {
+    console.error("[setCustomerNote]", err);
+  }
 }
 
 export async function customerAccessTokenCreate(email: string, password: string): Promise<{ token?: CustomerAccessToken; errors: { message: string }[] }> {

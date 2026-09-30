@@ -1,6 +1,6 @@
 "use server";
 
-import { shopifyFetch } from "./shopify";
+import { setCustomerNote, shopifyFetch } from "./shopify";
 import { verifyHumanSubmission } from "./bot-protection";
 
 // Create a Shopify customer with marketing consent, and subscribe the email
@@ -64,9 +64,6 @@ async function subscribeShopify(
     if (phone) {
       input.phone = phone.trim();
     }
-    if (dob) {
-      input.note = `DOB: ${dob}`;
-    }
 
     const data = await shopifyFetch<{ customerCreate: { customer: any; customerUserErrors: { code: string; message: string }[] } }>(query, {
       input,
@@ -82,6 +79,9 @@ async function subscribeShopify(
       }
       return { ok: false, error: "We couldn't add you just now. Please try again in a moment." };
     }
+    // The Storefront API can't take a note, so the birthday is saved via the Admin API
+    const customerId = data.customerCreate.customer?.id;
+    if (customerId && dob) await setCustomerNote(customerId, `DOB: ${dob}`);
     return { ok: true };
   } catch (err: any) {
     console.error("[newsletter] Shopify subscribe threw:", err);

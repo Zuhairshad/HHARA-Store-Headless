@@ -68,7 +68,7 @@ export function ComingSoonForm() {
           placeholder="Email address"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          maxLength={35}
+          maxLength={254}
           disabled={busy}
           required
         />

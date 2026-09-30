@@ -130,7 +130,11 @@ export async function signUp(input: {
 
 export async function signIn(email: string, password: string): Promise<{ ok: boolean; error?: string }> {
   const tok = await customerAccessTokenCreate(email, password);
-  if (!tok.token) return { ok: false, error: tok.errors[0]?.message || "Invalid credentials" };
+  if (!tok.token) {
+    // Shopify says "Unidentified customer" for a wrong email or password
+    console.error("[signIn] customerAccessTokenCreate failed:", tok.errors);
+    return { ok: false, error: "Incorrect email or password." };
+  }
   await writeToken(tok.token.accessToken, tok.token.expiresAt);
 
   // Link guest cart to customer account if present
