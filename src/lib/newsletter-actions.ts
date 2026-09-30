@@ -132,8 +132,9 @@ async function subscribeKlaviyo(email: string, source?: string): Promise<boolean
 }
 
 function cryptoRandom(): string {
-  // Strong random password (Shopify requires one even for marketing-only signup)
-  const bytes = new Uint8Array(24);
+  // Strong random password (Shopify requires one even for marketing-only signup).
+  // 16 bytes -> 32 hex chars; Shopify rejects passwords over 40 characters.
+  const bytes = new Uint8Array(16);
   if (typeof crypto !== "undefined" && crypto.getRandomValues) crypto.getRandomValues(bytes);
   else for (let i = 0; i < bytes.length; i++) bytes[i] = Math.floor(Math.random() * 256);
   return Array.from(bytes).map((b) => b.toString(16).padStart(2, "0")).join("");
