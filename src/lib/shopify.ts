@@ -24,6 +24,7 @@ export type ShopifyProduct = {
   title: string;
   description: string;
   productType: string;
+  isGiftCard: boolean;
   tags: string[];
   options: { name: string; values: string[] }[];
   priceRange: { minVariantPrice: Money; maxVariantPrice: Money };
@@ -130,6 +131,7 @@ const PRODUCT_FRAGMENT = /* GraphQL */ `
     title
     description
     productType
+    isGiftCard
     tags
     options { name values }
     priceRange {
@@ -188,11 +190,14 @@ export async function getProducts(first = 50): Promise<ShopifyProduct[]> {
       variants: { nodes: ShopifyVariant[] };
     }> };
   }>(query, { first }, { next: { tags: ["products"] } });
-  return data.products.nodes.map((p) => ({
-    ...p,
-    images: p.images.nodes,
-    variants: p.variants.nodes,
-  }));
+  // Gift cards are sold from their own page, never listed with the collection
+  return data.products.nodes
+    .filter((p) => !p.isGiftCard)
+    .map((p) => ({
+      ...p,
+      images: p.images.nodes,
+      variants: p.variants.nodes,
+    }));
 }
 
 export async function getProductByHandle(handle: string): Promise<ShopifyProduct | null> {
@@ -256,18 +261,28 @@ export async function cartCreate(): Promise<ShopifyCart> {
   return normaliseCart(data.cartCreate.cart);
 }
 
-export async function cartLinesAdd(cartId: string, lines: { merchandiseId: string; quantity: number }[]): Promise<ShopifyCart> {
+type CartLineInput = { merchandiseId: string; quantity: number; attributes?: { key: string; value: string }[] };
+
+export async function cartLinesAdd(cartId: string, lines: CartLineInput[]): Promise<ShopifyCart> {
+  return (await cartLinesAddWithErrors(cartId, lines)).cart;
+}
+
+// Same as cartLinesAdd, but also returns Shopify's userErrors (e.g. invalid gift card recipient)
+export async function cartLinesAddWithErrors(
+  cartId: string,
+  lines: CartLineInput[]
+): Promise<{ cart: ShopifyCart; userErrors: { message: string; code?: string }[] }> {
   const query = /* GraphQL */ `
     ${CART_FRAGMENT}
     mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
       cartLinesAdd(cartId: $cartId, lines: $lines) {
         cart { ...CartFields }
-        userErrors { message }
+        userErrors { message code }
       }
     }
   `;
-  const data = await shopifyFetch<{ cartLinesAdd: { cart: RawCart; userErrors: { message: string }[] } }>(query, { cartId, lines });
-  return normaliseCart(data.cartLinesAdd.cart);
+  const data = await shopifyFetch<{ cartLinesAdd: { cart: RawCart; userErrors: { message: string; code?: string }[] } }>(query, { cartId, lines });
+  return { cart: normaliseCart(data.cartLinesAdd.cart), userErrors: data.cartLinesAdd.userErrors };
 }
 
 export async function cartLinesUpdate(cartId: string, lines: { id: string; quantity: number }[]): Promise<ShopifyCart> {

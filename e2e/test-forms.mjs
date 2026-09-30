@@ -279,7 +279,10 @@ if (want(6)) {
       if (empty) await s.type("Hhtest Sender", { delay: 10 });
     }
     await page.$eval('input[placeholder="Where it should arrive"]', (el) => el.form.requestSubmit());
-    await waitForText(page, /E-Gift Card – AED/i, 25000);
+    await waitForText(page, /E-Gift Card – AED|launching soon|couldn't add/i, 25000);
+    const t = await bodyText(page);
+    if (/launching soon/i.test(t)) throw new Error('Page says "Gift cards are launching soon": no gift card product in Shopify yet');
+    if (/couldn't add/i.test(t)) throw new Error("Shopify rejected the gift card: " + t.match(/[^\n]*couldn't add[^\n]*/i)[0]);
     // Bag -> "Review Order" -> "Proceed to Checkout" -> Shopify checkout (no payment made)
     await page.waitForFunction(() => [...document.querySelectorAll("button")].some((b) => /review order/i.test(b.textContent) && !b.disabled && b.offsetParent), { timeout: 20000 })
       .catch(() => { throw new Error('"Review Order" stayed disabled (no Shopify checkout was created)'); });

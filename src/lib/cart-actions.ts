@@ -10,7 +10,10 @@ import {
   getCart,
   ShopifyCart,
   cartDiscountCodesUpdate,
+  cartLinesAddWithErrors,
+  getProductByHandle,
 } from "./shopify";
+import { GIFT_CARD_HANDLE } from "./gift-card";
 
 const COOKIE = "hhara_cart_id";
 const ATTR_COOKIE = "hhara_attr";
@@ -108,6 +111,57 @@ export async function addLine(merchandiseId: string, quantity: number): Promise<
     cart = await ensureCart();
     return cartLinesAdd(cart.id, [{ merchandiseId, quantity }]);
   }
+}
+
+export type GiftCardInput = {
+  amount: number;
+  quantity: number;
+  recipientName: string;
+  recipientEmail: string;
+  senderName: string;
+  note?: string;
+};
+
+// Adds the Shopify gift card product with recipient details, so Shopify emails the card to the
+// recipient after payment (https://shopify.dev/docs/storefronts/themes/product-merchandising/gift-cards).
+export async function addGiftCard(
+  input: GiftCardInput
+): Promise<{ ok: true; cart: ShopifyCart } | { ok: false; error: string; unavailable?: boolean }> {
+  const recipientEmail = input.recipientEmail.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipientEmail)) {
+    return { ok: false, error: "Please enter a valid email for the recipient." };
+  }
+  const product = await getProductByHandle(GIFT_CARD_HANDLE).catch(() => null);
+  const variant = product?.variants.find((v) => Math.round(parseFloat(v.price.amount)) === input.amount && v.availableForSale);
+  if (!variant) return { ok: false, unavailable: true, error: "Gift cards are not available yet." };
+
+  // Shopify has no "from" field and limits the message to 200 characters
+  const from = input.senderName.trim();
+  const note = (input.note || "").trim();
+  const message = (note ? `${note}\n— ${from}` : `From ${from}`).slice(0, 200);
+  const line = {
+    merchandiseId: variant.id,
+    quantity: Math.max(1, Math.min(10, Math.floor(input.quantity) || 1)),
+    attributes: [
+      { key: "__shopify_send_gift_card_to_recipient", value: "true" },
+      { key: "Recipient email", value: recipientEmail },
+      { key: "Recipient name", value: input.recipientName.trim().slice(0, 255) },
+      { key: "Message", value: message },
+    ],
+  };
+
+  let cart = await ensureCart();
+  let res = await cartLinesAddWithErrors(cart.id, [line]).catch(async () => {
+    // Cart may be expired/invalid: retry once with a fresh cart
+    await clearCartId();
+    cart = await ensureCart();
+    return cartLinesAddWithErrors(cart.id, [line]);
+  });
+  if (res.userErrors.length) {
+    console.error("[addGiftCard] Shopify rejected the gift card:", res.userErrors);
+    return { ok: false, error: "We couldn't add this gift card. Please check the recipient's details and try again." };
+  }
+  return { ok: true, cart: res.cart };
 }
 
 export async function updateLine(lineId: string, quantity: number): Promise<ShopifyCart> {

@@ -3,7 +3,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, react/no-unescaped-entities */
 import React, { useState, useEffect, useRef, useContext, createContext } from "react";
 import Image from "next/image";
-import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount } from "@/lib/cart-actions";
+import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount, addGiftCard as serverAddGiftCard } from "@/lib/cart-actions";
+import { GIFT_CARD_HANDLE } from "@/lib/gift-card";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
 import { MagneticImpactCard } from "@/components/ui/morphing-cursor";
@@ -3669,39 +3670,36 @@ const GIFT_CARD_AMOUNTS = [1000, 750, 600, 400];
 
 function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
   const [amount, setAmount] = useState(GIFT_CARD_AMOUNTS[0]);
-  const [customAmount, setCustomAmount] = useState("");
   const [qty, setQty] = useState(1);
   const [recipientName, setRecipientName] = useState("");
   const [recipientEmail, setRecipientEmail] = useState("");
   const [senderName, setSenderName] = useState("");
   const [note, setNote] = useState("");
   const [unavailable, setUnavailable] = useState(false);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
-  const activeAmount = customAmount ? Math.max(0, parseFloat(customAmount) || 0) : amount;
+  const activeAmount = amount;
   const total = activeAmount * qty;
 
   const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (addToCart) {
-      for (let i = 0; i < qty; i++) {
-        await addToCart({
-          id: "gift-card",
-          name: `HHARA E-Gift Card – AED ${activeAmount}`,
-          price: activeAmount,
-          color: "-",
-          size: "-",
-          tone: "tone-4",
-          isGiftCard: true,
-          recipientName,
-          recipientEmail,
-          senderName,
-          note,
-        });
-      }
-      if (setCartOpen) setCartOpen(true);
-    } else {
-      setUnavailable(true);
-    }
+    if (busy || !addToCart) return;
+    setBusy(true);
+    setError("");
+    const res = await addToCart({
+      isGiftCard: true,
+      price: activeAmount,
+      qty,
+      recipientName,
+      recipientEmail,
+      senderName,
+      note,
+    });
+    setBusy(false);
+    if (res?.ok) return;
+    if (res?.unavailable) setUnavailable(true);
+    else setError(res?.error || "We couldn't add this gift card. Please try again.");
   };
 
   return (
@@ -3729,33 +3727,12 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
                 <button
                   key={a}
                   type="button"
-                  className={`gc-amount-btn ${!customAmount && amount === a ? "on" : ""}`}
-                  onClick={() => {
-                    setAmount(a);
-                    setCustomAmount("");
-                  }}
+                  className={`gc-amount-btn ${amount === a ? "on" : ""}`}
+                  onClick={() => setAmount(a)}
                 >
                   <span style={{ fontFamily: "var(--sans)", fontSize: "10px", fontWeight: 500, letterSpacing: "0.08em", verticalAlign: "middle", marginRight: 4, opacity: 0.7 }}>AED</span>{a}
                 </button>
               ))}
-            </div>
-
-            {/* Custom Amount Wrapper */}
-            <div className="gc-custom-amount-wrapper">
-              <span className="gc-custom-amount-symbol">AED</span>
-              <input
-                className="gc-custom-amount-input"
-                type="text"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                maxLength={5}
-                placeholder="Enter a custom amount"
-                value={customAmount}
-                onChange={(e) => {
-                  const digits = e.target.value.replace(/\D/g, "").slice(0, 5);
-                  setCustomAmount(digits);
-                }}
-              />
             </div>
 
             {/* Quantity Selector */}
@@ -3815,11 +3792,11 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
             <div className="gc-field">
               <label style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
                 <span>A Personal Note (Optional)</span>
-                <span style={{ fontFamily: "var(--sans)", fontSize: 10, fontWeight: 400, letterSpacing: "0.05em", color: "var(--ink-soft)", opacity: 0.7 }}>{note.length}/250</span>
+                <span style={{ fontFamily: "var(--sans)", fontSize: 10, fontWeight: 400, letterSpacing: "0.05em", color: "var(--ink-soft)", opacity: 0.7 }}>{note.length}/175</span>
               </label>
               <textarea
                 rows={4}
-                maxLength={250}
+                maxLength={175}
                 placeholder="Write a few words for her..."
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
@@ -3836,13 +3813,16 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <button className="btn btn-primary btn-block" type="submit" disabled={activeAmount <= 0}>
-                Add to Bag
+              <button className="btn btn-primary btn-block" type="submit" disabled={busy || activeAmount <= 0}>
+                {busy ? "Adding…" : "Add to Bag"}
                 <span className="btn-arrow">
                   <Icon.Arrow />
                 </span>
               </button>
 
+              {error && (
+                <p role="alert" style={{ fontSize: 13, color: "#8A3B2A", textAlign: "center", margin: 0 }}>{error}</p>
+              )}
               {unavailable && (
                 <p style={{ fontSize: 13, color: "var(--ink-soft)", textAlign: "center", margin: 0 }}>
                   Gift cards are launching soon. In the meantime, email{" "}
@@ -5480,6 +5460,22 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     ...(shopifyCart?.lines || []).map((line: any) => {
       const productMatch = products.find((p: any) => p.variants?.some((v: any) => v.id === line.merchandise.id));
       const opts = Object.fromEntries(line.merchandise.selectedOptions.map((o: any) => [o.name.toLowerCase(), o.value]));
+      if (line.merchandise.product.handle === GIFT_CARD_HANDLE) {
+        return {
+          key: line.id,
+          lineId: line.id,
+          variantId: line.merchandise.id,
+          id: "gift-card",
+          name: `HHARA E-Gift Card – ${opts.amount || line.merchandise.title}`,
+          price: parseFloat(line.cost.totalAmount.amount) / Math.max(line.quantity, 1),
+          qty: line.quantity,
+          color: "-",
+          size: "-",
+          tone: "tone-4",
+          featuredImage: "gift-card-monkey",
+          isGiftCard: true,
+        };
+      }
       return {
         key: line.id,
         lineId: line.id,
@@ -5548,23 +5544,19 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
 
   const addToCart = async (item) => {
     if (item.isGiftCard) {
-      const localId = `local-gc-${Date.now()}`;
-      setLocalCartItems(prev => [...prev, {
-        key: localId,
-        lineId: localId,
-        variantId: null,
-        id: "gift-card",
-        name: item.name,
-        price: item.price,
-        qty: 1,
-        color: "-",
-        size: "-",
-        tone: "tone-4",
-        featuredImage: "gift-card-monkey",
-        isGiftCard: true,
-      }]);
-      setCartOpen(true);
-      return;
+      const res = await serverAddGiftCard({
+        amount: item.price,
+        quantity: item.qty || 1,
+        recipientName: item.recipientName,
+        recipientEmail: item.recipientEmail,
+        senderName: item.senderName,
+        note: item.note,
+      });
+      if (res.ok) {
+        setShopifyCart(res.cart);
+        setCartOpen(true);
+      }
+      return res;
     }
     const product = products.find((p: any) => p.id === item.id);
     const variantId = item.variantId || findVariantId(product, item.color, item.size);
