@@ -75,11 +75,17 @@ async function subscribeShopify(
     if (errs.length) {
       // Treat duplicate as success - they're already on the list
       if (errs.some((e) => /already/i.test(e.message) || e.code === "TAKEN")) return { ok: true };
-      return { ok: false, error: errs[0].message };
+      // Never show Shopify's internal messages (e.g. about the hidden generated password) to visitors
+      console.error("[newsletter] Shopify customerCreate failed:", errs);
+      if (errs.some((e: any) => e.field?.includes("email"))) {
+        return { ok: false, error: "Please enter a valid email address." };
+      }
+      return { ok: false, error: "We couldn't add you just now. Please try again in a moment." };
     }
     return { ok: true };
   } catch (err: any) {
-    return { ok: false, error: err.message || "Failed to subscribe" };
+    console.error("[newsletter] Shopify subscribe threw:", err);
+    return { ok: false, error: "We couldn't add you just now. Please try again in a moment." };
   }
 }
 
