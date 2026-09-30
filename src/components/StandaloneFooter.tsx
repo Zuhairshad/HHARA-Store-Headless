@@ -22,7 +22,8 @@ export function StandaloneFooter() {
       undefined,
       undefined,
       hpCompany,
-      formTs
+      formTs,
+      "Footer"
     );
     setBusy(false);
     if (res.ok) setDone(true);

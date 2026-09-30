@@ -946,7 +946,7 @@ function Footer({ setRoute, route = "" }) {
     e.preventDefault();
     if (!email || busy) return;
     setBusy(true); setError(null);
-    const res = await serverSubscribe(email, undefined, undefined, undefined, hpCompany, formTs);
+    const res = await serverSubscribe(email, undefined, undefined, undefined, hpCompany, formTs, "Footer");
     setBusy(false);
     if (res.ok) {
       setDone(true);
@@ -5409,7 +5409,8 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
         fullPhone,
         newsletterDob,
         newsletterHp,
-        popupFormTs
+        popupFormTs,
+        "Signup Popup"
       );
       if (res.ok) {
         setSignupStatus("success");

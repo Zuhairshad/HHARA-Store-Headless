@@ -10,6 +10,7 @@ import {
   shopifyAdminFetch,
 } from "./shopify";
 import { verifyHumanSubmission } from "./bot-protection";
+import { subscribeKlaviyo, updateKlaviyoProfile } from "./klaviyo";
 
 const COOKIE = "hhara_customer_token";
 
@@ -126,8 +127,15 @@ export async function signUp(input: {
   const tok = await customerAccessTokenCreate(input.email, input.password);
   if (!tok.token) return { ok: false, error: tok.errors[0]?.message || "Login after signup failed" };
   await writeToken(tok.token.accessToken, tok.token.expiresAt);
-
-  await waitUntilTokenWorks(tok.token.accessToken);
+  await Promise.all([
+    waitUntilTokenWorks(tok.token.accessToken),
+    // Ticked "Email me HHARA dispatches": add them to the Klaviyo list too
+    input.acceptsMarketing
+      ? subscribeKlaviyo(input.email, "Account Signup").then((ok) =>
+          ok ? updateKlaviyoProfile(input.email, { name: [input.firstName, input.lastName].filter(Boolean).join(" "), dob }) : undefined
+        )
+      : Promise.resolve(),
+  ]);
 
   // Link guest cart to customer account if present
   const cCookie = await cookies();

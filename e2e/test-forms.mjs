@@ -231,6 +231,7 @@ if (want(5)) {
     await typeInto(page, 'input[placeholder="First name"]', "Hhtest");
     await typeInto(page, 'form.auth-form input[type="email"]', email);
     await typeInto(page, 'form.auth-form input[placeholder="At least 8 characters"]', password);
+    await page.$eval('form.auth-form input[type="checkbox"]', (el) => { if (!el.checked) el.click(); }); // "Email me HHARA dispatches"
     await sleep(1200);
     await page.$eval('form.auth-form input[type="email"]', (el) => el.form.requestSubmit());
     await Promise.race([
