@@ -39,6 +39,7 @@
 .cs-tagline {
   justify-self: start; text-align: center;
   font-family: var(--cs-serif); font-weight: 400; font-size: 18px; line-height: 1.05;
+  text-transform: uppercase; letter-spacing: .04em;
 }
 .cs-header .cs-tagline { color: var(--cs-espresso); }
 .cs-tagline em { font-style: italic; font-weight: 300; color: var(--cs-gold); }
