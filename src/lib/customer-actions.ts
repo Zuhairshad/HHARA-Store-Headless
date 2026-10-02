@@ -8,8 +8,12 @@ import {
   getCustomer,
   customerAssociateCart,
   shopifyAdminFetch,
+  customerRecover,
+  customerResetByUrl,
+  customerActivateByUrl,
 } from "./shopify";
-import { verifyHumanSubmission } from "./bot-protection";
+import { getClientIp, verifyHumanSubmission } from "./bot-protection";
+import { rateLimit } from "./rate-limit";
 import { subscribeKlaviyo, updateKlaviyoProfile } from "./klaviyo";
 
 const COOKIE = "hhara_customer_token";
@@ -265,3 +269,65 @@ export async function lookupOrder(orderName: string, email: string): Promise<{
     return { ok: false, error: "Something went wrong. Please try again." };
   }
 }
+
+// ─── Forgot password / account activation ──────────────────────────
+// Shopify's emails link to www.hhara.com/account/reset?url=… and /account/activate?url=…
+// (set in Settings → Notifications), and these actions finish the job on the site.
+
+const RATE_LIMITED = "Too many attempts. Please wait a few minutes and try again.";
+
+export async function requestPasswordReset(email: string): Promise<{ ok: boolean; error?: string }> {
+  const clean = (email || "").trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean)) return { ok: false, error: "Please enter a valid email address." };
+  const ip = await getClientIp();
+  if (!rateLimit(`pw-recover:${ip}`, { limit: 5, windowSec: 600 }).ok) return { ok: false, error: RATE_LIMITED };
+  try {
+    const { errors } = await customerRecover(clean);
+    if (errors.length) console.error("[requestPasswordReset]", errors);
+  } catch (err) {
+    console.error("[requestPasswordReset]", err);
+    return { ok: false, error: "Something went wrong. Please try again in a moment." };
+  }
+  // Same answer whether or not the email has an account, so the form can't be used to look up customers
+  return { ok: true };
+}
+
+export async function setPasswordFromEmailLink(
+  kind: "reset" | "activate",
+  link: string,
+  password: string
+): Promise<{ ok: boolean; error?: string }> {
+  // Only accept genuine links from this store's emails
+  const domain = process.env.SHOPIFY_STORE_DOMAIN;
+  let url: URL;
+  try { url = new URL(link); } catch { return { ok: false, error: INVALID_LINK }; }
+  if (url.protocol !== "https:" || url.hostname !== domain || !url.pathname.startsWith(`/account/${kind}/`)) {
+    return { ok: false, error: INVALID_LINK };
+  }
+  if (!password || password.length < 8) return { ok: false, error: "Your password needs at least 8 characters." };
+  if (password !== password.trim()) return { ok: false, error: "Your password can't start or end with a space." };
+
+  const ip = await getClientIp();
+  if (!rateLimit(`pw-set:${ip}`, { limit: 10, windowSec: 600 }).ok) return { ok: false, error: RATE_LIMITED };
+
+  try {
+    const fn = kind === "reset" ? customerResetByUrl : customerActivateByUrl;
+    const res = await fn(`${url.origin}${url.pathname}`, password);
+    if (!res.token) {
+      console.error(`[setPasswordFromEmailLink:${kind}]`, res.errors);
+      const code = res.errors[0]?.code;
+      if (code === "TOKEN_INVALID" || code === "INVALID" || code === "CUSTOMER_DISABLED" || code === "ALREADY_ENABLED") {
+        return { ok: false, error: INVALID_LINK };
+      }
+      return { ok: false, error: res.errors[0]?.message || "We couldn't set your password. Please try again." };
+    }
+    await writeToken(res.token.accessToken, res.token.expiresAt);
+    await waitUntilTokenWorks(res.token.accessToken);
+    return { ok: true };
+  } catch (err) {
+    console.error(`[setPasswordFromEmailLink:${kind}]`, err);
+    return { ok: false, error: "Something went wrong. Please try again in a moment." };
+  }
+}
+
+const INVALID_LINK = "This link has expired or has already been used. Please request a new one.";

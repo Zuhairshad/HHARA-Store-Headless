@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef, useContext, createContext } from "r
 import Image from "next/image";
 import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount, addGiftCard as serverAddGiftCard } from "@/lib/cart-actions";
 import { GIFT_CARD_HANDLE } from "@/lib/gift-card";
-import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut } from "@/lib/customer-actions";
+import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut, requestPasswordReset as serverRequestPasswordReset } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
 import { MagneticImpactCard } from "@/components/ui/morphing-cursor";
 import {
@@ -4306,6 +4306,16 @@ function AccountPage({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [forgot, setForgot] = useState<null | "form" | "sent">(null);
+
+  const handleForgot = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setBusy(true); setError(null);
+    const res = await serverRequestPasswordReset(form.email);
+    setBusy(false);
+    if (!res.ok) { setError(res.error || "Something went wrong. Please try again."); return; }
+    setForgot("sent");
+  };
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -4401,7 +4411,32 @@ function AccountPage({
           <button className={tab === "register" ? "on" : ""} onClick={() => { setTab("register"); setError(null); }}>Create Account</button>
         </div>
         {error && <div style={{ background: "#fde8e8", color: "#7a2e3a", padding: 10, marginTop: 16, fontSize: 13 }}>{error}</div>}
-        {tab === "signin" ? (
+        {tab === "signin" && forgot ? (
+          <form className="auth-form" onSubmit={handleForgot}>
+            {forgot === "sent" ? (
+              <p style={{ fontSize: 14, lineHeight: 1.7, margin: "8px 0 0" }}>
+                If there's an account for <strong>{form.email}</strong>, we've emailed a link to set a new password. It can take a few minutes to arrive, so check your spam folder too.
+              </p>
+            ) : (
+              <>
+                <p style={{ fontSize: 14, lineHeight: 1.7, margin: "8px 0 0", color: "var(--ink-soft)" }}>
+                  Enter the email you use for your HHARA account and we'll send you a link to set a new password.
+                </p>
+                <div className="field">
+                  <label>Email</label>
+                  <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" maxLength={254} />
+                </div>
+                <button className="btn btn-primary btn-block" style={{ marginTop: 12 }} disabled={busy}>
+                  {busy ? "Sending…" : "Send reset link"}
+                  <span className="btn-arrow"><Icon.Arrow /></span>
+                </button>
+              </>
+            )}
+            <button type="button" onClick={() => { setForgot(null); setError(null); }} style={{ background: "none", border: "none", padding: 0, marginTop: 20, cursor: "pointer", fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "underline", color: "var(--ink)" }}>
+              Back to sign in
+            </button>
+          </form>
+        ) : tab === "signin" ? (
           <form className="auth-form" onSubmit={handleSignIn}>
             <div className="field">
               <label>Email</label>
@@ -4410,11 +4445,14 @@ function AccountPage({
             <div className="field">
               <label>Password</label>
               <div style={{ position: "relative" }}>
-                <input type={showPassword ? "text" : "password"} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="••••••••" maxLength={35} style={{ width: "100%", paddingRight: 40 }} />
+                <input type={showPassword ? "text" : "password"} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="••••••••" maxLength={40} style={{ width: "100%", paddingRight: 40 }} />
                 <button type="button" onClick={() => setShowPassword(v => !v)} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", padding: 0, color: "var(--ink-soft)", display: "flex", alignItems: "center" }}>
                   {showPassword ? <Icon.EyeOff /> : <Icon.Eye />}
                 </button>
               </div>
+              <button type="button" onClick={() => { setForgot("form"); setError(null); }} style={{ alignSelf: "flex-end", background: "none", border: "none", padding: 0, marginTop: 8, cursor: "pointer", fontSize: 12, color: "var(--ink-soft)", textDecoration: "underline" }}>
+                Forgot password?
+              </button>
             </div>
             <button className="btn btn-primary btn-block" style={{ marginTop: 12 }} disabled={busy}>
               {busy ? "Signing in…" : "Sign In"}
@@ -4478,7 +4516,7 @@ function AccountPage({
             <div className="field">
               <label>Password</label>
               <div style={{ position: "relative" }}>
-                <input type={showPassword ? "text" : "password"} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="At least 8 characters" maxLength={35} style={{ width: "100%", paddingRight: 40 }} />
+                <input type={showPassword ? "text" : "password"} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="At least 8 characters" maxLength={40} style={{ width: "100%", paddingRight: 40 }} />
                 <button type="button" onClick={() => setShowPassword(v => !v)} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", padding: 0, color: "var(--ink-soft)", display: "flex", alignItems: "center" }}>
                   {showPassword ? <Icon.EyeOff /> : <Icon.Eye />}
                 </button>

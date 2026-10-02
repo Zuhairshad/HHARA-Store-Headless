@@ -425,6 +425,50 @@ export async function customerAccessTokenCreate(email: string, password: string)
   return { token: data.customerAccessTokenCreate.customerAccessToken ?? undefined, errors: data.customerAccessTokenCreate.customerUserErrors };
 }
 
+// Sends Shopify's "Customer account password reset" email. Shopify returns no error for an
+// unknown email, so this can't be used to discover which emails have accounts.
+export async function customerRecover(email: string): Promise<{ errors: { message: string; code?: string }[] }> {
+  const query = /* GraphQL */ `
+    mutation CustomerRecover($email: String!) {
+      customerRecover(email: $email) {
+        customerUserErrors { message code }
+      }
+    }
+  `;
+  const data = await shopifyFetch<{ customerRecover: { customerUserErrors: { message: string; code?: string }[] } }>(query, { email });
+  return { errors: data.customerRecover.customerUserErrors };
+}
+
+type PasswordByUrlResult = { token?: CustomerAccessToken; errors: { message: string; code?: string }[] };
+
+// Sets a new password from the link in the password reset email.
+export async function customerResetByUrl(resetUrl: string, password: string): Promise<PasswordByUrlResult> {
+  const query = /* GraphQL */ `
+    mutation CustomerResetByUrl($resetUrl: URL!, $password: String!) {
+      customerResetByUrl(resetUrl: $resetUrl, password: $password) {
+        customerAccessToken { accessToken expiresAt }
+        customerUserErrors { message code }
+      }
+    }
+  `;
+  const data = await shopifyFetch<{ customerResetByUrl: { customerAccessToken: CustomerAccessToken | null; customerUserErrors: { message: string; code?: string }[] } }>(query, { resetUrl, password });
+  return { token: data.customerResetByUrl.customerAccessToken ?? undefined, errors: data.customerResetByUrl.customerUserErrors };
+}
+
+// Activates an invited account (e.g. a newsletter subscriber) from the link in the account invite email.
+export async function customerActivateByUrl(activationUrl: string, password: string): Promise<PasswordByUrlResult> {
+  const query = /* GraphQL */ `
+    mutation CustomerActivateByUrl($activationUrl: URL!, $password: String!) {
+      customerActivateByUrl(activationUrl: $activationUrl, password: $password) {
+        customerAccessToken { accessToken expiresAt }
+        customerUserErrors { message code }
+      }
+    }
+  `;
+  const data = await shopifyFetch<{ customerActivateByUrl: { customerAccessToken: CustomerAccessToken | null; customerUserErrors: { message: string; code?: string }[] } }>(query, { activationUrl, password });
+  return { token: data.customerActivateByUrl.customerAccessToken ?? undefined, errors: data.customerActivateByUrl.customerUserErrors };
+}
+
 export async function customerAccessTokenDelete(token: string): Promise<void> {
   const query = /* GraphQL */ `
     mutation TokenDelete($customerAccessToken: String!) {
