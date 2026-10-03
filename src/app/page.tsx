@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ComingSoonForm } from "./ComingSoonForm";
+import { DEFAULT_DESCRIPTION, DEFAULT_TITLE } from "@/lib/seo";
 import "./coming-soon.css";
 
 export const metadata: Metadata = {
-  title: "HHARA — Coming Soon",
-  description: "She is wonder. She is HHARA. Arriving October 2026.",
+  title: DEFAULT_TITLE,
+  description: DEFAULT_DESCRIPTION,
   alternates: { canonical: "/" },
   robots: { index: true, follow: false },
 };
@@ -38,6 +39,7 @@ export default function ComingSoon() {
           <div className="cs-rule" aria-hidden="true" />
           <p className="cs-eyebrow cs-tracked">Coming soon</p>
           <h1 className="cs-title">She is wonder.<br />She is HHARA.</h1>
+          <p className="cs-about">Elevated athleisure essentials for women who move with quiet confidence and purpose.</p>
           <ComingSoonForm />
         </section>
       </main>

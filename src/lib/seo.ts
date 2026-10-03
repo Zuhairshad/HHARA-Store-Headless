@@ -8,8 +8,9 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.hhara.
 export const IS_LAUNCHED = process.env.NEXT_PUBLIC_SITE_LAUNCHED === "true";
 
 export const SITE_NAME = "HHARA";
+export const DEFAULT_TITLE = "HHARA | Elevated Athleisure Essentials for Women";
 export const DEFAULT_DESCRIPTION =
-  "Unapologetically You. Four elevated essentials. Two timeless colourways. Designed to move effortlessly through every version of your day.";
+  "Elevated athleisure essentials for women who move with quiet confidence and purpose. Sculpted sets in certified recycled fabrics. She is wonder.";
 export const DEFAULT_OG_IMAGE = "/images/og-image.jpg";
 
 export const KEYWORDS = [
@@ -34,7 +35,7 @@ type PageSeo = { title: string; description: string; noindex?: boolean };
 
 export const PAGES: Record<string, PageSeo> = {
   "/home": {
-    title: "HHARA | Luxury Women's Activewear, Designed in the UAE",
+    title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,
   },
   "/shop": {

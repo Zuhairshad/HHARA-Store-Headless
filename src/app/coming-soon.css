@@ -67,6 +67,9 @@
   font-size: clamp(40px, 4.8vw, 72px); line-height: 1.04;
 }
 
+/* Says what HHARA is, so search engines don't confuse it with other brands of the same name */
+.cs-about { margin: 0; max-width: 440px; font-size: 14px; line-height: 1.7; color: var(--cs-body); }
+
 .cs-circle { margin-top: 12px; display: flex; flex-direction: column; gap: 18px; max-width: 440px; }
 .cs-circle p { margin: 0; }
 .cs-lede { font-size: 13px; line-height: 1.7; color: var(--cs-body); }
