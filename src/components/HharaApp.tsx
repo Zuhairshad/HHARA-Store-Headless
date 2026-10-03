@@ -439,7 +439,7 @@ function Announce() {
   const [index, setIndex] = useState(0);
   const messages = [
     "Free Next Day Delivery in UAE",
-    "Free Global Express Shipping Over AED 1,900"
+    "Free Global Express Shipping Over AED 1,200"
   ];
 
   useEffect(() => {
@@ -702,7 +702,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
 
   const activeDiscount = discountCodes?.find((d: any) => d.applicable);
   const subtotal = cart.reduce((a: number, i: any) => a + i.price * i.qty, 0);
-  const togo = Math.max(0, 1900 - subtotal);
+  const togo = Math.max(0, 1200 - subtotal);
 
   const handlePromo = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -889,13 +889,13 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
                   <ul style={{ paddingLeft: 16, margin: 0, display: "flex", flexDirection: "column", gap: 4 }}>
                     <li>Complimentary next-day delivery across the UAE</li>
                     <li>No minimum order</li>
-                    <li>Same-day delivery available for <strong>AED 28</strong> in Dubai, Abu Dhabi, Sharjah, and Ajman</li>
+                    <li>Same-day delivery available for <strong>AED 25</strong> in Dubai, Abu Dhabi, Sharjah, and Ajman</li>
                   </ul>
                 </div>
                 <div>
                   <p style={{ fontFamily: "var(--sans)", fontWeight: 600, fontSize: 13, marginBottom: 8, color: "var(--ink)" }}>International Delivery</p>
                   <ul style={{ paddingLeft: 16, margin: 0, display: "flex", flexDirection: "column", gap: 4 }}>
-                    <li>Complimentary Express Shipping on orders over <strong>AED 1,900</strong></li>
+                    <li>Complimentary Express Shipping on orders over <strong>AED 1,200</strong></li>
                     <li>
                       Flat-rate shipping:
                       <ul style={{ paddingLeft: 16, marginTop: 4, display: "flex", flexDirection: "column", gap: 2 }}>
@@ -1093,7 +1093,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
 
   const activeDiscount = discountCodes?.find((d: any) => d.applicable);
   const subtotal = items.reduce((a, i) => a + i.price * i.qty, 0);
-  const freeThreshold = 1900;
+  const freeThreshold = 1200;
   const progress = Math.min(subtotal / freeThreshold, 1);
   const togo = Math.max(0, freeThreshold - subtotal);
 
@@ -2932,13 +2932,13 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                     <ul style={{ paddingLeft: "16px", margin: 0, display: "flex", flexDirection: "column", gap: "4px" }}>
                       <li>Complimentary next-day delivery across the UAE</li>
                       <li>No minimum order</li>
-                      <li>Same-day delivery available for <strong>AED 28</strong> in Dubai, Abu Dhabi, Sharjah, and Ajman</li>
+                      <li>Same-day delivery available for <strong>AED 25</strong> in Dubai, Abu Dhabi, Sharjah, and Ajman</li>
                     </ul>
                   </div>
                   <div>
                     <p style={{ fontFamily: "var(--sans)", fontWeight: 600, fontSize: "13px", marginBottom: "8px", color: "var(--ink)" }}>International Delivery</p>
                     <ul style={{ paddingLeft: "16px", margin: 0, display: "flex", flexDirection: "column", gap: "4px" }}>
-                      <li>Complimentary Express Shipping on orders over <strong>AED 1,900</strong></li>
+                      <li>Complimentary Express Shipping on orders over <strong>AED 1,200</strong></li>
                       <li>
                         Flat-rate shipping:
                         <ul style={{ paddingLeft: "16px", marginTop: "4px", display: "flex", flexDirection: "column", gap: "2px" }}>
@@ -4477,7 +4477,7 @@ function FAQPage({ setRoute }) {
       items: [
         { q: "Where do you ship?", a: "We ship worldwide: UAE, GCC, and internationally to over 200 countries." },
         { q: "How long does UAE delivery take?", a: "Standard next-day delivery takes 1 day for orders placed before 10:00pm. Same-day delivery is available for Dubai (placed before 3:00pm) and Abu Dhabi, Sharjah, Ajman (placed before 1:00pm)." },
-        { q: "What are the UAE delivery charges?", a: "Standard next-day delivery is completely free with no minimum purchase. Same-day delivery upgrade is available at checkout for AED 28." },
+        { q: "What are the UAE delivery charges?", a: "Standard next-day delivery is completely free with no minimum purchase. Same-day delivery upgrade is available at checkout for AED 25." },
         { q: "How long does international delivery take?", a: "GCC: 2–3 business days. UK & Europe: 5–7 business days. North America: 5–7 business days. Rest of World: 7–14 business days. All shipments are subject to customs clearance." },
         { q: "Who pays for customs and duties?", a: "For GCC orders, customs duties and taxes are fully covered by HHARA (Delivered Duty Paid). For other international orders, customs charges and import duties are the customer's responsibility." },
         { q: "How do I track my order?", a: "You will receive a tracking link by email once your order has been dispatched. If you have any issues tracking your order, contact us at hello@hhara.com." },
@@ -4578,7 +4578,7 @@ function ShippingPage({ setRoute }) {
         <h2 className="policy-section-heading">UAE Delivery</h2>
         <div className="policy-table">
           <div className="policy-table-row"><span>Standard Next Day</span><span>FREE · No Minimum</span></div>
-          <div className="policy-table-row"><span>Same Day Delivery</span><span>AED 28 · Upgrade at checkout</span></div>
+          <div className="policy-table-row"><span>Same Day Delivery</span><span>AED 25 · Upgrade at checkout</span></div>
         </div>
         <p className="policy-note">
           <strong>Standard Next Day:</strong> Free next day delivery to all 7 Emirates (excluding freezones) for orders placed by 10:00pm. Delivery window: 9am–10pm next day.
@@ -4592,7 +4592,7 @@ function ShippingPage({ setRoute }) {
         <h2 className="policy-section-heading">GCC Delivery (Delivered Duty Paid)</h2>
         <p className="policy-note">Delivered via Quiqup/Naqel. All duties and taxes are included - no fees at delivery.</p>
         <div className="policy-table">
-          <div className="policy-table-row"><span>Saudi Arabia, Kuwait, Bahrain, Qatar, Oman</span><span>AED 60 (Free on orders AED 1,900+) · 2–3 business days</span></div>
+          <div className="policy-table-row"><span>Saudi Arabia, Kuwait, Bahrain, Qatar, Oman</span><span>AED 60 (Free on orders AED 1,200+) · 2–3 business days</span></div>
         </div>
       </div>
 
@@ -4600,9 +4600,9 @@ function ShippingPage({ setRoute }) {
         <h2 className="policy-section-heading">International Delivery (Delivered Duty Unpaid)</h2>
         <p className="policy-note">Delivered via Quiqup/DHL. Duties and taxes at destination are the customer's responsibility. PO Box delivery addresses are not supported.</p>
         <div className="policy-table">
-          <div className="policy-table-row"><span>UK & Europe (Inc. EU states)</span><span>AED 80 (Free on orders AED 1,900+) · 5–7 business days</span></div>
-          <div className="policy-table-row"><span>North America (United States, Canada)</span><span>AED 120 (Free on orders AED 1,900+) · 5–7 business days</span></div>
-          <div className="policy-table-row"><span>Rest of World</span><span>AED 80 (Free on orders AED 1,900+) · 7–14 business days</span></div>
+          <div className="policy-table-row"><span>UK & Europe (Inc. EU states)</span><span>AED 80 (Free on orders AED 1,200+) · 5–7 business days</span></div>
+          <div className="policy-table-row"><span>North America (United States, Canada)</span><span>AED 120 (Free on orders AED 1,200+) · 5–7 business days</span></div>
+          <div className="policy-table-row"><span>Rest of World</span><span>AED 80 (Free on orders AED 1,200+) · 7–14 business days</span></div>
         </div>
       </div>
 

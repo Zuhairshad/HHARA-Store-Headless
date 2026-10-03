@@ -2422,7 +2422,8 @@ img { display: block; max-width: 100%; }
     aspect-ratio: 3 / 4;
   }
   .lookbook-tile.t1, .lookbook-tile.t6 { grid-column: span 2; aspect-ratio: 16 / 10; }
-  .lookbook-tile.t1 .img-fill { object-position: center -70px !important; }
+  /* Anchor to the top so the model's head isn't cut off in this wide crop */
+  .lookbook-tile.t1 .img-fill { object-position: center top !important; }
 
   /* Numbers grid */
   .numbers { grid-template-columns: repeat(2, 1fr); }
@@ -3273,9 +3274,10 @@ img { display: block; max-width: 100%; }
 @media (max-width: 768px) {
   .wish-grid { grid-template-columns: repeat(2, 1fr); }
   .lb-row.cols-2, .lb-row.cols-2-flip, .lb-row.cols-3 { grid-template-columns: 1fr; }
-  /* Portrait like the tiles below it, framed on the model (she sits on the right of the photo) */
-  .lb-tile.banner { aspect-ratio: 3 / 4; }
-  .lb-tile.banner .img-fill { object-position: 80% center; }
+  /* The photo is landscape and she spans ~26-80% of its width, so a portrait crop cuts her feet off.
+     Square shows 75% of the width: enough for her from head to feet */
+  .lb-tile.banner { aspect-ratio: 1 / 1; }
+  .lb-tile.banner .img-fill { object-position: 45% center; }
   .search-results { grid-template-columns: 1fr; }
   
   .pdp-gallery-thumbs { flex-direction: column; width: 64px; gap: 6px; }

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 const ANNOUNCE = [
   "Free Next Day Delivery in UAE",
-  "Free Global Express Shipping Over AED 1,900",
+  "Free Global Express Shipping Over AED 1,200",
 ];
 
 export function StandaloneNav() {
