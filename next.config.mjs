@@ -21,6 +21,13 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      // The Journal was removed; send old links to the home page
+      { source: "/journal", destination: "/home", permanent: true },
+      { source: "/journal/:id", destination: "/home", permanent: true },
+    ];
+  },
   experimental: { optimizeCss: true },
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },

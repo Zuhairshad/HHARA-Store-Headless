@@ -46,11 +46,6 @@ export const PAGES: Record<string, PageSeo> = {
     title: "Lookbook — She is Wonder | HHARA",
     description: "The HHARA She is Wonder campaign. The Imara and Dahlia sets, photographed across the UAE.",
   },
-  "/journal": {
-    title: "The Journal | HHARA",
-    description:
-      "Stories on material transparency, circular luxury and the women behind HHARA — from recycled knits to our 10% social impact directive.",
-  },
   "/atelier": {
     title: "The Atelier — How HHARA Is Made",
     description:
@@ -109,15 +104,6 @@ export function pageMetadata(path: keyof typeof PAGES): Metadata {
     ...(page.noindex ? { robots: { index: false, follow: false } } : {}),
   };
 }
-
-export const JOURNAL_ARTICLES = [
-  { id: "j1", title: "From plastic waste to performance grade", excerpt: "Inside the regenerative knit: how ocean and industrial plastic become a sensory-grade fabric.", date: "2026-05-26" },
-  { id: "j2", title: "On Chicory Brown and Olive", excerpt: "Two colorways, two languages. Choosing pigments that capture mineral earth and inner energy.", date: "2026-05-14" },
-  { id: "j3", title: "Why we make only four pieces", excerpt: "The case for minimalist production: fewer SKUs, lower waste, garments engineered to outlast.", date: "2026-05-02" },
-  { id: "j4", title: "Wonder, Worn", excerpt: "Three women, two sets: the Imara and Dahlia, photographed across the UAE.", date: "2026-04-21" },
-  { id: "j5", title: "Carbon-neutral, from the UAE", excerpt: "How optimised smart-freight from our regional base offsets every single shipment.", date: "2026-04-08" },
-  { id: "j6", title: "The 10% directive", excerpt: "Where the philanthropic share goes: women-led literacy, micro-endowments, and clean water alliances.", date: "2026-03-27" },
-];
 
 export const organizationJsonLd = {
   "@context": "https://schema.org",

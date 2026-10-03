@@ -1,5 +1,5 @@
 import { getProducts } from "@/lib/shopify";
-import { DEFAULT_DESCRIPTION, IS_LAUNCHED, JOURNAL_ARTICLES, PAGES, SITE_URL } from "@/lib/seo";
+import { DEFAULT_DESCRIPTION, IS_LAUNCHED, PAGES, SITE_URL } from "@/lib/seo";
 
 export const revalidate = 3600;
 
@@ -35,10 +35,6 @@ export async function GET() {
     .filter(([, page]) => !page.noindex)
     .map(([path, page]) => `- [${page.title}](${SITE_URL}${path}): ${page.description}`);
 
-  const articleLines = JOURNAL_ARTICLES.map(
-    (a) => `- [${a.title}](${SITE_URL}/journal/${a.id}): ${a.excerpt}`,
-  );
-
   const body = [
     "# HHARA",
     "",
@@ -51,9 +47,6 @@ export async function GET() {
     "",
     "## Pages",
     ...pageLines,
-    "",
-    "## Journal",
-    ...articleLines,
     "",
   ].join("\n");
 

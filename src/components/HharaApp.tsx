@@ -154,15 +154,7 @@ const IMGS: Record<string, string> = {
   lb7: "/images/IMG_5275.jpeg",
   lb8: "/images/lucy-angie-2.png",
   lb9: "/images/README.png",
-  j1: "/images/j1.jpg",
-  j2: "/images/j2.jpg",
-  j3: "/images/j3.jpg",
-  j4: "/images/j4.jpg",
-  j5: "/images/j5.jpg",
-  j6: "/images/j6.jpg",
-  jHero: "/images/jHero.jpg",
-  jFig1: "/images/jFig1.jpg",
-  jFig2: "/images/jFig2.jpg",
+  instaReel: "/images/insta-reel.jpg",
   sMilan: "/images/sMilan.jpg",
   sParis: "/images/sParis.jpg",
   sTokyo: "/images/sTokyo.jpg",
@@ -1590,7 +1582,7 @@ function Callouts() {
     { img: IMGS.lb1, icon: "reels", link: "https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" },
     { img: IMGS.lb8, icon: "none", link: "https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" },
     { img: IMGS.lb3, icon: "carousel", link: "https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" },
-    { img: IMGS.j4, icon: "reels", link: "https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" },
+    { img: IMGS.instaReel, icon: "reels", link: "https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" },
     { isTextCard: true, title: "AURA", desc: "Our capillary performance fabric: ultra-light, quick-drying, and engineered from regenerative ocean streams.", link: "https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" },
     { img: IMGS.lb2, icon: "reels", link: "https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" }
   ];
@@ -3865,165 +3857,6 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
   );
 }
 
-const JOURNAL = [
-  { id: "j1", title: "From plastic waste to performance grade", excerpt: "Inside the regenerative knit: how ocean and industrial plastic become a sensory-grade fabric.", date: "26 May 2026", cat: "Material Transparency", img: "j1" },
-  { id: "j2", title: "On Chicory Brown and Olive", excerpt: "Two colorways, two languages. Choosing pigments that capture mineral earth and inner energy.", date: "14 May 2026", cat: "The Palette", img: "j2" },
-  { id: "j3", title: "Why we make only four pieces", excerpt: "The case for minimalist production: fewer SKUs, lower waste, garments engineered to outlast.", date: "02 May 2026", cat: "Our Ethos", img: "j3" },
-  { id: "j4", title: "Wonder, Worn", excerpt: "Three women, two sets: the Imara and Dahlia, photographed across the UAE.", date: "21 April 2026", cat: "The Capsule", img: "j4" },
-  { id: "j5", title: "Carbon-neutral, from the UAE", excerpt: "How optimised smart-freight from our regional base offsets every single shipment.", date: "08 April 2026", cat: "Circular Luxury", img: "j5" },
-  { id: "j6", title: "The 10% directive", excerpt: "Where the philanthropic share goes: women-led literacy, micro-endowments, and clean water alliances.", date: "27 March 2026", cat: "Social Impact", img: "j6" },
-];
-
-function JournalIndex({ setRoute, openArticle }) {
-
-  return (
-    <>
-      <div className="page-head">
-        <span className="eyebrow">The Journal</span>
-        <h1>Notes <em>from the collective</em></h1>
-        <p className="lead">
-          Dispatches on regenerative materials, carbon-neutral logistics, the women-led initiatives we fund,
-          and the editorial language of the HHARA capsule, published twice monthly, never more.
-        </p>
-      </div>
-      <div className="journal-grid">
-        {JOURNAL.map((j) => (
-          <div className="journal-card" key={j.id} onClick={() => openArticle(j.id)}>
-            <div className="img">
-              <Image src={IMGS[j.img]} alt={j.title} fill className="img-fill" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
-            </div>
-            <div className="meta">
-              <span>{j.cat}</span>
-              <span style={{ opacity: 0.5 }}>·</span>
-              <span>{j.date}</span>
-            </div>
-            <h3>{j.title}</h3>
-            <p className="ex">{j.excerpt}</p>
-            <span className="read">Read the piece</span>
-          </div>
-        ))}
-      </div>
-    </>
-  );
-}
-
-function ArticlePage({ articleId, setRoute, openArticle }) {
-
-  const a = JOURNAL.find((x) => x.id === articleId) || JOURNAL[0];
-  return (
-    <>
-      <section className="article-hero">
-        <Image src={IMGS.jHero} alt="" fill className="img-fill motion" sizes="100vw" priority />
-        <div className="ovr"></div>
-        <div className="meta">
-          <div className="tags">
-            <span>{a.cat}</span>
-            <span style={{ opacity: 0.5 }}>·</span>
-            <span>{a.date}</span>
-            <span style={{ opacity: 0.5 }}>·</span>
-            <span>8 minutes</span>
-          </div>
-          <h1>{a.title.split(" ").slice(0, -2).join(" ")} <em>{a.title.split(" ").slice(-2).join(" ")}</em></h1>
-        </div>
-      </section>
-
-      <article className="article-body">
-        <div className="deck">
-          <em>Captured plastic.</em> Re-spun fibre. A high-density double-knit. We trace the regenerative
-          journey from waste stream to wearable, and ask why it took us this long.
-        </div>
-
-        <p className="dropcap">
-          The fibre arrives by container, baled and labelled, sourced from ocean-recovery programs and industrial
-          waste streams across three continents. What enters the mill as a polymer sheet leaves it as a yarn
-          , a high-density double-knit engineered for moisture management, capillary ventilation, and structured
-          recovery. To the eye, it is a sensory-grade textile. To the hand, it weighs almost nothing.
-        </p>
-
-        <p>
-          Each colourway is calibrated in small batches. Chicory Brown, a deep, mineral neutral pulled from raw
-          earth pigment, is set first; Olive, the muted jewel, is reserved for the second pass. Both are
-          designed to absorb, not reflect, to be worn quietly, not announced.
-        </p>
-
-        <figure>
-          <div className="ph" style={{ background: "var(--line-soft)" }}>
-            <Image src={IMGS.jFig1} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 60vw" loading="lazy" />
-          </div>
-          <figcaption>Recycled performance knit, pre-cut</figcaption>
-        </figure>
-
-        <blockquote>
-          &ldquo;We are not in the business of seasonal turnover. We are in the business of pieces
-          you return to, and pieces that fund the work of women, every time you do.&rdquo;
-        </blockquote>
-
-        <h3>The structure</h3>
-        <p>
-          The Imara framework is cut for compression and elongation, with a chevron-anatomical waistband on the
-          legging, zero-slip stabilization, flatlock seams that vanish against skin. The Dahlia framework
-          is its counterpoint: cross-back architecture, omnidirectional 4-way stretch, an inner waistband
-          pocket sewn into the short. Two perspectives. One uncompromising identity.
-        </p>
-
-        <p>
-          Both sets share the same hardware language: brushed-gold, low-friction, designed to disappear in
-          motion and only resolve at rest. Every component is selected for repair. Every seam is built to
-          outlast a single season of wear.
-        </p>
-
-        <figure>
-          <div className="ph" style={{ background: "var(--line-soft)" }}>
-            <Image src={IMGS.jFig2} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 60vw" loading="lazy" />
-          </div>
-          <figcaption>Brushed-gold hardware detail, second pass</figcaption>
-        </figure>
-
-        <h3>The return</h3>
-        <p>
-          Each piece is shipped from the UAE on a carbon-neutral freight schedule. 10% of the gross revenue of
-          every order routes directly to women-led socio-economic development and education initiatives, the
-          philanthropic directive is not an afterthought but the operating model.
-        </p>
-
-        <p>
-          The garment is built to endure. It will be repaired, returned, re-circulated. And the value
-          will be measured not in seasons, but in social impact. This is, we have come to believe, the entire point.
-        </p>
-
-        <div className="article-foot">
-          <span onClick={() => setRoute("journal")} style={{ cursor: "pointer", borderBottom: "1px solid var(--ink)", paddingBottom: 3 }}>← All Journal entries</span>
-          <span onClick={() => openArticle(JOURNAL[(JOURNAL.findIndex(j => j.id === a.id) + 1) % JOURNAL.length].id)} style={{ cursor: "pointer", borderBottom: "1px solid var(--ink)", paddingBottom: 3 }}>Next piece →</span>
-        </div>
-      </article>
-
-      <section className="section" style={{ borderTop: "1px solid var(--line-soft)", marginTop: 0 }}>
-        <div className="section-head">
-          <div className="section-head-stack">
-            <span className="eyebrow">Continue reading</span>
-            <h2 className="section-title">More from the Journal</h2>
-          </div>
-        </div>
-        <div className="journal-grid" style={{ padding: 0 }}>
-          {JOURNAL.filter((j) => j.id !== a.id).slice(0, 3).map((j) => (
-            <div className="journal-card" key={j.id} onClick={() => openArticle(j.id)}>
-              <div className="img">
-                <Image src={IMGS[j.img]} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
-              </div>
-              <div className="meta">
-                <span>{j.cat}</span>
-                <span style={{ opacity: 0.5 }}>·</span>
-                <span>{j.date}</span>
-              </div>
-              <h3>{j.title}</h3>
-            </div>
-          ))}
-        </div>
-      </section>
-    </>
-  );
-}
-
 // ============ LOOKBOOK FULL ============
 function LookbookPage({ setRoute, openProduct }) {
 
@@ -5283,7 +5116,7 @@ const CART_COLOR_REVERSE_MAP: Record<string, string> = {
 
 // === FILE 10-180e2df1-7549-448a-8bbb-f6c3acb791f4.jsx ===
 
-function App({ initialProducts, initialCart, initialCustomer, initialRoute, initialProductHandle, initialArticleId: initialArticleIdProp }: { initialProducts?: any[]; initialCart?: any; initialCustomer?: any; initialRoute?: string; initialProductHandle?: string; initialArticleId?: string }) {
+function App({ initialProducts, initialCart, initialCustomer, initialRoute, initialProductHandle }: { initialProducts?: any[]; initialCart?: any; initialCustomer?: any; initialRoute?: string; initialProductHandle?: string }) {
   const products = (initialProducts && initialProducts.length) ? initialProducts : PRODUCTS;
   const [shopifyCart, setShopifyCart] = useState<any>(initialCart || null);
   const [localCartItems, setLocalCartItems] = useState<any[]>([]);
@@ -5296,7 +5129,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     }
     return "p1";
   });
-  const [articleId, setArticleId] = useState(initialArticleIdProp || "j1");
   const [cartOpen, setCartOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [wishlist, setWishlist] = useState<string[]>([]);
@@ -5321,7 +5153,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     const pagePath =
       route === "home" ? "/home" :
       route === "product" ? `/products/${productHandle}` :
-      route === "article" ? `/journal/${articleId}` :
       `/${route}`;
 
     const pageTitle = route === "product"
@@ -5330,7 +5161,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
 
     const pageLocation = `${window.location.origin}${pagePath}`;
 
-    window.history.pushState({ route, productId, articleId }, pageTitle, pagePath);
+    window.history.pushState({ route, productId }, pageTitle, pagePath);
     document.title = pageTitle;
 
     trackEvent({
@@ -5371,7 +5202,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     }
 
     return () => clearTimeout(timer);
-  }, [route, productId, articleId]);
+  }, [route, productId]);
 
   useEffect(() => {
     const onPop = (e: PopStateEvent) => {
@@ -5379,7 +5210,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
       if (state?.route) {
         setRouteState(state.route);
         if (state.productId) setProductId(state.productId);
-        if (state.articleId) setArticleId(state.articleId);
       }
     };
     window.addEventListener("popstate", onPop);
@@ -5481,7 +5311,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
   const setRoute = (r, payload?, colorName?) => {
     setRouteState(r);
     if (r === "product" && payload) { setProductId(payload); setInitialProductColor(colorName || null); }
-    if (r === "article" && payload) setArticleId(payload);
     if (r === "shop") {
       if (Array.isArray(payload)) {
         setSelectedColorFilter(payload.find((p: string) => !p.startsWith("The ")) ?? null);
@@ -5724,7 +5553,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
 
   const cartCount = cart.reduce((a: number, i: any) => a + i.qty, 0);
   const openProduct = (id, colorName?: string) => setRoute("product", id, colorName);
-  const openArticle = (id) => setRoute("article", id);
 
   let body;
   if (route === "shop") {
@@ -5733,10 +5561,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     body = <PDP productId={productId} setRoute={setRouteState} addToCart={addToCart} openProduct={openProduct} onWishlistToggle={toggleWishlist} wishlist={wishlist} initialColor={initialProductColor} />;
   } else if (route === "atelier") {
     body = <AtelierPage setRoute={setRouteState} />;
-  } else if (route === "journal") {
-    body = <JournalIndex setRoute={setRouteState} openArticle={openArticle} />;
-  } else if (route === "article") {
-    body = <ArticlePage articleId={articleId} setRoute={setRouteState} openArticle={openArticle} />;
   } else if (route === "lookbook") {
     body = <LookbookPage setRoute={setRoute} openProduct={openProduct} />;
   } else if (route === "stores") {

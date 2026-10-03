@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getProducts } from "@/lib/shopify";
-import { IS_LAUNCHED, JOURNAL_ARTICLES, PAGES, SITE_URL } from "@/lib/seo";
+import { IS_LAUNCHED, PAGES, SITE_URL } from "@/lib/seo";
 
 export const revalidate = 3600;
 
@@ -23,13 +23,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })),
   ];
 
-  const articles: MetadataRoute.Sitemap = JOURNAL_ARTICLES.map((a) => ({
-    url: `${SITE_URL}/journal/${a.id}`,
-    lastModified: new Date(a.date),
-    changeFrequency: "monthly",
-    priority: 0.6,
-  }));
-
   let products: MetadataRoute.Sitemap = [];
   try {
     products = (await getProducts(100)).map((p) => ({
@@ -43,5 +36,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error("sitemap: failed to load products", err);
   }
 
-  return [...pages, ...products, ...articles];
+  return [...pages, ...products];
 }
