@@ -4613,7 +4613,7 @@ function ShippingPage({ setRoute }) {
 
       <div className="policy-section">
         <h2 className="policy-section-heading">Failed Deliveries</h2>
-        <p>Please ensure your delivery address and contact details are accurate at checkout. Our courier will make up to 3 delivery attempts. After 3 failed attempts, the order will be returned to us.</p>
+        <p>Please ensure your delivery address and contact details are accurate at checkout. Our courier will make up to 2 delivery attempts. After 2 failed attempts, the order will be returned to us.</p>
       </div>
 
       <div className="policy-contact">
