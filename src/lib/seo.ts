@@ -69,8 +69,8 @@ export const PAGES: Record<string, PageSeo> = {
     description: "Carbon-neutral shipping from our UAE base. Delivery times, costs and tracking for HHARA orders.",
   },
   "/returns": {
-    title: "Returns & Exchanges | HHARA",
-    description: "How to return or exchange your HHARA order.",
+    title: "Returns & Refunds | HHARA",
+    description: "How to return your HHARA order and get a refund.",
   },
   "/contact": {
     title: "Contact | HHARA",

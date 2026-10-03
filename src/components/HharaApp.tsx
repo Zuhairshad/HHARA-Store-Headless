@@ -4488,7 +4488,6 @@ function FAQPage({ setRoute }) {
       items: [
         { q: "What is your return policy?", a: "We offer free returns within 14 days of delivery for UAE orders only. GCC and international orders are final sale and cannot be returned. Returned items must be unworn, unwashed, and in their original packaging." },
         { q: "How do I start a return?", a: "For UAE orders, email hello@hhara.com with your order number. We will arrange a Quiqup courier to collect the return parcel from your address free of charge." },
-        { q: "Can I exchange my order?", a: "For UAE orders, exchanges are available for a different size or colourway, subject to availability. Each item can only be exchanged once." },
         { q: "When will I receive my refund?", a: "Once we receive and inspect your return, refunds are processed within 5–7 business days to your original payment method. Original shipping fees are non-refundable." },
         { q: "Can I return sale items?", a: "No. All items purchased during a sale or marked as final sale are non-returnable and non-refundable." },
       ],
@@ -4647,11 +4646,6 @@ function ReturnsPage({ setRoute }) {
       </div>
 
       <div className="policy-section">
-        <h2 className="policy-section-heading">Exchanges (UAE Only)</h2>
-        <p>Exchanges are available for a different size or colourway, subject to availability. Please mention your preference when submitting your return request. Each item can only be exchanged once.</p>
-      </div>
-
-      <div className="policy-section">
         <h2 className="policy-section-heading">Refunds</h2>
         <p>Once we receive and inspect your return, refunds are processed within <strong>5–7 business days</strong> to your original payment method. Original shipping charges, customs, duties, or taxes are non-refundable.</p>
       </div>
@@ -4661,7 +4655,6 @@ function ReturnsPage({ setRoute }) {
         <ul className="policy-list">
           <li>All GCC and International orders</li>
           <li>Items purchased during a sale or marked as final sale</li>
-          <li>Items that have already been exchanged once</li>
           <li>Gift cards</li>
         </ul>
       </div>
@@ -4965,7 +4958,7 @@ function TermsPage({ setRoute }) {
     { n: "2", title: "Products and Pricing", body: "We make every effort to display colours, fabrics, and pricing accurately. However, slight variations may occur, and we reserve the right to correct errors or decline orders where necessary." },
     { n: "3", title: "Orders and Payment", body: "All orders placed through our website are subject to availability and acceptance. Payment is processed securely at checkout. We accept all major credit and debit cards, as well as Tabby and Tamara for buy now, pay later." },
     { n: "4", title: "Shipping and Delivery", body: "We ship within the UAE and internationally. For delivery timelines and related terms, please refer to our Shipping & Delivery policy." },
-    { n: "5", title: "Returns and Exchanges", body: "We offer free returns within 14 days of delivery for UAE orders only. GCC and international orders are final sale and non-returnable. For full conditions and refund details, please refer to our Returns & Refunds policy." },
+    { n: "5", title: "Returns", body: "We offer free returns within 14 days of delivery for UAE orders only. GCC and international orders are final sale and non-returnable. For full conditions and refund details, please refer to our Returns & Refunds policy." },
     { n: "6", title: "Intellectual Property", body: "All content on this website, including text, product descriptions, imagery, brand assets, and design, is the property of Dahlia Moxie Trading LLC (HHARA). No reproduction or use of any content is permitted without prior written consent." },
     { n: "7", title: "Limitation of Liability", body: "To the fullest extent permitted by law, HHARA is not liable for indirect, incidental, or consequential damages arising from the use of our products or website." },
     { n: "8", title: "Governing Law", body: "These terms are governed by the laws of the United Arab Emirates. Any disputes will fall under the jurisdiction of the UAE courts." },
