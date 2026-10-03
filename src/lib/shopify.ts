@@ -46,6 +46,7 @@ export type ShopifyCart = {
   lines: {
     id: string;
     quantity: number;
+    attributes: { key: string; value: string }[];
     cost: { totalAmount: Money };
     merchandise: {
       id: string;
@@ -233,6 +234,7 @@ const CART_FRAGMENT = /* GraphQL */ `
       nodes {
         id
         quantity
+        attributes { key value }
         cost { totalAmount { amount currencyCode } }
         merchandise {
           ... on ProductVariant {

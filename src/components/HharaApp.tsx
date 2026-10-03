@@ -753,7 +753,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
                   <div className="pco-item-row">
                     <div>
                       <div className="pco-item-name">{item.name}</div>
-                      <div className="pco-item-opts">{item.color} · {item.size}</div>
+                      <div className="pco-item-opts">{item.isGiftCard ? (item.giftTo ? `For ${item.giftTo}` : "") : `${item.color} · ${item.size}`}</div>
                     </div>
                     <div className="pco-item-price">AED {(item.price * item.qty).toLocaleString()}</div>
                   </div>
@@ -1153,7 +1153,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
                       <div className="ci-row">
                         <div>
                           <div className="ci-name">{it.name}</div>
-                          <div className="ci-opts">{it.color} · {it.size}</div>
+                          <div className="ci-opts">{it.isGiftCard ? (it.giftTo ? `For ${it.giftTo}` : "") : `${it.color} · ${it.size}`}</div>
                         </div>
                         <div className="ci-price">AED {it.price.toLocaleString()}</div>
                       </div>
@@ -1481,7 +1481,7 @@ function Editorial({ openShop }) {
             className="img-fill"
             sizes="(max-width: 768px) 100vw, 50vw"
             loading="lazy"
-            style={{ objectFit: "cover", objectPosition: "right top" }}
+            style={{ objectFit: "cover", objectPosition: "57% top" }}
           />
         </div>
         <div className="editorial-body" style={{ gap: "20px", alignSelf: "center" }}>
@@ -3849,7 +3849,7 @@ function GiftCardPage({ setRoute, addToCart, setCartOpen }) {
 
       <div className="pillars-grid gc-pillars-grid">
         {[
-          { title: "Choose an amount", body: "Select one of ours, or set your own, whatever feels right for the occasion." },
+          { title: "Choose an amount", body: "Select the amount that feels right for the occasion." },
           { title: "Add her details", body: "Checkout like any other order. We'll deliver it straight to her inbox, with your note attached." },
           { title: "She chooses her piece", body: "For the woman who already has everything, and the one still becoming who she's meant to be. Delivered straight to her inbox." },
         ].map((card, i) => (
@@ -5510,6 +5510,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
           qty: line.quantity,
           color: "-",
           size: "-",
+          giftTo: line.attributes?.find((a: any) => a.key === "Recipient name")?.value || "",
           tone: "tone-4",
           featuredImage: "gift-card-monkey",
           isGiftCard: true,

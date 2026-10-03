@@ -3428,7 +3428,12 @@ img { display: block; max-width: 100%; }
   .wish-grid { grid-template-columns: repeat(3, 1fr); }
   .search-content { grid-template-columns: 1fr; }
   .search-results { grid-template-columns: repeat(2, 1fr); }
-  .megamenu-inner { flex-direction: column; gap: 24px; padding-right: var(--pad); }
+  /* Keep room on the right for the (smaller) feature image so it doesn't cover the columns */
+  .megamenu-inner { flex-direction: column; gap: 24px; padding-right: calc(var(--pad) + 180px); }
+  .megamenu .cols { gap: 40px; }
+  .megamenu .feature { width: 160px; }
+  .megamenu .feature .lbl { left: 12px; bottom: 12px; }
+  .megamenu .feature .lbl .t { font-size: 17px; }
   .article-body figure { margin-left: 0; margin-right: 0; }
 }
 @media (max-width: 768px) {
@@ -5590,22 +5595,6 @@ img { display: block; max-width: 100%; }
   padding: 64px var(--pad);
 }
 
-@media (max-width: 1024px) {
-  .gc-main {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    padding: 24px var(--pad) 80px;
-  }
-  .gc-gallery {
-    position: static;
-  }
-  .gc-placeholder {
-    max-width: 100%;
-    aspect-ratio: 16 / 10;
-    padding: 20px;
-  }
-}
-
 .gc-pillars-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -5678,6 +5667,24 @@ img { display: block; max-width: 100%; }
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+/* Must come after the base .gc-gallery / .gc-placeholder rules, or sticky wins and the card
+   slides over the form on tablets */
+@media (max-width: 1024px) {
+  .gc-main {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 24px var(--pad) 80px;
+  }
+  .gc-gallery {
+    position: static;
+  }
+  .gc-placeholder {
+    max-width: 100%;
+    aspect-ratio: 16 / 10;
+    padding: 20px;
+  }
 }
 
 .gc-eyebrow {
