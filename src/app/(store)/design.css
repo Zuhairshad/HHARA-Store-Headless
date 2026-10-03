@@ -2766,7 +2766,9 @@ img { display: block; max-width: 100%; }
 .lb-tile.tall { aspect-ratio: 3 / 4; }
 .lb-tile.wide { aspect-ratio: 16 / 9; }
 .lb-tile.square { aspect-ratio: 1 / 1; }
-.lb-tile.hero { aspect-ratio: 16 / 8; }
+/* Not "hero": that class is the full-screen home banner and would make this tile 100dvh tall */
+.lb-tile.banner { aspect-ratio: 16 / 8; }
+.lb-tile.banner .img-fill { object-position: center 25%; }
 .lb-row.single { margin-top: -70px; }
 .lb-tile .caption {
   position: absolute;
@@ -3271,6 +3273,9 @@ img { display: block; max-width: 100%; }
 @media (max-width: 768px) {
   .wish-grid { grid-template-columns: repeat(2, 1fr); }
   .lb-row.cols-2, .lb-row.cols-2-flip, .lb-row.cols-3 { grid-template-columns: 1fr; }
+  /* Portrait like the tiles below it, framed on the model (she sits on the right of the photo) */
+  .lb-tile.banner { aspect-ratio: 3 / 4; }
+  .lb-tile.banner .img-fill { object-position: 80% center; }
   .search-results { grid-template-columns: 1fr; }
   
   .pdp-gallery-thumbs { flex-direction: column; width: 64px; gap: 6px; }
@@ -6268,4 +6273,31 @@ img { display: block; max-width: 100%; }
 /* ── Signup popup — responsive width ─────────────────────── */
 .signup-popup-inner .brandmark-text {
   transform: translateY(-2px);
+}
+
+/* ============ ABOUT US QUOTE + VIDEO ============ */
+.atelier-split.atelier-video-split {
+  max-width: 100%;
+  padding-left: clamp(40px, 8vw, 160px);
+  padding-right: 0;
+  gap: 48px;
+}
+.atelier-video-split .media {
+  aspect-ratio: 9 / 16;
+  height: 100vh;
+  margin-left: 30px;
+}
+/* Stacked layout: the 100vh-tall 9:16 video would be wider than the screen, so size it by width instead */
+@media (max-width: 1024px) {
+  .atelier-split.atelier-video-split {
+    padding: 72px var(--pad);
+    gap: 40px;
+  }
+  .atelier-video-split .media {
+    height: auto;
+    width: 100%;
+    max-width: 480px;
+    max-height: 85vh;
+    margin: 0 auto;
+  }
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://hhara-store-headless.vercel.app").replace(/\/$/, "");
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.hhara.com").replace(/\/$/, "");
 
 // Until launch, store pages stay reachable (e.g. for payment-provider review) but are
 // hidden from search engines; only the coming-soon page at "/" is indexable.

@@ -425,7 +425,7 @@ const HEROES = [
   {
     eyebrow: "",
     title: "She is |Wonder.",
-    sub: "She doesn’t wait for wonder - she creates it. Designed for women who move with quiet confidence and purpose.",
+    sub: "She doesn’t wait for wonder - she creates it. Elevated athleisure essentials for women who move with quiet confidence and purpose.",
     cta: "explore collection",
     tone: "tone-4",
   },
@@ -3566,14 +3566,14 @@ function AtelierVideoSection() {
 
 
   return (
-    <section className="atelier-split" style={{ maxWidth: "100%", paddingLeft: "clamp(40px, 8vw, 160px)", paddingRight: 0, gap: 48 }}>
+    <section className="atelier-split atelier-video-split">
       <div className="body">
         <blockquote className="gives-back-quote-banner" style={{ color: "var(--ink)", marginBottom: 24, fontSize: "clamp(22px, 2.2vw, 36px)" }}>
           "She moves before the world notices. She carries what others don't see. She is the woman who shows up, for everyone, and still finds a way to show up for herself. HHARA was made for her. From the very first stitch."
         </blockquote>
         <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--accent)", textAlign: "center" }}>She is Wonder. She is HHARA.</div>
       </div>
-      <div className="media" style={{ aspectRatio: "9 / 16", height: "100vh", marginLeft: "30px" }}>
+      <div className="media">
         <video
           ref={videoRef}
           src={inView ? "https://pjvogtsleqosgl0a.public.blob.vercel-storage.com/about-us-video.mp4" : undefined}
@@ -3872,8 +3872,8 @@ function LookbookPage({ setRoute, openProduct }) {
       </div>
       <div className="lb-full">
         <div className="lb-row single">
-          <div className="lb-tile hero">
-            <Image src={IMGS.lb9} alt="" fill className="img-fill" sizes="100vw" loading="lazy" unoptimized style={{ objectPosition: "center 25%" }} />
+          <div className="lb-tile banner">
+            <Image src={IMGS.lb9} alt="" fill className="img-fill" sizes="100vw" loading="lazy" unoptimized />
             <div className="ovr"></div>
             <div className="caption">
               <div>The Dahlia Set</div>

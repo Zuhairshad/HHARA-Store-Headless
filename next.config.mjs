@@ -26,6 +26,14 @@ const nextConfig = {
       // The Journal was removed; send old links to the home page
       { source: "/journal", destination: "/home", permanent: true },
       { source: "/journal/:id", destination: "/home", permanent: true },
+      // Google indexed the free Vercel address before hhara.com was connected; send it to the real domain.
+      // /api is left out so any webhook still pointed at the old address keeps working.
+      {
+        source: "/:path((?!api/).*)",
+        has: [{ type: "host", value: "hhara-store-headless.vercel.app" }],
+        destination: "https://www.hhara.com/:path",
+        permanent: true,
+      },
     ];
   },
   experimental: { optimizeCss: true },
