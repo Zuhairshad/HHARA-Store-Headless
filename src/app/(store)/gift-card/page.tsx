@@ -3,12 +3,15 @@ import { getStorefrontProducts } from "@/lib/products";
 import { getCurrentCart } from "@/lib/cart-actions";
 import { getCurrentCustomer } from "@/lib/customer-actions";
 import { pageMetadata } from "@/lib/seo";
+import { GIFT_CARDS_ENABLED } from "@/lib/gift-card";
+import { redirect } from "next/navigation";
 
 export const metadata = pageMetadata("/gift-card");
 
 export const revalidate = 0;
 
 export default async function RoutePage() {
+  if (!GIFT_CARDS_ENABLED) redirect("/home");
   const [products, cart, customer] = await Promise.all([
     getStorefrontProducts(),
     getCurrentCart(),

@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useRef, useContext, createContext } from "react";
 import Image from "next/image";
 import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount, addGiftCard as serverAddGiftCard } from "@/lib/cart-actions";
-import { GIFT_CARD_HANDLE } from "@/lib/gift-card";
+import { GIFT_CARD_HANDLE, GIFT_CARDS_ENABLED } from "@/lib/gift-card";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut, requestPasswordReset as serverRequestPasswordReset } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
 import { MagneticImpactCard } from "@/components/ui/morphing-cursor";
@@ -513,12 +513,14 @@ function MegaMenu({ open, onClose, setRoute }) {
               <li><a href="/shop" onClick={(e) => { e.preventDefault(); setRoute("shop", "The Dahlia Set"); onClose(); }}>Shop The Set</a></li>
             </ul>
           </div>
+          {GIFT_CARDS_ENABLED && (
           <div>
             <h6>Accessories</h6>
             <ul>
               <li><a href="/gift-card" onClick={(e) => { e.preventDefault(); setRoute("gift-card"); onClose(); }}>E-Gift Card</a></li>
             </ul>
           </div>
+          )}
         </div>
         <div className="feature" onClick={() => { setRoute("shop"); onClose(); }}>
           {shopImgs.map((src, i) => (
@@ -1018,7 +1020,7 @@ function Footer({ setRoute, route = "" }) {
               <ul>
                 <li><a href="/atelier" onClick={(e) => { e.preventDefault(); setRoute("atelier"); }} style={{ cursor: "pointer" }}>About Us</a></li>
                 <li><a href="/stores" onClick={(e) => { e.preventDefault(); setRoute("stores"); }} style={{ cursor: "pointer" }}>Social Impact</a></li>
-                <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>E-Gift Card</a></li>
+                {GIFT_CARDS_ENABLED && <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>E-Gift Card</a></li>}
                 <li><a onClick={() => setRoute("privacy")} style={{ cursor: "pointer" }}>Privacy &amp; Cookie Policy</a></li>
                 <li><a onClick={() => setRoute("terms")} style={{ cursor: "pointer" }}>Terms &amp; Conditions</a></li>
               </ul>
@@ -4520,9 +4522,10 @@ function FAQPage({ setRoute }) {
   const q = search.trim().toLowerCase();
   const words = q.split(/\s+/).filter(Boolean);
   const matchesText = (text: string) => words.every(w => text.toLowerCase().includes(w));
+  const shownSections = GIFT_CARDS_ENABLED ? sections : sections.filter(s => s.heading !== "E-Gift Card");
   const visibleSections = q
-    ? sections.map(s => ({ ...s, items: s.items.filter(i => matchesText(i.q) || matchesText(i.a)) })).filter(s => s.items.length > 0)
-    : sections;
+    ? shownSections.map(s => ({ ...s, items: s.items.filter(i => matchesText(i.q) || matchesText(i.a)) })).filter(s => s.items.length > 0)
+    : shownSections;
 
   function renderAnswer(a: string) {
     if (!a.includes("Size Guide")) return a;
@@ -4661,7 +4664,7 @@ function ReturnsPage({ setRoute }) {
         <ul className="policy-list">
           <li>All GCC and International orders</li>
           <li>Items purchased during a sale or marked as final sale</li>
-          <li>Gift cards</li>
+          {GIFT_CARDS_ENABLED && <li>Gift cards</li>}
         </ul>
       </div>
 
@@ -5564,7 +5567,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     body = <LookbookPage setRoute={setRoute} openProduct={openProduct} />;
   } else if (route === "stores") {
     body = <StoresPage setRoute={setRouteState} />;
-  } else if (route === "gift-card") {
+  } else if (route === "gift-card" && GIFT_CARDS_ENABLED) {
     body = <GiftCardPage setRoute={setRouteState} addToCart={addToCart} setCartOpen={setCartOpen} />;
   } else if (route === "account") {
     body = <AccountPage setRoute={setRoute} checkoutUrl={shopifyCart?.checkoutUrl} cartCount={cartCount} />;

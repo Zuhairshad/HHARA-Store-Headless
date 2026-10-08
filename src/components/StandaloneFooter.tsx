@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { subscribeNewsletter } from "@/lib/newsletter-actions";
+import { GIFT_CARDS_ENABLED } from "@/lib/gift-card";
 
 export function StandaloneFooter() {
   const [email, setEmail] = useState("");
@@ -100,7 +101,7 @@ export function StandaloneFooter() {
               <ul>
                 <li><a href="/home?r=atelier">About Us</a></li>
                 <li><a href="/home?r=stores">Impact</a></li>
-                <li><a href="/home?r=gift-card">E-Gift Card</a></li>
+                {GIFT_CARDS_ENABLED && <li><a href="/home?r=gift-card">E-Gift Card</a></li>}
               </ul>
             </div>
             <div className="footer-col">

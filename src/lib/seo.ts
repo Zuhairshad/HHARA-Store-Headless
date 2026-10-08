@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GIFT_CARDS_ENABLED } from "./gift-card";
 
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.hhara.com").replace(/\/$/, "");
 
@@ -79,6 +80,7 @@ export const PAGES: Record<string, PageSeo> = {
   "/gift-card": {
     title: "Gift Cards | HHARA",
     description: "Give the gift of wonder. HHARA digital gift cards for luxury activewear.",
+    noindex: !GIFT_CARDS_ENABLED,
   },
   "/privacy": { title: "Privacy Policy | HHARA", description: "How HHARA collects, uses and protects your data." },
   "/terms": { title: "Terms of Service | HHARA", description: "The terms that govern purchases from HHARA." },

@@ -3,6 +3,7 @@ import { getStorefrontProducts } from "@/lib/products";
 import { getCurrentCart } from "@/lib/cart-actions";
 import { getCurrentCustomer } from "@/lib/customer-actions";
 import { pageMetadata } from "@/lib/seo";
+import { GIFT_CARDS_ENABLED } from "@/lib/gift-card";
 
 export const metadata = pageMetadata("/home");
 
@@ -16,7 +17,7 @@ export default async function Page({
   searchParams: Promise<{ r?: string }>;
 }) {
   const { r } = await searchParams;
-  const initialRoute = r && VALID_ROUTES.has(r) ? r : undefined;
+  const initialRoute = r && VALID_ROUTES.has(r) && (r !== "gift-card" || GIFT_CARDS_ENABLED) ? r : undefined;
   const [products, cart, customer] = await Promise.all([
     getStorefrontProducts(),
     getCurrentCart(),
