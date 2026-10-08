@@ -4939,6 +4939,11 @@ function PrivacyPage({ setRoute }) {
       </div>
 
       <div className="policy-section">
+        <h2 className="policy-section-heading">Card Details</h2>
+        <p>All credit/debit cards' details and personally identifiable information will NOT be stored, sold, shared, rented or leased to any third parties. https://www.hhara.com/ will not pass any debit/credit card details to third parties.</p>
+      </div>
+
+      <div className="policy-section">
         <h2 className="policy-section-heading">Cookie Policy</h2>
         <p style={{ marginBottom: 16 }}>Cookies are small text files stored in your browser that help our site recognise your device and deliver more relevant content. We use:</p>
         <ul className="policy-list">
@@ -4952,6 +4957,17 @@ function PrivacyPage({ setRoute }) {
       <div className="policy-section">
         <h2 className="policy-section-heading">Data Security</h2>
         <p>We take reasonable technical and organisational measures to protect your information from unauthorised access, alteration, or misuse. Our site is hosted on Shopify, which is PCI-DSS compliant.</p>
+        <p style={{ marginTop: 16 }}>https://www.hhara.com/ takes appropriate steps to ensure data privacy and security including through various hardware and software methodologies. However, https://www.hhara.com/ cannot guarantee the security of any information that is disclosed online.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Links to Other Websites</h2>
+        <p>https://www.hhara.com/ is not responsible for the privacy policies of websites to which it links. If you provide any information to such third parties, different rules regarding the collection and use of your personal information may apply. You should contact these entities directly if you have any questions about their use of the information that they collect.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Changes to This Policy</h2>
+        <p>The Website Policies and Terms & Conditions may be changed or updated occasionally to meet the requirements and standards. Therefore, customers are encouraged to frequently visit these sections to be updated about the changes on the website. Modifications will be effective on the day they are posted.</p>
       </div>
 
       <div className="policy-contact">
@@ -4963,20 +4979,24 @@ function PrivacyPage({ setRoute }) {
 
 function TermsPage({ setRoute }) {
   const clauses = [
-    { n: "1", title: "Eligibility", body: "You must be at least 18 years old to make a purchase on our site." },
+    { n: "1", title: "Eligibility", body: "You must be at least 18 years old to make a purchase on our site. Minors under the age of 18 are prohibited from registering as a user of this website and are not allowed to transact on or use the website." },
     { n: "2", title: "Products and Pricing", body: "We make every effort to display colours, fabrics, and pricing accurately. However, slight variations may occur, and we reserve the right to correct errors or decline orders where necessary." },
-    { n: "3", title: "Orders and Payment", body: "All orders placed through our website are subject to availability and acceptance. Payment is processed securely at checkout. We accept all major credit and debit cards, as well as Tabby and Tamara for buy now, pay later." },
-    { n: "4", title: "Shipping and Delivery", body: "We ship within the UAE and internationally. For delivery timelines and related terms, please refer to our Shipping & Delivery policy." },
-    { n: "5", title: "Returns", body: "We offer free returns within 14 days of delivery for UAE orders only. GCC and international orders are final sale and non-returnable. For full conditions and refund details, please refer to our Returns & Refunds policy." },
-    { n: "6", title: "Intellectual Property", body: "All content on this website, including text, product descriptions, imagery, brand assets, and design, is the property of Dahlia Moxie Trading LLC (HHARA). No reproduction or use of any content is permitted without prior written consent." },
-    { n: "7", title: "Limitation of Liability", body: "To the fullest extent permitted by law, HHARA is not liable for indirect, incidental, or consequential damages arising from the use of our products or website." },
-    { n: "8", title: "Governing Law", body: "These terms are governed by the laws of the United Arab Emirates. Any disputes will fall under the jurisdiction of the UAE courts." },
-    { n: "9", title: "Changes to These Terms", body: "We may update or amend these terms at any time. Any changes will be reflected on this page with a revised “Last updated” date." },
-    { n: "10", title: "Contact", body: "For questions regarding these terms, please contact us at hello@hhara.com." },
+    { n: "3", title: "Orders and Payment", body: "All orders placed through our website are subject to availability and acceptance. Payment is processed securely at checkout. Visa or MasterCard debit and credit cards in AED will be accepted for payment. We also offer Tabby and Tamara for buy now, pay later. The displayed price and currency at the checkout page will be the same price and currency printed on the Transaction Receipt, and the amount charged to the card will be shown in your card currency." },
+    { n: "4", title: "Payment Confirmation", body: "Once the payment is made, the confirmation notice will be sent to the client via email within 24 hours of receipt." },
+    { n: "5", title: "Shipping and Delivery", body: "We ship within the UAE and internationally. For delivery timelines and related terms, please refer to our Shipping & Delivery policy." },
+    { n: "6", title: "Returns", body: "We offer free returns within 14 days of delivery for UAE orders only. GCC and international orders are final sale and non-returnable. For full conditions and refund details, please refer to our Returns & Refunds policy." },
+    { n: "7", title: "Your Account", body: "The user is responsible for maintaining the confidentiality of their account." },
+    { n: "8", title: "Transaction Records", body: "Cardholder must retain a copy of transaction records and https://www.hhara.com/ policies and rules." },
+    { n: "9", title: "Sanctioned Countries", body: "We will not trade with or provide any services to OFAC and sanctioned countries." },
+    { n: "10", title: "Intellectual Property", body: "All content on this website, including text, product descriptions, imagery, brand assets, and design, is the property of Dahlia Moxie Trading LLC (HHARA). No reproduction or use of any content is permitted without prior written consent." },
+    { n: "11", title: "Limitation of Liability", body: "To the fullest extent permitted by law, HHARA is not liable for indirect, incidental, or consequential damages arising from the use of our products or website." },
+    { n: "12", title: "Governing Law and Jurisdiction", body: "United Arab Emirates is our country of domicile. These terms are governed by the laws of the United Arab Emirates. Any disputes will fall under the jurisdiction of the UAE courts." },
+    { n: "13", title: "Changes to These Terms", body: "The Website Policies and Terms & Conditions may be changed or updated occasionally to meet the requirements and standards. Therefore, customers are encouraged to frequently visit these sections to be updated about the changes on the website. Modifications will be effective on the day they are posted." },
+    { n: "14", title: "Contact", body: "For questions regarding these terms, please contact us at hello@hhara.com." },
   ];
   return (
     <PolicyPage title="Terms & Conditions" eyebrow="Legal" setRoute={setRoute}>
-      <p className="policy-intro">Welcome to HHARA. By accessing or using our site and purchasing from us, you agree to the following terms and conditions. Please read them carefully.</p>
+      <p className="policy-intro">DAHLIA MOXIE TRADING LLC maintains the https://www.hhara.com/ Website ("Site"). By accessing or using our site and purchasing from us, you agree to the following terms and conditions. Please read them carefully.</p>
 
       {clauses.map((c) => (
         <div key={c.n} className="policy-section">
@@ -5004,6 +5024,19 @@ function ContactPage({ setRoute }) {
           <a href="mailto:hello@hhara.com" style={{ textDecoration: "underline", color: "var(--ink)" }}>hello@hhara.com</a>
         </p>
         <p style={{ marginTop: "12px" }}>Our team typically responds within 24 hours, Monday to Friday.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Phone</h2>
+        <p style={{ fontSize: "20px", fontWeight: "400", fontFamily: "var(--serif)" }}>
+          <a href="tel:+971586475733" style={{ textDecoration: "underline", color: "var(--ink)" }}>+971 58 647 5733</a>
+        </p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Company</h2>
+        <p>DAHLIA MOXIE TRADING L.L.C</p>
+        <p>Business Bay, Dubai, United Arab Emirates</p>
       </div>
     </PolicyPage>
   );
