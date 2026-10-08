@@ -8,6 +8,7 @@ import { GIFT_CARD_HANDLE, GIFT_CARDS_ENABLED } from "@/lib/gift-card";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut, requestPasswordReset as serverRequestPasswordReset } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
 import { MagneticImpactCard } from "@/components/ui/morphing-cursor";
+import CardLogos from "@/components/CardLogos";
 import {
   trackEvent,
   formatEcommerceItem,
@@ -1028,7 +1029,7 @@ function Footer({ setRoute, route = "" }) {
           </div>
         </div>
         <div className="footer-bottom">
-          <span>© 2026 HHARA — Dahlia Moxie Trading LLC. All rights reserved.</span>
+          <span style={{ display: "inline-flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 16 }}>© 2026 HHARA — Dahlia Moxie Trading LLC. All rights reserved. <CardLogos /></span>
           <div className="footer-social-icons">
             <a href="https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" target="_blank" rel="noreferrer" aria-label="Instagram">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">

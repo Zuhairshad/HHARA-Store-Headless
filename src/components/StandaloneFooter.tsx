@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { subscribeNewsletter } from "@/lib/newsletter-actions";
 import { GIFT_CARDS_ENABLED } from "@/lib/gift-card";
+import CardLogos from "@/components/CardLogos";
 
 export function StandaloneFooter() {
   const [email, setEmail] = useState("");
@@ -136,7 +137,7 @@ export function StandaloneFooter() {
         </div>
 
         <div className="footer-bottom">
-          <span>© HHARA 2026 · UAE · Dahlia Moxie Trading LLC</span>
+          <span style={{ display: "inline-flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 16 }}>© HHARA 2026 · UAE · Dahlia Moxie Trading LLC <CardLogos /></span>
           <div className="pay">
             <a href="https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" target="_blank" rel="noreferrer">Instagram</a>
             <a href="https://www.tiktok.com/@thisishhara?_r=1&_t=ZS-98ZT7R2xNId" target="_blank" rel="noreferrer">TikTok</a>
