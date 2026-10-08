@@ -1050,31 +1050,6 @@ img { display: block; max-width: 100%; }
   width: 18px;
   height: 18px;
 }
-.insta-text-card {
-  background: #F0EAE0;
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  aspect-ratio: 9 / 16;
-  color: #241811;
-  text-decoration: none;
-}
-.insta-text-card h3 {
-  font-family: var(--sans);
-  font-weight: 300;
-  font-size: 26px;
-  color: #241811;
-  letter-spacing: 0.05em;
-}
-.insta-text-card p {
-  font-family: var(--sans);
-  font-weight: 300;
-  font-size: 13px;
-  line-height: 1.8;
-  color: #7A6555;
-  margin: 16px 0;
-}
 @media (max-width: 1024px) {
   .insta-grid {
     grid-template-columns: repeat(3, 1fr);

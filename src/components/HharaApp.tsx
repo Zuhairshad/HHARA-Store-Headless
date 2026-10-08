@@ -1577,44 +1577,50 @@ function Lookbook({ openLookbook, openProduct, setRoute }) {
   );
 }
 
+const INSTAGRAM_PROFILE = "https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==";
+
+// Shown until the live Instagram feed loads, and whenever it can't be reached.
+const INSTA_FALLBACK = [
+  { img: IMGS.lb1, link: INSTAGRAM_PROFILE },
+  { img: IMGS.lb8, link: INSTAGRAM_PROFILE },
+  { img: IMGS.lb3, link: INSTAGRAM_PROFILE },
+  { img: IMGS.instaReel, link: INSTAGRAM_PROFILE },
+  { img: IMGS.lb7, link: INSTAGRAM_PROFILE },
+  { img: IMGS.lb2, link: INSTAGRAM_PROFILE }
+];
+
 function Callouts() {
-  const instaImages = [
-    { img: IMGS.lb1, icon: "reels", link: "https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" },
-    { img: IMGS.lb8, icon: "none", link: "https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" },
-    { img: IMGS.lb3, icon: "carousel", link: "https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" },
-    { img: IMGS.instaReel, icon: "reels", link: "https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" },
-    { isTextCard: true, title: "AURA", desc: "Our capillary performance fabric: ultra-light, quick-drying, and engineered from regenerative ocean streams.", link: "https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" },
-    { img: IMGS.lb2, icon: "reels", link: "https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" }
-  ];
+  const [livePosts, setLivePosts] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/instagram")
+      .then((r) => (r.ok ? r.json() : { posts: [] }))
+      .then((d) => { if (!cancelled) setLivePosts(d.posts || []); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
+
+  // Latest posts first; if there are fewer than 6, the built-in photos fill the rest so the grid stays full.
+  const cards = [
+    ...livePosts.map((p) => ({ img: p.image, link: p.link, icon: p.type, remote: true })),
+    ...INSTA_FALLBACK
+  ].slice(0, INSTA_FALLBACK.length);
 
   return (
     <section className="section-full" style={{ padding: 0 }}>
       <div className="insta-grid">
-        {instaImages.map((card, i) => {
-          if (card.isTextCard) {
-            return (
-              <a key={i} href={card.link} target="_blank" rel="noopener noreferrer" className="insta-text-card">
-                <h3>{card.title}</h3>
-                <p>{card.desc}</p>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", marginTop: "auto" }}>
-                  <span style={{ fontSize: "9px", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 500, color: "var(--accent)" }}>Read Ethos</span>
-                  <span className="insta-icon-badge" style={{ position: "static", color: "var(--accent)" }}><Icon.Reels /></span>
-                </div>
-              </a>
-            );
-          }
-          return (
-            <a key={i} href={card.link} target="_blank" rel="noopener noreferrer" className="insta-card">
-              <Image src={card.img} alt={`HHARA Lifestyle ${i + 1}`} fill className="img-fill" sizes="(max-width: 640px) 50vw, 33vw" loading="lazy" />
-              <div className="insta-card-overlay"></div>
-              {card.icon !== "none" && (
-                <span className="insta-icon-badge">
-                  {card.icon === "reels" ? <Icon.Reels /> : <Icon.Carousel />}
-                </span>
-              )}
-            </a>
-          );
-        })}
+        {cards.map((card, i) => (
+          <a key={card.img} href={card.link} target="_blank" rel="noopener noreferrer" className="insta-card">
+            <Image src={card.img} alt={`HHARA on Instagram ${i + 1}`} fill className="img-fill" sizes="(max-width: 640px) 50vw, 33vw" loading="lazy" unoptimized={card.remote} />
+            <div className="insta-card-overlay"></div>
+            {(card.icon === "video" || card.icon === "carousel") && (
+              <span className="insta-icon-badge">
+                {card.icon === "video" ? <Icon.Reels /> : <Icon.Carousel />}
+              </span>
+            )}
+          </a>
+        ))}
       </div>
     </section>
   );
