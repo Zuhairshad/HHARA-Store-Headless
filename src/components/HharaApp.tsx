@@ -4984,8 +4984,8 @@ function TermsPage({ setRoute }) {
     { n: "2", title: "Products and Pricing", body: "We make every effort to display colours, fabrics, and pricing accurately. However, slight variations may occur, and we reserve the right to correct errors or decline orders where necessary." },
     { n: "3", title: "Orders and Payment", body: "All orders placed through our website are subject to availability and acceptance. Payment is processed securely at checkout. Visa or MasterCard debit and credit cards in AED will be accepted for payment. We also offer Tabby for buy now, pay later. The displayed price and currency at the checkout page will be the same price and currency printed on the Transaction Receipt, and the amount charged to the card will be shown in your card currency." },
     { n: "4", title: "Payment Confirmation", body: "Once the payment is made, the confirmation notice will be sent to the client via email within 24 hours of receipt." },
-    { n: "5", title: "Shipping and Delivery", body: "We ship within the UAE and internationally. For delivery timelines and related terms, please refer to our Shipping & Delivery policy." },
-    { n: "6", title: "Returns", body: "We offer free returns within 14 days of delivery for UAE orders only. GCC and international orders are final sale and non-returnable. For full conditions and refund details, please refer to our Returns & Refunds policy." },
+    { n: "5", title: "Shipping and Delivery", body: "We ship within the UAE and internationally. For delivery timelines and related terms, please refer to our", link: { label: "Shipping & Delivery policy", route: "shipping" }, after: "." },
+    { n: "6", title: "Returns", body: "We offer free returns within 14 days of delivery for UAE orders only. GCC and international orders are final sale and non-returnable. For full conditions and refund details, please refer to our", link: { label: "Returns & Refunds policy", route: "returns" }, after: "." },
     { n: "7", title: "Your Account", body: "The user is responsible for maintaining the confidentiality of their account." },
     { n: "8", title: "Transaction Records", body: "Cardholder must retain a copy of transaction records and https://www.hhara.com/ policies and rules." },
     { n: "9", title: "Sanctioned Countries", body: "We will not trade with or provide any services to OFAC and sanctioned countries." },
@@ -5002,7 +5002,16 @@ function TermsPage({ setRoute }) {
       {clauses.map((c) => (
         <div key={c.n} className="policy-section">
           <h2 className="policy-section-heading">{c.n}. {c.title}</h2>
-          <p>{c.body}</p>
+          <p>
+            {c.body}
+            {c.link && (
+              <>
+                {" "}
+                <a href={`/${c.link.route}`} onClick={(e) => { e.preventDefault(); setRoute(c.link.route); }} style={{ textDecoration: "underline", color: "var(--ink)", cursor: "pointer" }}>{c.link.label}</a>
+                {c.after}
+              </>
+            )}
+          </p>
         </div>
       ))}
 
