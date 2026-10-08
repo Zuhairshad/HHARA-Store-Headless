@@ -4466,7 +4466,7 @@ function FAQPage({ setRoute }) {
       heading: "Orders & Payment",
       items: [
         { q: "How do I place an order?", a: "Browse and shop directly on site. Select your size and colourway, add to bag, and proceed to checkout. Payment is processed securely at checkout." },
-        { q: "What payment methods do you accept?", a: "We accept all major credit and debit cards. We also offer Tabby and Tamara for buy now, pay later. Split your purchase into instalments at no extra cost. All payments are processed securely at checkout." },
+        { q: "What payment methods do you accept?", a: "We accept all major credit and debit cards. We also offer Tabby for buy now, pay later. Split your purchase into instalments at no extra cost. All payments are processed securely at checkout." },
         { q: "Can I modify or cancel my order?", a: "Orders cannot be cancelled or modified once processed. If you need to make a change urgently, please contact us at hello@hhara.com within 24 hours of placing your order." },
         { q: "Will I receive an order confirmation?", a: "Yes. You will receive an order confirmation email immediately after purchase, followed by a dispatch notification with your tracking link once shipped." },
       ],
@@ -4982,7 +4982,7 @@ function TermsPage({ setRoute }) {
   const clauses = [
     { n: "1", title: "Eligibility", body: "You must be at least 18 years old to make a purchase on our site. Minors under the age of 18 are prohibited from registering as a user of this website and are not allowed to transact on or use the website." },
     { n: "2", title: "Products and Pricing", body: "We make every effort to display colours, fabrics, and pricing accurately. However, slight variations may occur, and we reserve the right to correct errors or decline orders where necessary." },
-    { n: "3", title: "Orders and Payment", body: "All orders placed through our website are subject to availability and acceptance. Payment is processed securely at checkout. Visa or MasterCard debit and credit cards in AED will be accepted for payment. We also offer Tabby and Tamara for buy now, pay later. The displayed price and currency at the checkout page will be the same price and currency printed on the Transaction Receipt, and the amount charged to the card will be shown in your card currency." },
+    { n: "3", title: "Orders and Payment", body: "All orders placed through our website are subject to availability and acceptance. Payment is processed securely at checkout. Visa or MasterCard debit and credit cards in AED will be accepted for payment. We also offer Tabby for buy now, pay later. The displayed price and currency at the checkout page will be the same price and currency printed on the Transaction Receipt, and the amount charged to the card will be shown in your card currency." },
     { n: "4", title: "Payment Confirmation", body: "Once the payment is made, the confirmation notice will be sent to the client via email within 24 hours of receipt." },
     { n: "5", title: "Shipping and Delivery", body: "We ship within the UAE and internationally. For delivery timelines and related terms, please refer to our Shipping & Delivery policy." },
     { n: "6", title: "Returns", body: "We offer free returns within 14 days of delivery for UAE orders only. GCC and international orders are final sale and non-returnable. For full conditions and refund details, please refer to our Returns & Refunds policy." },
