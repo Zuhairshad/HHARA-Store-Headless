@@ -4581,7 +4581,7 @@ function FAQPage({ setRoute }) {
 function ShippingPage({ setRoute }) {
   return (
     <PolicyPage title="Shipping & Delivery" eyebrow="Customer Service" setRoute={setRoute}>
-      <p className="policy-intro">We ship worldwide. Whether you are in Dubai or across the globe, every HHARA order is handled with care and delivered to your door.</p>
+      <p className="policy-intro">We ship worldwide. Whether you are in Dubai or across the globe, every order from https://www.hhara.com/ is handled with care and delivered to your door.</p>
 
       <div className="policy-section">
         <h2 className="policy-section-heading">UAE Delivery</h2>
@@ -4617,7 +4617,7 @@ function ShippingPage({ setRoute }) {
 
       <div className="policy-section">
         <h2 className="policy-section-heading">Duties & Customs</h2>
-        <p>For GCC orders, all customs duties and taxes are fully covered by HHARA at delivery. For all other international orders, any customs charges, import taxes, and clearance fees are the customer's responsibility and are determined by your local customs authority. HHARA is not responsible for delays caused by customs clearance.</p>
+        <p>For GCC orders, all customs duties and taxes are fully covered by https://www.hhara.com/ at delivery. For all other international orders, any customs charges, import taxes, and clearance fees are the customer's responsibility and are determined by your local customs authority. https://www.hhara.com/ is not responsible for delays caused by customs clearance.</p>
       </div>
 
       <div className="policy-section">
@@ -4635,17 +4635,17 @@ function ShippingPage({ setRoute }) {
 function ReturnsPage({ setRoute }) {
   return (
     <PolicyPage title="Returns & Refunds" eyebrow="Customer Service" setRoute={setRoute}>
-      <p className="policy-intro">We want you to love every piece you receive from HHARA. If something is not right, here is how we make it right.</p>
+      <p className="policy-intro">We want you to love every piece you receive from https://www.hhara.com/. If something is not right, here is how we make it right.</p>
 
       <div className="policy-section">
         <h2 className="policy-section-heading">UAE Return Policy</h2>
         <p>We offer <strong>Free returns within 14 days</strong> of delivery for orders within the UAE.</p>
-        <p style={{ marginTop: 12 }}>To be eligible for a return, your item must be unworn and unwashed, in its original packaging with all tags attached, and free from perfume, deodorant, or any signs of use. HHARA reserves the right to decline a return if the item does not meet these conditions upon inspection.</p>
+        <p style={{ marginTop: 12 }}>To be eligible for a return, your item must be unworn and unwashed, in its original packaging with all tags attached, and free from perfume, deodorant, or any signs of use. https://www.hhara.com/ reserves the right to decline a return if the item does not meet these conditions upon inspection.</p>
       </div>
 
       <div className="policy-section">
         <h2 className="policy-section-heading">How to Start a Return (UAE)</h2>
-        <p>Email us at <a href="mailto:hello@hhara.com">hello@hhara.com</a> with your order number to request a return. Once approved, HHARA will arrange a Quiqup courier to collect the return parcel directly from your address at no cost to you.</p>
+        <p>Email us at <a href="mailto:hello@hhara.com">hello@hhara.com</a> with your order number to request a return. Once approved, https://www.hhara.com/ will arrange a Quiqup courier to collect the return parcel directly from your address at no cost to you.</p>
       </div>
 
       <div className="policy-section">
@@ -4897,11 +4897,11 @@ function SizeGuidePage({ setRoute }: { setRoute: (route: string, payload?: any) 
 function PrivacyPage({ setRoute }) {
   return (
     <PolicyPage title="Privacy & Cookie Policy" eyebrow="Legal" setRoute={setRoute}>
-      <p className="policy-intro">At HHARA, your trust matters. This policy describes how HHARA - a Dahlia Moxie Trading LLC company collects, uses, and protects your personal information when you visit our site or interact with us.</p>
+      <p className="policy-intro">At https://www.hhara.com/, your trust matters. This policy describes how https://www.hhara.com/ - a Dahlia Moxie Trading LLC company collects, uses, and protects your personal information when you visit our site or interact with us.</p>
 
       <div className="policy-section">
         <h2 className="policy-section-heading">Age of Consent</h2>
-        <p>You must be at least 18 years old to use our site or make a purchase. By accessing HHARA, you confirm that you meet this requirement.</p>
+        <p>You must be at least 18 years old to use our site or make a purchase. By accessing https://www.hhara.com/, you confirm that you meet this requirement.</p>
       </div>
 
       <div className="policy-section">
@@ -4989,8 +4989,8 @@ function TermsPage({ setRoute }) {
     { n: "7", title: "Your Account", body: "The user is responsible for maintaining the confidentiality of their account." },
     { n: "8", title: "Transaction Records", body: "Cardholder must retain a copy of transaction records and https://www.hhara.com/ policies and rules." },
     { n: "9", title: "Sanctioned Countries", body: "We will not trade with or provide any services to OFAC and sanctioned countries." },
-    { n: "10", title: "Intellectual Property", body: "All content on this website, including text, product descriptions, imagery, brand assets, and design, is the property of Dahlia Moxie Trading LLC (HHARA). No reproduction or use of any content is permitted without prior written consent." },
-    { n: "11", title: "Limitation of Liability", body: "To the fullest extent permitted by law, HHARA is not liable for indirect, incidental, or consequential damages arising from the use of our products or website." },
+    { n: "10", title: "Intellectual Property", body: "All content on this website, including text, product descriptions, imagery, brand assets, and design, is the property of DAHLIA MOXIE TRADING LLC maintaining the https://www.hhara.com/ Website. No reproduction or use of any content is permitted without prior written consent." },
+    { n: "11", title: "Limitation of Liability", body: "To the fullest extent permitted by law, https://www.hhara.com/ is not liable for indirect, incidental, or consequential damages arising from the use of our products or website." },
     { n: "12", title: "Governing Law and Jurisdiction", body: "United Arab Emirates is our country of domicile. These terms are governed by the laws of the United Arab Emirates. Any disputes will fall under the jurisdiction of the UAE courts." },
     { n: "13", title: "Changes to These Terms", body: "The Website Policies and Terms & Conditions may be changed or updated occasionally to meet the requirements and standards. Therefore, customers are encouraged to frequently visit these sections to be updated about the changes on the website. Modifications will be effective on the day they are posted." },
     { n: "14", title: "Contact", body: "For questions regarding these terms, please contact us at hello@hhara.com." },
