@@ -4484,11 +4484,11 @@ function FAQPage({ setRoute }) {
     {
       heading: "Shipping & Delivery",
       items: [
-        { q: "Where do you ship?", a: "We ship worldwide: UAE, GCC, and internationally to over 200 countries." },
+        { q: "Where do you ship?", a: "We deliver across the UAE and GCC, and internationally to the UK & Europe, the United States & Canada, and selected destinations worldwide. Available countries are shown at checkout." },
         { q: "How long does UAE delivery take?", a: "Standard next-day delivery takes 1 day for orders placed before 10:00pm. Same-day delivery is available for Dubai (placed before 3:00pm) and Abu Dhabi, Sharjah, Ajman (placed before 1:00pm)." },
         { q: "What are the UAE delivery charges?", a: "Standard next-day delivery is completely free with no minimum purchase. Same-day delivery upgrade is available at checkout for AED 25." },
-        { q: "How long does international delivery take?", a: "GCC: 2–3 business days. UK & Europe: 5–7 business days. North America: 5–7 business days. Rest of World: 7–14 business days. All shipments are subject to customs clearance." },
-        { q: "Who pays for customs and duties?", a: "For GCC orders, customs duties and taxes are fully covered by HHARA (Delivered Duty Paid). For other international orders, customs charges and import duties are the customer's responsibility." },
+        { q: "How long does international delivery take?", a: "GCC: 3–6 business days. UK & Europe: 5–8 business days. United States & Canada: 5–8 business days. Rest of World: 7–14 business days. Delivery times are estimates from dispatch and are subject to customs clearance." },
+        { q: "Who pays for customs and duties?", a: "For GCC orders, customs duties and taxes are fully covered by HHARA (Delivered Duty Paid). For other international orders, customs charges and import duties are the customer's responsibility. DHL will email you a secure link to pay them before delivery." },
         { q: "How do I track my order?", a: "You will receive a tracking link by email once your order has been dispatched. If you have any issues tracking your order, contact us at hello@hhara.com." },
       ],
     },
@@ -4581,48 +4581,62 @@ function FAQPage({ setRoute }) {
 function ShippingPage({ setRoute }) {
   return (
     <PolicyPage title="Shipping & Delivery" eyebrow="Customer Service" setRoute={setRoute}>
-      <p className="policy-intro">We ship worldwide. Whether you are in Dubai or across the globe, every order from https://www.hhara.com/ is handled with care and delivered to your door.</p>
+      <p className="policy-intro">Every order from https://www.hhara.com/ is prepared with care and delivered to your door, in the UAE and around the world.</p>
 
       <div className="policy-section">
         <h2 className="policy-section-heading">UAE Delivery</h2>
         <div className="policy-table">
-          <div className="policy-table-row"><span>Standard Next Day</span><span>FREE · No Minimum</span></div>
+          <div className="policy-table-row"><span>Standard Next Day</span><span>Complimentary · No minimum</span></div>
           <div className="policy-table-row"><span>Same Day Delivery</span><span>AED 25 · Upgrade at checkout</span></div>
         </div>
         <p className="policy-note">
-          <strong>Standard Next Day:</strong> Free next day delivery to all 7 Emirates (excluding freezones) for orders placed by 10:00pm. Delivery window: 9am–10pm next day.
+          <strong>Standard Next Day:</strong> To all seven Emirates for orders placed by 10:00pm. Delivered 9am–10pm the following day.
         </p>
         <p className="policy-note" style={{ marginTop: 8 }}>
-          <strong>Same Day Delivery:</strong> Available for Dubai (cut-off 3:00pm) and Abu Dhabi, Sharjah, Ajman (cut-off 1:00pm). Delivery window: 4pm–10pm same day.
+          <strong>Same Day Delivery:</strong> Dubai (order by 3:00pm) and Abu Dhabi, Sharjah and Ajman (order by 1:00pm). Delivered 4pm–10pm the same day.
         </p>
+        <p className="policy-note" style={{ marginTop: 8 }}>Free zone addresses are not currently served. Remote areas are delivered on Thursdays and Sundays.</p>
       </div>
 
       <div className="policy-section">
-        <h2 className="policy-section-heading">GCC Delivery (Delivered Duty Paid)</h2>
-        <p className="policy-note">Delivered via Quiqup/Naqel. All duties and taxes are included - no fees at delivery.</p>
+        <h2 className="policy-section-heading">GCC Delivery · Duties Included</h2>
+        <p className="policy-note">Delivered by our courier partners. All duties and taxes are paid by https://www.hhara.com/ - nothing is due on delivery.</p>
         <div className="policy-table">
-          <div className="policy-table-row"><span>Saudi Arabia, Kuwait, Bahrain, Qatar, Oman</span><span>AED 60 (Free on orders AED 1,200+) · 2–3 business days</span></div>
+          <div className="policy-table-row"><span>Saudi Arabia, Kuwait, Qatar, Bahrain, Oman</span><span>AED 60 · Complimentary on orders AED 1,200+ · 3–6 business days</span></div>
         </div>
       </div>
 
       <div className="policy-section">
-        <h2 className="policy-section-heading">International Delivery (Delivered Duty Unpaid)</h2>
-        <p className="policy-note">Delivered via Quiqup/DHL. Duties and taxes at destination are the customer's responsibility. PO Box delivery addresses are not supported.</p>
+        <h2 className="policy-section-heading">International Delivery · Duties Unpaid</h2>
+        <p className="policy-note">Delivered by DHL Express. Duties, taxes and clearance fees at destination are the recipient's responsibility.</p>
         <div className="policy-table">
-          <div className="policy-table-row"><span>UK & Europe (Inc. EU states)</span><span>AED 80 (Free on orders AED 1,200+) · 5–7 business days</span></div>
-          <div className="policy-table-row"><span>North America (United States, Canada)</span><span>AED 120 (Free on orders AED 1,200+) · 5–7 business days</span></div>
-          <div className="policy-table-row"><span>Rest of World</span><span>AED 80 (Free on orders AED 1,200+) · 7–14 business days</span></div>
+          <div className="policy-table-row"><span>UK & Europe</span><span>AED 80 · Complimentary on orders AED 1,200+ · 5–8 business days</span></div>
+          <div className="policy-table-row"><span>United States & Canada</span><span>AED 120 · Complimentary on orders AED 1,200+ · 5–8 business days</span></div>
+          <div className="policy-table-row"><span>Rest of World</span><span>AED 80 · Complimentary on orders AED 1,200+ · 7–14 business days</span></div>
         </div>
+        <p>Available destinations are shown at checkout. We are unable to deliver to certain countries due to carrier restrictions or international sanctions.</p>
+        <p className="policy-note" style={{ marginTop: 8 }}>PO Box addresses are not supported. Deliveries to remote locations may take longer.</p>
+        <p className="policy-note" style={{ marginTop: 8 }}>Delivery times are estimates from dispatch and may be longer during peak periods, customs clearance, or circumstances beyond our control.</p>
       </div>
 
       <div className="policy-section">
         <h2 className="policy-section-heading">Duties & Customs</h2>
-        <p>For GCC orders, all customs duties and taxes are fully covered by https://www.hhara.com/ at delivery. For all other international orders, any customs charges, import taxes, and clearance fees are the customer's responsibility and are determined by your local customs authority. https://www.hhara.com/ is not responsible for delays caused by customs clearance.</p>
+        <p><strong>GCC:</strong> All customs duties and taxes are covered by https://www.hhara.com/.</p>
+        <p><strong>International:</strong> Any duties, import taxes and clearance fees are set by your local customs authority. DHL will email you a secure link to settle them before delivery; your order is released once payment is made.</p>
+        <p>If duties are left unpaid or a delivery is refused, the parcel is returned to us. Return shipping costs will be deducted from any refund.</p>
+        <p className="policy-note">https://www.hhara.com/ is not responsible for delays caused by customs clearance.</p>
       </div>
 
       <div className="policy-section">
         <h2 className="policy-section-heading">Failed Deliveries</h2>
-        <p>Please ensure your delivery address and contact details are accurate at checkout. Our courier will make up to 2 delivery attempts. After 2 failed attempts, the order will be returned to us.</p>
+        <p><strong>UAE:</strong> Our courier makes up to three delivery attempts. After two unsuccessful attempts, you will receive a WhatsApp message to confirm delivery or provide instructions. If we don't hear from you within 72 hours, or a third attempt is unsuccessful, your order is returned to us.</p>
+        <p><strong>GCC & International:</strong> If a parcel cannot be delivered after the courier's attempts, or is left uncollected, it is returned to us. Return shipping costs will be deducted from any refund.</p>
+        <p className="policy-note">Please make sure your delivery address and phone number are accurate at checkout.</p>
+      </div>
+
+      <div className="policy-section">
+        <h2 className="policy-section-heading">Tracking</h2>
+        <p>Tracking details are sent by email once your order is dispatched. You can also follow your order at any time on our <a href="/orders/track">Track Your Order</a> page.</p>
       </div>
 
       <div className="policy-contact">
