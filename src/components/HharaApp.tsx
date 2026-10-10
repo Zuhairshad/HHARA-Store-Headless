@@ -5003,7 +5003,7 @@ function TermsPage({ setRoute }) {
     { n: "7", title: "Your Account", body: "The user is responsible for maintaining the confidentiality of their account." },
     { n: "8", title: "Transaction Records", body: "Cardholder must retain a copy of transaction records and https://www.hhara.com/ policies and rules." },
     { n: "9", title: "Sanctioned Countries", body: "We will not trade with or provide any services to OFAC and sanctioned countries." },
-    { n: "10", title: "Intellectual Property", body: "All content on this website, including text, product descriptions, imagery, brand assets, and design, is the property of DAHLIA MOXIE TRADING LLC maintaining the https://www.hhara.com/ Website. No reproduction or use of any content is permitted without prior written consent." },
+    { n: "10", title: "Intellectual Property", body: "All content on this website, including text, product descriptions, imagery, brand assets, and design, is the property of Dahlia Moxie Trading LLC maintaining the https://www.hhara.com/ Website. No reproduction or use of any content is permitted without prior written consent." },
     { n: "11", title: "Limitation of Liability", body: "To the fullest extent permitted by law, https://www.hhara.com/ is not liable for indirect, incidental, or consequential damages arising from the use of our products or website." },
     { n: "12", title: "Governing Law and Jurisdiction", body: "United Arab Emirates is our country of domicile. These terms are governed by the laws of the United Arab Emirates. Any disputes will fall under the jurisdiction of the UAE courts." },
     { n: "13", title: "Changes to These Terms", body: "The Website Policies and Terms & Conditions may be changed or updated occasionally to meet the requirements and standards. Therefore, customers are encouraged to frequently visit these sections to be updated about the changes on the website. Modifications will be effective on the day they are posted." },
@@ -5011,7 +5011,7 @@ function TermsPage({ setRoute }) {
   ];
   return (
     <PolicyPage title="Terms & Conditions" eyebrow="Legal" setRoute={setRoute}>
-      <p className="policy-intro">DAHLIA MOXIE TRADING LLC maintains the https://www.hhara.com/ Website ("Site"). By accessing or using our site and purchasing from us, you agree to the following terms and conditions. Please read them carefully.</p>
+      <p className="policy-intro">Dahlia Moxie Trading LLC maintains the https://www.hhara.com/ Website ("Site"). By accessing or using our site and purchasing from us, you agree to the following terms and conditions. Please read them carefully.</p>
 
       {clauses.map((c) => (
         <div key={c.n} className="policy-section">
