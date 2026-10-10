@@ -2661,7 +2661,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                       ))}
                     </div>
                   )}
-                  <div className="pdp-gallery-thumbs" style={{ "--thumb-active": color?.hex } as React.CSSProperties}>
+                  <div className="pdp-gallery-thumbs">
                     {shots.slice(0, 5).map((s, i) => (
                       <button
                         key={i}

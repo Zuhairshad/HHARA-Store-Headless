@@ -1761,17 +1761,24 @@ img { display: block; max-width: 100%; }
   width: 100px;
   flex-shrink: 0;
   order: -1;
+  /* room for the selected thumbnail's floating hairline when the column sits at the screen edge */
+  box-sizing: content-box;
+  padding: 5px 0 5px 6px;
 }
 .pdp-gallery-thumb {
   position: relative;
   aspect-ratio: 3 / 4;
   overflow: hidden;
   background: var(--line-soft);
-  border: 1px solid transparent;
+  border: 0;
   padding: 0;
   cursor: pointer;
+  outline: 1px solid transparent;
+  outline-offset: 4px;
+  transition: outline-color 0.3s ease;
 }
-.pdp-gallery-thumb.on { border-color: var(--thumb-active, var(--ink)); }
+/* Selected thumbnail: a warm hairline that floats just off the photo instead of boxing it in */
+.pdp-gallery-thumb.on { outline-color: #B5A493; }
 
 .pdp-gallery-dots {
   display: none;
