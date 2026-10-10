@@ -3242,6 +3242,12 @@ img { display: block; max-width: 100%; }
   .atelier-split { grid-template-columns: 1fr; gap: 32px; }
   .auth-wrap { grid-template-columns: 1fr; }
   .auth-wrap .media { display: none; }
+  /* No photo on smaller screens, so even out the panel's side padding and centre the form */
+  .auth-wrap .panel { padding-left: max(var(--pad), 24px); padding-right: max(var(--pad), 24px); margin: 0 auto; max-width: 560px; }
+  .auth-wrap .auth-form { max-width: none; }
+  .auth-wrap .auth-tabs { justify-content: center; }
+  .auth-wrap .panel:has(.auth-tabs) > .eyebrow,
+  .auth-wrap .panel:has(.auth-tabs) > h1 { text-align: center; }
   .stores-list { grid-template-columns: 1fr; }
   .wish-grid { grid-template-columns: repeat(3, 1fr); }
   .search-content { grid-template-columns: 1fr; }
