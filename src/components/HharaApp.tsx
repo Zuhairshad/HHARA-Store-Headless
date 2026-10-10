@@ -640,12 +640,6 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
             >
               About Us
             </button>
-            <button
-              className={route === "stores" ? "active" : ""}
-              onClick={() => { setRoute("stores"); setMobileMenuOpen(false); }}
-            >
-              Impact
-            </button>
             <a
               href="/orders/track"
               onClick={() => setMobileMenuOpen(false)}

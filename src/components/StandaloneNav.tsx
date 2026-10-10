@@ -49,7 +49,6 @@ export function StandaloneNav() {
             <a href="/home?r=shop">Shop</a>
             <a href="/home?r=lookbook">Lookbook</a>
             <a href="/home?r=atelier">About Us</a>
-            <a href="/home?r=stores">Impact</a>
           </nav>
 
           <a href="/home" className="brandmark">
@@ -114,7 +113,6 @@ export function StandaloneNav() {
             <a href="/home?r=shop">Shop All</a>
             <a href="/home?r=lookbook">Lookbook</a>
             <a href="/home?r=atelier">About Us</a>
-            <a href="/home?r=stores">Impact</a>
             <a href="/orders/track" className="active">Track Order</a>
           </nav>
         </div>
