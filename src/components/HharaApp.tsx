@@ -7,6 +7,7 @@ import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as
 import { GIFT_CARD_HANDLE, GIFT_CARDS_ENABLED } from "@/lib/gift-card";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut, requestPasswordReset as serverRequestPasswordReset } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
+import { submitReview } from "@/lib/review-actions";
 import { MagneticImpactCard } from "@/components/ui/morphing-cursor";
 import CardLogos from "@/components/CardLogos";
 import {
@@ -901,7 +902,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
                     <li>Complimentary Express Shipping on orders over <strong>AED 1,200</strong></li>
                     <li>
                       Flat-rate shipping:
-                      <ul style={{ paddingLeft: 16, marginTop: 4, display: "flex", flexDirection: "column", gap: 2 }}>
+                      <ul style={{ paddingLeft: 18, marginTop: 4, listStyle: "disc" }}>
                         <li>GCC - AED 60</li>
                         <li>UK &amp; Europe - AED 80</li>
                         <li>Rest of World - AED 80</li>
@@ -2310,6 +2311,11 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
   }, [product?.id]);
   const [writeReviewOpen, setWriteReviewOpen] = useState(false);
   const [reviewForm, setReviewForm] = useState({ name: "", location: "", rating: 5, quote: "", product: "" });
+  const [reviewHp, setReviewHp] = useState("");
+  const [reviewFormTs, setReviewFormTs] = useState(0);
+  const [reviewBusy, setReviewBusy] = useState(false);
+  const [reviewSent, setReviewSent] = useState(false);
+  const [reviewError, setReviewError] = useState<string | null>(null);
   const [recentlyViewed, setRecentlyViewed] = useState<string[]>([]);
 
   useEffect(() => {
@@ -2655,7 +2661,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                       ))}
                     </div>
                   )}
-                  <div className="pdp-gallery-thumbs">
+                  <div className="pdp-gallery-thumbs" style={{ "--thumb-active": color?.hex } as React.CSSProperties}>
                     {shots.slice(0, 5).map((s, i) => (
                       <button
                         key={i}
@@ -2950,7 +2956,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                       <li>Complimentary Express Shipping on orders over <strong>AED 1,200</strong></li>
                       <li>
                         Flat-rate shipping:
-                        <ul style={{ paddingLeft: "16px", marginTop: "4px", display: "flex", flexDirection: "column", gap: "2px" }}>
+                        <ul style={{ paddingLeft: "18px", marginTop: "4px", listStyle: "disc" }}>
                           <li>GCC - AED 60</li>
                           <li>UK &amp; Europe - AED 80</li>
                           <li>Rest of World - AED 80</li>
@@ -3062,23 +3068,38 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
 
         <div style={{ maxWidth: "1000px", margin: "48px auto 0", padding: "0 var(--pad)" }}>
           {!writeReviewOpen ? (
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <button className="btn btn-outline" onClick={() => setWriteReviewOpen(true)} style={{ display: "inline-flex", alignItems: "center", gap: "8px", textTransform: "uppercase", letterSpacing: "0.2em", fontSize: "12px", padding: "16px 40px" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+              {reviewSent && (
+                <p style={{ margin: 0, fontSize: "14px", color: "var(--ink-soft)", textAlign: "center" }}>Thank you, your review has been sent. It will appear here once our team has read it.</p>
+              )}
+              <button className="btn btn-outline" onClick={() => { setWriteReviewOpen(true); setReviewSent(false); setReviewError(null); setReviewFormTs(Date.now()); }} style={{ display: "inline-flex", alignItems: "center", gap: "8px", textTransform: "uppercase", letterSpacing: "0.2em", fontSize: "12px", padding: "16px 40px" }}>
                 ✦ Write a Review
               </button>
             </div>
           ) : (
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                const body = [`Name: ${reviewForm.name}`, `Location: ${reviewForm.location}`, `Rating: ${"★".repeat(reviewForm.rating)}`, `Product: ${reviewForm.product || product.name}`, ``, reviewForm.quote].join("\n");
-                window.location.href = `mailto:hello@hhara.com?subject=Product Review – ${encodeURIComponent(reviewForm.product || product.name)}&body=${encodeURIComponent(body)}`;
+                if (reviewBusy) return;
+                setReviewBusy(true); setReviewError(null);
+                const res = await submitReview({
+                  name: reviewForm.name,
+                  location: reviewForm.location,
+                  rating: reviewForm.rating,
+                  product: reviewForm.product || `${product.name}${color?.name ? ` · ${color.name}` : ""}`,
+                  review: reviewForm.quote,
+                  page: window.location.href,
+                }, reviewHp, reviewFormTs);
+                setReviewBusy(false);
+                if (!res.ok) { setReviewError(res.error || "Something went wrong. Please try again."); return; }
+                setReviewSent(true);
                 setWriteReviewOpen(false);
                 setReviewForm({ name: "", location: "", rating: 5, quote: "", product: "" });
               }}
               style={{ backgroundColor: "#FAF7F2", border: "1px solid var(--line-soft)", padding: "40px", marginBottom: "48px", display: "flex", flexDirection: "column", gap: "24px", textAlign: "left" }}
             >
               <h3 style={{ fontFamily: "var(--display)", fontSize: "20px", fontWeight: 300, color: "var(--ink)", margin: 0 }}>Write a Review</h3>
+              <input type="text" name="_hp_company" value={reviewHp} onChange={e => setReviewHp(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ display: "none" }} />
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }} className="pdp-review-form-cols">
                 <div className="gc-field">
                   <label>Your Name</label>
@@ -3109,8 +3130,9 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                 <label>Your Review</label>
                 <textarea rows={4} required placeholder="Tell us what you think about the fabric, fit, and style..." maxLength={250} value={reviewForm.quote} onChange={e => setReviewForm(p => ({ ...p, quote: e.target.value.replace(/[0-9]/g, "") }))} />
               </div>
+              {reviewError && <p role="alert" style={{ margin: 0, fontSize: "13px", color: "#B42318" }}>{reviewError}</p>}
               <div style={{ display: "flex", gap: "16px", marginTop: "8px" }}>
-                <button type="submit" className="btn btn-primary" style={{ padding: "16px 32px" }}>Submit Review</button>
+                <button type="submit" className="btn btn-primary" disabled={reviewBusy} style={{ padding: "16px 32px" }}>{reviewBusy ? "Sending…" : "Submit Review"}</button>
                 <button type="button" className="btn btn-outline" onClick={() => setWriteReviewOpen(false)} style={{ padding: "16px 32px" }}>Cancel</button>
               </div>
             </form>

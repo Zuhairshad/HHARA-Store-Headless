@@ -85,3 +85,39 @@ export async function updateKlaviyoProfile(
     console.error("Klaviyo profile update error", err);
   }
 }
+
+// Records a custom event (e.g. "Submitted Review") on a profile, which can trigger a Klaviyo flow.
+// Returns false (never throws) when not configured or on failure.
+export async function trackKlaviyoEvent(
+  metric: string,
+  email: string,
+  properties: Record<string, unknown>
+): Promise<boolean> {
+  const apiKey = process.env.KLAVIYO_PRIVATE_API_KEY;
+  if (!apiKey) return false;
+
+  try {
+    const res = await fetch("https://a.klaviyo.com/api/events", {
+      method: "POST",
+      headers: klaviyoHeaders(apiKey),
+      body: JSON.stringify({
+        data: {
+          type: "event",
+          attributes: {
+            properties,
+            metric: { data: { type: "metric", attributes: { name: metric } } },
+            profile: { data: { type: "profile", attributes: { email: email.trim().toLowerCase() } } },
+          },
+        },
+      }),
+    });
+    if (!res.ok) {
+      console.error("Klaviyo event failed", metric, res.status, await res.text());
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("Klaviyo event error", metric, err);
+    return false;
+  }
+}

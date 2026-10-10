@@ -1771,7 +1771,7 @@ img { display: block; max-width: 100%; }
   padding: 0;
   cursor: pointer;
 }
-.pdp-gallery-thumb.on { border-color: var(--ink); }
+.pdp-gallery-thumb.on { border-color: var(--thumb-active, var(--ink)); }
 
 .pdp-gallery-dots {
   display: none;
