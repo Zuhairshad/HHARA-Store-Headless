@@ -2289,7 +2289,7 @@ function BeforeAfterSlider({ imgA, imgB, labelA, labelB }: { imgA: string; imgB:
 }
 
 function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wishlist, initialColor }: { productId: any; setRoute: any; addToCart: any; openProduct: any; onWishlistToggle: any; wishlist: any; initialColor?: string | null }) {
-  const { format, formatBase, isConverted } = useCurrency();
+  const { format } = useCurrency();
   const PRODUCTS = useProducts();
   const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS[0];
   const wishlisted = wishlist?.includes(product?.id);
@@ -2695,7 +2695,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
               {product.priceWas && <span className="was">{format(product.priceWas)}</span>}
               <span className="now">{format(product.price)}</span>
               <span style={{ marginLeft: "14px", lineHeight: 1 }}><StarRating rating={parseFloat(averageRating)} size={18} /></span>
-              <span className="pdp-vat-note">{isConverted ? `+ VAT · charged in AED (${formatBase(product.price)}) at checkout` : "+ VAT at checkout"}</span>
+              <span className="pdp-vat-note">+ VAT charged at checkout</span>
             </div>
 
             <div className="pdp-divider"></div>
