@@ -10,6 +10,7 @@ import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions
 import { submitReview } from "@/lib/review-actions";
 import { MagneticImpactCard } from "@/components/ui/morphing-cursor";
 import CardLogos from "@/components/CardLogos";
+import { useCurrency } from "@/components/CurrencyProvider";
 import {
   trackEvent,
   formatEcommerceItem,
@@ -437,6 +438,15 @@ const HHRAA_DATA = { PRODUCTS, FEATURED_IDS, NEW_IDS, CATEGORIES, HEROES };
 
 // === FILE 04-af48d016-3e9e-4c3b-ac6a-19f515101d8e.jsx ===
 
+function CurrencySelect() {
+  const { currency, setCurrency, currencies } = useCurrency();
+  return (
+    <select className="currency-select" aria-label="Currency" value={currency} onChange={(e) => setCurrency(e.target.value as any)}>
+      {currencies.map((c) => <option key={c} value={c}>{c}</option>)}
+    </select>
+  );
+}
+
 function Announce() {
   const [index, setIndex] = useState(0);
   const messages = [
@@ -468,7 +478,7 @@ function Announce() {
       </div>
       <div className="announce-locale">
         <span>EN</span>
-        <span>AED</span>
+        <CurrencySelect />
       </div>
     </div>
   );
@@ -652,7 +662,7 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
           <div className="mobile-menu-locale">
             <span>EN</span>
             <span style={{ opacity: 0.5 }}>|</span>
-            <span>AED</span>
+            <CurrencySelect />
           </div>
         </div>
       </aside>
@@ -662,6 +672,7 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
 }
 
 function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscount, discountCodes, setRoute, addToCart }) {
+  const { format, formatBase, isConverted } = useCurrency();
   const products = useProducts() as any[];
   const [promo, setPromo] = useState("");
   const [promoBusy, setPromoBusy] = useState(false);
@@ -745,7 +756,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
                       <div className="pco-item-name">{item.name}</div>
                       <div className="pco-item-opts">{item.isGiftCard ? (item.giftTo ? `For ${item.giftTo}` : "") : `${item.color} · ${item.size}`}</div>
                     </div>
-                    <div className="pco-item-price">AED {(item.price * item.qty).toLocaleString()}</div>
+                    <div className="pco-item-price">{format(item.price * item.qty)}</div>
                   </div>
                   <div className="pco-item-controls">
                     <div className="qty">
@@ -783,7 +794,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
                     </div>
                     <div className="pco-upsell-body">
                       <div className="pco-upsell-name" onClick={() => setRoute("product", p.id)} style={{ cursor: "pointer" }}>{p.name}</div>
-                      <div className="pco-upsell-price">AED {p.price?.toLocaleString()}</div>
+                      <div className="pco-upsell-price">{format(p.price ?? 0)}</div>
                       {p.swatches?.length > 0 && (
                         <div className="pco-upsell-swatches">
                           {p.swatches.map((sw: any) => (
@@ -819,9 +830,10 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
 
           {/* Order totals */}
           <div className="pco-summary">
-            <div className="pco-summary-row"><span>Subtotal</span><span>AED {subtotal.toLocaleString()}</span></div>
+            <div className="pco-summary-row"><span>Subtotal</span><span>{format(subtotal)}</span></div>
             <div className="pco-summary-row"><span>Shipping</span><span>{togo > 0 ? "Calculated at checkout" : "Complimentary"}</span></div>
-            <div className="pco-summary-row pco-total"><span>Total</span><span>AED {subtotal.toLocaleString()}</span></div>
+            <div className="pco-summary-row pco-total"><span>Total</span><span>{format(subtotal)}</span></div>
+            {isConverted && <div className="currency-note">Approximate conversion. You'll be charged {formatBase(subtotal)} at checkout.</div>}
           </div>
 
           {/* You May Also Like */}
@@ -835,7 +847,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
                       {p.featuredImage?.url ? <img src={p.featuredImage.url} alt={p.name} className="img-fill" /> : <div className="ph">{p.name?.toLowerCase()}</div>}
                     </div>
                     <div className="pco-also-name">{p.name}</div>
-                    <div className="pco-also-price">AED {p.price?.toLocaleString()}</div>
+                    <div className="pco-also-price">{format(p.price ?? 0)}</div>
                   </div>
                 ))}
               </div>
@@ -1070,6 +1082,7 @@ function Footer({ setRoute, route = "" }) {
 // === FILE 05-1ba71939-ee08-44bd-a9c0-607c20b1bd8a.jsx ===
 
 function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct = null, checkoutUrl, setRoute, discountCodes, applyDiscount }: { open: any; onClose: any; items: any; updateQty: any; removeItem: any; openProduct?: any; checkoutUrl: any; setRoute: any; discountCodes: any; applyDiscount: any }) {
+  const { format, formatBase, isConverted } = useCurrency();
   const [promo, setPromo] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -1109,7 +1122,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
         {items.length > 0 && (
           <div className="cart-prog">
             {togo > 0 ? (
-              <span>You're <em>AED {togo.toLocaleString()}</em> away from free international shipping</span>
+              <span>You're <em>{format(togo)}</em> away from free international shipping</span>
             ) : (
               <span>You've unlocked free international shipping</span>
             )}
@@ -1145,7 +1158,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
                           <div className="ci-name">{it.name}</div>
                           <div className="ci-opts">{it.isGiftCard ? (it.giftTo ? `For ${it.giftTo}` : "") : `${it.color} · ${it.size}`}</div>
                         </div>
-                        <div className="ci-price">AED {it.price.toLocaleString()}</div>
+                        <div className="ci-price">{format(it.price)}</div>
                       </div>
                       <div className="ci-controls">
                         <div className="qty">
@@ -1164,7 +1177,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
                 {error && <div style={{ color: "#7a2e3a", fontSize: 12, marginBottom: 16 }}>{error}</div>}
               <div className="cart-row">
                 <span>Subtotal</span>
-                <span>AED {subtotal.toLocaleString()}</span>
+                <span>{format(subtotal)}</span>
               </div>
               <div className="cart-row">
                 <span>Shipping</span>
@@ -1172,8 +1185,9 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
               </div>
               <div className="cart-row total">
                 <span>Total</span>
-                <span>AED {subtotal.toLocaleString()}</span>
+                <span>{format(subtotal)}</span>
               </div>
+              {isConverted && <div className="currency-note">Approximate conversion. You'll be charged {formatBase(subtotal)} at checkout.</div>}
               <button
                 className="btn btn-primary btn-block"
                 disabled={!checkoutUrl}
@@ -1244,6 +1258,7 @@ const REEL_THUMB_IMAGES: Record<string, { olive: string; brown: string }> = {
 };
 
 function ProductCard({ product, onClick, colorOverride, homepageImages }: { product: any; onClick: (colorName?: string) => void; colorOverride?: string | null; homepageImages?: { olive: [string, string]; brown: [string, string]; olivePos?: string; brownPos?: string; brownDefaultStyle?: React.CSSProperties; oliveDefaultStyle?: React.CSSProperties; brownHoverStyle?: React.CSSProperties; oliveHoverStyle?: React.CSSProperties } }) {
+  const { format, formatBase, isConverted } = useCurrency();
   const [activeColor, setActiveColor] = useState<string>(colorOverride || product.swatches?.[0]?.name || "");
 
   useEffect(() => {
@@ -1306,9 +1321,9 @@ function ProductCard({ product, onClick, colorOverride, homepageImages }: { prod
         <div className="pcard-name">{product.name}</div>
         {product.tagline && <div className="pcard-tagline">{product.tagline}</div>}
         <div className="pcard-prices">
-          {product.priceWas && <span className="pcard-price-was">AED {product.priceWas.toLocaleString()}</span>}
+          {product.priceWas && <span className="pcard-price-was">{format(product.priceWas)}</span>}
           <span className={`pcard-price ${product.priceWas ? "pcard-price-sale" : ""}`}>
-            AED {product.price.toLocaleString()}
+            {format(product.price)}
           </span>
         </div>
       </div>
@@ -2274,6 +2289,7 @@ function BeforeAfterSlider({ imgA, imgB, labelA, labelB }: { imgA: string; imgB:
 }
 
 function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wishlist, initialColor }: { productId: any; setRoute: any; addToCart: any; openProduct: any; onWishlistToggle: any; wishlist: any; initialColor?: string | null }) {
+  const { format, formatBase, isConverted } = useCurrency();
   const PRODUCTS = useProducts();
   const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS[0];
   const wishlisted = wishlist?.includes(product?.id);
@@ -2676,10 +2692,10 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
             <h1>{product.name}</h1>
             {tagline && <p className="pdp-tagline">{tagline}</p>}
             <div className="pdp-price">
-              {product.priceWas && <span className="was">AED {product.priceWas.toLocaleString()}</span>}
-              <span className="now">AED {product.price.toLocaleString()}</span>
+              {product.priceWas && <span className="was">{format(product.priceWas)}</span>}
+              <span className="now">{format(product.price)}</span>
               <span style={{ marginLeft: "14px", lineHeight: 1 }}><StarRating rating={parseFloat(averageRating)} size={18} /></span>
-              <span className="pdp-vat-note">+ VAT at checkout</span>
+              <span className="pdp-vat-note">{isConverted ? `+ VAT · charged in AED (${formatBase(product.price)}) at checkout` : "+ VAT at checkout"}</span>
             </div>
 
             <div className="pdp-divider"></div>
@@ -3491,7 +3507,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                 <div className="reel-cta-details">
                   <div className="reel-cta-name" title={product.name}>{product.name}</div>
                   <div style={{ display: "flex", alignItems: "center", gap: "6px", flexWrap: "nowrap" }}>
-                    <span className="reel-cta-price">AED {product.price.toLocaleString()}</span>
+                    <span className="reel-cta-price">{format(product.price)}</span>
 
                     {/* Synchronized Size Selector dropdown inside the Reel player */}
                     {product.sizes && product.sizes.length > 0 && (
