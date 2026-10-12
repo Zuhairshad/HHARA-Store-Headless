@@ -672,7 +672,7 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
 }
 
 function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscount, discountCodes, setRoute, addToCart }) {
-  const { format, formatBase, isConverted } = useCurrency();
+  const { format } = useCurrency();
   const products = useProducts() as any[];
   const [promo, setPromo] = useState("");
   const [promoBusy, setPromoBusy] = useState(false);
@@ -833,7 +833,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
             <div className="pco-summary-row"><span>Subtotal</span><span>{format(subtotal)}</span></div>
             <div className="pco-summary-row"><span>Shipping</span><span>{togo > 0 ? "Calculated at checkout" : "Complimentary"}</span></div>
             <div className="pco-summary-row pco-total"><span>Total</span><span>{format(subtotal)}</span></div>
-            {isConverted && <div className="currency-note">Approximate conversion. You'll be charged {formatBase(subtotal)} at checkout.</div>}
+            <div className="currency-note">+ VAT charged at checkout</div>
           </div>
 
           {/* You May Also Like */}
@@ -1082,7 +1082,7 @@ function Footer({ setRoute, route = "" }) {
 // === FILE 05-1ba71939-ee08-44bd-a9c0-607c20b1bd8a.jsx ===
 
 function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct = null, checkoutUrl, setRoute, discountCodes, applyDiscount }: { open: any; onClose: any; items: any; updateQty: any; removeItem: any; openProduct?: any; checkoutUrl: any; setRoute: any; discountCodes: any; applyDiscount: any }) {
-  const { format, formatBase, isConverted } = useCurrency();
+  const { format } = useCurrency();
   const [promo, setPromo] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -1187,7 +1187,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
                 <span>Total</span>
                 <span>{format(subtotal)}</span>
               </div>
-              {isConverted && <div className="currency-note">Approximate conversion. You'll be charged {formatBase(subtotal)} at checkout.</div>}
+              <div className="currency-note">+ VAT charged at checkout</div>
               <button
                 className="btn btn-primary btn-block"
                 disabled={!checkoutUrl}
@@ -1258,7 +1258,7 @@ const REEL_THUMB_IMAGES: Record<string, { olive: string; brown: string }> = {
 };
 
 function ProductCard({ product, onClick, colorOverride, homepageImages }: { product: any; onClick: (colorName?: string) => void; colorOverride?: string | null; homepageImages?: { olive: [string, string]; brown: [string, string]; olivePos?: string; brownPos?: string; brownDefaultStyle?: React.CSSProperties; oliveDefaultStyle?: React.CSSProperties; brownHoverStyle?: React.CSSProperties; oliveHoverStyle?: React.CSSProperties } }) {
-  const { format, formatBase, isConverted } = useCurrency();
+  const { format } = useCurrency();
   const [activeColor, setActiveColor] = useState<string>(colorOverride || product.swatches?.[0]?.name || "");
 
   useEffect(() => {
