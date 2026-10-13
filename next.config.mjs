@@ -34,6 +34,20 @@ const nextConfig = {
         destination: "https://www.hhara.com/:path",
         permanent: true,
       },
+      // The live Shopify theme (reached from the checkout logo) sends shoppers to site.hhara.com + the same path.
+      // Product pages keep their handle; everything else goes to the shop. Temporary so it can move to / at launch.
+      {
+        source: "/products/:handle",
+        has: [{ type: "host", value: "site.hhara.com" }],
+        destination: "https://www.hhara.com/products/:handle",
+        permanent: false,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "site.hhara.com" }],
+        destination: "https://www.hhara.com/home",
+        permanent: false,
+      },
     ];
   },
   experimental: { optimizeCss: true },
