@@ -449,10 +449,11 @@ function CurrencySelect() {
 }
 
 function Announce() {
+  const { format, freeShippingThreshold } = useCurrency();
   const [index, setIndex] = useState(0);
   const messages = [
     "Free Next Day Delivery in UAE",
-    "Free Global Express Shipping Over AED 1,200"
+    `Free Global Express Shipping Over ${format(freeShippingThreshold)}`
   ];
 
   useEffect(() => {
@@ -906,7 +907,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
                 <div>
                   <p style={{ fontFamily: "var(--sans)", fontWeight: 600, fontSize: 13, marginBottom: 8, color: "var(--ink)" }}>International Delivery</p>
                   <ul style={{ paddingLeft: 16, margin: 0, display: "flex", flexDirection: "column", gap: 4 }}>
-                    <li>Complimentary Express Shipping on orders over <strong>AED 1,200</strong></li>
+                    <li>Complimentary Express Shipping on orders over <strong>{format(freeShippingThreshold)}</strong></li>
                     <li>
                       Flat-rate shipping:
                       <ul style={{ paddingLeft: 18, marginTop: 4, listStyle: "disc" }}>
@@ -2290,7 +2291,7 @@ function BeforeAfterSlider({ imgA, imgB, labelA, labelB }: { imgA: string; imgB:
 }
 
 function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wishlist, initialColor }: { productId: any; setRoute: any; addToCart: any; openProduct: any; onWishlistToggle: any; wishlist: any; initialColor?: string | null }) {
-  const { format, currency } = useCurrency();
+  const { format, currency, freeShippingThreshold } = useCurrency();
   const PRODUCTS = useProducts();
   const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS[0];
   const wishlisted = wishlist?.includes(product?.id);
@@ -2964,7 +2965,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   <div>
                     <p style={{ fontFamily: "var(--sans)", fontWeight: 600, fontSize: "13px", marginBottom: "8px", color: "var(--ink)" }}>International Delivery</p>
                     <ul style={{ paddingLeft: "16px", margin: 0, display: "flex", flexDirection: "column", gap: "4px" }}>
-                      <li>Complimentary Express Shipping on orders over <strong>AED 1,200</strong></li>
+                      <li>Complimentary Express Shipping on orders over <strong>{format(freeShippingThreshold)}</strong></li>
                       <li>
                         Flat-rate shipping:
                         <ul style={{ paddingLeft: "18px", marginTop: "4px", listStyle: "disc" }}>

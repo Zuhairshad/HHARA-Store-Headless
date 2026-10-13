@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
-const ANNOUNCE = [
-  "Free Next Day Delivery in UAE",
-  "Free Global Express Shipping Over AED 1,200",
-];
+import { useCurrency } from "@/components/CurrencyProvider";
 
 export function StandaloneNav() {
+  const { currency, format, freeShippingThreshold } = useCurrency();
+  const ANNOUNCE = [
+    "Free Next Day Delivery in UAE",
+    `Free Global Express Shipping Over ${format(freeShippingThreshold)}`,
+  ];
   const [idx, setIdx] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -32,7 +33,7 @@ export function StandaloneNav() {
         </div>
         <div className="announce-locale">
           <span>EN</span>
-          <span>AED</span>
+          <span>{currency}</span>
         </div>
       </div>
 

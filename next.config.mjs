@@ -34,6 +34,21 @@ const nextConfig = {
         destination: "https://www.hhara.com/:path",
         permanent: true,
       },
+      // site.hhara.com is Shopify's store address, so the logo on Shopify checkout links there.
+      // Send it to the headless store. Temporary on purpose: once the store moves from /home to "/" at launch,
+      // change the first destination to "https://www.hhara.com/" and browsers won't have cached the old one.
+      {
+        source: "/",
+        has: [{ type: "host", value: "site.hhara.com" }],
+        destination: "https://www.hhara.com/home",
+        permanent: false,
+      },
+      {
+        source: "/:path((?!api/).+)",
+        has: [{ type: "host", value: "site.hhara.com" }],
+        destination: "https://www.hhara.com/:path",
+        permanent: false,
+      },
     ];
   },
   experimental: { optimizeCss: true },
