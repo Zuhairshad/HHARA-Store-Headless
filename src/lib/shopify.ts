@@ -37,6 +37,7 @@ export type ShopifyProduct = {
 export type ShopifyCart = {
   id: string;
   checkoutUrl: string;
+  buyerIdentity: { countryCode: string | null };
   totalQuantity: number;
   cost: {
     subtotalAmount: Money;
@@ -176,10 +177,11 @@ const PRODUCT_FRAGMENT = /* GraphQL */ `
   }
 `;
 
-export async function getProducts(first = 50): Promise<ShopifyProduct[]> {
+// `country` prices the products in that country's market currency (null = store default, AED).
+export async function getProducts(first = 50, country: string | null = null): Promise<ShopifyProduct[]> {
   const query = /* GraphQL */ `
     ${PRODUCT_FRAGMENT}
-    query Products($first: Int!) {
+    query Products($first: Int!, $country: CountryCode) @inContext(country: $country) {
       products(first: $first) {
         nodes { ...ProductFields }
       }
@@ -190,7 +192,7 @@ export async function getProducts(first = 50): Promise<ShopifyProduct[]> {
       images: { nodes: ShopifyImage[] };
       variants: { nodes: ShopifyVariant[] };
     }> };
-  }>(query, { first }, { next: { tags: ["products"] } });
+  }>(query, { first, country }, { next: { tags: ["products"] } });
   // Gift cards are sold from their own page, never listed with the collection
   return data.products.nodes
     .filter((p) => !p.isGiftCard)
@@ -224,6 +226,7 @@ const CART_FRAGMENT = /* GraphQL */ `
   fragment CartFields on Cart {
     id
     checkoutUrl
+    buyerIdentity { countryCode }
     totalQuantity
     cost {
       subtotalAmount { amount currencyCode }
@@ -254,13 +257,43 @@ const CART_FRAGMENT = /* GraphQL */ `
   }
 `;
 
-export async function cartCreate(): Promise<ShopifyCart> {
+// The cart's country sets the currency its prices and checkout use.
+export async function cartCreate(country: string | null = null): Promise<ShopifyCart> {
   const query = /* GraphQL */ `
     ${CART_FRAGMENT}
-    mutation CartCreate { cartCreate { cart { ...CartFields } userErrors { message } } }
+    mutation CartCreate($input: CartInput) { cartCreate(input: $input) { cart { ...CartFields } userErrors { message } } }
   `;
-  const data = await shopifyFetch<{ cartCreate: { cart: RawCart; userErrors: { message: string }[] } }>(query);
+  const input = country ? { buyerIdentity: { countryCode: country } } : {};
+  const data = await shopifyFetch<{ cartCreate: { cart: RawCart; userErrors: { message: string }[] } }>(query, { input });
   return normaliseCart(data.cartCreate.cart);
+}
+
+export async function cartCountryUpdate(cartId: string, country: string): Promise<ShopifyCart> {
+  const query = /* GraphQL */ `
+    ${CART_FRAGMENT}
+    mutation CartCountry($cartId: ID!, $country: CountryCode!) {
+      cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: { countryCode: $country }) {
+        cart { ...CartFields }
+        userErrors { message }
+      }
+    }
+  `;
+  const data = await shopifyFetch<{ cartBuyerIdentityUpdate: { cart: RawCart; userErrors: { message: string }[] } }>(
+    query,
+    { cartId, country }
+  );
+  return normaliseCart(data.cartBuyerIdentityUpdate.cart);
+}
+
+/** Country → currency Shopify charges in, for every country we sell to. */
+export async function getCountryCurrencies(): Promise<Record<string, string>> {
+  const query = /* GraphQL */ `
+    query Countries { localization { availableCountries { isoCode currency { isoCode } } } }
+  `;
+  const data = await shopifyFetch<{
+    localization: { availableCountries: { isoCode: string; currency: { isoCode: string } }[] };
+  }>(query, {}, { next: { revalidate: 3600 } });
+  return Object.fromEntries(data.localization.availableCountries.map((c) => [c.isoCode, c.currency.isoCode]));
 }
 
 type CartLineInput = { merchandiseId: string; quantity: number; attributes?: { key: string; value: string }[] };

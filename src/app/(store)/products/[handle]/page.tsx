@@ -4,6 +4,7 @@ import { getStorefrontProducts } from "@/lib/products";
 import { getCurrentCart } from "@/lib/cart-actions";
 import { getCurrentCustomer } from "@/lib/customer-actions";
 import { SITE_URL } from "@/lib/seo";
+import { getVisitorContext } from "@/lib/visitor";
 
 export const revalidate = 0;
 
@@ -29,10 +30,11 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
 
 export default async function ProductPage({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params;
-  const [products, cart, customer] = await Promise.all([
+  const [products, cart, customer, { currency }] = await Promise.all([
     getStorefrontProducts(),
     getCurrentCart(),
     getCurrentCustomer(),
+    getVisitorContext(),
   ]);
 
   const product = products.find((p) => p.shopifyHandle === handle);
@@ -52,7 +54,7 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
       sku: v.sku || undefined,
       name: v.title,
       price: v.price,
-      priceCurrency: "AED",
+      priceCurrency: currency,
       availability: v.availableForSale
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",

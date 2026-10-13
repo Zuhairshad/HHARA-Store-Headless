@@ -439,10 +439,11 @@ const HHRAA_DATA = { PRODUCTS, FEATURED_IDS, NEW_IDS, CATEGORIES, HEROES };
 // === FILE 04-af48d016-3e9e-4c3b-ac6a-19f515101d8e.jsx ===
 
 function CurrencySelect() {
-  const { currency, setCurrency, currencies } = useCurrency();
+  const { currency, options, selectCountry } = useCurrency();
+  const current = options.find((o) => o.currency === currency)?.country ?? "";
   return (
-    <select className="currency-select" aria-label="Currency" value={currency} onChange={(e) => setCurrency(e.target.value as any)}>
-      {currencies.map((c) => <option key={c} value={c}>{c}</option>)}
+    <select className="currency-select" aria-label="Currency" value={current} onChange={(e) => selectCountry(e.target.value)}>
+      {options.map((o) => <option key={o.country} value={o.country}>{o.currency}</option>)}
     </select>
   );
 }
@@ -672,7 +673,7 @@ function Header({ route, setRoute, cartCount, openCart, openSearch, wishCount })
 }
 
 function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscount, discountCodes, setRoute, addToCart }) {
-  const { format } = useCurrency();
+  const { format, currency, freeShippingThreshold } = useCurrency();
   const products = useProducts() as any[];
   const [promo, setPromo] = useState("");
   const [promoBusy, setPromoBusy] = useState(false);
@@ -711,7 +712,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
 
   const activeDiscount = discountCodes?.find((d: any) => d.applicable);
   const subtotal = cart.reduce((a: number, i: any) => a + i.price * i.qty, 0);
-  const togo = Math.max(0, 1200 - subtotal);
+  const togo = Math.max(0, freeShippingThreshold - subtotal);
 
   const handlePromo = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -864,7 +865,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
                 trackEvent({
                   name: "checkout_started",
                   payload: {
-                    currency: "AED",
+                    currency,
                     value: totalVal,
                     checkout_url: checkoutUrl,
                     items: cart.map((i: any) =>
@@ -875,7 +876,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
                         brand: "HHARA",
                         category: "Considered Luxury",
                         variant: `${i.color} / ${i.size}`,
-                        currency: "AED",
+                        currency,
                         quantity: i.qty,
                       })
                     ),
@@ -1082,7 +1083,7 @@ function Footer({ setRoute, route = "" }) {
 // === FILE 05-1ba71939-ee08-44bd-a9c0-607c20b1bd8a.jsx ===
 
 function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct = null, checkoutUrl, setRoute, discountCodes, applyDiscount }: { open: any; onClose: any; items: any; updateQty: any; removeItem: any; openProduct?: any; checkoutUrl: any; setRoute: any; discountCodes: any; applyDiscount: any }) {
-  const { format } = useCurrency();
+  const { format, freeShippingThreshold } = useCurrency();
   const [promo, setPromo] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -1104,7 +1105,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
 
   const activeDiscount = discountCodes?.find((d: any) => d.applicable);
   const subtotal = items.reduce((a, i) => a + i.price * i.qty, 0);
-  const freeThreshold = 1200;
+  const freeThreshold = freeShippingThreshold;
   const progress = Math.min(subtotal / freeThreshold, 1);
   const togo = Math.max(0, freeThreshold - subtotal);
 
@@ -2289,7 +2290,7 @@ function BeforeAfterSlider({ imgA, imgB, labelA, labelB }: { imgA: string; imgB:
 }
 
 function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wishlist, initialColor }: { productId: any; setRoute: any; addToCart: any; openProduct: any; onWishlistToggle: any; wishlist: any; initialColor?: string | null }) {
-  const { format } = useCurrency();
+  const { format, currency } = useCurrency();
   const PRODUCTS = useProducts();
   const product = PRODUCTS.find((p) => p.id === productId) || PRODUCTS[0];
   const wishlisted = wishlist?.includes(product?.id);
@@ -2334,7 +2335,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
     trackEvent({
       name: "product_viewed",
       payload: {
-        currency: "AED",
+        currency,
         value: product.price || 0,
         product_id: product.shopifyId || product.id,
         handle: product.shopifyHandle || product.id,
@@ -2348,7 +2349,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
             brand: "HHARA",
             category: product.cat || "Considered Luxury",
             variant: color?.name || "Default",
-            currency: "AED",
+            currency,
             quantity: 1,
           }),
         ],
@@ -5208,6 +5209,7 @@ const CART_COLOR_REVERSE_MAP: Record<string, string> = {
 // === FILE 10-180e2df1-7549-448a-8bbb-f6c3acb791f4.jsx ===
 
 function App({ initialProducts, initialCart, initialCustomer, initialRoute, initialProductHandle }: { initialProducts?: any[]; initialCart?: any; initialCustomer?: any; initialRoute?: string; initialProductHandle?: string }) {
+  const { currency } = useCurrency();
   const products = (initialProducts && initialProducts.length) ? initialProducts : PRODUCTS;
   const [shopifyCart, setShopifyCart] = useState<any>(initialCart || null);
   const [localCartItems, setLocalCartItems] = useState<any[]>([]);
@@ -5278,7 +5280,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
             brand: "HHARA",
             category: p.cat || "Considered Luxury",
             variant: "Default",
-            currency: "AED",
+            currency,
             quantity: 1,
           })
         );
@@ -5469,7 +5471,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
         trackEvent({
           name: "cart_viewed",
           payload: {
-            currency: "AED",
+            currency,
             value: totalVal,
             cart_id: shopifyCart?.id,
             items: cart.map((i: any) =>
@@ -5480,7 +5482,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                 brand: "HHARA",
                 category: "Considered Luxury",
                 variant: `${i.color} / ${i.size}`,
-                currency: "AED",
+                currency,
                 quantity: i.qty,
               })
             ),
@@ -5532,7 +5534,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
       trackEvent({
         name: "product_added_to_cart",
         payload: {
-          currency: "AED",
+          currency,
           value: item.price || product?.price || 0,
           cart_id: next?.id,
           items: [
@@ -5543,7 +5545,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
               brand: "HHARA",
               category: product?.cat || "Considered Luxury",
               variant: item.color ? `${item.color} / ${item.size || ""}` : "Default",
-              currency: "AED",
+              currency,
               quantity: 1,
             }),
           ],
@@ -5558,7 +5560,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
         trackEvent({
           name: "product_added_to_cart",
           payload: {
-            currency: "AED",
+            currency,
             value: item.price || product?.price || 0,
             cart_id: retry?.id,
             items: [
@@ -5569,7 +5571,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                 brand: "HHARA",
                 category: product?.cat || "Considered Luxury",
                 variant: item.color ? `${item.color} / ${item.size || ""}` : "Default",
-                currency: "AED",
+                currency,
                 quantity: 1,
               }),
             ],
@@ -5608,7 +5610,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
         trackEvent({
           name: "product_removed_from_cart",
           payload: {
-            currency: "AED",
+            currency,
             value: (itemToRemove.price || 0) * (itemToRemove.qty || 1),
             cart_id: next?.id,
             items: [
@@ -5619,7 +5621,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                 brand: "HHARA",
                 category: "Considered Luxury",
                 variant: `${itemToRemove.color} / ${itemToRemove.size}`,
-                currency: "AED",
+                currency,
                 quantity: itemToRemove.qty,
               }),
             ],

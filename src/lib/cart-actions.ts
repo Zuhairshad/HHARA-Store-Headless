@@ -3,6 +3,7 @@
 import { cookies } from "next/headers";
 import {
   cartCreate,
+  cartCountryUpdate,
   cartLinesAdd,
   cartLinesUpdate,
   cartLinesRemove,
@@ -14,6 +15,7 @@ import {
   getProductByHandle,
 } from "./shopify";
 import { GIFT_CARD_HANDLE } from "./gift-card";
+import { getVisitorContext } from "./visitor";
 
 const COOKIE = "hhara_cart_id";
 const ATTR_COOKIE = "hhara_attr";
@@ -62,18 +64,30 @@ async function getAttributionAttributes(): Promise<{ key: string; value: string 
   }
 }
 
+// Keeps the cart in the visitor's country, so its prices and checkout use their currency
+async function inVisitorCountry(cart: ShopifyCart): Promise<ShopifyCart> {
+  const { country } = await getVisitorContext();
+  if (cart.buyerIdentity?.countryCode === country) return cart;
+  try {
+    return await cartCountryUpdate(cart.id, country);
+  } catch (e) {
+    console.warn("[cart] country update failed:", e);
+    return cart;
+  }
+}
+
 export async function ensureCart(): Promise<ShopifyCart> {
   const id = await readCartId();
   if (id) {
     try {
       const existing = await getCart(id);
-      if (existing && existing.checkoutUrl) return existing;
+      if (existing && existing.checkoutUrl) return inVisitorCountry(existing);
     } catch (e) {
       console.warn("[cart] failed to fetch existing cart, creating new one:", e);
     }
     await clearCartId();
   }
-  let created = await cartCreate();
+  let created = await cartCreate((await getVisitorContext()).country);
   await writeCartId(created.id);
 
   // Sync initial attribution attributes if present
@@ -180,7 +194,8 @@ export async function removeLine(lineId: string): Promise<ShopifyCart> {
 export async function getCurrentCart(): Promise<ShopifyCart | null> {
   const id = await readCartId();
   if (!id) return null;
-  return getCart(id);
+  const cart = await getCart(id);
+  return cart ? inVisitorCountry(cart) : null;
 }
 
 export async function applyDiscountCode(code: string): Promise<ShopifyCart> {

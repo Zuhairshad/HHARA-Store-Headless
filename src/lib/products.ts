@@ -1,4 +1,5 @@
 import { getProducts, ShopifyProduct } from "./shopify";
+import { getVisitorContext } from "./visitor";
 
 const COLOR_HEX: Record<string, string> = {
   "Chicory Brown": "#3D2B1F",
@@ -155,9 +156,11 @@ function mapShopifyProduct(p: ShopifyProduct, index: number): LocalProduct {
   };
 }
 
+// Priced in the visitor's currency (see lib/visitor.ts). Only call from request-time store pages.
 export async function getStorefrontProducts(): Promise<LocalProduct[]> {
   try {
-    const products = await getProducts(50);
+    const { country } = await getVisitorContext();
+    const products = await getProducts(50, country);
     return products.map(mapShopifyProduct);
   } catch (err) {
     console.error("[shopify] product fetch failed:", err);

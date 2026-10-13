@@ -1,63 +1,54 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
-import { BASE_CURRENCY, CURRENCY_COOKIE, MAIN_CURRENCIES, formatPrice, isCurrencyCode } from "@/lib/currency";
+import React, { createContext, useContext } from "react";
+import { BASE_CURRENCY, COUNTRY_COOKIE, FREE_SHIPPING_AED, formatPrice } from "@/lib/currency";
+
+type CurrencyOption = { country: string; currency: string };
 
 type CurrencyContextValue = {
   currency: string;
-  setCurrency: (c: string) => void;
-  /** Formats an AED amount in the visitor's currency. */
-  format: (aed: number) => string;
-  /** Formats an AED amount as AED, whatever the visitor's currency. */
-  formatBase: (aed: number) => string;
-  isConverted: boolean;
-  /** Options for the currency switcher. */
-  currencies: string[];
+  /** Formats an amount that is already in the visitor's currency. */
+  format: (amount: number) => string;
+  /** Free-shipping threshold converted to the visitor's currency (approximate). */
+  freeShippingThreshold: number;
+  options: CurrencyOption[];
+  /** Switches the country we price in; reloads so products and cart come back in its currency. */
+  selectCountry: (country: string) => void;
 };
 
 const CurrencyContext = createContext<CurrencyContextValue | null>(null);
 
 export function CurrencyProvider({
-  initialCurrency,
-  localCurrency,
-  rates,
+  currency,
+  options,
+  rate,
   children,
 }: {
-  initialCurrency: string;
-  /** Currency of the visitor's own country, always offered in the switcher. */
-  localCurrency: string;
-  rates: Record<string, number>;
+  currency: string;
+  options: CurrencyOption[];
+  /** AED → currency rate, for the free-shipping threshold only. */
+  rate: number;
   children: React.ReactNode;
 }) {
-  const [currency, setCurrencyState] = useState(initialCurrency);
-
-  const setCurrency = (c: string) => {
-    if (!isCurrencyCode(c) || !rates[c]) return;
-    setCurrencyState(c);
-    document.cookie = `${CURRENCY_COOKIE}=${c}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
-  };
-
-  const currencies = [...new Set([...MAIN_CURRENCIES, localCurrency, currency])].filter((c) => rates[c]);
-
   const value: CurrencyContextValue = {
     currency,
-    setCurrency,
-    format: (aed) => formatPrice(aed, currency, rates[currency] ?? 1),
-    formatBase: (aed) => formatPrice(aed, BASE_CURRENCY, 1),
-    isConverted: currency !== BASE_CURRENCY,
-    currencies,
+    format: (amount) => formatPrice(amount, currency),
+    freeShippingThreshold: Math.round(FREE_SHIPPING_AED * rate),
+    options,
+    selectCountry: (country) => {
+      document.cookie = `${COUNTRY_COOKIE}=${country}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
+      window.location.reload();
+    },
   };
-
   return <CurrencyContext.Provider value={value}>{children}</CurrencyContext.Provider>;
 }
 
 const FALLBACK: CurrencyContextValue = {
   currency: BASE_CURRENCY,
-  setCurrency: () => {},
-  format: (aed) => formatPrice(aed, BASE_CURRENCY, 1),
-  formatBase: (aed) => formatPrice(aed, BASE_CURRENCY, 1),
-  isConverted: false,
-  currencies: [BASE_CURRENCY],
+  format: (amount) => formatPrice(amount, BASE_CURRENCY),
+  freeShippingThreshold: FREE_SHIPPING_AED,
+  options: [{ country: "AE", currency: BASE_CURRENCY }],
+  selectCountry: () => {},
 };
 
 export function useCurrency(): CurrencyContextValue {

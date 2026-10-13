@@ -28,7 +28,7 @@ function callSetTrackingConsent(analyticsAllowed: boolean, marketingAllowed: boo
   }
 }
 
-export function ShopifyWebPixels() {
+export function ShopifyWebPixels({ currency = "AED" }: { currency?: string }) {
   const [hasAnalyticsConsent, setHasAnalyticsConsent] = useState(() => {
     const prefs = getConsentPreferences();
     // Undecided visitors treated as consented — matches behaviour for non-GDPR regions (UAE).
@@ -120,7 +120,7 @@ export function ShopifyWebPixels() {
             window.Shopify = window.Shopify || {};
             window.Shopify.shop = '${SHOPIFY_CONFIG.shopDomain}';
             window.Shopify.shopId = '72899690678';
-            window.Shopify.currency = { active: 'AED', rate: '1.0' };
+            window.Shopify.currency = { active: '${currency}', rate: '1.0' };
             (function() {
               var q = [];
               window.Shopify.analytics = {
