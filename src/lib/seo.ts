@@ -30,7 +30,7 @@ export const KEYWORDS = [
 ];
 
 // Pages that should never be indexed (customer-specific or utility).
-export const PRIVATE_PATHS = ["/api/", "/account", "/orders", "/wishlist"];
+export const PRIVATE_PATHS = ["/api/", "/account", "/orders", "/wishlist", "/pre-checkout"];
 
 type PageSeo = { title: string; description: string; noindex?: boolean };
 
@@ -87,6 +87,7 @@ export const PAGES: Record<string, PageSeo> = {
   "/account": { title: "My Account | HHARA", description: "Your HHARA account.", noindex: true },
   "/orders/track": { title: "Track Your Order | HHARA", description: "Track your HHARA order.", noindex: true },
   "/wishlist": { title: "Wishlist | HHARA", description: "Your saved HHARA pieces.", noindex: true },
+  "/pre-checkout": { title: "Your Bag | HHARA", description: "Review your HHARA bag before checkout.", noindex: true },
 };
 
 export function pageMetadata(path: keyof typeof PAGES): Metadata {
