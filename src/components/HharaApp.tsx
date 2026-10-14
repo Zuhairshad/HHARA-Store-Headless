@@ -212,6 +212,14 @@ const CART_THUMB_IMAGES: Record<string, { olive: string; brown: string }> = {
   p3: { olive: "/images/dbra-olive-front.jpg", brown: "/images/dbra-brown-front.jpg" },
 };
 
+function getCartThumb(imgKey: string | null | undefined, colorName: string): string | null {
+  const thumb = imgKey ? CART_THUMB_IMAGES[imgKey] : null;
+  if (!thumb) return null;
+  if (colorName?.toLowerCase() === "olive") return thumb.olive;
+  if (colorName?.toLowerCase().includes("brown")) return thumb.brown;
+  return null;
+}
+
 function getProductColorImages(imgKey: string, colorName: string): string[] {
   const data = PRODUCT_IMAGES[imgKey];
   if (!data) return [];
@@ -794,7 +802,7 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
                 const selectedColor = upsellColors[p.id] || cartColor;
                 const isAdded = addedUpsellIds[p.id];
                 const imgs = p.imgKey && PRODUCT_IMAGES[p.imgKey] ? getProductColorImages(p.imgKey, selectedColor) : null;
-                const src = imgs?.[0] || p.featuredImage?.url;
+                const src = getCartThumb(p.imgKey, selectedColor) || imgs?.[0] || p.featuredImage?.url;
                 return (
                   <div className="pco-upsell-item" key={p.id}>
                     <div className={`pco-upsell-thumb ${p.tone}`} onClick={() => setRoute("product", p.id)} style={{ cursor: "pointer" }}>
@@ -5460,11 +5468,8 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
           const colorRaw = opts.color || opts.colour || opts.colorway || "";
           const colorName = CART_COLOR_NAME_MAP[colorRaw] ?? colorRaw;
           const imgKey = productMatch?.imgKey;
-          const thumb = imgKey ? CART_THUMB_IMAGES[imgKey] : null;
-          if (thumb) {
-            if (colorName.toLowerCase() === "olive") return thumb.olive;
-            if (colorName.toLowerCase().includes("brown")) return thumb.brown;
-          }
+          const thumb = getCartThumb(imgKey, colorName);
+          if (thumb) return thumb;
           if (imgKey && PRODUCT_IMAGES[imgKey]) {
             const imgs = getProductColorImages(imgKey, colorName);
             if (imgs?.[0]) return imgs[0];
