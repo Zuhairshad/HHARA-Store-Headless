@@ -206,10 +206,12 @@ const PRODUCT_VIDEOS: Record<string, { olive: string | null; brown: string | nul
   p4: { olive: "/videos/dahlia-olive.mp4", brown: "/videos/dahlia-brown.mp4" },
 };
 
-// Bag thumbnails that should differ from the product's first gallery photo (e.g. the Dahlia
-// bra's first photo is a back view; the bag shows a front close-up instead).
+// Bag thumbnails that should differ from the product's first gallery photo (the first photo
+// is often a back view; the bag shows a front close-up instead).
 const CART_THUMB_IMAGES: Record<string, { olive: string; brown: string }> = {
+  p1: { olive: "/images/ibra-olive-front.jpg", brown: "/images/ibra-brown-front.jpg" },
   p3: { olive: "/images/dbra-olive-front.jpg", brown: "/images/dbra-brown-front.jpg" },
+  p4: { olive: "/images/dshorts-olive-front.jpg", brown: "/images/dshorts-brown-front.jpg" },
 };
 
 function getCartThumb(imgKey: string | null | undefined, colorName: string): string | null {
