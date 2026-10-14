@@ -4195,8 +4195,7 @@ function AccountPage({
 }) {
   const customer = useCustomer();
   const [tab, setTab] = useState("signin");
-  const [form, setForm] = useState({ email: "", password: "", firstName: "", dob: "", phone: "", acceptsMarketing: false, hpCompany: "" });
-  const [phoneCountry, setPhoneCountry] = useState(useDefaultPhoneCountry());
+  const [form, setForm] = useState({ email: "", password: "", firstName: "", dob: "", acceptsMarketing: false, hpCompany: "" });
   const [formTs] = useState(() => Date.now());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -4229,7 +4228,6 @@ function AccountPage({
       password: form.password,
       firstName: form.firstName,
       dob: form.dob,
-      phone: form.phone ? `${dialCode(phoneCountry)}${form.phone}` : undefined,
       acceptsMarketing: form.acceptsMarketing,
       honeypot: form.hpCompany,
       formTimestamp: formTs,
@@ -4404,13 +4402,6 @@ function AccountPage({
             <div className="field">
               <label>Date of Birth</label>
               <input type="date" value={form.dob} min="1900-01-01" max={new Date().toISOString().split("T")[0]} onKeyDown={(e) => e.preventDefault()} onChange={(e) => setForm({ ...form, dob: e.target.value })} />
-            </div>
-            <div className="field">
-              <label>Phone</label>
-              <div className="phone-row">
-                <PhoneCountrySelect value={phoneCountry} onChange={setPhoneCountry} />
-                <input type="tel" inputMode="numeric" autoComplete="tel-national" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value.replace(/[^0-9]/g, "") })} placeholder="Phone number" maxLength={15} />
-              </div>
             </div>
             <div className="field">
               <label>Email</label>
@@ -5390,7 +5381,8 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     setSignupError("");
 
     try {
-      const cleanPhone = newsletterPhone.trim().replace(/\D/g, "");
+      // Drop the trunk 0 people type locally (0300… in PK, 07… in the UK); it isn't dialled after the country code
+      const cleanPhone = newsletterPhone.replace(/\D/g, "").replace(/^0+/, "");
       const fullPhone = cleanPhone ? `${dialCode(newsletterPhoneCountry)}${cleanPhone}` : undefined;
       const res = await serverSubscribe(
         newsletterEmail,

@@ -410,7 +410,6 @@ export async function customerCreate(input: {
   firstName?: string;
   lastName?: string;
   note?: string;
-  phone?: string;
   acceptsMarketing?: boolean;
 }): Promise<{ customer?: { id: string; email: string }; errors: { message: string; field?: string[] }[] }> {
   const query = /* GraphQL */ `
@@ -421,13 +420,11 @@ export async function customerCreate(input: {
       }
     }
   `;
-  // The Storefront API has no `note` field on CustomerCreateInput, so it's saved via the Admin API afterwards.
-  // The phone is saved that way too, so an invalid or already-used number can't fail the signup.
-  const { note, phone, ...storefrontInput } = input;
+  // The Storefront API has no `note` field on CustomerCreateInput, so it's saved via the Admin API afterwards
+  const { note, ...storefrontInput } = input;
   const data = await shopifyFetch<{ customerCreate: { customer: any; customerUserErrors: { message: string; field?: string[] }[] } }>(query, { input: storefrontInput });
   const customer = data.customerCreate.customer;
   if (customer && note) await setCustomerNote(customer.id, note);
-  if (customer && phone) await setCustomerPhone(customer.id, phone);
   return { customer, errors: data.customerCreate.customerUserErrors };
 }
 
@@ -447,25 +444,6 @@ export async function setCustomerNote(customerId: string, note: string): Promise
     if (data.customerUpdate.userErrors.length) console.error("[setCustomerNote]", data.customerUpdate.userErrors);
   } catch (err) {
     console.error("[setCustomerNote]", err);
-  }
-}
-
-// Best effort, like setCustomerNote; kept separate so a rejected number doesn't lose the note.
-export async function setCustomerPhone(customerId: string, phone: string): Promise<void> {
-  const query = /* GraphQL */ `
-    mutation SetCustomerPhone($input: CustomerInput!) {
-      customerUpdate(input: $input) {
-        userErrors { field message }
-      }
-    }
-  `;
-  try {
-    const data = await shopifyAdminFetch<{ customerUpdate: { userErrors: { message: string }[] } }>(query, {
-      input: { id: customerId, phone },
-    });
-    if (data.customerUpdate.userErrors.length) console.error("[setCustomerPhone]", data.customerUpdate.userErrors);
-  } catch (err) {
-    console.error("[setCustomerPhone]", err);
   }
 }
 

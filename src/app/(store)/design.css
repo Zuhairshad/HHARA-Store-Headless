@@ -2891,10 +2891,6 @@ img { display: block; max-width: 100%; }
   font-size: 15px;
   padding: 14px 16px;
 }
-.auth-wrap .panel .field .phone-row select {
-  font-size: 15px;
-  padding: 14px 4px;
-}
 
 .auth-tabs {
   display: flex;
@@ -2952,24 +2948,6 @@ img { display: block; max-width: 100%; }
 .field input:focus {
   border-bottom-color: #A9803D;
 }
-.field .phone-row { display: flex; gap: 12px; }
-.field .phone-row input { flex: 1; min-width: 0; }
-.field .phone-row select {
-  flex: none;
-  width: 96px;
-  border: none;
-  border-bottom: 1px solid rgba(36,24,17,0.14);
-  background: transparent;
-  padding: 10px 0;
-  font-family: var(--sans);
-  font-weight: 300;
-  font-size: 12.5px;
-  color: #241811;
-  outline: none;
-  cursor: pointer;
-  transition: border-bottom-color 0.2s ease;
-}
-.field .phone-row select:focus { border-bottom-color: #A9803D; }
 .field textarea {
   border: none;
   border-bottom: 1px solid rgba(36,24,17,0.14);
