@@ -206,6 +206,12 @@ const PRODUCT_VIDEOS: Record<string, { olive: string | null; brown: string | nul
   p4: { olive: "/videos/dahlia-olive.mp4", brown: "/videos/dahlia-brown.mp4" },
 };
 
+// Bag thumbnails that should differ from the product's first gallery photo (e.g. the Dahlia
+// bra's first photo is a back view; the bag shows a front close-up instead).
+const CART_THUMB_IMAGES: Record<string, { olive: string; brown: string }> = {
+  p3: { olive: "/images/dbra-olive-front.jpg", brown: "/images/dbra-brown-front.jpg" },
+};
+
 function getProductColorImages(imgKey: string, colorName: string): string[] {
   const data = PRODUCT_IMAGES[imgKey];
   if (!data) return [];
@@ -5454,6 +5460,11 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
           const colorRaw = opts.color || opts.colour || opts.colorway || "";
           const colorName = CART_COLOR_NAME_MAP[colorRaw] ?? colorRaw;
           const imgKey = productMatch?.imgKey;
+          const thumb = imgKey ? CART_THUMB_IMAGES[imgKey] : null;
+          if (thumb) {
+            if (colorName.toLowerCase() === "olive") return thumb.olive;
+            if (colorName.toLowerCase().includes("brown")) return thumb.brown;
+          }
           if (imgKey && PRODUCT_IMAGES[imgKey]) {
             const imgs = getProductColorImages(imgKey, colorName);
             if (imgs?.[0]) return imgs[0];
