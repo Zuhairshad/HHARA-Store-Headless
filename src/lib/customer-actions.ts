@@ -55,6 +55,8 @@ export async function signUp(input: {
   firstName?: string;
   lastName?: string;
   dob?: string;
+  /** E.164, e.g. "+923001234567". */
+  phone?: string;
   acceptsMarketing?: boolean;
   honeypot?: string;
   formTimestamp?: number;
@@ -70,8 +72,9 @@ export async function signUp(input: {
     return { ok: false, error: botCheck.error || "Signup rejected." };
   }
 
-  const { dob, honeypot, formTimestamp, ...rest } = input;
-  const created = await customerCreate({ ...rest, ...(dob ? { note: `DOB: ${dob}` } : {}) });
+  const { dob, honeypot, formTimestamp, phone: rawPhone, ...rest } = input;
+  const phone = rawPhone && /^\+\d{7,15}$/.test(rawPhone) ? rawPhone : undefined;
+  const created = await customerCreate({ ...rest, phone, ...(dob ? { note: `DOB: ${dob}` } : {}) });
   if (created.errors.length) {
     const errorMsg = created.errors[0].message;
     const isEmailTaken = errorMsg?.toLowerCase().includes("taken") || (created.errors[0] as any).code === "TAKEN";
@@ -136,7 +139,7 @@ export async function signUp(input: {
     // Ticked "Email me HHARA dispatches": add them to the Klaviyo list too
     input.acceptsMarketing
       ? subscribeKlaviyo(input.email, "Account Signup").then((ok) =>
-          ok ? updateKlaviyoProfile(input.email, { name: [input.firstName, input.lastName].filter(Boolean).join(" "), dob }) : undefined
+          ok ? updateKlaviyoProfile(input.email, { name: [input.firstName, input.lastName].filter(Boolean).join(" "), phone, dob }) : undefined
         )
       : Promise.resolve(),
   ]);

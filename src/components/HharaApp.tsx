@@ -11,6 +11,8 @@ import { submitReview } from "@/lib/review-actions";
 import { MagneticImpactCard } from "@/components/ui/morphing-cursor";
 import CardLogos from "@/components/CardLogos";
 import { useCurrency } from "@/components/CurrencyProvider";
+import { PhoneCountrySelect, useDefaultPhoneCountry } from "@/components/PhoneCountry";
+import { dialCode } from "@/lib/dial-codes";
 import {
   trackEvent,
   formatEcommerceItem,
@@ -4193,7 +4195,8 @@ function AccountPage({
 }) {
   const customer = useCustomer();
   const [tab, setTab] = useState("signin");
-  const [form, setForm] = useState({ email: "", password: "", firstName: "", dob: "", acceptsMarketing: false, hpCompany: "" });
+  const [form, setForm] = useState({ email: "", password: "", firstName: "", dob: "", phone: "", acceptsMarketing: false, hpCompany: "" });
+  const [phoneCountry, setPhoneCountry] = useState(useDefaultPhoneCountry());
   const [formTs] = useState(() => Date.now());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -4226,6 +4229,7 @@ function AccountPage({
       password: form.password,
       firstName: form.firstName,
       dob: form.dob,
+      phone: form.phone ? `${dialCode(phoneCountry)}${form.phone}` : undefined,
       acceptsMarketing: form.acceptsMarketing,
       honeypot: form.hpCompany,
       formTimestamp: formTs,
@@ -4400,6 +4404,13 @@ function AccountPage({
             <div className="field">
               <label>Date of Birth</label>
               <input type="date" value={form.dob} min="1900-01-01" max={new Date().toISOString().split("T")[0]} onKeyDown={(e) => e.preventDefault()} onChange={(e) => setForm({ ...form, dob: e.target.value })} />
+            </div>
+            <div className="field">
+              <label>Phone</label>
+              <div className="phone-row">
+                <PhoneCountrySelect value={phoneCountry} onChange={setPhoneCountry} />
+                <input type="tel" inputMode="numeric" autoComplete="tel-national" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value.replace(/[^0-9]/g, "") })} placeholder="Phone number" maxLength={15} />
+              </div>
             </div>
             <div className="field">
               <label>Email</label>
@@ -5353,7 +5364,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
   const [newsletterName, setNewsletterName] = useState("");
   const [newsletterDob, setNewsletterDob] = useState("");
   const [newsletterPhone, setNewsletterPhone] = useState("");
-  const [newsletterCountryCode, setNewsletterCountryCode] = useState("+971");
+  const [newsletterPhoneCountry, setNewsletterPhoneCountry] = useState(useDefaultPhoneCountry());
   const [newsletterHp, setNewsletterHp] = useState("");
   const [popupFormTs, setPopupFormTs] = useState(() => Date.now());
   const [signupStatus, setSignupStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -5380,7 +5391,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
 
     try {
       const cleanPhone = newsletterPhone.trim().replace(/\D/g, "");
-      const fullPhone = cleanPhone ? `${newsletterCountryCode}${cleanPhone}` : undefined;
+      const fullPhone = cleanPhone ? `${dialCode(newsletterPhoneCountry)}${cleanPhone}` : undefined;
       const res = await serverSubscribe(
         newsletterEmail,
         newsletterName,
@@ -5796,22 +5807,12 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
 
                     {/* Row 2: Phone Number */}
                     <div className="w-full flex gap-0 border border-[#D0C8BC] focus-within:border-[#241811] transition-colors bg-white">
-                      <select
-                        aria-label="Country code"
-                        value={newsletterCountryCode}
-                        onChange={(e) => setNewsletterCountryCode(e.target.value)}
+                      <PhoneCountrySelect
+                        value={newsletterPhoneCountry}
+                        onChange={setNewsletterPhoneCountry}
                         className="bg-transparent text-[#241811] border-0 border-r border-[#D0C8BC] outline-none py-2 md:py-2.5 px-2 text-xs font-light cursor-pointer shrink-0"
                         style={{ width: "76px" }}
-                      >
-                        <option value="+971">🇦🇪 +971</option>
-                        <option value="+966">🇸🇦 +966</option>
-                        <option value="+974">🇶🇦 +974</option>
-                        <option value="+965">🇰🇼 +965</option>
-                        <option value="+973">🇧🇭 +973</option>
-                        <option value="+968">🇴🇲 +968</option>
-                        <option value="+44">🇬🇧 +44</option>
-                        <option value="+1">🇺🇸 +1</option>
-                      </select>
+                      />
                       <input
                         type="tel"
                         inputMode="numeric"

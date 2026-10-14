@@ -3,11 +3,13 @@ import "leaflet/dist/leaflet.css";
 import "./design.css";
 import { ShopifyWebPixels } from "@/components/analytics/ShopifyWebPixels";
 import { CurrencyProvider } from "@/components/CurrencyProvider";
+import { PhoneCountryProvider } from "@/components/PhoneCountry";
 import { SWITCHER_COUNTRIES, getRates } from "@/lib/currency";
+import { dialCountryOrDefault } from "@/lib/dial-codes";
 import { getVisitorContext } from "@/lib/visitor";
 
 export default async function StoreLayout({ children }: { children: React.ReactNode }) {
-  const [{ country, currency, ipCountry, countryCurrencies }, rates] = await Promise.all([getVisitorContext(), getRates()]);
+  const [{ country, currency, ipCountry, geoCountry, countryCurrencies }, rates] = await Promise.all([getVisitorContext(), getRates()]);
 
   // One switcher entry per currency: the current country first, then the visitor's own, then the defaults
   const options: { country: string; currency: string }[] = [];
@@ -19,7 +21,7 @@ export default async function StoreLayout({ children }: { children: React.ReactN
   return (
     <CurrencyProvider currency={currency} options={options} rate={rates[currency] ?? 1}>
       <ShopifyWebPixels currency={currency} />
-      {children}
+      <PhoneCountryProvider country={dialCountryOrDefault(geoCountry)}>{children}</PhoneCountryProvider>
     </CurrencyProvider>
   );
 }
