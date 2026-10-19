@@ -115,11 +115,20 @@ export const organizationJsonLd = {
       "@type": "Organization",
       "@id": `${SITE_URL}/#organization`,
       name: SITE_NAME,
+      alternateName: ["This is HHARA", "HHARA Activewear", "HHARA Athleisure"],
       url: SITE_URL,
       logo: `${SITE_URL}/images/hhara-logo.png`,
       slogan: "She is Wonder",
       description: DEFAULT_DESCRIPTION,
-      sameAs: ["https://instagram.com/thisishhara"],
+      areaServed: "AE",
+      // Official profiles, so Google ties them to this brand (and not to other businesses called HHARA)
+      sameAs: [
+        "https://www.instagram.com/thisishhara",
+        "https://www.tiktok.com/@thisishhara",
+        "https://www.facebook.com/hharabrands",
+        "https://www.linkedin.com/company/thisishhara",
+        "https://x.com/thisishhara",
+      ],
     },
     {
       "@type": "WebSite",
