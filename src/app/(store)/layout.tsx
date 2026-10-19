@@ -1,4 +1,4 @@
-// Store-only styles and Shopify tracking live here so the coming-soon page at "/" doesn't pay for them.
+// Store styles, currency and Shopify tracking for every storefront page.
 import "leaflet/dist/leaflet.css";
 import "./design.css";
 import { ShopifyWebPixels } from "@/components/analytics/ShopifyWebPixels";

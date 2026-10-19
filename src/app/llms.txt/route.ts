@@ -10,9 +10,9 @@ export async function GET() {
     const teaser = [
       "# HHARA",
       "",
-      "> HHARA is a considered-luxury women's activewear label based in the UAE. She is Wonder. Arriving October 2026.",
+      "> HHARA is a considered-luxury women's activewear label based in the UAE. She is Wonder.",
       "",
-      `- [HHARA — Coming Soon](${SITE_URL}/): join the list for launch news. Instagram: @thisishhara.`,
+      `- [HHARA](${SITE_URL}/): shop the capsule. Instagram: @thisishhara.`,
       "",
     ].join("\n");
     return new Response(teaser, { headers: { "Content-Type": "text/plain; charset=utf-8" } });

@@ -5,7 +5,7 @@ import { getCurrentCustomer } from "@/lib/customer-actions";
 import { pageMetadata } from "@/lib/seo";
 import { GIFT_CARDS_ENABLED } from "@/lib/gift-card";
 
-export const metadata = pageMetadata("/home");
+export const metadata = pageMetadata("/");
 
 export const revalidate = 0;
 

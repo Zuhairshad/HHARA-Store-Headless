@@ -11,7 +11,7 @@ export const metadata = pageMetadata("/gift-card");
 export const revalidate = 0;
 
 export default async function RoutePage() {
-  if (!GIFT_CARDS_ENABLED) redirect("/home");
+  if (!GIFT_CARDS_ENABLED) redirect("/");
   const [products, cart, customer] = await Promise.all([
     getStorefrontProducts(),
     getCurrentCart(),

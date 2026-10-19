@@ -81,35 +81,10 @@ async function test(name, fn, page) {
 
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: "new", args: ["--no-first-run"] });
 
-// 1. Coming-soon signup at "/"
-if (want(1)) {
-  const page = await newPage(browser, { mobile: true });
-  await page.goto(BASE + "/", { waitUntil: "networkidle2" });
-  await dismissBanner(page);
-  await test("Coming soon: rejects invalid email", async () => {
-    await typeInto(page, "#cs-email", "not-an-email");
-    await sleep(1200);
-    await clickText(page, /^join$/i);
-    await waitForText(page, /valid email/i, 5000);
-  }, page);
-  await test("Coming soon: valid signup", async () => {
-    const email = mail("comingsoon");
-    await typeInto(page, "#cs-email", email);
-    await clickText(page, /^join$/i);
-    await sleep(800);
-    await page.waitForFunction(() => /Welcome to the Circle/i.test(document.body.innerText) || document.querySelector(".cs-error")?.textContent, { timeout: 25000 });
-    const err = await page.$eval(".cs-error", (e) => e.textContent).catch(() => "");
-    if (err) throw new Error(`Site showed error: "${err}"`);
-    created.push(email);
-    return email;
-  }, page);
-  await closePage(page);
-}
-
-// 2. Signup popup on /home (opens on scroll)
+// 2. Signup popup on the home page (opens on scroll)
 if (want(2)) {
   const page = await newPage(browser);
-  await page.goto(BASE + "/home", { waitUntil: "networkidle2" });
+  await page.goto(BASE + "/", { waitUntil: "networkidle2" });
   await dismissBanner(page);
   await test("Popup: opens on scroll", async () => {
     await sleep(1500);

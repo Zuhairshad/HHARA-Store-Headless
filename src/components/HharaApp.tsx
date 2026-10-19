@@ -5267,7 +5267,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     const matched = products.find((p: any) => p.id === productId);
     const productHandle = matched?.shopifyHandle || productId;
     const pagePath =
-      route === "home" ? "/home" :
+      route === "home" ? "/" :
       route === "product" ? `/products/${productHandle}` :
       `/${route}`;
 

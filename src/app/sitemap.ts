@@ -11,17 +11,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return [{ url: SITE_URL, lastModified: now, changeFrequency: "weekly", priority: 1 }];
   }
 
-  const pages: MetadataRoute.Sitemap = [
-    { url: SITE_URL, lastModified: now, changeFrequency: "weekly", priority: 1 },
-    ...Object.entries(PAGES)
-      .filter(([, page]) => !page.noindex)
-      .map(([path]) => ({
-        url: `${SITE_URL}${path}`,
-        lastModified: now,
-        changeFrequency: "weekly" as const,
-        priority: path === "/home" || path === "/shop" ? 0.9 : 0.5,
-      })),
-  ];
+  const pages: MetadataRoute.Sitemap = Object.entries(PAGES)
+    .filter(([, page]) => !page.noindex)
+    .map(([path]) => ({
+      url: path === "/" ? SITE_URL : `${SITE_URL}${path}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: path === "/" ? 1 : path === "/shop" ? 0.9 : 0.5,
+    }));
 
   let products: MetadataRoute.Sitemap = [];
   try {

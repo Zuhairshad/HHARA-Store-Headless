@@ -3,9 +3,8 @@ import { GIFT_CARDS_ENABLED } from "./gift-card";
 
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.hhara.com").replace(/\/$/, "");
 
-// Until launch, store pages stay reachable (e.g. for payment-provider review) but are
-// hidden from search engines; only the coming-soon page at "/" is indexable.
-// Set NEXT_PUBLIC_SITE_LAUNCHED="true" on launch day.
+// Until launch, the store is reachable but hidden from search engines.
+// Set NEXT_PUBLIC_SITE_LAUNCHED="true" on launch day to let it be indexed.
 export const IS_LAUNCHED = process.env.NEXT_PUBLIC_SITE_LAUNCHED === "true";
 
 export const SITE_NAME = "HHARA";
@@ -35,7 +34,7 @@ export const PRIVATE_PATHS = ["/api/", "/account", "/orders", "/wishlist", "/pre
 type PageSeo = { title: string; description: string; noindex?: boolean };
 
 export const PAGES: Record<string, PageSeo> = {
-  "/home": {
+  "/": {
     title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,
   },

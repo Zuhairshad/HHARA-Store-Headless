@@ -24,8 +24,10 @@ const nextConfig = {
   async redirects() {
     return [
       // The Journal was removed; send old links to the home page
-      { source: "/journal", destination: "/home", permanent: true },
-      { source: "/journal/:id", destination: "/home", permanent: true },
+      { source: "/journal", destination: "/", permanent: true },
+      { source: "/journal/:id", destination: "/", permanent: true },
+      // The store used to live at /home while "/" showed the coming-soon page (query such as ?r=shop is kept)
+      { source: "/home", destination: "/", permanent: true },
       // Google indexed the free Vercel address before hhara.com was connected; send it to the real domain.
       // /api is left out so any webhook still pointed at the old address keeps working.
       {
@@ -35,7 +37,7 @@ const nextConfig = {
         permanent: true,
       },
       // The live Shopify theme (reached from the checkout logo) sends shoppers to site.hhara.com + the same path.
-      // Product pages keep their handle; everything else goes to the shop. Temporary so it can move to / at launch.
+      // Product pages keep their handle; everything else goes to the home page.
       {
         source: "/products/:handle",
         has: [{ type: "host", value: "site.hhara.com" }],
@@ -45,7 +47,7 @@ const nextConfig = {
       {
         source: "/:path*",
         has: [{ type: "host", value: "site.hhara.com" }],
-        destination: "https://www.hhara.com/home",
+        destination: "https://www.hhara.com/",
         permanent: false,
       },
     ];
