@@ -5225,6 +5225,10 @@ const CART_COLOR_REVERSE_MAP: Record<string, string> = {
   "Army Green": "Zinc Crimson",
 };
 
+// Signup popup memory: when it last opened (ms), or "subscribed"
+const SIGNUP_POPUP_KEY = "hhara_signup_popup";
+const SIGNUP_POPUP_SNOOZE_MS = 7 * 24 * 60 * 60 * 1000;
+
 // === FILE 10-180e2df1-7549-448a-8bbb-f6c3acb791f4.jsx ===
 
 function App({ initialProducts, initialCart, initialCustomer, initialRoute, initialProductHandle }: { initialProducts?: any[]; initialCart?: any; initialCustomer?: any; initialRoute?: string; initialProductHandle?: string }) {
@@ -5363,6 +5367,12 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
 
   useEffect(() => {
     if (customer) return;
+    // Every page load (Back, reload, a new page) remounts this, so remember the popup was shown
+    // and stay quiet for a week; after a signup it never comes back.
+    try {
+      const seen = localStorage.getItem(SIGNUP_POPUP_KEY);
+      if (seen === "subscribed" || Date.now() - Number(seen) < SIGNUP_POPUP_SNOOZE_MS) return;
+    } catch { }
     // Open on first meaningful scroll rather than a timer, so the popup never
     // competes with the hero for Largest Contentful Paint.
     const onScroll = () => {
@@ -5370,6 +5380,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
       window.removeEventListener("scroll", onScroll);
       setSignupPopupOpen(true);
       setPopupFormTs(Date.now());
+      try { localStorage.setItem(SIGNUP_POPUP_KEY, String(Date.now())); } catch { }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -5395,6 +5406,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
       );
       if (res.ok) {
         setSignupStatus("success");
+        try { localStorage.setItem(SIGNUP_POPUP_KEY, "subscribed"); } catch { }
         trackEvent({
           name: "customer_subscribed",
           payload: {
