@@ -100,8 +100,8 @@ export function StandaloneFooter() {
             <div className="footer-col">
               <h4>Information</h4>
               <ul>
-                <li><a href="/?r=atelier">About Us</a></li>
-                <li><a href="/?r=stores">Impact</a></li>
+                <li><a href="/about-us">About Us</a></li>
+                <li><a href="/social-impact">Impact</a></li>
                 {GIFT_CARDS_ENABLED && <li><a href="/?r=gift-card">E-Gift Card</a></li>}
               </ul>
             </div>

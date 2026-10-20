@@ -9,7 +9,7 @@ export const metadata = pageMetadata("/");
 
 export const revalidate = 0;
 
-const VALID_ROUTES = new Set(["shop", "lookbook", "atelier", "stores", "account", "faq", "shipping", "returns", "size-guide", "contact", "gift-card", "privacy", "terms", "wishlist"]);
+const VALID_ROUTES = new Set(["shop", "lookbook", "atelier", "stores", "about-us", "social-impact", "account", "faq", "shipping", "returns", "size-guide", "contact", "gift-card", "privacy", "terms", "wishlist"]);
 
 export default async function Page({
   searchParams,
@@ -17,7 +17,8 @@ export default async function Page({
   searchParams: Promise<{ r?: string }>;
 }) {
   const { r } = await searchParams;
-  const initialRoute = r && VALID_ROUTES.has(r) && (r !== "gift-card" || GIFT_CARDS_ENABLED) ? r : undefined;
+  const routeAlias: Record<string, string> = { "about-us": "atelier", "social-impact": "stores" };
+  const initialRoute = r && VALID_ROUTES.has(r) && (r !== "gift-card" || GIFT_CARDS_ENABLED) ? (routeAlias[r] ?? r) : undefined;
   const [products, cart, customer] = await Promise.all([
     getStorefrontProducts(),
     getCurrentCart(),

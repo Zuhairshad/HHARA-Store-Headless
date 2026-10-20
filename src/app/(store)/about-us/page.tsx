@@ -4,7 +4,7 @@ import { getCurrentCart } from "@/lib/cart-actions";
 import { getCurrentCustomer } from "@/lib/customer-actions";
 import { pageMetadata } from "@/lib/seo";
 
-export const metadata = pageMetadata("/atelier");
+export const metadata = pageMetadata("/about-us");
 
 export const revalidate = 0;
 

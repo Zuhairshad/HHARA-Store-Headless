@@ -1046,8 +1046,8 @@ function Footer({ setRoute, route = "" }) {
             <div className="footer-col">
               <h4>Information</h4>
               <ul>
-                <li><a href="/atelier" onClick={(e) => { e.preventDefault(); setRoute("atelier"); }} style={{ cursor: "pointer" }}>About Us</a></li>
-                <li><a href="/stores" onClick={(e) => { e.preventDefault(); setRoute("stores"); }} style={{ cursor: "pointer" }}>Social Impact</a></li>
+                <li><a href="/about-us" onClick={(e) => { e.preventDefault(); setRoute("atelier"); }} style={{ cursor: "pointer" }}>About Us</a></li>
+                <li><a href="/social-impact" onClick={(e) => { e.preventDefault(); setRoute("stores"); }} style={{ cursor: "pointer" }}>Social Impact</a></li>
                 {GIFT_CARDS_ENABLED && <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>E-Gift Card</a></li>}
                 <li><a onClick={() => setRoute("privacy")} style={{ cursor: "pointer" }}>Privacy &amp; Cookie Policy</a></li>
                 <li><a onClick={() => setRoute("terms")} style={{ cursor: "pointer" }}>Terms &amp; Conditions</a></li>
@@ -5227,7 +5227,7 @@ const CART_COLOR_REVERSE_MAP: Record<string, string> = {
 
 // Signup popup memory: when it last opened (ms), or "subscribed"
 const SIGNUP_POPUP_KEY = "hhara_signup_popup";
-const SIGNUP_POPUP_SNOOZE_MS = 7 * 24 * 60 * 60 * 1000;
+const SIGNUP_POPUP_SNOOZE_MS = 24 * 60 * 60 * 1000;
 
 // === FILE 10-180e2df1-7549-448a-8bbb-f6c3acb791f4.jsx ===
 
@@ -5269,10 +5269,14 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     const pagePath =
       route === "home" ? "/" :
       route === "product" ? `/products/${productHandle}` :
+      route === "atelier" ? "/about-us" :
+      route === "stores" ? "/social-impact" :
       `/${route}`;
 
     const pageTitle = route === "product"
       ? `${matched?.name || "Product"} | HHARA`
+      : route === "atelier" ? "HHARA | About Us"
+      : route === "stores" ? "HHARA | Social Impact"
       : `HHARA | ${route.charAt(0).toUpperCase() + route.slice(1)}`;
 
     const pageLocation = `${window.location.origin}${pagePath}`;
@@ -5368,7 +5372,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
   useEffect(() => {
     if (customer) return;
     // Every page load (Back, reload, a new page) remounts this, so remember the popup was shown
-    // and stay quiet for a week; after a signup it never comes back.
+    // and stay quiet for a day; after a signup it never comes back.
     try {
       const seen = localStorage.getItem(SIGNUP_POPUP_KEY);
       if (seen === "subscribed" || Date.now() - Number(seen) < SIGNUP_POPUP_SNOOZE_MS) return;

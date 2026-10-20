@@ -49,7 +49,7 @@ export function StandaloneNav() {
           <nav className="header-nav">
             <a href="/?r=shop">Shop</a>
             <a href="/?r=lookbook">Lookbook</a>
-            <a href="/?r=atelier">About Us</a>
+            <a href="/about-us">About Us</a>
           </nav>
 
           <a href="/" className="brandmark">
@@ -113,7 +113,7 @@ export function StandaloneNav() {
           <nav className="mobile-menu-nav">
             <a href="/?r=shop">Shop All</a>
             <a href="/?r=lookbook">Lookbook</a>
-            <a href="/?r=atelier">About Us</a>
+            <a href="/about-us">About Us</a>
             <a href="/orders/track" className="active">Track Order</a>
           </nav>
         </div>

@@ -26,6 +26,9 @@ const nextConfig = {
       // The Journal was removed; send old links to the home page
       { source: "/journal", destination: "/", permanent: true },
       { source: "/journal/:id", destination: "/", permanent: true },
+      // About Us and Social Impact used to be served at /atelier and /stores
+      { source: "/atelier", destination: "/about-us", permanent: true },
+      { source: "/stores", destination: "/social-impact", permanent: true },
       // The store used to live at /home while "/" showed the coming-soon page (query such as ?r=shop is kept)
       { source: "/home", destination: "/", permanent: true },
       // Google indexed the free Vercel address before hhara.com was connected; send it to the real domain.

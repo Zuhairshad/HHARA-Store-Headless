@@ -47,14 +47,14 @@ export const PAGES: Record<string, PageSeo> = {
     title: "Lookbook — She is Wonder | HHARA",
     description: "The HHARA She is Wonder campaign. The Imara and Dahlia sets, photographed across the UAE.",
   },
-  "/atelier": {
-    title: "The Atelier — How HHARA Is Made",
+  "/about-us": {
+    title: "About Us — How HHARA Is Made",
     description:
       "Inside the HHARA atelier: regenerative recycled knits, minimal production and garments engineered to outlast trends.",
   },
-  "/stores": {
-    title: "Stores & Stockists | HHARA",
-    description: "Where to find HHARA luxury activewear.",
+  "/social-impact": {
+    title: "Social Impact | HHARA",
+    description: "How HHARA gives back: our social impact commitments and the communities we support.",
   },
   "/size-guide": {
     title: "Size Guide | HHARA Activewear",
