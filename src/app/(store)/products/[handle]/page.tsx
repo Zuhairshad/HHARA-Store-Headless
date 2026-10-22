@@ -17,13 +17,22 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
   const { handle } = await params;
   const product = await getProduct(handle);
   if (!product) return { title: "Product | HHARA" };
+  const title = `${product.name} | HHARA`;
+  const description = product.description?.split("\n")[0] || `${product.name} — Considered Luxury Activewear by HHARA`;
+  const images = product.featuredImage ? [product.featuredImage.url] : [];
   return {
-    title: `${product.name} | HHARA`,
+    title,
     alternates: { canonical: `/products/${handle}` },
-    description: product.description?.split("\n")[0] || `${product.name} — Considered Luxury Activewear by HHARA`,
+    description,
     openGraph: {
-      title: `${product.name} | HHARA`,
-      images: product.featuredImage ? [{ url: product.featuredImage.url }] : [],
+      title,
+      images: images.map((url) => ({ url })),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images,
     },
   };
 }

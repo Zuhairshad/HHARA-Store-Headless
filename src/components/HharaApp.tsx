@@ -861,15 +861,19 @@ function PreCheckoutPage({ cart, checkoutUrl, updateQty, removeItem, applyDiscou
             <div className="pco-section">
               <h4 className="pco-section-label">You May Also Like</h4>
               <div className="pco-also-grid">
-                {upsells.slice(2, 4).map((p: any) => (
+                {upsells.slice(2, 4).map((p: any) => {
+                  const imgs = p.imgKey && PRODUCT_IMAGES[p.imgKey] ? getProductColorImages(p.imgKey, cartColor) : null;
+                  const src = getCartThumb(p.imgKey, cartColor) || imgs?.[0] || p.featuredImage?.url;
+                  return (
                   <div key={p.id} className="pco-also-card" onClick={() => setRoute("product", p.id)}>
                     <div className={`pco-also-thumb ${p.tone}`}>
-                      {p.featuredImage?.url ? <img src={p.featuredImage.url} alt={p.name} className="img-fill" /> : <div className="ph">{p.name?.toLowerCase()}</div>}
+                      {src ? <img src={src} alt={p.name} className="img-fill" /> : <div className="ph">{p.name?.toLowerCase()}</div>}
                     </div>
                     <div className="pco-also-name">{p.name}</div>
                     <div className="pco-also-price">{format(p.price ?? 0)}</div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
