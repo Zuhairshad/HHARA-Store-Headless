@@ -48,6 +48,28 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
 
   const product = products.find((p) => p.shopifyHandle === handle);
 
+  // Store-wide policies, kept in line with the Shipping and Returns pages:
+  // free 14-day returns and free next-day delivery, both UAE only.
+  const returnPolicy = {
+    "@type": "MerchantReturnPolicy",
+    applicableCountry: "AE",
+    returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
+    merchantReturnDays: 14,
+    returnMethod: "https://schema.org/ReturnByMail",
+    returnFees: "https://schema.org/FreeReturn",
+  };
+  const shippingDetails = {
+    "@type": "OfferShippingDetails",
+    // Free in every currency, so match the offer's currency (it follows the visitor's country).
+    shippingRate: { "@type": "MonetaryAmount", value: "0.00", currency },
+    shippingDestination: { "@type": "DefinedRegion", addressCountry: "AE" },
+    deliveryTime: {
+      "@type": "ShippingDeliveryTime",
+      handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 1, unitCode: "DAY" },
+      transitTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 1, unitCode: "DAY" },
+    },
+  };
+
   const jsonLd = product ? {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -68,6 +90,8 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
         ? "https://schema.org/InStock"
         : "https://schema.org/OutOfStock",
       url: `${SITE_URL}/products/${handle}`,
+      hasMerchantReturnPolicy: returnPolicy,
+      shippingDetails,
     })),
   } : null;
 
