@@ -46,7 +46,7 @@ async function dismissBanner(page) {
 
 async function typeInto(page, selector, value) {
   const el = await page.waitForSelector(selector, { visible: true, timeout: 15000 });
-  await el.click({ clickCount: 3 });
+  await el.click({ count: 3 });
   await el.type(value, { delay: 15 });
 }
 
@@ -220,6 +220,8 @@ if (want(5)) {
     return email;
   }, page);
   await test("Account: sign out", async () => {
+    // Let the post-sign-up reload finish so the button's click handler is attached
+    await page.waitForNetworkIdle({ idleTime: 1000, timeout: 20000 }).catch(() => {});
     await Promise.all([page.waitForNavigation({ timeout: 20000 }), clickText(page, /^sign out$/i)]);
     await page.waitForSelector("form.auth-form", { timeout: 15000 });
   }, page);
@@ -247,6 +249,8 @@ if (want(6)) {
   await page.goto(BASE + "/gift-card", { waitUntil: "networkidle2" });
   await dismissBanner(page);
   await test("Gift card: add to bag and reach checkout", async () => {
+    // GIFT_CARDS_ENABLED=false sends /gift-card back to the home page
+    if (!new URL(page.url()).pathname.startsWith("/gift-card")) return "skipped, gift cards are switched off on the site";
     await typeInto(page, 'input[placeholder="First name"]', "Hhtest Recipient");
     await typeInto(page, 'input[placeholder="Where it should arrive"]', mail("giftcard"));
     const senders = await page.$$('form input[type="text"]');
@@ -274,25 +278,22 @@ if (want(6)) {
   await closePage(page);
 }
 
-// 7. Product review form (opens the visitor's email app)
+// 7. Product review form (sent through Klaviyo to the review inbox)
 if (want(7)) {
   const page = await newPage(browser);
   await page.goto(BASE + "/products/imara-bra", { waitUntil: "networkidle2" });
   await dismissBanner(page);
-  await test("Product review: builds email to hello@hhara.com", async () => {
+  await test("Product review: sends to the review inbox", async () => {
     await clickText(page, /write a review/i);
     await page.waitForSelector('input[placeholder="Enter your name"]', { visible: true, timeout: 10000 });
     await typeInto(page, 'input[placeholder="Enter your name"]', "Hhtest");
     await typeInto(page, 'input[placeholder="Enter your location"]', "Dubai");
     await typeInto(page, "textarea", "Automated form test, please ignore.");
-    const cdp = await page.target().createCDPSession();
-    await cdp.send("Page.enable");
-    let mailto = null;
-    cdp.on("Page.frameRequestedNavigation", (e) => { if (e.url.startsWith("mailto:")) mailto = e.url; });
+    await sleep(3500); // the form rejects submissions made within 3s of opening it
     await page.$eval("textarea", (el) => el.form.requestSubmit());
-    await sleep(2000);
-    if (!mailto) throw new Error("Submitting did not open an email to hello@hhara.com");
-    return decodeURIComponent(mailto).slice(0, 70);
+    await waitForText(page, /review has been sent|couldn't send|too many|something went wrong/i, 25000);
+    const t = await bodyText(page);
+    if (!/review has been sent/i.test(t)) throw new Error("Site showed: " + t.match(/[^\n]*(couldn't send|too many|something went wrong)[^\n]*/i)?.[0]);
   }, page);
   await closePage(page);
 }
