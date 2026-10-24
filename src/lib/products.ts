@@ -90,12 +90,22 @@ const V3_DESCRIPTIONS: Record<string, string> = {
   "HHARA Comfort Socks": "An elevated essential designed with the same attention to detail as the collection, the HHARA Comfort Socks bring refined comfort to every step. A cushioned footbed provides gentle support, while a hand-linked toe seam ensures a smooth, seamless finish. The sleek design adds the finishing touch to any look from intentional movement to everyday styling.\n\nSimple in form, effortless in function, and created to complement the HHARA lifestyle."
 };
 
+/** The colour name shown on the site for a Shopify colour option value. */
+export function displayColorName(value: string): string {
+  return COLOR_NAME_MAP[value] ?? value;
+}
+
+/** The product description shown on the site. */
+export function productDescription(p: Pick<ShopifyProduct, "title" | "description">): string {
+  return V3_DESCRIPTIONS[p.title] || p.description || "";
+}
+
 function mapShopifyProduct(p: ShopifyProduct, index: number): LocalProduct {
   const colorOpt = p.options.find((o) => /color|colour|colorway/i.test(o.name));
   const sizeOpt = p.options.find((o) => /size/i.test(o.name));
 
   const swatches = (colorOpt?.values && colorOpt.values.length ? colorOpt.values : ["Default"]).map((v) => {
-    const displayName = COLOR_NAME_MAP[v] ?? v;
+    const displayName = displayColorName(v);
     return { name: displayName, hex: COLOR_HEX[displayName] || COLOR_HEX[v] || "#3D2B1F" };
   });
   const rawSizes = sizeOpt?.values?.length ? sizeOpt.values : ["One Size"];
@@ -124,7 +134,7 @@ function mapShopifyProduct(p: ShopifyProduct, index: number): LocalProduct {
     ];
   }
 
-  const desc = V3_DESCRIPTIONS[p.title] || p.description || "";
+  const desc = productDescription(p);
 
   return {
     id: `p${index + 1}`,
