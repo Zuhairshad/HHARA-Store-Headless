@@ -79,7 +79,7 @@ async function test(name, fn, page) {
   }
 }
 
-const browser = await puppeteer.launch({ executablePath: CHROME, headless: "new", args: ["--no-first-run"] });
+const browser = await puppeteer.launch({ executablePath: CHROME, headless: true, args: ["--no-first-run"] });
 
 // 2. Signup popup on the home page (opens on scroll)
 if (want(2)) {
