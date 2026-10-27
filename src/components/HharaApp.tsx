@@ -1106,7 +1106,7 @@ function Footer({ setRoute, route = "" }) {
 // === FILE 05-1ba71939-ee08-44bd-a9c0-607c20b1bd8a.jsx ===
 
 function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct = null, checkoutUrl, setRoute, discountCodes, applyDiscount }: { open: any; onClose: any; items: any; updateQty: any; removeItem: any; openProduct?: any; checkoutUrl: any; setRoute: any; discountCodes: any; applyDiscount: any }) {
-  const { format, freeShippingThreshold } = useCurrency();
+  const { format, currency, freeShippingThreshold } = useCurrency();
   const [promo, setPromo] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -1217,12 +1217,34 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
                 disabled={!checkoutUrl}
                 onClick={() => {
                   if (checkoutUrl) {
-                    setRoute("pre-checkout");
-                    onClose();
+                    const totalVal = items.reduce((a: number, i: any) => a + (i.price || 0) * (i.qty || 1), 0);
+                    trackEvent({
+                      name: "checkout_started",
+                      payload: {
+                        currency,
+                        value: totalVal,
+                        checkout_url: checkoutUrl,
+                        items: items.map((i: any) =>
+                          formatEcommerceItem({
+                            id: i.variantId || i.id,
+                            name: i.name,
+                            price: i.price,
+                            brand: "HHARA",
+                            category: "Considered Luxury",
+                            variant: `${i.color} / ${i.size}`,
+                            currency,
+                            quantity: i.qty,
+                          })
+                        ),
+                      },
+                    });
+                    const attr = getStoredAttribution();
+                    const decoratedUrl = appendAttributionToUrl(checkoutUrl, attr);
+                    window.open(decoratedUrl, "_self");
                   }
                 }}
               >
-                Review Order
+                Proceed to Checkout
                 <span className="btn-arrow"><Icon.Arrow /></span>
               </button>
               <div className="micro">Taxes &amp; duties calculated at checkout</div>

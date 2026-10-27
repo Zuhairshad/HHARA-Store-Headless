@@ -15,3 +15,9 @@ public/images/products/
 
 # form test output
 .form-test/
+
+# scratch / backup files (not part of the Next.js app)
+*.xlsx
+theme-backup/
+theme-edit/
+hhara-shipping-page*.html
