@@ -5256,6 +5256,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
   const [selectedColorFilter, setSelectedColorFilter] = useState<string | null>(null);
   const [selectedCatFilter, setSelectedCatFilter] = useState<string | null>(null);
   const [initialProductColor, setInitialProductColor] = useState<string | null>(null);
+  const historyReadyRef = useRef(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -5285,7 +5286,13 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
 
     const pageLocation = `${window.location.origin}${pagePath}`;
 
-    window.history.pushState({ route, productId }, pageTitle, pagePath);
+    // Back/forward and the first render only sync the current entry; pushing here would trap the back button.
+    if (!historyReadyRef.current || window.location.pathname === pagePath) {
+      window.history.replaceState({ route, productId }, pageTitle, pagePath + window.location.search);
+    } else {
+      window.history.pushState({ route, productId }, pageTitle, pagePath);
+    }
+    historyReadyRef.current = true;
     document.title = pageTitle;
 
     trackEvent({
@@ -5330,11 +5337,23 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
 
   useEffect(() => {
     const onPop = (e: PopStateEvent) => {
-      const state = e.state;
-      if (state?.route) {
-        setRouteState(state.route);
-        if (state.productId) setProductId(state.productId);
+      let nextRoute: string | undefined = e.state?.route;
+      let nextProductId: string | undefined = e.state?.productId;
+      if (!nextRoute) {
+        // Entries created by the initial page load carry no state; derive the route from the URL.
+        const path = window.location.pathname.replace(/\/+$/, "") || "/";
+        if (path === "/") nextRoute = "home";
+        else if (path === "/about-us") nextRoute = "atelier";
+        else if (path === "/social-impact") nextRoute = "stores";
+        else if (path.startsWith("/products/")) {
+          const handle = path.slice("/products/".length);
+          const match = products.find((p: any) => (p.shopifyHandle || p.id) === handle);
+          if (match) { nextRoute = "product"; nextProductId = match.id; }
+        } else nextRoute = path.slice(1);
       }
+      if (!nextRoute) return;
+      setRouteState(nextRoute);
+      if (nextProductId) setProductId(nextProductId);
     };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
