@@ -712,7 +712,7 @@ export async function getOrderByNameAndEmail(
 export async function cartDiscountCodesUpdate(cartId: string, discountCodes: string[]): Promise<ShopifyCart> {
   const query = /* GraphQL */ `
     ${CART_FRAGMENT}
-    mutation CartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!]) {
+    mutation CartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!]!) {
       cartDiscountCodesUpdate(cartId: $cartId, discountCodes: $discountCodes) {
         cart { ...CartFields }
         userErrors { message }
