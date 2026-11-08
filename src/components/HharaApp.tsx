@@ -466,12 +466,19 @@ function CurrencySelect() {
   );
 }
 
+// Sign-up offer. The code only works in Shopify for email subscribers
+// (discount "Sign-up 10% (WELCOME10)", limited to the "Email subscribers" segment, once per customer).
+const SIGNUP_DISCOUNT_CODE = "WELCOME10";
+const SIGNUP_OFFER_BANNER = "Sign up & get 10% off";
+const OPEN_SIGNUP_EVENT = "hhara:open-signup";
+
 function Announce() {
   const { format, freeShippingThreshold } = useCurrency();
   const [index, setIndex] = useState(0);
   const messages = [
     "Free Next Day Delivery in UAE",
-    `Free Global Express Shipping Over ${format(freeShippingThreshold)}`
+    `Free Global Express Shipping Over ${format(freeShippingThreshold)}`,
+    SIGNUP_OFFER_BANNER
   ];
 
   useEffect(() => {
@@ -493,7 +500,15 @@ function Announce() {
             width: "100%"
           }}
         >
-          {messages[index]}
+          {messages[index] === SIGNUP_OFFER_BANNER ? (
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event(OPEN_SIGNUP_EVENT))}
+              style={{ background: "none", border: "none", padding: 0, color: "inherit", font: "inherit", letterSpacing: "inherit", textTransform: "inherit", cursor: "pointer", textDecoration: "underline", textUnderlineOffset: 3 }}
+            >
+              {SIGNUP_OFFER_BANNER}
+            </button>
+          ) : messages[index]}
         </span>
       </div>
       <div className="announce-locale">
@@ -1126,7 +1141,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
     }
   };
 
-  const activeDiscount = discountCodes?.find((d: any) => d.applicable);
+  const enteredDiscount = discountCodes?.find((d: any) => d.applicable) || discountCodes?.[0];
   const subtotal = items.reduce((a, i) => a + i.price * i.qty, 0);
   const freeThreshold = freeShippingThreshold;
   const progress = Math.min(subtotal / freeThreshold, 1);
@@ -1198,7 +1213,34 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
               })}
             </div>
             <div className="cart-foot">
-                {error && <div style={{ color: "#7a2e3a", fontSize: 12, marginBottom: 16 }}>{error}</div>}
+              {!enteredDiscount ? (
+                <form onSubmit={handleApplyPromo} className="promo-form" style={{ display: "flex", gap: 8, margin: "0 0 16px" }}>
+                  <input
+                    type="text"
+                    placeholder="Discount Code"
+                    value={promo}
+                    maxLength={40}
+                    onChange={(e) => setPromo(e.target.value.toUpperCase())}
+                    disabled={busy}
+                    style={{ flex: 1, minWidth: 0, padding: "8px 12px", border: "1px solid var(--line-soft)", background: "transparent", fontSize: 13 }}
+                  />
+                  <button type="submit" disabled={busy || !promo.trim()} className="btn" style={{ padding: "8px 16px", fontSize: 12, minHeight: "unset" }}>
+                    {busy ? "Applying..." : "Apply"}
+                  </button>
+                </form>
+              ) : (
+                <div style={{ margin: "0 0 16px", border: "1px solid var(--line-soft)", padding: "8px 12px", fontSize: 13 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+                    <span>Code: <strong>{enteredDiscount.code}</strong></span>
+                    <button onClick={() => applyDiscount("").catch(() => { })} style={{ background: "none", border: "none", color: "var(--ink-soft)", textDecoration: "underline", fontSize: 12, cursor: "pointer", padding: 0 }}>Remove</button>
+                  </div>
+                  {/* Sign-up codes are checked against the shopper's email, which Shopify only knows at checkout */}
+                  {!enteredDiscount.applicable && (
+                    <div style={{ fontSize: 11, color: "var(--ink-soft)", marginTop: 4 }}>Your discount is applied at checkout when you use the email you signed up with.</div>
+                  )}
+                </div>
+              )}
+              {error && <div style={{ color: "#7a2e3a", fontSize: 12, marginTop: -8, marginBottom: 16 }}>{error}</div>}
               <div className="cart-row">
                 <span>Subtotal</span>
                 <span>{format(subtotal)}</span>
@@ -5482,6 +5524,26 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     setSignupPopupOpen(true);
   };
 
+  // The announcement bar's sign-up offer opens the popup
+  useEffect(() => {
+    const open = () => {
+      setSignupStatus("idle");
+      setPopupFormTs(Date.now());
+      setSignupPopupOpen(true);
+    };
+    window.addEventListener(OPEN_SIGNUP_EVENT, open);
+    return () => window.removeEventListener(OPEN_SIGNUP_EVENT, open);
+  }, []);
+
+  const [codeCopied, setCodeCopied] = useState(false);
+  const copySignupCode = async () => {
+    try {
+      await navigator.clipboard.writeText(SIGNUP_DISCOUNT_CODE);
+      setCodeCopied(true);
+      setTimeout(() => setCodeCopied(false), 2000);
+    } catch { }
+  };
+
   const setRoute = (r, payload?, colorName?) => {
     setRouteState(r);
     if (r === "product" && payload) { setProductId(payload); setInitialProductColor(colorName || null); }
@@ -5784,7 +5846,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
           onClick={closeSignupPopup}
         >
           <div
-            className="signup-popup-inner relative max-w-[360px] md:max-w-4xl w-full bg-white text-[#241811] shadow-[0_0_0_1px_#fff] overflow-hidden rounded-none flex flex-col md:grid md:grid-cols-2 md:h-[475px] h-[90vh] max-h-[700px]"
+            className="signup-popup-inner relative max-w-[360px] md:max-w-4xl w-full bg-white text-[#241811] shadow-[0_0_0_1px_#fff] overflow-hidden rounded-none flex flex-col md:grid md:grid-cols-2 md:h-[530px] h-[90vh] max-h-[700px]"
             onClick={(e) => e.stopPropagation()}
           >
 
@@ -5822,8 +5884,14 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                     alt="HHARA"
                     className="hidden md:block h-7 md:h-8 w-auto mb-3"
                   />
-                  <p className="text-xs text-[#241811]/85 leading-relaxed font-light text-center mb-2 md:mb-2.5 -mt-3 md:mt-0">
-                    Be the first to discover new collections, limited releases, surprise gifts and exclusive stories from the world of HHARA.
+                  <h3
+                    className="text-center text-[28px] md:text-[34px] leading-none mb-1.5 md:mb-2 -mt-3 md:mt-0"
+                    style={{ fontFamily: "var(--display)" }}
+                  >
+                    Get 10% off*
+                  </h3>
+                  <p className="text-xs text-[#241811]/85 leading-relaxed font-light text-center mb-2 md:mb-2.5">
+                    Sign up for 10% off your order, plus first access to new collections, limited releases, surprise gifts and exclusive stories from the world of HHARA.
                   </p>
 
                   <form onSubmit={handleNewsletterSignup} className="w-full space-y-2 md:space-y-4">
@@ -5905,6 +5973,9 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                     By signing up, you agree to receive marketing emails from HHARA. You can unsubscribe at any time. See our{" "}
                     <button type="button" onClick={() => { closeSignupPopup(); setRoute("privacy", null); }} className="underline hover:text-[#241811] font-medium">Privacy Policy</button>.
                   </p>
+                  <p className="text-[10px] text-[#241811]/55 mt-1.5 md:mt-2 leading-snug text-center font-light">
+                    *One use per customer. Valid when you check out with the email you signed up with.
+                  </p>
                 </div>
               ) : (
                 <div className="flex flex-col items-center text-center py-8">
@@ -5915,7 +5986,19 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                   </div>
                   <h4 style={{ fontFamily: "var(--display)", fontSize: "26px", marginBottom: "8px" }}>Welcome to HHARA</h4>
                   <p className="text-xs md:text-sm text-[#241811]/80 leading-relaxed font-light">
-                    You're on the list. Welcome to HHARA.
+                    You're on the list. Here's your 10% off:
+                  </p>
+                  <button
+                    type="button"
+                    onClick={copySignupCode}
+                    className="mt-4 flex items-center gap-3 border border-dashed border-[#241811] px-5 py-2.5 hover:bg-[#F7F3ED] transition-colors"
+                    aria-label={`Copy discount code ${SIGNUP_DISCOUNT_CODE}`}
+                  >
+                    <span className="tracking-[0.25em] text-sm md:text-base font-medium">{SIGNUP_DISCOUNT_CODE}</span>
+                    <span className="text-[10px] uppercase tracking-widest text-[#241811]/60">{codeCopied ? "Copied" : "Copy"}</span>
+                  </button>
+                  <p className="text-[11px] text-[#241811]/60 leading-relaxed font-light mt-3 max-w-[280px]">
+                    Enter it in your bag or at checkout, using the email you signed up with ({newsletterEmail}).
                   </p>
                 </div>
               )}

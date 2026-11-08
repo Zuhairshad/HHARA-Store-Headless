@@ -1,6 +1,6 @@
 "use server";
 
-import { setCustomerNote, shopifyFetch } from "./shopify";
+import { setCustomerNote, shopifyFetch, subscribeExistingCustomer } from "./shopify";
 import { verifyHumanSubmission } from "./bot-protection";
 import { subscribeKlaviyo, updateKlaviyoProfile } from "./klaviyo";
 
@@ -73,7 +73,10 @@ async function subscribeShopify(
     const errs = data.customerCreate.customerUserErrors;
     if (errs.length) {
       // Treat duplicate as success - they're already on the list
-      if (errs.some((e) => /already/i.test(e.message) || e.code === "TAKEN")) return { ok: true };
+      if (errs.some((e) => /already/i.test(e.message) || e.code === "TAKEN")) {
+        await subscribeExistingCustomer(input.email);
+        return { ok: true };
+      }
       // Never show Shopify's internal messages (e.g. about the hidden generated password) to visitors
       console.error("[newsletter] Shopify customerCreate failed:", errs);
       if (errs.some((e: any) => e.field?.includes("email"))) {

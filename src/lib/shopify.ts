@@ -428,6 +428,42 @@ export async function customerCreate(input: {
   return { customer, errors: data.customerCreate.customerUserErrors };
 }
 
+// An existing customer signing up again isn't touched by the Storefront customerCreate,
+// so mark them as an email subscriber here (the sign-up discount is limited to subscribers).
+// Best effort: a failure here must not fail the signup itself.
+export async function subscribeExistingCustomer(email: string): Promise<void> {
+  try {
+    const found = await shopifyAdminFetch<{ customers: { nodes: { id: string; emailMarketingConsent: { marketingState: string } | null }[] } }>(
+      /* GraphQL */ `
+        query FindCustomer($q: String!) {
+          customers(first: 1, query: $q) { nodes { id emailMarketingConsent { marketingState } } }
+        }
+      `,
+      { q: `email:"${email.replace(/"/g, "")}"` }
+    );
+    const customer = found.customers.nodes[0];
+    if (!customer || customer.emailMarketingConsent?.marketingState === "SUBSCRIBED") return;
+    const data = await shopifyAdminFetch<{ customerEmailMarketingConsentUpdate: { userErrors: { message: string }[] } }>(
+      /* GraphQL */ `
+        mutation Consent($input: CustomerEmailMarketingConsentUpdateInput!) {
+          customerEmailMarketingConsentUpdate(input: $input) { userErrors { field message } }
+        }
+      `,
+      {
+        input: {
+          customerId: customer.id,
+          emailMarketingConsent: { marketingState: "SUBSCRIBED", marketingOptInLevel: "SINGLE_OPT_IN" },
+        },
+      }
+    );
+    if (data.customerEmailMarketingConsentUpdate.userErrors.length) {
+      console.error("[subscribeExistingCustomer]", data.customerEmailMarketingConsentUpdate.userErrors);
+    }
+  } catch (err) {
+    console.error("[subscribeExistingCustomer]", err);
+  }
+}
+
 // Best effort: a failure here must not fail the signup itself.
 export async function setCustomerNote(customerId: string, note: string): Promise<void> {
   const query = /* GraphQL */ `
