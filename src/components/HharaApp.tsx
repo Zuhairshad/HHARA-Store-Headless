@@ -1141,7 +1141,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
     }
   };
 
-  const enteredDiscount = discountCodes?.find((d: any) => d.applicable) || discountCodes?.[0];
+  const activeDiscount = discountCodes?.find((d: any) => d.applicable);
   const subtotal = items.reduce((a, i) => a + i.price * i.qty, 0);
   const freeThreshold = freeShippingThreshold;
   const progress = Math.min(subtotal / freeThreshold, 1);
@@ -1213,34 +1213,7 @@ function CartDrawer({ open, onClose, items, updateQty, removeItem, openProduct =
               })}
             </div>
             <div className="cart-foot">
-              {!enteredDiscount ? (
-                <form onSubmit={handleApplyPromo} className="promo-form" style={{ display: "flex", gap: 8, margin: "0 0 16px" }}>
-                  <input
-                    type="text"
-                    placeholder="Discount Code"
-                    value={promo}
-                    maxLength={40}
-                    onChange={(e) => setPromo(e.target.value.toUpperCase())}
-                    disabled={busy}
-                    style={{ flex: 1, minWidth: 0, padding: "8px 12px", border: "1px solid var(--line-soft)", background: "transparent", fontSize: 13 }}
-                  />
-                  <button type="submit" disabled={busy || !promo.trim()} className="btn" style={{ padding: "8px 16px", fontSize: 12, minHeight: "unset" }}>
-                    {busy ? "Applying..." : "Apply"}
-                  </button>
-                </form>
-              ) : (
-                <div style={{ margin: "0 0 16px", border: "1px solid var(--line-soft)", padding: "8px 12px", fontSize: 13 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-                    <span>Code: <strong>{enteredDiscount.code}</strong></span>
-                    <button onClick={() => applyDiscount("").catch(() => { })} style={{ background: "none", border: "none", color: "var(--ink-soft)", textDecoration: "underline", fontSize: 12, cursor: "pointer", padding: 0 }}>Remove</button>
-                  </div>
-                  {/* Sign-up codes are checked against the shopper's email, which Shopify only knows at checkout */}
-                  {!enteredDiscount.applicable && (
-                    <div style={{ fontSize: 11, color: "var(--ink-soft)", marginTop: 4 }}>Your discount is applied at checkout when you use the email you signed up with.</div>
-                  )}
-                </div>
-              )}
-              {error && <div style={{ color: "#7a2e3a", fontSize: 12, marginTop: -8, marginBottom: 16 }}>{error}</div>}
+                {error && <div style={{ color: "#7a2e3a", fontSize: 12, marginBottom: 16 }}>{error}</div>}
               <div className="cart-row">
                 <span>Subtotal</span>
                 <span>{format(subtotal)}</span>
@@ -5998,7 +5971,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                     <span className="text-[10px] uppercase tracking-widest text-[#241811]/60">{codeCopied ? "Copied" : "Copy"}</span>
                   </button>
                   <p className="text-[11px] text-[#241811]/60 leading-relaxed font-light mt-3 max-w-[280px]">
-                    Enter it in your bag or at checkout, using the email you signed up with ({newsletterEmail}).
+                    Enter it at checkout with the email you signed up with ({newsletterEmail}).
                   </p>
                 </div>
               )}
