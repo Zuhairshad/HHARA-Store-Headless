@@ -469,7 +469,7 @@ function CurrencySelect() {
 // Sign-up offer. The code only works in Shopify for email subscribers
 // (discount "Sign-up 10% (WELCOME10)", limited to the "Email subscribers" segment, once per customer).
 const SIGNUP_DISCOUNT_CODE = "WELCOME10";
-const SIGNUP_OFFER_BANNER = "Sign up & get 10% off";
+const SIGNUP_OFFER_BANNER = `Sign up & use code ${SIGNUP_DISCOUNT_CODE} for 10% off`;
 const OPEN_SIGNUP_EVENT = "hhara:open-signup";
 
 function Announce() {
@@ -5864,7 +5864,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                     Get 10% off*
                   </h3>
                   <p className="text-xs text-[#241811]/85 leading-relaxed font-light text-center mb-2 md:mb-2.5">
-                    Sign up for 10% off your order, plus first access to new collections, limited releases, surprise gifts and exclusive stories from the world of HHARA.
+                    Sign up and use code <strong className="font-semibold tracking-[0.12em] text-[#241811]">{SIGNUP_DISCOUNT_CODE}</strong> at checkout for 10% off your order, plus first access to new collections, limited releases and exclusive stories from the world of HHARA.
                   </p>
 
                   <form onSubmit={handleNewsletterSignup} className="w-full space-y-2 md:space-y-4">
