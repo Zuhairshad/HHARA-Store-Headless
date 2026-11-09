@@ -5839,10 +5839,10 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                     className="text-center text-[28px] md:text-[34px] leading-none mb-1.5 md:mb-2 -mt-3 md:mt-0"
                     style={{ fontFamily: "var(--display)" }}
                   >
-                    Get 10% off*
+                    You are wonder.
                   </h3>
                   <p className="text-xs text-[#241811]/85 leading-relaxed font-light text-center mb-2 md:mb-2.5">
-                    Sign up and use code <strong className="font-semibold tracking-[0.12em] text-[#241811]">{SIGNUP_DISCOUNT_CODE}</strong> at checkout for 10% off your order, plus first access to new collections, limited releases and exclusive stories from the world of HHARA.
+                    Enjoy <span className="text-[18px] md:text-[20px] leading-none text-[#241811]" style={{ fontFamily: "var(--display)" }}>10%</span> off your first HHARA order, along with early access to new collections and exclusive moments from our world.
                   </p>
 
                   <form onSubmit={handleNewsletterSignup} className="w-full space-y-2 md:space-y-4">
@@ -5909,9 +5909,14 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                       <button
                         type="submit"
                         disabled={signupStatus === "loading"}
-                        className="shrink-0 bg-[#241811] hover:bg-[#241811] text-[#F7F3ED] transition-colors tracking-widest text-[11px] uppercase font-medium disabled:opacity-50 px-6"
+                        className="shrink-0 bg-[#241811] hover:bg-[#241811] text-[#F7F3ED] transition-colors tracking-widest md:tracking-[0.14em] text-[11px] uppercase font-medium disabled:opacity-50 px-6 md:px-5"
                       >
-                        {signupStatus === "loading" ? "…" : "Join"}
+                        {signupStatus === "loading" ? "…" : (
+                          <>
+                            <span className="md:hidden">Join</span>
+                            <span className="hidden md:inline">Join the HHARA Circle</span>
+                          </>
+                        )}
                       </button>
                     </div>
                   </form>
@@ -5921,11 +5926,11 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                   )}
 
                   <p className="text-xs text-[#241811]/70 mt-2.5 md:mt-5 leading-relaxed text-center font-light">
-                    By signing up, you agree to receive marketing emails from HHARA. You can unsubscribe at any time. See our{" "}
+                    By joining, you agree to receive marketing emails from HHARA. Unsubscribe at any time.{" "}
                     <button type="button" onClick={() => { closeSignupPopup(); setRoute("privacy", null); }} className="underline hover:text-[#241811] font-medium">Privacy Policy</button>.
                   </p>
                   <p className="text-[10px] text-[#241811]/55 mt-1.5 md:mt-2 leading-snug text-center font-light">
-                    *One use per customer. Valid when you check out with the email you signed up with.
+                    Your code is valid for 14 days from signup, on your first qualifying order.
                   </p>
                 </div>
               ) : (
