@@ -469,16 +469,13 @@ function CurrencySelect() {
 // Sign-up offer. The code only works in Shopify for email subscribers
 // (discount "Sign-up 10% (WELCOME10)", limited to the "Email subscribers" segment, once per customer).
 const SIGNUP_DISCOUNT_CODE = "WELCOME10";
-const SIGNUP_OFFER_BANNER = `Sign up & use code ${SIGNUP_DISCOUNT_CODE} for 10% off`;
-const OPEN_SIGNUP_EVENT = "hhara:open-signup";
 
 function Announce() {
   const { format, freeShippingThreshold } = useCurrency();
   const [index, setIndex] = useState(0);
   const messages = [
     "Free Next Day Delivery in UAE",
-    `Free Global Express Shipping Over ${format(freeShippingThreshold)}`,
-    SIGNUP_OFFER_BANNER
+    `Free Global Express Shipping Over ${format(freeShippingThreshold)}`
   ];
 
   useEffect(() => {
@@ -500,15 +497,7 @@ function Announce() {
             width: "100%"
           }}
         >
-          {messages[index] === SIGNUP_OFFER_BANNER ? (
-            <button
-              type="button"
-              onClick={() => window.dispatchEvent(new Event(OPEN_SIGNUP_EVENT))}
-              style={{ background: "none", border: "none", padding: 0, color: "inherit", font: "inherit", letterSpacing: "inherit", textTransform: "inherit", cursor: "pointer", textDecoration: "underline", textUnderlineOffset: 3 }}
-            >
-              {SIGNUP_OFFER_BANNER}
-            </button>
-          ) : messages[index]}
+          {messages[index]}
         </span>
       </div>
       <div className="announce-locale">
@@ -5496,17 +5485,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
   const openSignupPopup = () => {
     setSignupPopupOpen(true);
   };
-
-  // The announcement bar's sign-up offer opens the popup
-  useEffect(() => {
-    const open = () => {
-      setSignupStatus("idle");
-      setPopupFormTs(Date.now());
-      setSignupPopupOpen(true);
-    };
-    window.addEventListener(OPEN_SIGNUP_EVENT, open);
-    return () => window.removeEventListener(OPEN_SIGNUP_EVENT, open);
-  }, []);
 
   const [codeCopied, setCodeCopied] = useState(false);
   const copySignupCode = async () => {
