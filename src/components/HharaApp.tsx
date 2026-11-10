@@ -5813,14 +5813,14 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
               <svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
             </button>
 
-            {/* Campaign image — shown whole (never cropped): full width on top on mobile, a 3:4 column
-                matching the photo on desktop. The backdrop matches the photo's studio background. */}
-            <div className="relative w-full aspect-[3/2] shrink-0 md:w-auto md:h-full md:aspect-[3/4] bg-[#F7EFEC]">
+            {/* Campaign image — the box takes the photo's own 3:4 shape, so the whole photo shows with
+                nothing cropped and no filler: full width on top on mobile, a column on desktop. */}
+            <div className="relative w-full aspect-[3/4] shrink-0 md:w-auto md:h-full bg-[#F7EFEC]">
               <Image
                 src="/images/signup-popup.jpeg"
                 alt="HHARA"
                 fill
-                className="object-contain [mask-image:linear-gradient(to_right,transparent_25%,#000_29%,#000_71%,transparent_75%)] md:[mask-image:none]"
+                className="object-contain"
                 sizes="(max-width: 768px) 420px, 500px"
                 priority
               />
