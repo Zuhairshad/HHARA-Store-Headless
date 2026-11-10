@@ -11,7 +11,7 @@ import { submitReview } from "@/lib/review-actions";
 import { MagneticImpactCard } from "@/components/ui/morphing-cursor";
 import CardLogos from "@/components/CardLogos";
 import { useCurrency } from "@/components/CurrencyProvider";
-import { PhoneCountrySelect, useDefaultPhoneCountry } from "@/components/PhoneCountry";
+import { useDefaultPhoneCountry } from "@/components/PhoneCountry";
 import { dialCode } from "@/lib/dial-codes";
 import {
   trackEvent,
@@ -5797,55 +5797,57 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
           onClick={closeSignupPopup}
         >
           <div
-            className="signup-popup-inner relative max-w-[360px] md:max-w-4xl w-full bg-white text-[#241811] shadow-[0_0_0_1px_#fff] overflow-hidden rounded-none flex flex-col md:grid md:grid-cols-2 md:h-[530px] h-[90vh] max-h-[700px]"
+            className="signup-popup-inner relative w-full max-w-[420px] md:max-w-[880px] max-h-[94dvh] md:h-[660px] md:max-h-[92vh] bg-[#F6F2EC] text-[#241811] overflow-y-auto md:overflow-hidden rounded-none flex flex-col md:flex-row"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Join the HHARA Circle"
             onClick={(e) => e.stopPropagation()}
           >
 
-            {/* Close button */}
+            {/* Close button — cream disc over the image on mobile, plain cross on desktop */}
             <button
               onClick={closeSignupPopup}
-              className="absolute top-3 right-3 z-10 w-7 h-7 flex items-center justify-center text-[#241811]/60 hover:text-[#241811] transition-colors"
+              className="absolute top-3 right-3 md:top-5 md:right-5 z-10 w-10 h-10 rounded-full md:rounded-none bg-[#F6F2EC] md:bg-transparent flex items-center justify-center text-[#241811] hover:opacity-70 transition-opacity"
               aria-label="Close"
             >
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+              <svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
             </button>
 
-            {/* Image — takes all available space on mobile, 50% on desktop */}
-            <div className="relative flex-1 min-h-0 md:flex-none md:h-full w-full bg-white md:bg-[#241811] pt-5 px-5 pb-[50px] md:p-0">
-              <div className="relative w-full h-full overflow-hidden rounded-sm md:rounded-none">
-                <Image
-                  src="/images/signup-popup.jpeg"
-                  alt="HHARA"
-                  fill
-                  className="object-cover object-top"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  priority
-                />
-              </div>
+            {/* Campaign image — full width on top on mobile, 380px column on desktop */}
+            <div className="relative w-full aspect-[2/1] shrink-0 md:aspect-auto md:w-[380px] md:h-full bg-[#DCD3C5]">
+              <Image
+                src="/images/signup-popup.jpeg"
+                alt="HHARA"
+                fill
+                className="object-cover object-[50%_50%] md:object-center"
+                sizes="(max-width: 768px) 420px, 380px"
+                priority
+              />
             </div>
 
-            {/* Form — compact at bottom on mobile, 50% on desktop */}
-            <div className="relative px-3 pb-3 pt-2 -mt-[30px] md:mt-0 md:px-10 md:py-8 flex flex-col justify-center bg-white text-[#241811] shrink-0 md:shrink md:flex-1">
+            {/* Form */}
+            <div className="relative flex-1 min-w-0 flex flex-col justify-center px-6 pt-6 pb-7 md:px-[60px] md:py-10 md:overflow-y-auto">
 
               {signupStatus !== "success" ? (
-                <div className="w-full flex flex-col items-center">
-                  {/* HHARA Logo (Desktop only) */}
-                  <img
-                    src="/images/hhara-logo.png"
-                    alt="HHARA"
-                    className="hidden md:block h-7 md:h-8 w-auto mb-3"
-                  />
-                  <h3
-                    className="text-center text-[28px] md:text-[34px] leading-none mb-1.5 md:mb-2 -mt-3 md:mt-0"
+                <div className="w-full">
+                  <div
+                    className="text-[20px] md:text-[22px] leading-none tracking-[0.32em] mb-4 md:mb-8"
                     style={{ fontFamily: "var(--display)" }}
+                    aria-hidden="true"
+                  >
+                    HHARA
+                  </div>
+                  <h3
+                    className="text-[38px] md:text-[56px] leading-[1.05] mb-3 md:mb-6"
+                    style={{ fontFamily: "var(--display)", fontWeight: 400, letterSpacing: "-0.01em" }}
                   >
                     You are wonder.
                   </h3>
-                  <p className="text-xs text-[#241811]/85 leading-relaxed font-light text-center mb-2 md:mb-2.5">
-                    Enjoy <span className="text-[18px] md:text-[20px] leading-none text-[#241811]" style={{ fontFamily: "var(--display)" }}>10%</span> off your first HHARA order, along with early access to new collections and exclusive moments from our world.
+                  <p className="text-[14px] md:text-[15px] leading-[1.6] text-[#241811]/90 mb-4 md:mb-7">
+                    Enjoy <span className="text-[26px] md:text-[28px] leading-none text-[#241811]" style={{ fontFamily: "var(--display)" }}>10%</span> off your first HHARA order, along with early access to new collections and exclusive moments from our world.
                   </p>
 
-                  <form onSubmit={handleNewsletterSignup} className="w-full space-y-2 md:space-y-4">
+                  <form onSubmit={handleNewsletterSignup} className="w-full">
                     <input
                       type="text"
                       name="_hp_company"
@@ -5856,80 +5858,46 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                       aria-hidden="true"
                       style={{ display: "none", opacity: 0, position: "absolute", left: "-9999px" }}
                     />
-                    {/* Row 1: First Name & Birthday */}
-                    <div className="grid grid-cols-2 gap-2 md:gap-4">
+                    <label className="block mb-4 md:mb-6">
+                      <span className="block text-[12px] tracking-[0.04em] font-medium mb-1">First name</span>
                       <input
                         type="text"
                         required
-                        placeholder="First Name"
+                        autoComplete="given-name"
                         value={newsletterName}
                         onChange={(e) => setNewsletterName(e.target.value.replace(/[^a-zA-Z\s]/g, ""))}
-                        className="w-full bg-white text-[#241811] border border-[#D0C8BC] focus:border-[#241811] outline-none py-2 md:py-2.5 px-3 md:px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light transition-colors"
+                        className="w-full bg-transparent text-[#241811] border-0 border-b border-[#8C7A6B] focus:border-[#241811] outline-none rounded-none py-1.5 md:py-2 px-0 text-[16px] md:text-[15px] transition-colors"
                       />
-                      <input
-                        type="date"
-                        required
-                        value={newsletterDob}
-                        onChange={(e) => setNewsletterDob(e.target.value)}
-                        max={new Date().toISOString().split("T")[0]}
-                        placeholder="Birthday"
-                        className="w-full bg-white text-[#241811] border border-[#D0C8BC] focus:border-[#241811] outline-none py-2 md:py-2.5 px-3 md:px-3.5 text-xs md:text-sm font-light transition-colors [color-scheme:light]"
-                      />
-                    </div>
-
-                    {/* Row 2: Phone Number */}
-                    <div className="w-full flex gap-0 border border-[#D0C8BC] focus-within:border-[#241811] transition-colors bg-white">
-                      <PhoneCountrySelect
-                        value={newsletterPhoneCountry}
-                        onChange={setNewsletterPhoneCountry}
-                        className="bg-transparent text-[#241811] border-0 border-r border-[#D0C8BC] outline-none py-2 md:py-2.5 px-2 text-xs font-light cursor-pointer shrink-0"
-                        style={{ width: "76px" }}
-                      />
-                      <input
-                        type="tel"
-                        inputMode="numeric"
-                        placeholder="Phone Number"
-                        maxLength={15}
-                        value={newsletterPhone}
-                        onChange={(e) => setNewsletterPhone(e.target.value.replace(/[^0-9]/g, ""))}
-                        className="flex-1 min-w-0 bg-transparent text-[#241811] border-0 outline-none py-2 md:py-2.5 px-3 md:px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light"
-                      />
-                    </div>
-
-                    {/* Row 3: Email Address + JOIN button attached inline */}
-                    <div className="w-full flex gap-0 border border-[#D0C8BC] focus-within:border-[#241811] transition-colors bg-white">
+                    </label>
+                    <label className="block mb-5 md:mb-8">
+                      <span className="block text-[12px] tracking-[0.04em] font-medium mb-1">Email address</span>
                       <input
                         type="email"
                         required
-                        placeholder="Email Address"
+                        autoComplete="email"
                         value={newsletterEmail}
                         onChange={(e) => setNewsletterEmail(e.target.value)}
-                        className="flex-1 min-w-0 bg-transparent text-[#241811] border-0 outline-none py-2 md:py-2.5 px-3 md:px-3.5 text-xs md:text-sm placeholder-[#7A6555]/60 font-light"
+                        className="w-full bg-transparent text-[#241811] border-0 border-b border-[#8C7A6B] focus:border-[#241811] outline-none rounded-none py-1.5 md:py-2 px-0 text-[16px] md:text-[15px] transition-colors"
                       />
-                      <button
-                        type="submit"
-                        disabled={signupStatus === "loading"}
-                        className="shrink-0 bg-[#241811] hover:bg-[#241811] text-[#F7F3ED] transition-colors tracking-widest md:tracking-[0.14em] text-[11px] uppercase font-medium disabled:opacity-50 px-6 md:px-5"
-                      >
-                        {signupStatus === "loading" ? "…" : (
-                          <>
-                            <span className="md:hidden">Join</span>
-                            <span className="hidden md:inline">Join the HHARA Circle</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
+                    </label>
+                    <button
+                      type="submit"
+                      disabled={signupStatus === "loading"}
+                      className="w-full h-[52px] md:h-[54px] bg-[#241811] text-[#F7F3ED] hover:bg-[#3A2A20] transition-colors text-[12px] md:text-[13px] tracking-[0.2em] uppercase font-medium disabled:opacity-50"
+                    >
+                      {signupStatus === "loading" ? "Joining…" : "Join the HHARA Circle"}
+                    </button>
                   </form>
 
                   {signupStatus === "error" && (
-                    <p className="text-xs text-red-600 mt-2 text-center">{signupError}</p>
+                    <p className="text-xs text-red-700 mt-3">{signupError}</p>
                   )}
 
-                  <p className="text-xs text-[#241811]/70 mt-2.5 md:mt-5 leading-relaxed text-center font-light">
+                  <p className="text-[12px] text-[#241811]/65 mt-5 leading-relaxed">
                     By joining, you agree to receive marketing emails from HHARA. Unsubscribe at any time.{" "}
-                    <button type="button" onClick={() => { closeSignupPopup(); setRoute("privacy", null); }} className="underline hover:text-[#241811] font-medium">Privacy Policy</button>.
+                    <span className="whitespace-nowrap"><button type="button" onClick={() => { closeSignupPopup(); setRoute("privacy", null); }} className="underline underline-offset-2 text-[#241811] hover:opacity-70">Privacy Policy</button>.</span>
                   </p>
-                  <p className="text-[10px] text-[#241811]/55 mt-1.5 md:mt-2 leading-snug text-center font-light">
+                  <p className="text-[12px] text-[#241811]/65 mt-1.5 leading-relaxed">
                     Your code is valid for 14 days from signup, on your first qualifying order.
                   </p>
                 </div>

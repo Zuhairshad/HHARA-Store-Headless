@@ -86,37 +86,30 @@ if (want(2)) {
   const page = await newPage(browser);
   await page.goto(BASE + "/", { waitUntil: "networkidle2" });
   await dismissBanner(page);
+  const POPUP_EMAIL = '.signup-popup-inner input[type="email"]';
+  const POPUP_NAME = '.signup-popup-inner input[autocomplete="given-name"]';
   await test("Popup: opens on scroll", async () => {
     await sleep(1500);
     await page.evaluate(() => window.scrollTo(0, 600));
-    await page.waitForSelector('input[placeholder="Email Address"]', { visible: true, timeout: 8000 });
+    await page.waitForSelector(POPUP_EMAIL, { visible: true, timeout: 8000 });
   }, page);
-  await test("Popup: signup with name, birthday and phone", async () => {
+  await test("Popup: signup with name and email", async () => {
     const email = mail("popup");
-    await typeInto(page, 'input[placeholder="First Name"]', "Hhtest");
-    await page.$eval('input[type="date"][placeholder="Birthday"]', (el) => {
-      const set = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
-      set.call(el, "1995-05-20");
-      el.dispatchEvent(new Event("input", { bubbles: true }));
-    });
-    const phone = "50" + String(Math.floor(1e6 + Math.random() * 8e6));
-    await typeInto(page, 'input[placeholder="Phone Number"]', phone);
-    await typeInto(page, 'input[placeholder="Email Address"]', email);
+    await typeInto(page, POPUP_NAME, "Hhtest");
+    await typeInto(page, POPUP_EMAIL, email);
     await sleep(1200);
-    await page.$eval('input[placeholder="Email Address"]', (el) => el.form.requestSubmit());
+    await page.$eval(POPUP_EMAIL, (el) => el.form.requestSubmit());
     await page.waitForFunction(
-      () => !document.querySelector('input[placeholder="Email Address"]') || /welcome|thank|you're in|error|failed|invalid|too many|couldn't/i.test(document.querySelector('input[placeholder="Email Address"]')?.closest("div.fixed, [role=dialog], form")?.parentElement?.innerText || ""),
-      { timeout: 25000 }
+      (sel) => !document.querySelector(sel) || /welcome|thank|you're in|error|failed|invalid|too many|couldn't/i.test(document.querySelector(".signup-popup-inner")?.innerText || ""),
+      { timeout: 25000 },
+      POPUP_EMAIL
     );
-    const popupText = await page.evaluate(() => {
-      const f = document.querySelector('input[placeholder="Email Address"]')?.form;
-      return (f?.parentElement?.innerText || document.body.innerText).slice(0, 400);
-    });
-    if (/error|failed|invalid|too many|couldn't|already been taken|phone/i.test(popupText) && !/welcome|thank/i.test(popupText)) {
+    const popupText = await page.evaluate(() => (document.querySelector(".signup-popup-inner")?.innerText || document.body.innerText).slice(0, 400));
+    if (/error|failed|invalid|too many|couldn't|already been taken/i.test(popupText) && !/welcome|thank/i.test(popupText)) {
       throw new Error(`Site showed: "${popupText.replace(/\s+/g, " ").slice(0, 200)}"`);
     }
     created.push(email);
-    return `${email} (phone +971${phone})`;
+    return email;
   }, page);
   await closePage(page);
 }
