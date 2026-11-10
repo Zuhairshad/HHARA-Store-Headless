@@ -5797,55 +5797,57 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
           onClick={closeSignupPopup}
         >
           <div
-            className="signup-popup-inner relative w-full max-w-[420px] md:max-w-[1000px] max-h-[94dvh] md:h-[660px] md:max-h-[92vh] bg-[#F6F2EC] text-[#241811] overflow-y-auto md:overflow-hidden rounded-none flex flex-col md:flex-row"
+            className="signup-popup-inner relative max-w-[360px] md:max-w-4xl w-full bg-[#F6F2EC] text-[#241811] overflow-hidden rounded-none flex flex-col md:grid md:grid-cols-2 md:h-[530px] h-[90vh] max-h-[700px]"
             role="dialog"
             aria-modal="true"
             aria-label="Join the HHARA Circle"
             onClick={(e) => e.stopPropagation()}
           >
 
-            {/* Close button — cream disc over the image on mobile, plain cross on desktop */}
+            {/* Close button */}
             <button
               onClick={closeSignupPopup}
-              className="absolute top-3 right-3 md:top-5 md:right-5 z-10 w-10 h-10 rounded-full md:rounded-none bg-[#F6F2EC] md:bg-transparent flex items-center justify-center text-[#241811] hover:opacity-70 transition-opacity"
+              className="absolute top-3 right-3 z-10 w-7 h-7 flex items-center justify-center text-[#241811]/60 hover:text-[#241811] transition-colors"
               aria-label="Close"
             >
-              <svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
             </button>
 
-            {/* Campaign image — the box takes the photo's own 3:4 shape, so the whole photo shows with
-                nothing cropped and no filler: full width on top on mobile, a column on desktop. */}
-            <div className="relative w-full aspect-[3/4] shrink-0 md:w-auto md:h-full bg-[#F7EFEC]">
-              <Image
-                src="/images/signup-popup.jpeg"
-                alt="HHARA"
-                fill
-                className="object-contain"
-                sizes="(max-width: 768px) 420px, 500px"
-                priority
-              />
+            {/* Image — takes all available space on mobile, 50% on desktop */}
+            <div className="relative flex-1 min-h-0 md:flex-none md:h-full w-full bg-[#F6F2EC] md:bg-[#F7EFEC] pt-5 px-5 pb-3 md:p-0">
+              {/* On mobile the photo is a card no wider than 10:9, so the whole model always fits */}
+              <div className="relative h-full max-w-full aspect-[10/9] mx-auto md:aspect-auto md:w-full overflow-hidden rounded-sm md:rounded-none bg-[#F7EFEC]">
+                <Image
+                  src="/images/signup-popup.jpeg"
+                  alt="HHARA"
+                  fill
+                  className="object-cover object-[50%_33%] md:object-top"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority
+                />
+              </div>
             </div>
 
-            {/* Form */}
-            <div className="relative flex-1 min-w-0 flex flex-col justify-center px-6 pt-6 pb-7 md:px-[60px] md:py-10 md:overflow-y-auto">
+            {/* Form — compact at bottom on mobile, 50% on desktop */}
+            <div className="relative px-5 pb-4 pt-1 md:px-10 md:py-8 flex flex-col justify-center bg-[#F6F2EC] text-[#241811] shrink-0 md:shrink md:flex-1">
 
               {signupStatus !== "success" ? (
                 <div className="w-full">
                   <div
-                    className="text-[20px] md:text-[22px] leading-none tracking-[0.32em] mb-4 md:mb-8"
+                    className="hidden md:block text-[18px] leading-none tracking-[0.32em] mb-4"
                     style={{ fontFamily: "var(--display)" }}
                     aria-hidden="true"
                   >
                     HHARA
                   </div>
                   <h3
-                    className="text-[38px] md:text-[56px] leading-[1.05] mb-3 md:mb-6"
+                    className="text-[28px] md:text-[40px] leading-[1.05] mb-1.5 md:mb-3"
                     style={{ fontFamily: "var(--display)", fontWeight: 400, letterSpacing: "-0.01em" }}
                   >
                     You are wonder.
                   </h3>
-                  <p className="text-[14px] md:text-[15px] leading-[1.6] text-[#241811]/90 mb-4 md:mb-7">
-                    Enjoy <span className="text-[26px] md:text-[28px] leading-none text-[#241811]" style={{ fontFamily: "var(--display)" }}>10%</span> off your first HHARA order, along with early access to new collections and exclusive moments from our world.
+                  <p className="text-[12px] md:text-[13px] leading-[1.55] text-[#241811]/90 mb-2.5 md:mb-4">
+                    Enjoy <span className="text-[18px] md:text-[22px] leading-none text-[#241811]" style={{ fontFamily: "var(--display)" }}>10%</span> off your first HHARA order, along with early access to new collections and exclusive moments from our world.
                   </p>
 
                   <form onSubmit={handleNewsletterSignup} className="w-full">
@@ -5859,46 +5861,46 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                       aria-hidden="true"
                       style={{ display: "none", opacity: 0, position: "absolute", left: "-9999px" }}
                     />
-                    <label className="block mb-4 md:mb-6">
-                      <span className="block text-[12px] tracking-[0.04em] font-medium mb-1">First name</span>
+                    <label className="block mb-2 md:mb-3.5">
+                      <span className="block text-[11px] md:text-[12px] tracking-[0.04em] font-medium">First name</span>
                       <input
                         type="text"
                         required
                         autoComplete="given-name"
                         value={newsletterName}
                         onChange={(e) => setNewsletterName(e.target.value.replace(/[^a-zA-Z\s]/g, ""))}
-                        className="w-full bg-transparent text-[#241811] border-0 border-b border-[#8C7A6B] focus:border-[#241811] outline-none rounded-none py-1.5 md:py-2 px-0 text-[16px] md:text-[15px] transition-colors"
+                        className="w-full bg-transparent text-[#241811] border-0 border-b border-[#8C7A6B] focus:border-[#241811] outline-none rounded-none py-1 md:py-1.5 px-0 text-[16px] md:text-[14px] transition-colors"
                       />
                     </label>
-                    <label className="block mb-5 md:mb-8">
-                      <span className="block text-[12px] tracking-[0.04em] font-medium mb-1">Email address</span>
+                    <label className="block mb-3 md:mb-5">
+                      <span className="block text-[11px] md:text-[12px] tracking-[0.04em] font-medium">Email address</span>
                       <input
                         type="email"
                         required
                         autoComplete="email"
                         value={newsletterEmail}
                         onChange={(e) => setNewsletterEmail(e.target.value)}
-                        className="w-full bg-transparent text-[#241811] border-0 border-b border-[#8C7A6B] focus:border-[#241811] outline-none rounded-none py-1.5 md:py-2 px-0 text-[16px] md:text-[15px] transition-colors"
+                        className="w-full bg-transparent text-[#241811] border-0 border-b border-[#8C7A6B] focus:border-[#241811] outline-none rounded-none py-1 md:py-1.5 px-0 text-[16px] md:text-[14px] transition-colors"
                       />
                     </label>
                     <button
                       type="submit"
                       disabled={signupStatus === "loading"}
-                      className="w-full h-[52px] md:h-[54px] bg-[#241811] text-[#F7F3ED] hover:bg-[#3A2A20] transition-colors text-[12px] md:text-[13px] tracking-[0.2em] uppercase font-medium disabled:opacity-50"
+                      className="w-full h-[42px] md:h-[48px] bg-[#241811] text-[#F7F3ED] hover:bg-[#3A2A20] transition-colors text-[11px] md:text-[12px] tracking-[0.2em] uppercase font-medium disabled:opacity-50"
                     >
                       {signupStatus === "loading" ? "Joining…" : "Join the HHARA Circle"}
                     </button>
                   </form>
 
                   {signupStatus === "error" && (
-                    <p className="text-xs text-red-700 mt-3">{signupError}</p>
+                    <p className="text-xs text-red-700 mt-2">{signupError}</p>
                   )}
 
-                  <p className="text-[12px] text-[#241811]/65 mt-5 leading-relaxed">
+                  <p className="text-[10px] md:text-[11px] text-[#241811]/65 mt-2.5 md:mt-4 leading-snug">
                     By joining, you agree to receive marketing emails from HHARA. Unsubscribe at any time.{" "}
                     <span className="whitespace-nowrap"><button type="button" onClick={() => { closeSignupPopup(); setRoute("privacy", null); }} className="underline underline-offset-2 text-[#241811] hover:opacity-70">Privacy Policy</button>.</span>
                   </p>
-                  <p className="text-[12px] text-[#241811]/65 mt-1.5 leading-relaxed">
+                  <p className="text-[10px] md:text-[11px] text-[#241811]/65 mt-1 leading-snug">
                     Your code is valid for 14 days from signup, on your first qualifying order.
                   </p>
                 </div>
