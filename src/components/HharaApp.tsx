@@ -5797,7 +5797,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
           onClick={closeSignupPopup}
         >
           <div
-            className="signup-popup-inner relative w-full max-w-[420px] md:max-w-[880px] max-h-[94dvh] md:h-[660px] md:max-h-[92vh] bg-[#F6F2EC] text-[#241811] overflow-y-auto md:overflow-hidden rounded-none flex flex-col md:flex-row"
+            className="signup-popup-inner relative w-full max-w-[420px] md:max-w-[1000px] max-h-[94dvh] md:h-[660px] md:max-h-[92vh] bg-[#F6F2EC] text-[#241811] overflow-y-auto md:overflow-hidden rounded-none flex flex-col md:flex-row"
             role="dialog"
             aria-modal="true"
             aria-label="Join the HHARA Circle"
@@ -5813,14 +5813,15 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
               <svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
             </button>
 
-            {/* Campaign image — full width on top on mobile, 380px column on desktop */}
-            <div className="relative w-full aspect-[2/1] shrink-0 md:aspect-auto md:w-[380px] md:h-full bg-[#DCD3C5]">
+            {/* Campaign image — shown whole (never cropped): full width on top on mobile, a 3:4 column
+                matching the photo on desktop. The backdrop matches the photo's studio background. */}
+            <div className="relative w-full aspect-[3/2] shrink-0 md:w-auto md:h-full md:aspect-[3/4] bg-[#F7EFEC]">
               <Image
                 src="/images/signup-popup.jpeg"
                 alt="HHARA"
                 fill
-                className="object-cover object-[50%_50%] md:object-center"
-                sizes="(max-width: 768px) 420px, 380px"
+                className="object-contain [mask-image:linear-gradient(to_right,transparent_25%,#000_29%,#000_71%,transparent_75%)] md:[mask-image:none]"
+                sizes="(max-width: 768px) 420px, 500px"
                 priority
               />
             </div>
