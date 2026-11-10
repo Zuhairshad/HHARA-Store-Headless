@@ -2744,7 +2744,18 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
             <div className="pdp-price">
               {product.priceWas && <span className="was">{format(product.priceWas)}</span>}
               <span className="now">{format(product.price)}</span>
-              <span style={{ marginLeft: "14px", lineHeight: 1 }}><StarRating rating={parseFloat(averageRating)} size={18} /></span>
+              <a
+                href="#reviews"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById("reviews")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                aria-label={`Rated ${averageRating} out of 5. See ${totalReviews} reviews`}
+                title="See reviews"
+                style={{ marginLeft: "14px", lineHeight: 1, cursor: "pointer", display: "inline-flex" }}
+              >
+                <StarRating rating={parseFloat(averageRating)} size={18} />
+              </a>
               <span className="pdp-vat-note">+ VAT charged at checkout</span>
             </div>
 
@@ -3078,7 +3089,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
       )}
 
       {/* WHAT SHE SAYS: REVIEWS SECTION */}
-      <section className="reviews-section" style={{ borderTop: "1px solid var(--line-soft)", marginTop: "40px" }}>
+      <section id="reviews" className="reviews-section" style={{ borderTop: "1px solid var(--line-soft)", marginTop: "40px", scrollMarginTop: "calc(var(--header-h) + 8px)" }}>
         <div className="reviews-header">
           <h2 className="reviews-title" style={{ textAlign: "center", width: "100%", fontSize: "clamp(38px, 5vw, 62px)" }}>What She Says</h2>
           <div className="reviews-nav">
