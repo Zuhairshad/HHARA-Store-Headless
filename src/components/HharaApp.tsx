@@ -4437,7 +4437,7 @@ function AccountPage({
             />
             <div className="field">
               <label>First Name</label>
-              <input type="text" value={form.firstName} onChange={(e) => { const val = e.target.value.replace(/[^a-zA-Z\s]/g, ""); setForm({ ...form, firstName: val }); }} placeholder="First name" maxLength={20} />
+              <input type="text" value={form.firstName} onChange={(e) => { const val = e.target.value.replace(/[^\p{L}\s'-]/gu, ""); setForm({ ...form, firstName: val }); }} placeholder="First name" maxLength={20} />
             </div>
             <div className="field">
               <label>Date of Birth</label>
