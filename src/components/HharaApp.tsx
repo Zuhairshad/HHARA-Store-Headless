@@ -1642,7 +1642,10 @@ function Lookbook({ openLookbook, openProduct, setRoute }) {
 const INSTAGRAM_PROFILE = "https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==";
 
 // Shown until the live Instagram feed loads, and whenever it can't be reached.
-const INSTA_FALLBACK = [
+type InstaCard = { img: string; link: string; icon?: "image" | "video" | "carousel"; remote?: boolean };
+type InstaPost = { image: string; link: string; type: InstaCard["icon"] };
+
+const INSTA_FALLBACK: InstaCard[] = [
   { img: IMGS.lb1, link: INSTAGRAM_PROFILE },
   { img: IMGS.lb8, link: INSTAGRAM_PROFILE },
   { img: IMGS.lb3, link: INSTAGRAM_PROFILE },
@@ -1652,7 +1655,7 @@ const INSTA_FALLBACK = [
 ];
 
 function Callouts() {
-  const [livePosts, setLivePosts] = useState([]);
+  const [livePosts, setLivePosts] = useState<InstaPost[]>([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -1664,7 +1667,7 @@ function Callouts() {
   }, []);
 
   // Latest posts first; if there are fewer than 6, the built-in photos fill the rest so the grid stays full.
-  const cards = [
+  const cards: InstaCard[] = [
     ...livePosts.map((p) => ({ img: p.image, link: p.link, icon: p.type, remote: true })),
     ...INSTA_FALLBACK
   ].slice(0, INSTA_FALLBACK.length);
