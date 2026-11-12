@@ -3,7 +3,7 @@
 import { setCustomerNote, shopifyFetch, subscribeExistingCustomer } from "./shopify";
 import { verifyHumanSubmission } from "./bot-protection";
 import { subscribeKlaviyo, updateKlaviyoProfile } from "./klaviyo";
-import { NEWSLETTER_LIMITS } from "./newsletter-limits";
+import { FIELD_LIMITS } from "./form-rules";
 
 // Create a Shopify customer with marketing consent, and subscribe the email
 // directly to a Klaviyo list (when KLAVIYO_PRIVATE_API_KEY and KLAVIYO_LIST_ID are set).
@@ -19,10 +19,10 @@ export async function subscribeNewsletter(
   // 0. Length caps: the inputs' maxLength only binds the browser, this action can be called directly
   if (
     typeof email !== "string" ||
-    email.trim().length > NEWSLETTER_LIMITS.email ||
-    (name && name.trim().length > NEWSLETTER_LIMITS.name) ||
-    (phone && phone.trim().length > NEWSLETTER_LIMITS.phone) ||
-    (dob && dob.trim().length > NEWSLETTER_LIMITS.dob)
+    email.trim().length > FIELD_LIMITS.email ||
+    (name && name.trim().length > FIELD_LIMITS.name) ||
+    (phone && phone.trim().length > FIELD_LIMITS.phone) ||
+    (dob && dob.trim().length > FIELD_LIMITS.dob)
   ) {
     return { ok: false, error: "Please check your details and try again." };
   }

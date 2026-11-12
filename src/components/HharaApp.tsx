@@ -7,7 +7,7 @@ import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as
 import { GIFT_CARD_HANDLE, GIFT_CARDS_ENABLED } from "@/lib/gift-card";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut, requestPasswordReset as serverRequestPasswordReset } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
-import { NEWSLETTER_LIMITS } from "@/lib/newsletter-limits";
+import { FIELD_LIMITS, stripNameChars } from "@/lib/form-rules";
 import { submitReview } from "@/lib/review-actions";
 import { MagneticImpactCard } from "@/components/ui/morphing-cursor";
 import CardLogos from "@/components/CardLogos";
@@ -4440,7 +4440,7 @@ function AccountPage({
             />
             <div className="field">
               <label>First Name</label>
-              <input type="text" value={form.firstName} onChange={(e) => { const val = e.target.value.replace(/[^\p{L}\s'-]/gu, ""); setForm({ ...form, firstName: val }); }} placeholder="First name" maxLength={20} />
+              <input type="text" value={form.firstName} onChange={(e) => { const val = stripNameChars(e.target.value); setForm({ ...form, firstName: val }); }} placeholder="First name" maxLength={FIELD_LIMITS.name} />
             </div>
             <div className="field">
               <label>Date of Birth</label>
@@ -4453,7 +4453,7 @@ function AccountPage({
             <div className="field">
               <label>Password</label>
               <div style={{ position: "relative" }}>
-                <input type={showPassword ? "text" : "password"} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="At least 8 characters" maxLength={40} style={{ width: "100%", paddingRight: 40 }} />
+                <input type={showPassword ? "text" : "password"} required value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} placeholder="At least 8 characters" minLength={FIELD_LIMITS.passwordMin} maxLength={FIELD_LIMITS.passwordMax} style={{ width: "100%", paddingRight: 40 }} />
                 <button type="button" onClick={() => setShowPassword(v => !v)} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", padding: 0, color: "var(--ink-soft)", display: "flex", alignItems: "center" }}>
                   {showPassword ? <Icon.EyeOff /> : <Icon.Eye />}
                 </button>
@@ -5874,9 +5874,9 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                         type="text"
                         required
                         autoComplete="given-name"
-                        maxLength={NEWSLETTER_LIMITS.name}
+                        maxLength={FIELD_LIMITS.name}
                         value={newsletterName}
-                        onChange={(e) => setNewsletterName(e.target.value.replace(/[^\p{L}\s'-]/gu, ""))}
+                        onChange={(e) => setNewsletterName(stripNameChars(e.target.value))}
                         className="w-full bg-transparent text-[#241811] border-0 border-b border-[#8C7A6B] focus:border-[#241811] outline-none rounded-none py-1 md:py-1.5 px-0 text-[16px] md:text-[14px] transition-colors"
                       />
                     </label>
@@ -5886,7 +5886,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                         type="email"
                         required
                         autoComplete="email"
-                        maxLength={NEWSLETTER_LIMITS.email}
+                        maxLength={FIELD_LIMITS.email}
                         value={newsletterEmail}
                         onChange={(e) => setNewsletterEmail(e.target.value)}
                         className="w-full bg-transparent text-[#241811] border-0 border-b border-[#8C7A6B] focus:border-[#241811] outline-none rounded-none py-1 md:py-1.5 px-0 text-[16px] md:text-[14px] transition-colors"

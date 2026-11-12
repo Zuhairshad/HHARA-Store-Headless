@@ -15,6 +15,7 @@ import {
 import { getClientIp, verifyHumanSubmission } from "./bot-protection";
 import { rateLimit } from "./rate-limit";
 import { subscribeKlaviyo, updateKlaviyoProfile } from "./klaviyo";
+import { FIELD_LIMITS, isValidDob, isValidEmail, isValidName } from "./form-rules";
 
 const COOKIE = "hhara_customer_token";
 
@@ -59,19 +60,41 @@ export async function signUp(input: {
   honeypot?: string;
   formTimestamp?: number;
 }): Promise<{ ok: boolean; error?: string; status?: "TAKEN" | "ACTIVATION_SENT" | "EXISTS" }> {
+  // 0. Re-check the form's rules: maxLength and the name filter only bind the browser,
+  // and this action can be called directly with any payload.
+  const email = typeof input.email === "string" ? input.email.trim() : "";
+  const password = typeof input.password === "string" ? input.password : "";
+  const firstName = typeof input.firstName === "string" ? input.firstName.trim() : "";
+  const lastName = typeof input.lastName === "string" ? input.lastName.trim() : "";
+  const dob = typeof input.dob === "string" ? input.dob.trim() : "";
+  if (!isValidEmail(email)) return { ok: false, error: "Please enter a valid email address." };
+  if (password.length < FIELD_LIMITS.passwordMin || password.length > FIELD_LIMITS.passwordMax) {
+    return { ok: false, error: `Password must be ${FIELD_LIMITS.passwordMin}-${FIELD_LIMITS.passwordMax} characters.` };
+  }
+  if (!isValidName(firstName) || !isValidName(lastName)) {
+    return { ok: false, error: `Names can use letters, spaces, ' and - (up to ${FIELD_LIMITS.name} characters).` };
+  }
+  if (dob && !isValidDob(dob)) return { ok: false, error: "Please enter a valid date of birth." };
+
   // 1. Anti-Bot Verification
   const botCheck = await verifyHumanSubmission({
     honeypot: input.honeypot,
     timestamp: input.formTimestamp,
-    email: input.email,
+    email,
     action: "signup",
   });
   if (!botCheck.allowed) {
     return { ok: false, error: botCheck.error || "Signup rejected." };
   }
 
-  const { dob, honeypot, formTimestamp, ...rest } = input;
-  const created = await customerCreate({ ...rest, ...(dob ? { note: `DOB: ${dob}` } : {}) });
+  const created = await customerCreate({
+    email,
+    password,
+    ...(firstName ? { firstName } : {}),
+    ...(lastName ? { lastName } : {}),
+    acceptsMarketing: input.acceptsMarketing === true,
+    ...(dob ? { note: `DOB: ${dob}` } : {}),
+  });
   if (created.errors.length) {
     const errorMsg = created.errors[0].message;
     const isEmailTaken = errorMsg?.toLowerCase().includes("taken") || (created.errors[0] as any).code === "TAKEN";
@@ -89,7 +112,7 @@ export async function signUp(input: {
           }
         `;
         const data = await shopifyAdminFetch<{ customers: { nodes: { id: string; state: string }[] } }>(query, {
-          query: `email:${input.email}`
+          query: `email:${email}`
         });
         const customer = data.customers.nodes[0];
         if (customer) {
@@ -128,15 +151,15 @@ export async function signUp(input: {
     return { ok: false, error: errorMsg };
   }
   // Auto-login after signup
-  const tok = await customerAccessTokenCreate(input.email, input.password);
+  const tok = await customerAccessTokenCreate(email, password);
   if (!tok.token) return { ok: false, error: tok.errors[0]?.message || "Login after signup failed" };
   await writeToken(tok.token.accessToken, tok.token.expiresAt);
   await Promise.all([
     waitUntilTokenWorks(tok.token.accessToken),
     // Ticked "Email me HHARA dispatches": add them to the Klaviyo list too
     input.acceptsMarketing
-      ? subscribeKlaviyo(input.email, "Account Signup").then((ok) =>
-          ok ? updateKlaviyoProfile(input.email, { name: [input.firstName, input.lastName].filter(Boolean).join(" "), dob }) : undefined
+      ? subscribeKlaviyo(email, "Account Signup").then((ok) =>
+          ok ? updateKlaviyoProfile(email, { name: [firstName, lastName].filter(Boolean).join(" "), dob: dob || undefined }) : undefined
         )
       : Promise.resolve(),
   ]);
