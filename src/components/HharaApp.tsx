@@ -7,6 +7,7 @@ import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as
 import { GIFT_CARD_HANDLE, GIFT_CARDS_ENABLED } from "@/lib/gift-card";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut, requestPasswordReset as serverRequestPasswordReset } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
+import { NEWSLETTER_LIMITS } from "@/lib/newsletter-limits";
 import { submitReview } from "@/lib/review-actions";
 import { MagneticImpactCard } from "@/components/ui/morphing-cursor";
 import CardLogos from "@/components/CardLogos";
@@ -5878,6 +5879,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                         type="text"
                         required
                         autoComplete="given-name"
+                        maxLength={NEWSLETTER_LIMITS.name}
                         value={newsletterName}
                         onChange={(e) => setNewsletterName(e.target.value.replace(/[^a-zA-Z\s]/g, ""))}
                         className="w-full bg-transparent text-[#241811] border-0 border-b border-[#8C7A6B] focus:border-[#241811] outline-none rounded-none py-1 md:py-1.5 px-0 text-[16px] md:text-[14px] transition-colors"
@@ -5889,6 +5891,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                         type="email"
                         required
                         autoComplete="email"
+                        maxLength={NEWSLETTER_LIMITS.email}
                         value={newsletterEmail}
                         onChange={(e) => setNewsletterEmail(e.target.value)}
                         className="w-full bg-transparent text-[#241811] border-0 border-b border-[#8C7A6B] focus:border-[#241811] outline-none rounded-none py-1 md:py-1.5 px-0 text-[16px] md:text-[14px] transition-colors"
