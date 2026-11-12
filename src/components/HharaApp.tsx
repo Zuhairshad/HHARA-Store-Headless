@@ -12,8 +12,6 @@ import { submitReview } from "@/lib/review-actions";
 import { MagneticImpactCard } from "@/components/ui/morphing-cursor";
 import CardLogos from "@/components/CardLogos";
 import { useCurrency } from "@/components/CurrencyProvider";
-import { useDefaultPhoneCountry } from "@/components/PhoneCountry";
-import { dialCode } from "@/lib/dial-codes";
 import {
   trackEvent,
   formatEcommerceItem,
@@ -5422,9 +5420,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
   const [signupPopupOpen, setSignupPopupOpen] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterName, setNewsletterName] = useState("");
-  const [newsletterDob, setNewsletterDob] = useState("");
-  const [newsletterPhone, setNewsletterPhone] = useState("");
-  const [newsletterPhoneCountry, setNewsletterPhoneCountry] = useState(useDefaultPhoneCountry());
   const [newsletterHp, setNewsletterHp] = useState("");
   const [popupFormTs, setPopupFormTs] = useState(() => Date.now());
   const [signupStatus, setSignupStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -5457,14 +5452,11 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     setSignupError("");
 
     try {
-      // Drop the trunk 0 people type locally (0300… in PK, 07… in the UK); it isn't dialled after the country code
-      const cleanPhone = newsletterPhone.replace(/\D/g, "").replace(/^0+/, "");
-      const fullPhone = cleanPhone ? `${dialCode(newsletterPhoneCountry)}${cleanPhone}` : undefined;
       const res = await serverSubscribe(
         newsletterEmail,
         newsletterName,
-        fullPhone,
-        newsletterDob,
+        undefined,
+        undefined,
         newsletterHp,
         popupFormTs,
         "Signup Popup"
@@ -5881,7 +5873,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                         autoComplete="given-name"
                         maxLength={NEWSLETTER_LIMITS.name}
                         value={newsletterName}
-                        onChange={(e) => setNewsletterName(e.target.value.replace(/[^a-zA-Z\s]/g, ""))}
+                        onChange={(e) => setNewsletterName(e.target.value.replace(/[^\p{L}\s'-]/gu, ""))}
                         className="w-full bg-transparent text-[#241811] border-0 border-b border-[#8C7A6B] focus:border-[#241811] outline-none rounded-none py-1 md:py-1.5 px-0 text-[16px] md:text-[14px] transition-colors"
                       />
                     </label>
