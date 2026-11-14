@@ -5429,6 +5429,13 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
   const [signupError, setSignupError] = useState("");
 
   useEffect(() => {
+    // TEMPORARY (client demo): add ?preview-popup to any URL to open the popup at once,
+    // ignoring sign-in, the one-day snooze and "subscribed". Remove this block after the demo.
+    if (new URLSearchParams(window.location.search).has("preview-popup")) {
+      setSignupPopupOpen(true);
+      setPopupFormTs(Date.now());
+      return;
+    }
     if (customer) return;
     // Every page load (Back, reload, a new page) remounts this, so remember the popup was shown
     // and stay quiet for a day; after a signup it never comes back.
