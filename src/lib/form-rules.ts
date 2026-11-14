@@ -2,7 +2,7 @@
 // re-check them. Lives outside the "use server" files, which may only export async functions.
 export const FIELD_LIMITS = {
   name: 20, // first or last name
-  email: 254, // RFC 5321 maximum address length
+  email: 60, // sign-up forms only; login and password reset keep 254 so existing accounts can sign in
   phone: 16, // E.164: "+" and up to 15 digits
   dob: 10, // YYYY-MM-DD
   passwordMin: 8, // what the sign-up form promises (Shopify's own floor is 5)

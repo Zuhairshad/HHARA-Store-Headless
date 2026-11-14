@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { subscribeNewsletter } from "@/lib/newsletter-actions";
+import { FIELD_LIMITS } from "@/lib/form-rules";
 import { GIFT_CARDS_ENABLED } from "@/lib/gift-card";
 import CardLogos from "@/components/CardLogos";
 
@@ -65,7 +66,7 @@ export function StandaloneFooter() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={done || busy}
-                maxLength={254}
+                maxLength={FIELD_LIMITS.email}
                 required
               />
               <button type="submit" disabled={done || busy}>

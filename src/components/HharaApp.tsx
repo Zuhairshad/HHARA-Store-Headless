@@ -1020,7 +1020,7 @@ function Footer({ setRoute, route = "" }) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={done || busy}
-                maxLength={254}
+                maxLength={FIELD_LIMITS.email}
                 required
               />
               <button type="submit" disabled={done || busy}>
@@ -1721,7 +1721,7 @@ function Newsletter() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={done || busy}
-            maxLength={254}
+            maxLength={FIELD_LIMITS.email}
             required
           />
           <button type="submit" disabled={done || busy}>
@@ -4448,7 +4448,7 @@ function AccountPage({
             </div>
             <div className="field">
               <label>Email</label>
-              <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" maxLength={254} />
+              <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="you@example.com" maxLength={FIELD_LIMITS.email} />
             </div>
             <div className="field">
               <label>Password</label>
