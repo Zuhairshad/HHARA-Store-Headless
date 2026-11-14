@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { subscribeNewsletter } from "@/lib/newsletter-actions";
 import { FIELD_LIMITS } from "@/lib/form-rules";
+import { SIGNUP_DISCOUNT_CODE } from "@/lib/signup-offer";
 import { GIFT_CARDS_ENABLED } from "@/lib/gift-card";
 import CardLogos from "@/components/CardLogos";
 
@@ -73,6 +74,7 @@ export function StandaloneFooter() {
                 {done ? "✓" : busy ? "…" : "Subscribe"}
               </button>
             </form>
+            {done && <div style={{ marginTop: 8, fontSize: 12 }}>Thank you. Use <strong style={{ letterSpacing: "0.15em" }}>{SIGNUP_DISCOUNT_CODE}</strong> for 10% off your first order.</div>}
             {error && <div style={{ marginTop: 8, fontSize: 11, color: "#faa" }}>{error}</div>}
           </div>
 

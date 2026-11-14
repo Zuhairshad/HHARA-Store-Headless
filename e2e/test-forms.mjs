@@ -135,6 +135,8 @@ if (want(3)) {
       throw new Error(`Site showed error: ${err}`);
     }
     created.push(email);
+    const after = await page.$eval("footer .footer-newsletter", (f) => f.parentElement.innerText);
+    if (!/WELCOME10/.test(after)) throw new Error("Subscribed, but the footer didn't show the sign-up code");
     return email;
   }, page);
   await closePage(page);
@@ -182,6 +184,7 @@ if (want(4)) {
     const t = await page.$eval(sel, (el) => el.form.parentElement.innerText + " " + el.form.querySelector("button").textContent);
     if (/error|failed|invalid|couldn't|too many/i.test(t)) throw new Error(`Site showed: ${t.replace(/\s+/g, " ").slice(0, 200)}`);
     created.push(email);
+    if (!/WELCOME10/.test(t)) throw new Error("Subscribed, but the footer didn't show the sign-up code");
     return email;
   }, page);
   await closePage(page);
@@ -199,7 +202,7 @@ if (want(5)) {
     await typeInto(page, 'input[placeholder="First name"]', "Hhtest");
     await typeInto(page, 'form.auth-form input[type="email"]', email);
     await typeInto(page, 'form.auth-form input[placeholder="At least 8 characters"]', password);
-    await page.$eval('form.auth-form input[type="checkbox"]', (el) => { if (!el.checked) el.click(); }); // "Email me HHARA dispatches"
+    if (await page.$('form.auth-form input[type="checkbox"]')) throw new Error("Marketing checkbox should be gone (every account joins the list)");
     await sleep(1200);
     await page.$eval('form.auth-form input[type="email"]', (el) => el.form.requestSubmit());
     await Promise.race([
@@ -210,6 +213,8 @@ if (want(5)) {
     const t = await bodyText(page);
     if (!/Hello,/i.test(t)) throw new Error("Not signed in after sign-up: " + (await page.evaluate(() => document.querySelector(".auth-form")?.parentElement?.innerText.slice(0, 300))));
     created.push(email);
+    // The welcome box appears once the page hydrates, after the server-rendered "Hello,"
+    await waitForText(page, /WELCOME10/, 15000).catch(() => { throw new Error("Signed in, but the account page didn't show the sign-up code"); });
     return email;
   }, page);
   await test("Account: sign out", async () => {
