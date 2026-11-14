@@ -445,7 +445,7 @@ const HEROES = [
   {
     eyebrow: "",
     title: "She is |Wonder.",
-    sub: "She doesn’t wait for wonder - she creates it. Elevated athleisure essentials for women who move with quiet confidence and purpose.",
+    sub: "She doesn’t wait for wonder - she creates it. HHARA makes elevated athleisure essentials for women who move with quiet confidence and purpose.",
     cta: "explore collection",
     tone: "tone-4",
   },
@@ -1042,28 +1042,28 @@ function Footer({ setRoute, route = "" }) {
             <div className="footer-col">
               <h4>Customer Service</h4>
               <ul>
-                <li><a onClick={() => setRoute("faq")} style={{ cursor: "pointer" }}>FAQ</a></li>
-                <li><a onClick={() => setRoute("shipping")} style={{ cursor: "pointer" }}>Shipping &amp; Delivery</a></li>
+                <li><a href="/faq" onClick={(e) => { e.preventDefault(); setRoute("faq"); }} style={{ cursor: "pointer" }}>FAQ</a></li>
+                <li><a href="/shipping" onClick={(e) => { e.preventDefault(); setRoute("shipping"); }} style={{ cursor: "pointer" }}>Shipping &amp; Delivery</a></li>
                 <li><a href="/orders/track">Track Order</a></li>
-                <li><a onClick={() => setRoute("returns")} style={{ cursor: "pointer" }}>Returns &amp; Refunds</a></li>
-                <li><a onClick={() => setRoute("size-guide")} style={{ cursor: "pointer" }}>Size Guide</a></li>
-                <li><a onClick={() => setRoute("contact")} style={{ cursor: "pointer" }}>Contact</a></li>
+                <li><a href="/returns" onClick={(e) => { e.preventDefault(); setRoute("returns"); }} style={{ cursor: "pointer" }}>Returns &amp; Refunds</a></li>
+                <li><a href="/size-guide" onClick={(e) => { e.preventDefault(); setRoute("size-guide"); }} style={{ cursor: "pointer" }}>Size Guide</a></li>
+                <li><a href="/contact" onClick={(e) => { e.preventDefault(); setRoute("contact"); }} style={{ cursor: "pointer" }}>Contact</a></li>
               </ul>
             </div>
             <div className="footer-col">
               <h4>Information</h4>
               <ul>
-                <li><a href="/about-us" onClick={(e) => { e.preventDefault(); setRoute("atelier"); }} style={{ cursor: "pointer" }}>About Us</a></li>
+                <li><a href="/about-us" onClick={(e) => { e.preventDefault(); setRoute("atelier"); }} style={{ cursor: "pointer" }}>About HHARA</a></li>
                 <li><a href="/social-impact" onClick={(e) => { e.preventDefault(); setRoute("stores"); }} style={{ cursor: "pointer" }}>Social Impact</a></li>
-                {GIFT_CARDS_ENABLED && <li><a onClick={() => setRoute("gift-card")} style={{ cursor: "pointer" }}>E-Gift Card</a></li>}
-                <li><a onClick={() => setRoute("privacy")} style={{ cursor: "pointer" }}>Privacy &amp; Cookie Policy</a></li>
-                <li><a onClick={() => setRoute("terms")} style={{ cursor: "pointer" }}>Terms &amp; Conditions</a></li>
+                {GIFT_CARDS_ENABLED && <li><a href="/gift-card" onClick={(e) => { e.preventDefault(); setRoute("gift-card"); }} style={{ cursor: "pointer" }}>E-Gift Card</a></li>}
+                <li><a href="/privacy" onClick={(e) => { e.preventDefault(); setRoute("privacy"); }} style={{ cursor: "pointer" }}>Privacy &amp; Cookie Policy</a></li>
+                <li><a href="/terms" onClick={(e) => { e.preventDefault(); setRoute("terms"); }} style={{ cursor: "pointer" }}>Terms &amp; Conditions</a></li>
               </ul>
             </div>
           </div>
         </div>
         <div className="footer-bottom">
-          <span style={{ display: "inline-flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 16 }}>© 2026 HHARA — Dahlia Moxie Trading LLC. All rights reserved. <CardLogos /></span>
+          <span style={{ display: "inline-flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 16 }}>© 2026 HHARA, a brand of Dahlia Moxie Trading LLC, United Arab Emirates. All rights reserved. <CardLogos /></span>
           <div className="footer-social-icons">
             <a href="https://www.instagram.com/thisishhara?igsh=MTMxaTRodWM2eDh2ag==" target="_blank" rel="noreferrer" aria-label="Instagram">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -1335,7 +1335,17 @@ function ProductCard({ product, onClick, colorOverride, homepageImages }: { prod
   });
 
   return (
-    <div className="pcard" onClick={() => onClick(activeColor)}>
+    <a
+      className="pcard"
+      href={`/products/${product.shopifyHandle || product.id}`}
+      aria-label={`HHARA ${product.name}`}
+      onClick={(e) => {
+        // Let Cmd/Ctrl/Shift/middle-click open a new tab; a plain click stays in the app
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault();
+        onClick(activeColor);
+      }}
+    >
       <div className="pcard-media">
         {product.badge && (
           <div className={`pcard-badge ${product.badge === "New" ? "new" : ""}`}>{product.badge}</div>
@@ -1345,10 +1355,10 @@ function ProductCard({ product, onClick, colorOverride, homepageImages }: { prod
           return (
             <div key={name} style={{ position: "absolute", inset: 0, opacity: active ? 1 : 0, transition: "opacity 0.3s ease", pointerEvents: "none" }}>
               <div className={`${product.tone}`} style={{ position: "absolute", inset: 0, ...(name.toLowerCase().includes("brown") && homepageImages?.brownDefaultStyle ? homepageImages.brownDefaultStyle : name.toLowerCase().includes("olive") && homepageImages?.oliveDefaultStyle ? homepageImages.oliveDefaultStyle : {}) }}>
-                {imgA && <Image src={imgA} alt={product.name} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" style={imgPos ? { objectPosition: imgPos } : undefined} />}
+                {imgA && <Image src={imgA} alt={`HHARA ${product.name} in ${name}`} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" style={imgPos ? { objectPosition: imgPos } : undefined} />}
               </div>
               <div className={`alt ${product.altTone || product.tone}`} style={{ position: "absolute", inset: 0, ...(name.toLowerCase().includes("brown") && homepageImages?.brownHoverStyle ? homepageImages.brownHoverStyle : name.toLowerCase().includes("olive") && homepageImages?.oliveHoverStyle ? homepageImages.oliveHoverStyle : {}) }}>
-                {imgB && <Image src={imgB} alt={product.name} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" style={imgPos ? { objectPosition: imgPos } : undefined} />}
+                {imgB && <Image src={imgB} alt={`HHARA ${product.name} in ${name}, alternate view`} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" style={imgPos ? { objectPosition: imgPos } : undefined} />}
               </div>
             </div>
           );
@@ -1363,7 +1373,7 @@ function ProductCard({ product, onClick, colorOverride, homepageImages }: { prod
               style={{ background: s.hex }}
               title={s.name}
               onMouseEnter={() => setActiveColor(s.name)}
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
             ></span>
           ))}
         </div>
@@ -1376,7 +1386,7 @@ function ProductCard({ product, onClick, colorOverride, homepageImages }: { prod
           </span>
         </div>
       </div>
-    </div>
+    </a>
   );
 }
 
@@ -1415,6 +1425,8 @@ function Hero({ openShop }) {
       <div className={`hero-content ${imageLoaded ? "is-loaded" : "is-loading"}`}>
         {slide.eyebrow && <div className="hero-eyebrow">{slide.eyebrow}</div>}
         <h1 className="hero-title">
+          {/* The brand name sits inside the page's only H1 so Google reads "HHARA" as the page's subject */}
+          <span className="hero-eyebrow hero-brand">HHARA</span>
           {slide.title.split("\n").map((line, i, arr) => {
             const isLastLine = i === arr.length - 1;
             const parts = line.split("|");
@@ -2701,7 +2713,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                   >
                     {shots.map((s, idx) => (
                       <div key={idx} style={{ position: "absolute", inset: 0, opacity: idx === activeShot ? 1 : 0, transition: "opacity 0.3s ease", pointerEvents: idx === activeShot ? "auto" : "none" }}>
-                        {s.src && <Image src={s.src} alt={`${product.name} view ${idx + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority={idx === 0} style={s.style} />}
+                        {s.src && <Image src={s.src} alt={`HHARA ${product.name}, view ${idx + 1}`} fill className="img-fill" sizes="(max-width: 768px) 100vw, 50vw" priority={idx === 0} style={s.style} />}
                       </div>
                     ))}
                     {showGalleryNavigation && (
@@ -2731,7 +2743,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
                         className={`pdp-gallery-thumb ${activeShot === i ? "on" : ""}`}
                         onClick={() => setActiveShot(i)}
                       >
-                        {s.src && <Image src={s.src} alt={`${product.name} thumbnail ${i + 1}`} fill className="img-fill" sizes="120px" style={s.style} />}
+                        {s.src && <Image src={s.src} alt={`HHARA ${product.name}, thumbnail ${i + 1}`} fill className="img-fill" sizes="120px" style={s.style} />}
                       </button>
                     ))}
                   </div>

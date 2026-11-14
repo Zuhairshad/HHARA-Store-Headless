@@ -512,6 +512,13 @@ img { display: block; max-width: 100%; }
   margin-bottom: 28px;
   font-weight: 300;
 }
+/* "HHARA" inside the hero H1: styled as the eyebrow line, not as headline text */
+.hero-title .hero-brand {
+  display: block;
+  font-family: var(--sans);
+  font-weight: 400;
+  line-height: normal;
+}
 .hero-title em {
   font-style: italic;
   font-weight: 300;
@@ -729,6 +736,9 @@ img { display: block; max-width: 100%; }
   gap: clamp(16px, 3vw, 36px) clamp(10px, 2vw, 20px);
 }
 .pcard {
+  display: block; /* the card is a link (<a>) so crawlers can follow it */
+  color: inherit;
+  text-decoration: none;
   background: transparent;
   cursor: pointer;
   position: relative;

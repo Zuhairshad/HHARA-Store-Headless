@@ -8,9 +8,14 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://www.hhara.
 export const IS_LAUNCHED = process.env.NEXT_PUBLIC_SITE_LAUNCHED === "true";
 
 export const SITE_NAME = "HHARA";
-export const DEFAULT_TITLE = "HHARA | Elevated Athleisure Essentials for Women";
+export const DEFAULT_TITLE = "HHARA | Luxury Women's Athleisure from the UAE";
 export const DEFAULT_DESCRIPTION =
-  "Elevated athleisure essentials for women who move with quiet confidence and purpose. Sculpted sets in certified recycled fabrics. She is wonder.";
+  "HHARA is a luxury women's athleisure label from the UAE. Shop the Imara and Dahlia sets in Chicory Brown and Olive, made in certified recycled fabric.";
+
+// Who operates the brand. Stating it everywhere (schema, footer) is what separates HHARA from similarly named brands.
+export const LEGAL_NAME = "Dahlia Moxie Trading LLC";
+export const ORGANIZATION_ID = `${SITE_URL}/#organization`;
+export const BRAND_ID = `${SITE_URL}/#brand`;
 export const DEFAULT_OG_IMAGE = "/images/og-image.jpg";
 
 export const KEYWORDS = [
@@ -48,9 +53,9 @@ export const PAGES: Record<string, PageSeo> = {
     description: "The HHARA She is Wonder campaign. The Imara and Dahlia sets, photographed across the UAE.",
   },
   "/about-us": {
-    title: "About Us — How HHARA Is Made",
+    title: "About HHARA — Luxury Women's Athleisure from the UAE",
     description:
-      "Inside the HHARA atelier: regenerative recycled knits, minimal production and garments engineered to outlast trends.",
+      "HHARA is a luxury women's athleisure label from the UAE, by Dahlia Moxie Trading LLC: recycled knits, minimal production, garments made to outlast trends.",
   },
   "/social-impact": {
     title: "Social Impact | HHARA",
@@ -108,19 +113,29 @@ export function pageMetadata(path: keyof typeof PAGES): Metadata {
   };
 }
 
+// Facts still to add once the client confirms them: foundingDate, founder, full address,
+// contactPoint, vatID (UAE TRN) and the trade licence number. Never publish placeholders.
 export const organizationJsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
-      "@id": `${SITE_URL}/#organization`,
+      // Google recommends OnlineStore (a subtype of Organization) for ecommerce sites
+      "@type": "OnlineStore",
+      "@id": ORGANIZATION_ID,
       name: SITE_NAME,
-      alternateName: ["This is HHARA", "HHARA Activewear", "HHARA Athleisure"],
-      url: SITE_URL,
+      legalName: LEGAL_NAME,
+      // Never add misspellings or other brands' names here: that would tell Google they are the same brand
+      alternateName: ["HHARA Athleisure", "HHARA Activewear", "This is HHARA"],
+      url: `${SITE_URL}/`,
       logo: `${SITE_URL}/images/hhara-logo.png`,
+      image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
       slogan: "She is Wonder",
       description: DEFAULT_DESCRIPTION,
+      disambiguatingDescription:
+        "HHARA, spelled H-H-A-R-A, is an independent luxury athleisure label based in the United Arab Emirates and sold at hhara.com.",
+      address: { "@type": "PostalAddress", addressCountry: "AE" },
       areaServed: "AE",
+      brand: { "@id": BRAND_ID },
       // Official profiles, so Google ties them to this brand (and not to other businesses called HHARA)
       sameAs: [
         "https://www.instagram.com/thisishhara",
@@ -131,11 +146,21 @@ export const organizationJsonLd = {
       ],
     },
     {
+      "@type": "Brand",
+      "@id": BRAND_ID,
+      name: SITE_NAME,
+      url: `${SITE_URL}/`,
+      logo: `${SITE_URL}/images/hhara-logo.png`,
+      slogan: "She is Wonder",
+    },
+    {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
       name: SITE_NAME,
-      url: SITE_URL,
-      publisher: { "@id": `${SITE_URL}/#organization` },
+      alternateName: ["HHARA Official Store", "hhara.com"],
+      url: `${SITE_URL}/`,
+      inLanguage: "en",
+      publisher: { "@id": ORGANIZATION_ID },
     },
   ],
 };

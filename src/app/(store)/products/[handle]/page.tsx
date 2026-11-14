@@ -3,7 +3,7 @@ import HharaApp from "@/components/HharaApp";
 import { getStorefrontProducts } from "@/lib/products";
 import { getCurrentCart } from "@/lib/cart-actions";
 import { getCurrentCustomer } from "@/lib/customer-actions";
-import { SITE_URL } from "@/lib/seo";
+import { BRAND_ID, ORGANIZATION_ID, SITE_NAME, SITE_URL } from "@/lib/seo";
 import { getVisitorContext } from "@/lib/visitor";
 
 export const revalidate = 0;
@@ -76,8 +76,9 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
     name: product.name,
     description: product.description?.split("\n")[0] || product.name,
     sku: product.variants[0]?.sku || handle,
-    brand: { "@type": "Brand", name: "HHARA" },
-    manufacturer: { "@id": `${SITE_URL}/#organization` },
+    // Same @id as the Brand node in the site-wide graph, so every product is tied to one HHARA entity
+    brand: { "@type": "Brand", "@id": BRAND_ID, name: SITE_NAME },
+    manufacturer: { "@id": ORGANIZATION_ID },
     url: `${SITE_URL}/products/${handle}`,
     image: product.featuredImage?.url,
     offers: product.variants.map((v) => ({
@@ -95,12 +96,23 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
     })),
   } : null;
 
+  // HHARA › Shop › product, so Google sees each product as part of the HHARA site
+  const breadcrumbJsonLd = product ? {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: SITE_NAME, item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Shop", item: `${SITE_URL}/shop` },
+      { "@type": "ListItem", position: 3, name: product.name, item: `${SITE_URL}/products/${handle}` },
+    ],
+  } : null;
+
   return (
     <>
       {jsonLd && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([jsonLd, breadcrumbJsonLd]) }}
         />
       )}
       <HharaApp
