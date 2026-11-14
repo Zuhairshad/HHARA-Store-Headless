@@ -5,6 +5,7 @@ import React, { useState, useEffect, useRef, useContext, createContext } from "r
 import Image from "next/image";
 import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount, addGiftCard as serverAddGiftCard } from "@/lib/cart-actions";
 import { GIFT_CARD_HANDLE, GIFT_CARDS_ENABLED } from "@/lib/gift-card";
+import { SIGNUP_DISCOUNT_CODE } from "@/lib/signup-offer";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut, requestPasswordReset as serverRequestPasswordReset } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
 import { FIELD_LIMITS, stripNameChars } from "@/lib/form-rules";
@@ -465,9 +466,28 @@ function CurrencySelect() {
   );
 }
 
-// Sign-up offer. The code only works in Shopify for email subscribers
-// (discount "Sign-up 10% (WELCOME10)", limited to the "Email subscribers" segment, once per customer).
-const SIGNUP_DISCOUNT_CODE = "WELCOME10";
+
+// Signup popup memory: when it last opened (ms), or "subscribed"
+const SIGNUP_POPUP_KEY = "hhara_signup_popup";
+// Set just before the post-signup reload so the account page shows the sign-up code once
+const NEW_MEMBER_KEY = "hhara_new_member";
+
+function SignupCode() {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(SIGNUP_DISCOUNT_CODE);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch { }
+  };
+  return (
+    <button type="button" onClick={copy} aria-label={`Copy discount code ${SIGNUP_DISCOUNT_CODE}`} style={{ display: "inline-flex", alignItems: "center", gap: 12, border: "1px dashed var(--ink)", background: "none", padding: "8px 16px", cursor: "pointer", color: "var(--ink)" }}>
+      <span style={{ letterSpacing: "0.25em", fontWeight: 500 }}>{SIGNUP_DISCOUNT_CODE}</span>
+      <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.15em", opacity: 0.6 }}>{copied ? "Copied" : "Copy"}</span>
+    </button>
+  );
+}
 
 function Announce() {
   const { format, freeShippingThreshold } = useCurrency();
@@ -979,6 +999,7 @@ function Footer({ setRoute, route = "" }) {
     setBusy(false);
     if (res.ok) {
       setDone(true);
+      try { localStorage.setItem(SIGNUP_POPUP_KEY, "subscribed"); } catch { }
       trackEvent({
         name: "customer_subscribed",
         payload: {
@@ -1027,6 +1048,7 @@ function Footer({ setRoute, route = "" }) {
                 {done ? "✓" : busy ? "…" : "Subscribe"}
               </button>
             </form>
+            {done && <div style={{ marginTop: 8, fontSize: 12 }}>Thank you. Use <strong style={{ letterSpacing: "0.15em" }}>{SIGNUP_DISCOUNT_CODE}</strong> for 10% off your first order.</div>}
             {error && <div style={{ marginTop: 8, fontSize: 11, color: "#faa" }}>{error}</div>}
           </div>
           <div className="footer-links">
@@ -1702,7 +1724,10 @@ function Newsletter() {
     setBusy(true); setError(null);
     const res = await serverSubscribe(email);
     setBusy(false);
-    if (res.ok) setDone(true);
+    if (res.ok) {
+      setDone(true);
+      try { localStorage.setItem(SIGNUP_POPUP_KEY, "subscribed"); } catch { }
+    }
     else setError(res.error || "Subscription failed");
   };
   return (
@@ -1728,6 +1753,7 @@ function Newsletter() {
             {done ? "Thank you ✓" : busy ? "Subscribing…" : "Subscribe"}
           </button>
         </form>
+        {done && <div style={{ marginTop: 12, fontSize: 14 }}>Enjoy 10% off at your first order: <strong style={{ letterSpacing: "0.15em" }}>{SIGNUP_DISCOUNT_CODE}</strong></div>}
         {error && <div style={{ marginTop: 12, fontSize: 13, color: "#fbb" }}>{error}</div>}
       </div>
     </section>
@@ -4238,12 +4264,20 @@ function AccountPage({
 }) {
   const customer = useCustomer();
   const [tab, setTab] = useState("signin");
-  const [form, setForm] = useState({ email: "", password: "", firstName: "", dob: "", acceptsMarketing: false, hpCompany: "" });
+  const [form, setForm] = useState({ email: "", password: "", firstName: "", dob: "", hpCompany: "" });
   const [formTs] = useState(() => Date.now());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [forgot, setForgot] = useState<null | "form" | "sent">(null);
+  const [isNewMember, setIsNewMember] = useState(false);
+  useEffect(() => {
+    try { setIsNewMember(sessionStorage.getItem(NEW_MEMBER_KEY) === "1"); } catch { }
+  }, []);
+  const dismissWelcome = () => {
+    setIsNewMember(false);
+    try { sessionStorage.removeItem(NEW_MEMBER_KEY); } catch { }
+  };
 
   const handleForgot = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -4271,12 +4305,16 @@ function AccountPage({
       password: form.password,
       firstName: form.firstName,
       dob: form.dob,
-      acceptsMarketing: form.acceptsMarketing,
       honeypot: form.hpCompany,
       formTimestamp: formTs,
     });
     setBusy(false);
     if (!res.ok) { setError(res.error || "Sign up failed"); return; }
+    // The reload below lands on the account view, which shows the sign-up code once
+    try {
+      sessionStorage.setItem(NEW_MEMBER_KEY, "1");
+      localStorage.setItem(SIGNUP_POPUP_KEY, "subscribed");
+    } catch { }
     if (onAuthenticated) onAuthenticated();
     window.location.reload();
   };
@@ -4300,6 +4338,16 @@ function AccountPage({
             Hello, <em>{customer.firstName || customer.email}</em>
           </h1>
           <p style={{ opacity: 0.7, marginBottom: 28 }}>{customer.email}</p>
+
+          {isNewMember && (
+            <div style={{ border: "1px solid var(--ink)", padding: 16, marginBottom: 28, position: "relative" }}>
+              <button type="button" onClick={dismissWelcome} aria-label="Dismiss" style={{ position: "absolute", top: 8, right: 10, background: "none", border: "none", cursor: "pointer", color: "var(--ink-soft)", fontSize: 16 }}>×</button>
+              <div className="eyebrow" style={{ marginBottom: 8 }}>Welcome to the Circle</div>
+              <p style={{ fontSize: 14, marginBottom: 8 }}>Enjoy 10% off at your first order. Enter it at checkout:</p>
+              <SignupCode />
+              <p style={{ fontSize: 12, opacity: 0.6, marginTop: 10 }}>Your code is valid for 14 days from signup, on your first qualifying order.</p>
+            </div>
+          )}
 
           <div style={{ marginBottom: 32 }}>
             <button className="btn btn-ghost" onClick={handleSignOut} disabled={busy}>Sign Out</button>
@@ -4459,15 +4507,11 @@ function AccountPage({
                 </button>
               </div>
             </div>
-            <label style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 13, color: "var(--ink-soft)", margin: "8px 0" }}>
-              <input type="checkbox" checked={form.acceptsMarketing} onChange={(e) => setForm({ ...form, acceptsMarketing: e.target.checked })} style={{ accentColor: "var(--accent)" }} />
-              Email me HHARA dispatches & capsule drops
-            </label>
             <button className="btn btn-primary btn-block" style={{ marginTop: 12 }} disabled={busy}>
               {busy ? "Creating account…" : "Join the Circle"}
               <span className="btn-arrow"><Icon.Arrow /></span>
             </button>
-            <div className="auth-foot">By creating an account you accept our <a href="/terms" onClick={(e) => { e.preventDefault(); setRoute("terms"); }}>Terms</a> and <a href="/privacy" onClick={(e) => { e.preventDefault(); setRoute("privacy"); }}>Privacy</a>.</div>
+            <div className="auth-foot">By creating an account you accept our <a href="/terms" onClick={(e) => { e.preventDefault(); setRoute("terms"); }}>Terms</a> and <a href="/privacy" onClick={(e) => { e.preventDefault(); setRoute("privacy"); }}>Privacy</a>, and you'll receive HHARA emails, with 10% off your first order. Unsubscribe anytime.</div>
           </form>
         )}
       </div>
@@ -5268,8 +5312,6 @@ const CART_COLOR_REVERSE_MAP: Record<string, string> = {
   "Army Green": "Zinc Crimson",
 };
 
-// Signup popup memory: when it last opened (ms), or "subscribed"
-const SIGNUP_POPUP_KEY = "hhara_signup_popup";
 const SIGNUP_POPUP_SNOOZE_MS = 24 * 60 * 60 * 1000;
 
 // === FILE 10-180e2df1-7549-448a-8bbb-f6c3acb791f4.jsx ===
@@ -5825,10 +5867,10 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
               {/* On mobile the photo is a card no wider than 10:9, so the whole model always fits */}
               <div className="relative h-full max-w-full aspect-[10/9] mx-auto md:aspect-auto md:w-full overflow-hidden rounded-sm md:rounded-none bg-[#F7EFEC]">
                 <Image
-                  src="/images/signup-popup.jpeg"
+                  src="/images/signup-popup-bench.jpg"
                   alt="HHARA"
                   fill
-                  className="object-cover object-[50%_33%] md:object-top"
+                  className="object-cover object-[50%_33%] md:object-bottom md:scale-110 md:origin-bottom"
                   sizes="(max-width: 768px) 100vw, 50vw"
                   priority
                 />

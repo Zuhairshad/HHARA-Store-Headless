@@ -56,7 +56,6 @@ export async function signUp(input: {
   firstName?: string;
   lastName?: string;
   dob?: string;
-  acceptsMarketing?: boolean;
   honeypot?: string;
   formTimestamp?: number;
 }): Promise<{ ok: boolean; error?: string; status?: "TAKEN" | "ACTIVATION_SENT" | "EXISTS" }> {
@@ -92,7 +91,8 @@ export async function signUp(input: {
     password,
     ...(firstName ? { firstName } : {}),
     ...(lastName ? { lastName } : {}),
-    acceptsMarketing: input.acceptsMarketing === true,
+    // Every account joins the email list, which also makes it eligible for the sign-up code
+    acceptsMarketing: true,
     ...(dob ? { note: `DOB: ${dob}` } : {}),
   });
   if (created.errors.length) {
@@ -156,12 +156,9 @@ export async function signUp(input: {
   await writeToken(tok.token.accessToken, tok.token.expiresAt);
   await Promise.all([
     waitUntilTokenWorks(tok.token.accessToken),
-    // Ticked "Email me HHARA dispatches": add them to the Klaviyo list too
-    input.acceptsMarketing
-      ? subscribeKlaviyo(email, "Account Signup").then((ok) =>
-          ok ? updateKlaviyoProfile(email, { name: [firstName, lastName].filter(Boolean).join(" "), dob: dob || undefined }) : undefined
-        )
-      : Promise.resolve(),
+    subscribeKlaviyo(email, "Account Signup").then((ok) =>
+      ok ? updateKlaviyoProfile(email, { name: [firstName, lastName].filter(Boolean).join(" "), dob: dob || undefined }) : undefined
+    ),
   ]);
 
   // Link guest cart to customer account if present
