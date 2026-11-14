@@ -13,6 +13,7 @@ import {
   sendAccountInvite,
   customerResetByUrl,
   customerActivateByUrl,
+  getAccountLinkHosts,
 } from "./shopify";
 import { getClientIp, verifyHumanSubmission } from "./bot-protection";
 import { rateLimit } from "./rate-limit";
@@ -101,6 +102,16 @@ export async function signUp(input: {
     const first = created.errors[0] as { message: string; code?: string };
     const isEmailTaken = first.code === "TAKEN" || /taken/i.test(first.message || "");
     if (isEmailTaken) return emailAlreadyRegistered(email);
+    // A customer record without a password (newsletter subscriber, guest checkout): Shopify has
+    // already emailed them an account invite and says "please click the link included to verify
+    // your email address". That is a next step, not an error.
+    if (first.code === "CUSTOMER_DISABLED" || /verify your email/i.test(first.message || "")) {
+      return {
+        ok: false,
+        status: "EMAIL_SENT",
+        message: `You're already on the HHARA list with ${email}. We've emailed you a link to finish creating your account and set your password; check your spam folder too.`,
+      };
+    }
     return { ok: false, error: first.message };
   }
   // Auto-login after signup
@@ -299,11 +310,12 @@ export async function setPasswordFromEmailLink(
   link: string,
   password: string
 ): Promise<{ ok: boolean; error?: string }> {
-  // Only accept genuine links from this store's emails
-  const domain = process.env.SHOPIFY_STORE_DOMAIN;
+  // Only accept genuine links from this store's emails (API domain or the store's primary domain)
+  const hosts = await getAccountLinkHosts();
   let url: URL;
   try { url = new URL(link); } catch { return { ok: false, error: INVALID_LINK }; }
-  if (url.protocol !== "https:" || url.hostname !== domain || !url.pathname.startsWith(`/account/${kind}/`)) {
+  if (url.protocol !== "https:" || !hosts.includes(url.hostname) || !url.pathname.startsWith(`/account/${kind}/`)) {
+    console.error(`[setPasswordFromEmailLink:${kind}] rejected link host ${url.hostname}; accepted: ${hosts.join(", ")}`);
     return { ok: false, error: INVALID_LINK };
   }
   if (!password || password.length < 8) return { ok: false, error: "Your password needs at least 8 characters." };

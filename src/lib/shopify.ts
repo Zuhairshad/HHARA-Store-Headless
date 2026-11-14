@@ -464,6 +464,25 @@ export async function subscribeExistingCustomer(email: string): Promise<void> {
   }
 }
 
+// Hosts Shopify uses in account emails. Activation and reset links are built on the store's
+// PRIMARY domain (e.g. checkout.hhara.com), not the .myshopify.com API domain, so a check
+// against SHOPIFY_STORE_DOMAIN alone rejects every genuine link.
+let accountLinkHostsCache: { hosts: string[]; at: number } | null = null;
+export async function getAccountLinkHosts(): Promise<string[]> {
+  if (accountLinkHostsCache && Date.now() - accountLinkHostsCache.at < 60 * 60 * 1000) return accountLinkHostsCache.hosts;
+  const hosts = [process.env.SHOPIFY_STORE_DOMAIN].filter(Boolean) as string[];
+  try {
+    const data = await shopifyFetch<{ shop: { primaryDomain: { host: string } } }>(
+      /* GraphQL */ `query PrimaryDomain { shop { primaryDomain { host } } }`
+    );
+    if (data.shop.primaryDomain?.host) hosts.push(data.shop.primaryDomain.host);
+    accountLinkHostsCache = { hosts, at: Date.now() };
+  } catch (err) {
+    console.error("[getAccountLinkHosts]", err);
+  }
+  return hosts;
+}
+
 // Shopify customer account states (Admin API): ENABLED has a password; DISABLED is a
 // subscriber or guest with no account yet; INVITED and DECLINED were sent an invite.
 export type CustomerAccountState = "ENABLED" | "DISABLED" | "INVITED" | "DECLINED";
