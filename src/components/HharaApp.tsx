@@ -158,7 +158,9 @@ const IMGS: Record<string, string> = {
   lb6: "/images/wonder-worn-second-card.jpeg",
   lb7: "/images/IMG_5275.jpeg",
   lb8: "/images/lucy-angie-2.png",
-  lb9: "/images/README.png",
+  lb9: "/images/lookbook-hero-crosswalk.jpg",
+  wonderWorn2: "/images/wonder-worn-dahlia-olive.jpg",
+  wonderWorn5: "/images/wonder-worn-brown-coat.jpg",
   instaReel: "/images/insta-reel.jpg",
   sMilan: "/images/sMilan.jpg",
   sParis: "/images/sParis.jpg",
@@ -1629,7 +1631,7 @@ function Marquee() {
 
 function Lookbook({ openLookbook, openProduct, setRoute }) {
 
-  const tiles = [IMGS.lb5, IMGS.lb1, IMGS.lb2, IMGS.lb4, IMGS.lb3, IMGS.lb6];
+  const tiles = [IMGS.lb5, IMGS.wonderWorn2, IMGS.lb2, IMGS.lb4, IMGS.wonderWorn5, IMGS.lb6];
   const tones = ["tone-3", "tone-1", "tone-5", "tone-7", "tone-2", "tone-6"];
   const tags = ["Imara Set", "Dahlia Set", "Chicory Brown", "Imara Leggings", "Olive", "Imara Set"];
   const handlers = [
@@ -1652,7 +1654,7 @@ function Lookbook({ openLookbook, openProduct, setRoute }) {
       <div className="lookbook">
         {tones.map((t, i) => (
           <div key={i} className={`lookbook-tile t${i + 1} ${t}`} onClick={handlers[i]} style={{ cursor: "pointer" }}>
-            {tiles[i] && <Image src={tiles[i]} alt={tags[i]} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" loading="lazy" style={(i === 0 || i === 1 || i === 5) ? { objectPosition: "top center" } : i === 2 ? { objectPosition: "center center" } : i === 4 ? { objectPosition: "center 20%" } : undefined} />}
+            {tiles[i] && <Image src={tiles[i]} alt={tags[i]} fill className="img-fill" sizes="(max-width: 768px) 50vw, 33vw" loading="lazy" style={(i === 0 || i === 5) ? { objectPosition: "top center" } : i === 1 ? { objectPosition: "center 30%", transform: "scale(1.1)", transformOrigin: "center 30%" } : i === 2 ? { objectPosition: "center center" } : i === 4 ? { objectPosition: "center 55%" } : undefined} />}
             <div className="lk-tag">{tags[i]}</div>
           </div>
         ))}

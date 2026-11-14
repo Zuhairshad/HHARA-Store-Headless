@@ -2750,9 +2750,10 @@ img { display: block; max-width: 100%; }
 .lb-tile.wide { aspect-ratio: 16 / 9; }
 .lb-tile.square { aspect-ratio: 1 / 1; }
 /* Not "hero": that class is the full-screen home banner and would make this tile 100dvh tall */
-.lb-tile.banner { aspect-ratio: 16 / 8; }
-.lb-tile.banner .img-fill { object-position: center 25%; }
-.lb-row.single { margin-top: -70px; }
+/* Half the row's width + 100px. cqw resolves against .lb-row.single, which is the tile's width */
+.lb-tile.banner { aspect-ratio: auto; height: calc(50cqw + 100px); }
+.lb-tile.banner .img-fill { object-position: center 22%; }
+.lb-row.single { margin-top: -70px; container-type: inline-size; }
 .lb-tile .caption {
   position: absolute;
   bottom: 20px;
@@ -3262,9 +3263,8 @@ img { display: block; max-width: 100%; }
 @media (max-width: 768px) {
   .wish-grid { grid-template-columns: repeat(2, 1fr); }
   .lb-row.cols-2, .lb-row.cols-2-flip, .lb-row.cols-3 { grid-template-columns: 1fr; }
-  /* The photo is landscape and she spans ~26-80% of its width, so a portrait crop cuts her feet off.
-     Square shows 75% of the width: enough for her from head to feet */
-  .lb-tile.banner { aspect-ratio: 1 / 1; }
+  /* Square + 100px */
+  .lb-tile.banner { height: calc(100cqw + 100px); }
   .lb-tile.banner .img-fill { object-position: 45% center; }
   .search-results { grid-template-columns: 1fr; }
   
