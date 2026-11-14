@@ -464,6 +464,72 @@ export async function subscribeExistingCustomer(email: string): Promise<void> {
   }
 }
 
+// Shopify customer account states (Admin API): ENABLED has a password; DISABLED is a
+// subscriber or guest with no account yet; INVITED and DECLINED were sent an invite.
+export type CustomerAccountState = "ENABLED" | "DISABLED" | "INVITED" | "DECLINED";
+
+export async function findCustomerByEmail(email: string): Promise<{ id: string; state: CustomerAccountState } | null> {
+  const data = await shopifyAdminFetch<{ customers: { nodes: { id: string; state: CustomerAccountState }[] } }>(
+    /* GraphQL */ `
+      query FindCustomerByEmail($q: String!) {
+        customers(first: 1, query: $q) { nodes { id state } }
+      }
+    `,
+    // Quoted: an unquoted address is split by Shopify's search syntax and can match nothing
+    { q: `email:"${email.trim().toLowerCase().replace(/"/g, "")}"` }
+  );
+  return data.customers.nodes[0] ?? null;
+}
+
+// Emails the store's "Customer account invite" notification, whose link lets the customer
+// choose a password and turn their subscriber record into an account.
+export async function sendAccountInvite(customerId: string): Promise<boolean> {
+  const data = await shopifyAdminFetch<{ customerSendAccountInviteEmail: { userErrors: { message: string }[] } }>(
+    /* GraphQL */ `
+      mutation SendInvite($customerId: ID!) {
+        customerSendAccountInviteEmail(customerId: $customerId) { userErrors { field message } }
+      }
+    `,
+    { customerId }
+  );
+  const errs = data.customerSendAccountInviteEmail.userErrors;
+  if (errs.length) console.error("[sendAccountInvite]", errs);
+  return errs.length === 0;
+}
+
+// Newsletter sign-up: a customer record with email marketing consent and NO password, so
+// no account is created. If they later create an account with the same email, they get an
+// invite to set a password (see signUp). The Storefront API can't do this: its
+// customerCreate always makes a full account and requires a password.
+export async function createSubscriber(input: {
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  note?: string;
+}): Promise<{ ok: boolean; taken: boolean; emailInvalid: boolean }> {
+  const data = await shopifyAdminFetch<{
+    customerCreate: { customer: { id: string } | null; userErrors: { field: string[] | null; message: string }[] };
+  }>(
+    /* GraphQL */ `
+      mutation CreateSubscriber($input: CustomerInput!) {
+        customerCreate(input: $input) { customer { id } userErrors { field message } }
+      }
+    `,
+    {
+      input: {
+        ...input,
+        emailMarketingConsent: { marketingState: "SUBSCRIBED", marketingOptInLevel: "SINGLE_OPT_IN" },
+      },
+    }
+  );
+  const errs = data.customerCreate.userErrors;
+  if (!errs.length) return { ok: true, taken: false, emailInvalid: false };
+  const taken = errs.some((e) => /taken|already/i.test(e.message));
+  if (!taken) console.error("[createSubscriber]", errs);
+  return { ok: false, taken, emailInvalid: errs.some((e) => e.field?.includes("email") && !/taken|already/i.test(e.message)) };
+}
+
 // Best effort: a failure here must not fail the signup itself.
 export async function setCustomerNote(customerId: string, note: string): Promise<void> {
   const query = /* GraphQL */ `

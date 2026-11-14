@@ -9,6 +9,8 @@ import {
   customerAssociateCart,
   shopifyAdminFetch,
   customerRecover,
+  findCustomerByEmail,
+  sendAccountInvite,
   customerResetByUrl,
   customerActivateByUrl,
 } from "./shopify";
@@ -58,7 +60,7 @@ export async function signUp(input: {
   dob?: string;
   honeypot?: string;
   formTimestamp?: number;
-}): Promise<{ ok: boolean; error?: string; status?: "TAKEN" | "ACTIVATION_SENT" | "EXISTS" }> {
+}): Promise<{ ok: boolean; error?: string; status?: "EMAIL_SENT"; message?: string }> {
   // 0. Re-check the form's rules: maxLength and the name filter only bind the browser,
   // and this action can be called directly with any payload.
   const email = typeof input.email === "string" ? input.email.trim() : "";
@@ -96,59 +98,10 @@ export async function signUp(input: {
     ...(dob ? { note: `DOB: ${dob}` } : {}),
   });
   if (created.errors.length) {
-    const errorMsg = created.errors[0].message;
-    const isEmailTaken = errorMsg?.toLowerCase().includes("taken") || (created.errors[0] as any).code === "TAKEN";
-    if (isEmailTaken) {
-      try {
-        // Query Admin API to see customer state
-        const query = `
-          query GetCustomer($query: String!) {
-            customers(first: 1, query: $query) {
-              nodes {
-                id
-                state
-              }
-            }
-          }
-        `;
-        const data = await shopifyAdminFetch<{ customers: { nodes: { id: string; state: string }[] } }>(query, {
-          query: `email:${email}`
-        });
-        const customer = data.customers.nodes[0];
-        if (customer) {
-          if (customer.state === "DISABLED" || customer.state === "INVITED") {
-            // Send activation email
-            const activationQuery = `
-              mutation SendActivation($id: ID!) {
-                customerSendActivationEmail(customerId: $id) {
-                  activationUrl
-                  userErrors { message }
-                }
-              }
-            `;
-            const actRes = await shopifyAdminFetch<{ customerSendActivationEmail: { activationUrl: string | null; userErrors: any[] } }>(
-              activationQuery,
-              { id: customer.id }
-            );
-            if (actRes.customerSendActivationEmail.userErrors.length === 0) {
-              return {
-                ok: false,
-                status: "ACTIVATION_SENT",
-                error: "An account under this email already exists as a guest (e.g. from your newsletter subscription). We have sent you an activation email to set up your password and complete your registration."
-              };
-            }
-          }
-          return {
-            ok: false,
-            status: "EXISTS",
-            error: "An account under this email already exists. Please log in directly, or click 'Forgot Password' if you need to reset it."
-          };
-        }
-      } catch (err) {
-        console.error("[signUp] Admin account recovery check failed:", err);
-      }
-    }
-    return { ok: false, error: errorMsg };
+    const first = created.errors[0] as { message: string; code?: string };
+    const isEmailTaken = first.code === "TAKEN" || /taken/i.test(first.message || "");
+    if (isEmailTaken) return emailAlreadyRegistered(email);
+    return { ok: false, error: first.message };
   }
   // Auto-login after signup
   const tok = await customerAccessTokenCreate(email, password);
@@ -171,12 +124,41 @@ export async function signUp(input: {
   return { ok: true };
 }
 
+// The email is already a Shopify customer: either a newsletter subscriber with no password yet,
+// or an existing account. Either way, email them the link that lets them set a password, rather
+// than a dead-end "already taken". The answer is the same for both, and the link only reaches the
+// inbox owner, so nobody can take over an account (or see guest orders) just by knowing an email.
+async function emailAlreadyRegistered(email: string): Promise<{ ok: false; status: "EMAIL_SENT"; message: string }> {
+  const sent = {
+    ok: false as const,
+    status: "EMAIL_SENT" as const,
+    message: `${email} is already registered with HHARA. We've emailed you a link to set your password; it can take a few minutes, so check your spam folder too.`,
+  };
+  try {
+    const customer = await findCustomerByEmail(email);
+    if (customer && customer.state !== "ENABLED") {
+      // Subscriber (popup, footer, checkout) with no account: invite them to set a password
+      if (await sendAccountInvite(customer.id)) return sent;
+    }
+  } catch (err) {
+    console.error("[signUp] account lookup/invite failed:", err);
+  }
+  // An account with a password (or the lookup failed): send the password reset email
+  try {
+    const { errors } = await customerRecover(email.toLowerCase());
+    if (errors.length) console.error("[signUp] customerRecover:", errors);
+  } catch (err) {
+    console.error("[signUp] customerRecover threw:", err);
+  }
+  return sent;
+}
+
 export async function signIn(email: string, password: string): Promise<{ ok: boolean; error?: string }> {
   const tok = await customerAccessTokenCreate(email, password);
   if (!tok.token) {
     // Shopify says "Unidentified customer" for a wrong email or password
     console.error("[signIn] customerAccessTokenCreate failed:", tok.errors);
-    return { ok: false, error: "Incorrect email or password." };
+    return { ok: false, error: "Incorrect email or password. Joined through our newsletter? Choose \u201cForgot password\u201d to set one." };
   }
   await writeToken(tok.token.accessToken, tok.token.expiresAt);
   await waitUntilTokenWorks(tok.token.accessToken);

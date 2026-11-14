@@ -4282,6 +4282,8 @@ function AccountPage({
   const [formTs] = useState(() => Date.now());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Information, not an error: e.g. "already registered, we've emailed you a link to set your password"
+  const [notice, setNotice] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [forgot, setForgot] = useState<null | "form" | "sent">(null);
   const [isNewMember, setIsNewMember] = useState(false);
@@ -4313,7 +4315,7 @@ function AccountPage({
   };
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    setBusy(true); setError(null);
+    setBusy(true); setError(null); setNotice(null);
     const res = await serverSignUp({
       email: form.email,
       password: form.password,
@@ -4323,6 +4325,7 @@ function AccountPage({
       formTimestamp: formTs,
     });
     setBusy(false);
+    if (res.status === "EMAIL_SENT") { setNotice(res.message || null); return; }
     if (!res.ok) { setError(res.error || "Sign up failed"); return; }
     // The reload below lands on the account view, which shows the sign-up code once
     try {
@@ -4406,10 +4409,11 @@ function AccountPage({
           {tab === "signin" ? "Welcome back" : <>Join the <em>Circle</em></>}
         </h1>
         <div className="auth-tabs">
-          <button className={tab === "signin" ? "on" : ""} onClick={() => { setTab("signin"); setError(null); }}>Sign In</button>
-          <button className={tab === "register" ? "on" : ""} onClick={() => { setTab("register"); setError(null); }}>Create Account</button>
+          <button className={tab === "signin" ? "on" : ""} onClick={() => { setTab("signin"); setError(null); setNotice(null); }}>Sign In</button>
+          <button className={tab === "register" ? "on" : ""} onClick={() => { setTab("register"); setError(null); setNotice(null); }}>Create Account</button>
         </div>
         {error && <div style={{ background: "#fde8e8", color: "#7a2e3a", padding: 10, marginTop: 16, fontSize: 13 }}>{error}</div>}
+        {notice && <div role="status" style={{ background: "#f3efe8", color: "var(--ink)", padding: 12, marginTop: 16, fontSize: 13, lineHeight: 1.6 }}>{notice}</div>}
         {tab === "signin" && forgot ? (
           <form className="auth-form" onSubmit={handleForgot}>
             {forgot === "sent" ? (
