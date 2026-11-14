@@ -1633,13 +1633,13 @@ function Lookbook({ openLookbook, openProduct, setRoute }) {
 
   const tiles = [IMGS.lb5, IMGS.wonderWorn2, IMGS.lb2, IMGS.lb4, IMGS.wonderWorn5, IMGS.lb6];
   const tones = ["tone-3", "tone-1", "tone-5", "tone-7", "tone-2", "tone-6"];
-  const tags = ["Imara Set", "Dahlia Set", "Chicory Brown", "Imara Leggings", "Olive", "Imara Set"];
+  const tags = ["Imara Set", "Dahlia Set", "Chicory Brown", "Imara Leggings", "Imara Set", "Imara Set"];
   const handlers = [
     () => setRoute("shop", ["The Imara Set", "Olive"]),
     () => setRoute("shop", ["The Dahlia Set", "Olive"]),
     () => setRoute("shop", "Chicory Brown"),
     () => setRoute("product", "p2", "Olive"),
-    () => setRoute("shop", "Olive"),
+    () => setRoute("shop", ["The Imara Set", "Chicory Brown"]),
     () => setRoute("shop", "The Imara Set"),
   ];
   return (
@@ -4011,7 +4011,7 @@ function LookbookPage({ setRoute, openProduct }) {
               <div>The Dahlia Set</div>
               <div className="ttl">Strength, In Form</div>
             </div>
-            <div className="hotspot" style={{ top: "55%", left: "38%" }} onClick={() => openProduct("p3", "Olive")}>
+            <div className="hotspot" style={{ top: "45%", left: "55%" }} onClick={() => openProduct("p3", "Chicory Brown")}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             </div>
           </div>
