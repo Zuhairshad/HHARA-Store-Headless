@@ -4510,7 +4510,7 @@ function AccountPage({
             </div>
             <div className="field">
               <label>Date of Birth</label>
-              <input type="date" value={form.dob} min="1900-01-01" max={new Date().toISOString().split("T")[0]} onKeyDown={(e) => e.preventDefault()} onChange={(e) => setForm({ ...form, dob: e.target.value })} />
+              <input type="date" value={form.dob} min="1900-01-01" max={new Date().toISOString().split("T")[0]} onChange={(e) => setForm({ ...form, dob: e.target.value })} />
             </div>
             <div className="field">
               <label>Email</label>
