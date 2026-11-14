@@ -4035,9 +4035,9 @@ function LookbookPage({ setRoute, openProduct }) {
 
         <div className="lb-row cols-3">
           <div className="lb-tile">
-            <Image src={IMGS.lb3} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
+            <Image src={IMGS.wonderWorn5} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
             <div className="ovr"></div>
-            <div className="caption"><div className="ttl">Olive</div></div>
+            <div className="caption"><div className="ttl">Chicory Brown</div></div>
           </div>
           <div className="lb-tile">
             <Image src={IMGS.lb4} alt="" fill className="img-fill" sizes="(max-width: 768px) 100vw, 33vw" loading="lazy" />
