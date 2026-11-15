@@ -16,6 +16,9 @@ export async function middleware(request: NextRequest) {
   const shopifyY = request.cookies.get("_shopify_y");
   if (shopifyY?.value) return response;
 
+  // Crawlers never keep cookies, so without this every bot request paid for a Shopify round trip.
+  if (/bot|crawl|spider|slurp|facebookexternalhit|embedly|preview|lighthouse|headless/i.test(request.headers.get("user-agent") ?? "")) return response;
+
   try {
     const upstream = await fetch(SHOPIFY_API, {
       method: "POST",
