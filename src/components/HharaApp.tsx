@@ -4529,7 +4529,7 @@ function AccountPage({
               {busy ? "Creating account…" : "Join the Circle"}
               <span className="btn-arrow"><Icon.Arrow /></span>
             </button>
-            <div className="auth-foot">By creating an account you accept our <a href="/terms" onClick={(e) => { e.preventDefault(); setRoute("terms"); }}>Terms</a> and <a href="/privacy" onClick={(e) => { e.preventDefault(); setRoute("privacy"); }}>Privacy</a>, and you'll receive HHARA emails, with 10% off your first order. Unsubscribe anytime.</div>
+            <div className="auth-foot">By creating an account you accept our <a href="/terms" onClick={(e) => { e.preventDefault(); setRoute("terms"); }}>Terms</a> and <a href="/privacy" onClick={(e) => { e.preventDefault(); setRoute("privacy"); }}>Privacy</a>, and you'll receive HHARA emails. Unsubscribe anytime.</div>
           </form>
         )}
       </div>
