@@ -5995,7 +5995,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                   </button>
                   {/* "Save it" nudge, written as a play on the hero line ("She doesn't wait for wonder") */}
                   <p className="text-[15px] md:text-[16px] text-[#241811] leading-snug mt-4 max-w-[300px]" style={{ fontFamily: "var(--display)" }}>
-                    Save it somewhere safe. <em>She doesn&rsquo;t wait for wonder, but this code will &mdash; for 14 days.</em>
+                    Save it somewhere safe. <em>She doesn&rsquo;t wait for wonder, but this code will. For 14 days.</em>
                   </p>
                   <p className="text-[11px] text-[#241811]/60 leading-relaxed font-light mt-3 max-w-[280px]">
                     Enter it at checkout with the email you signed up with ({newsletterEmail}).
