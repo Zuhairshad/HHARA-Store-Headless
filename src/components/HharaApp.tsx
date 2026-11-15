@@ -5980,9 +5980,9 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   </div>
-                  <h4 style={{ fontFamily: "var(--display)", fontSize: "26px", marginBottom: "8px" }}>Welcome to HHARA</h4>
+                  <h4 style={{ fontFamily: "var(--display)", fontSize: "26px", marginBottom: "8px" }}>Welcome to HHARA.</h4>
                   <p className="text-xs md:text-sm text-[#241811]/80 leading-relaxed font-light">
-                    You're on the list. Here's your 10% off:
+                    Your 10% off is here.
                   </p>
                   <button
                     type="button"
@@ -5993,12 +5993,11 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
                     <span className="tracking-[0.25em] text-sm md:text-base font-medium">{SIGNUP_DISCOUNT_CODE}</span>
                     <span className="text-[10px] uppercase tracking-widest text-[#241811]/60">{codeCopied ? "Copied" : "Copy"}</span>
                   </button>
-                  {/* "Save it" nudge, written as a play on the hero line ("She doesn't wait for wonder") */}
                   <p className="text-[15px] md:text-[16px] text-[#241811] leading-snug mt-4 max-w-[300px]" style={{ fontFamily: "var(--display)" }}>
-                    Save it somewhere safe. <em>She doesn&rsquo;t wait for wonder, but this code will. For 14 days.</em>
+                    Save this code. It&rsquo;s yours for the next 14 days.
                   </p>
                   <p className="text-[11px] text-[#241811]/60 leading-relaxed font-light mt-3 max-w-[280px]">
-                    Enter it at checkout with the email you signed up with ({newsletterEmail}).
+                    Use it at checkout with the email you signed up with ({newsletterEmail}).
                   </p>
                 </div>
               )}
