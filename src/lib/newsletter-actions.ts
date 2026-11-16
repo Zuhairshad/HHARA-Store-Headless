@@ -4,6 +4,7 @@ import { createSubscriber, subscribeExistingCustomer } from "./shopify";
 import { verifyHumanSubmission } from "./bot-protection";
 import { subscribeKlaviyo, updateKlaviyoProfile } from "./klaviyo";
 import { FIELD_LIMITS } from "./form-rules";
+import { SIGNUP_OFFER_SOURCE, SIGNUP_OFFER_TAG } from "./signup-offer";
 
 // Create a Shopify customer with marketing consent, and subscribe the email
 // directly to a Klaviyo list (when KLAVIYO_PRIVATE_API_KEY and KLAVIYO_LIST_ID are set).
@@ -39,7 +40,7 @@ export async function subscribeNewsletter(
   }
 
   const [shopify, klaviyoOk] = await Promise.all([
-    subscribeShopify(email, name, phone, dob),
+    subscribeShopify(email, name, phone, dob, source === SIGNUP_OFFER_SOURCE ? [SIGNUP_OFFER_TAG] : []),
     subscribeKlaviyo(email, source),
   ]);
   if (klaviyoOk && (name || phone || dob)) await updateKlaviyoProfile(email, { name, phone, dob });
@@ -52,10 +53,13 @@ async function subscribeShopify(
   email: string,
   name?: string,
   phone?: string,
-  dob?: string
+  dob?: string,
+  tags: string[] = []
 ): Promise<{ ok: boolean; error?: string }> {
-  const input: { email: string; firstName?: string; lastName?: string; phone?: string; note?: string } = {
+  // Only the popup passes a tag: it is what makes the record eligible for WELCOME10
+  const input: { email: string; firstName?: string; lastName?: string; phone?: string; note?: string; tags?: string[] } = {
     email: email.trim().toLowerCase(),
+    ...(tags.length ? { tags } : {}),
   };
   if (name) {
     const parts = name.trim().split(/\s+/);
@@ -71,7 +75,7 @@ async function subscribeShopify(
     if (res.ok) return { ok: true };
     // Already a customer (subscriber or account holder): make sure they are subscribed
     if (res.taken) {
-      await subscribeExistingCustomer(input.email);
+      await subscribeExistingCustomer(input.email, tags);
       return { ok: true };
     }
     if (res.emailInvalid) return { ok: false, error: "Please enter a valid email address." };

@@ -5,7 +5,7 @@ import React, { useState, useEffect, useRef, useContext, createContext } from "r
 import Image from "next/image";
 import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount, addGiftCard as serverAddGiftCard } from "@/lib/cart-actions";
 import { GIFT_CARD_HANDLE, GIFT_CARDS_ENABLED } from "@/lib/gift-card";
-import { SIGNUP_DISCOUNT_CODE } from "@/lib/signup-offer";
+import { SIGNUP_DISCOUNT_CODE, SIGNUP_OFFER_SOURCE } from "@/lib/signup-offer";
 import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOut, requestPasswordReset as serverRequestPasswordReset } from "@/lib/customer-actions";
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
 import { FIELD_LIMITS, stripNameChars } from "@/lib/form-rules";
@@ -471,25 +471,8 @@ function CurrencySelect() {
 
 // Signup popup memory: when it last opened (ms), or "subscribed"
 const SIGNUP_POPUP_KEY = "hhara_signup_popup";
-// Set just before the post-signup reload so the account page shows the sign-up code once
+// Set just before the post-signup reload so the account page shows the welcome note once
 const NEW_MEMBER_KEY = "hhara_new_member";
-
-function SignupCode() {
-  const [copied, setCopied] = useState(false);
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(SIGNUP_DISCOUNT_CODE);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch { }
-  };
-  return (
-    <button type="button" onClick={copy} aria-label={`Copy discount code ${SIGNUP_DISCOUNT_CODE}`} style={{ display: "inline-flex", alignItems: "center", gap: 12, border: "1px dashed var(--ink)", background: "none", padding: "8px 16px", cursor: "pointer", color: "var(--ink)" }}>
-      <span style={{ letterSpacing: "0.25em", fontWeight: 500 }}>{SIGNUP_DISCOUNT_CODE}</span>
-      <span style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.15em", opacity: 0.6 }}>{copied ? "Copied" : "Copy"}</span>
-    </button>
-  );
-}
 
 function Announce() {
   const { format, freeShippingThreshold } = useCurrency();
@@ -1050,7 +1033,7 @@ function Footer({ setRoute, route = "" }) {
                 {done ? "✓" : busy ? "…" : "Subscribe"}
               </button>
             </form>
-            {done && <div style={{ marginTop: 8, fontSize: 12 }}>Thank you. Use <strong style={{ letterSpacing: "0.15em" }}>{SIGNUP_DISCOUNT_CODE}</strong> for 10% off your first order.</div>}
+            {done && <div style={{ marginTop: 8, fontSize: 12 }}>Thank you. You&rsquo;re on the list.</div>}
             {error && <div style={{ marginTop: 8, fontSize: 11, color: "#faa" }}>{error}</div>}
           </div>
           <div className="footer-links">
@@ -1767,7 +1750,7 @@ function Newsletter() {
             {done ? "Thank you ✓" : busy ? "Subscribing…" : "Subscribe"}
           </button>
         </form>
-        {done && <div style={{ marginTop: 12, fontSize: 14 }}>Enjoy 10% off at your first order: <strong style={{ letterSpacing: "0.15em" }}>{SIGNUP_DISCOUNT_CODE}</strong></div>}
+        {done && <div style={{ marginTop: 12, fontSize: 14 }}>Thank you. You&rsquo;re on the list.</div>}
         {error && <div style={{ marginTop: 12, fontSize: 13, color: "#fbb" }}>{error}</div>}
       </div>
     </section>
@@ -4360,9 +4343,7 @@ function AccountPage({
             <div style={{ border: "1px solid var(--ink)", padding: 16, marginBottom: 28, position: "relative" }}>
               <button type="button" onClick={dismissWelcome} aria-label="Dismiss" style={{ position: "absolute", top: 8, right: 10, background: "none", border: "none", cursor: "pointer", color: "var(--ink-soft)", fontSize: 16 }}>×</button>
               <div className="eyebrow" style={{ marginBottom: 8 }}>Welcome to the Circle</div>
-              <p style={{ fontSize: 14, marginBottom: 8 }}>Enjoy 10% off at your first order. Enter it at checkout:</p>
-              <SignupCode />
-              <p style={{ fontSize: 12, opacity: 0.6, marginTop: 10 }}>Your code is valid for 14 days from signup, on your first qualifying order.</p>
+              <p style={{ fontSize: 14 }}>Your account is ready. Track orders, save your details and check out faster.</p>
             </div>
           )}
 
@@ -5522,7 +5503,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
         undefined,
         newsletterHp,
         popupFormTs,
-        "Signup Popup"
+        SIGNUP_OFFER_SOURCE
       );
       if (res.ok) {
         setSignupStatus("success");

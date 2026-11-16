@@ -431,7 +431,7 @@ export async function customerCreate(input: {
 // An existing customer signing up again isn't touched by the Storefront customerCreate,
 // so mark them as an email subscriber here (the sign-up discount is limited to subscribers).
 // Best effort: a failure here must not fail the signup itself.
-export async function subscribeExistingCustomer(email: string): Promise<void> {
+export async function subscribeExistingCustomer(email: string, tags: string[] = []): Promise<void> {
   try {
     const found = await shopifyAdminFetch<{ customers: { nodes: { id: string; emailMarketingConsent: { marketingState: string } | null }[] } }>(
       /* GraphQL */ `
@@ -442,7 +442,19 @@ export async function subscribeExistingCustomer(email: string): Promise<void> {
       { q: `email:"${email.replace(/"/g, "")}"` }
     );
     const customer = found.customers.nodes[0];
-    if (!customer || customer.emailMarketingConsent?.marketingState === "SUBSCRIBED") return;
+    if (!customer) return;
+    if (tags.length) {
+      const tagged = await shopifyAdminFetch<{ tagsAdd: { userErrors: { message: string }[] } }>(
+        /* GraphQL */ `
+          mutation Tag($id: ID!, $tags: [String!]!) {
+            tagsAdd(id: $id, tags: $tags) { userErrors { field message } }
+          }
+        `,
+        { id: customer.id, tags }
+      );
+      if (tagged.tagsAdd.userErrors.length) console.error("[subscribeExistingCustomer] tags", tagged.tagsAdd.userErrors);
+    }
+    if (customer.emailMarketingConsent?.marketingState === "SUBSCRIBED") return;
     const data = await shopifyAdminFetch<{ customerEmailMarketingConsentUpdate: { userErrors: { message: string }[] } }>(
       /* GraphQL */ `
         mutation Consent($input: CustomerEmailMarketingConsentUpdateInput!) {
@@ -526,6 +538,7 @@ export async function createSubscriber(input: {
   lastName?: string;
   phone?: string;
   note?: string;
+  tags?: string[];
 }): Promise<{ ok: boolean; taken: boolean; emailInvalid: boolean }> {
   const data = await shopifyAdminFetch<{
     customerCreate: { customer: { id: string } | null; userErrors: { field: string[] | null; message: string }[] };

@@ -94,7 +94,8 @@ export async function signUp(input: {
     password,
     ...(firstName ? { firstName } : {}),
     ...(lastName ? { lastName } : {}),
-    // Every account joins the email list, which also makes it eligible for the sign-up code
+    // Every account joins the email list. That alone does NOT make it eligible for WELCOME10:
+    // the code also needs the popup's tag (see signup-offer.ts)
     acceptsMarketing: true,
     ...(dob ? { note: `DOB: ${dob}` } : {}),
   });
