@@ -85,7 +85,9 @@ export async function shopifyFetch<T>(
       Accept: "application/json",
     },
     body: JSON.stringify({ query, variables }),
-    cache: options?.cache ?? "no-store",
+    // Callers that pass `next` (revalidate/tags) want the Data Cache. Defaulting those to "no-store" made Next drop both
+    // settings as conflicting, so catalogue reads hit Shopify on every render. Everything else (cart, customer) stays no-store.
+    cache: options?.cache ?? (options?.next ? "force-cache" : "no-store"),
     next: options?.next,
   });
 
@@ -192,7 +194,7 @@ export async function getProducts(first = 50, country: string | null = null): Pr
       images: { nodes: ShopifyImage[] };
       variants: { nodes: ShopifyVariant[] };
     }> };
-  }>(query, { first, country }, { next: { tags: ["products"] } });
+  }>(query, { first, country }, { next: { tags: ["products"], revalidate: 3600 } });
   // Gift cards are sold from their own page, never listed with the collection
   return data.products.nodes
     .filter((p) => !p.isGiftCard)
@@ -217,7 +219,7 @@ export async function getProductByHandle(handle: string): Promise<ShopifyProduct
           variants: { nodes: ShopifyVariant[] };
         })
       | null;
-  }>(query, { handle }, { next: { tags: ["products"] } });
+  }>(query, { handle }, { next: { tags: ["products"], revalidate: 3600 } });
   if (!data.product) return null;
   return { ...data.product, images: data.product.images.nodes, variants: data.product.variants.nodes };
 }
