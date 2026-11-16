@@ -10,8 +10,17 @@ function parseServerTimingToken(serverTiming: string, key: string): string | nul
   return match ? match[1] : null;
 }
 
+// hydrogen-react's useShopifyCookies POSTs here (same-origin) only to make Shopify issue the _y/_s tracking tokens, which
+// come back in the Server-Timing header of any Storefront API response. So whatever the body says, the only thing ever
+// sent upstream is this fixed query; the route is not a general GraphQL proxy. Real bodies are ~100 bytes.
+const TRACKING_QUERY = JSON.stringify({ query: "{ shop { name } }" });
+const MAX_BODY_BYTES = 2048;
+
 async function proxy(request: NextRequest) {
-  const body = request.method === "POST" ? await request.text() : undefined;
+  const declared = Number(request.headers.get("content-length") ?? 0);
+  if (declared > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: "Payload too large" }, { status: 413, headers: { "Cache-Control": "no-store" } });
+  }
 
   const upstreamHeaders: Record<string, string> = {
     "Content-Type": "application/json",
@@ -33,9 +42,9 @@ async function proxy(request: NextRequest) {
 
   try {
     const upstream = await fetch(SHOPIFY_API, {
-      method: request.method === "GET" ? "POST" : request.method,
+      method: "POST",
       headers: upstreamHeaders,
-      body: body ?? JSON.stringify({ query: "{ shop { name } }" }),
+      body: TRACKING_QUERY,
     });
 
     const responseBody = await upstream.text();
