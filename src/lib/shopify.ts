@@ -443,17 +443,7 @@ export async function subscribeExistingCustomer(email: string, tags: string[] = 
     );
     const customer = found.customers.nodes[0];
     if (!customer) return;
-    if (tags.length) {
-      const tagged = await shopifyAdminFetch<{ tagsAdd: { userErrors: { message: string }[] } }>(
-        /* GraphQL */ `
-          mutation Tag($id: ID!, $tags: [String!]!) {
-            tagsAdd(id: $id, tags: $tags) { userErrors { field message } }
-          }
-        `,
-        { id: customer.id, tags }
-      );
-      if (tagged.tagsAdd.userErrors.length) console.error("[subscribeExistingCustomer] tags", tagged.tagsAdd.userErrors);
-    }
+    if (tags.length) await addCustomerTags(customer.id, tags);
     if (customer.emailMarketingConsent?.marketingState === "SUBSCRIBED") return;
     const data = await shopifyAdminFetch<{ customerEmailMarketingConsentUpdate: { userErrors: { message: string }[] } }>(
       /* GraphQL */ `
@@ -474,6 +464,25 @@ export async function subscribeExistingCustomer(email: string, tags: string[] = 
   } catch (err) {
     console.error("[subscribeExistingCustomer]", err);
   }
+}
+
+// Best effort: logs Shopify's full error and returns false instead of throwing.
+export async function addCustomerTags(customerId: string, tags: string[]): Promise<boolean> {
+  try {
+    const data = await shopifyAdminFetch<{ tagsAdd: { userErrors: { message: string }[] } }>(
+      /* GraphQL */ `
+        mutation Tag($id: ID!, $tags: [String!]!) {
+          tagsAdd(id: $id, tags: $tags) { userErrors { field message } }
+        }
+      `,
+      { id: customerId, tags }
+    );
+    if (!data.tagsAdd.userErrors.length) return true;
+    console.error("[addCustomerTags]", JSON.stringify(data.tagsAdd.userErrors));
+  } catch (err: any) {
+    console.error("[addCustomerTags]", err?.message, JSON.stringify(err?.detail));
+  }
+  return false;
 }
 
 // Hosts Shopify uses in account emails. Activation and reset links are built on the store's
@@ -540,6 +549,7 @@ export async function createSubscriber(input: {
   note?: string;
   tags?: string[];
 }): Promise<{ ok: boolean; taken: boolean; emailInvalid: boolean }> {
+  const { tags, ...fields } = input;
   const data = await shopifyAdminFetch<{
     customerCreate: { customer: { id: string } | null; userErrors: { field: string[] | null; message: string }[] };
   }>(
@@ -550,13 +560,17 @@ export async function createSubscriber(input: {
     `,
     {
       input: {
-        ...input,
+        ...fields,
         emailMarketingConsent: { marketingState: "SUBSCRIBED", marketingOptInLevel: "SINGLE_OPT_IN" },
       },
     }
   );
   const errs = data.customerCreate.userErrors;
-  if (!errs.length) return { ok: true, taken: false, emailInvalid: false };
+  if (!errs.length) {
+    // Tagged in a second call so a tagging failure can never block the sign-up itself
+    if (tags?.length && data.customerCreate.customer) await addCustomerTags(data.customerCreate.customer.id, tags);
+    return { ok: true, taken: false, emailInvalid: false };
+  }
   const taken = errs.some((e) => /taken|already/i.test(e.message));
   if (!taken) console.error("[createSubscriber]", errs);
   return { ok: false, taken, emailInvalid: errs.some((e) => e.field?.includes("email") && !/taken|already/i.test(e.message)) };

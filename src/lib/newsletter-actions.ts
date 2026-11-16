@@ -81,7 +81,7 @@ async function subscribeShopify(
     if (res.emailInvalid) return { ok: false, error: "Please enter a valid email address." };
     return { ok: false, error: "We couldn't add you just now. Please try again in a moment." };
   } catch (err: any) {
-    console.error("[newsletter] Shopify subscribe threw:", err);
+    console.error("[newsletter] Shopify subscribe threw:", err?.message, JSON.stringify(err?.detail));
     return { ok: false, error: "We couldn't add you just now. Please try again in a moment." };
   }
 }
