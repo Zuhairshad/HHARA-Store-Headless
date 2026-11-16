@@ -46,3 +46,17 @@ export function formatPrice(amount: number, currency: string): string {
     return `${currency} ${amount.toLocaleString("en", { maximumFractionDigits: digits })}`;
   }
 }
+
+/** One switcher entry per currency: the current country first, then the visitor's own, then the defaults. */
+export function buildCurrencyOptions(
+  country: string,
+  ipCountry: string | null,
+  countryCurrencies: Record<string, string>
+): { country: string; currency: string }[] {
+  const options: { country: string; currency: string }[] = [];
+  for (const c of [country, ipCountry, ...SWITCHER_COUNTRIES]) {
+    const cur = c && countryCurrencies[c];
+    if (cur && !options.some((o) => o.currency === cur)) options.push({ country: c, currency: cur });
+  }
+  return options;
+}

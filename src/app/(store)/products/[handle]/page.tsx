@@ -1,12 +1,23 @@
 import type { Metadata } from "next";
 import HharaApp from "@/components/HharaApp";
-import { getStorefrontProducts } from "@/lib/products";
-import { getCurrentCart } from "@/lib/cart-actions";
-import { getCurrentCustomer } from "@/lib/customer-actions";
+import { notFound } from "next/navigation";
+import { SHOPIFY_CONFIGURED, getStorefrontProducts } from "@/lib/products";
+import { getProducts } from "@/lib/shopify";
+import { BASE_CURRENCY } from "@/lib/currency";
 import { BRAND_ID, ORGANIZATION_ID, SITE_NAME, SITE_URL } from "@/lib/seo";
-import { getVisitorContext } from "@/lib/visitor";
 
-export const revalidate = 0;
+// Static/ISR: no cookies, headers or searchParams here. Rendered for the store-default market (AED); the visitor's
+// cart, customer and currency come from /api/session. New products are rendered on first request (dynamicParams stays on).
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  try {
+    return (await getProducts(100, "AE")).map((p) => ({ handle: p.handle }));
+  } catch (err) {
+    console.error("[products] generateStaticParams: Shopify unreachable, pages will be built on demand:", err);
+    return [];
+  }
+}
 
 async function getProduct(handle: string) {
   const products = await getStorefrontProducts();
@@ -39,14 +50,13 @@ export async function generateMetadata({ params }: { params: Promise<{ handle: s
 
 export default async function ProductPage({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params;
-  const [products, cart, customer, { currency }] = await Promise.all([
-    getStorefrontProducts(),
-    getCurrentCart(),
-    getCurrentCustomer(),
-    getVisitorContext(),
-  ]);
+  const currency = BASE_CURRENCY;
+  const products = await getStorefrontProducts();
 
   const product = products.find((p) => p.shopifyHandle === handle);
+  // An unknown handle is a 404, not a 200 page (otherwise anything can mint a cache entry). Without Shopify credentials
+  // (local/preview builds) there is no catalogue to check against, so the built-in products are shown as before.
+  if (!product && SHOPIFY_CONFIGURED) notFound();
 
   // Store-wide policies, kept in line with the Shipping and Returns pages:
   // free 14-day returns and free next-day delivery, both UAE only.
@@ -60,7 +70,7 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
   };
   const shippingDetails = {
     "@type": "OfferShippingDetails",
-    // Free in every currency, so match the offer's currency (it follows the visitor's country).
+    // Free in every currency, so match the offer's currency.
     shippingRate: { "@type": "MonetaryAmount", value: "0.00", currency },
     shippingDestination: { "@type": "DefinedRegion", addressCountry: "AE" },
     deliveryTime: {
@@ -117,8 +127,6 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
       )}
       <HharaApp
         initialProducts={products}
-        initialCart={cart}
-        initialCustomer={customer}
         initialRoute="product"
         initialProductHandle={handle}
       />

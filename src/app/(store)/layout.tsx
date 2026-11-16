@@ -1,27 +1,13 @@
 // Store styles, currency and Shopify tracking for every storefront page.
+// Nothing here may read cookies/headers: that would make every page dynamic. Visitor-specific data (market, cart,
+// customer) arrives from /api/session in the browser, see StoreProviders.
 import "leaflet/dist/leaflet.css";
 import "./design.css";
-import { ShopifyWebPixels } from "@/components/analytics/ShopifyWebPixels";
-import { CurrencyProvider } from "@/components/CurrencyProvider";
-import { PhoneCountryProvider } from "@/components/PhoneCountry";
-import { SWITCHER_COUNTRIES, getRates } from "@/lib/currency";
-import { dialCountryOrDefault } from "@/lib/dial-codes";
-import { getVisitorContext } from "@/lib/visitor";
+import { StoreProviders } from "@/components/StoreProviders";
+import { buildCurrencyOptions, BASE_CURRENCY } from "@/lib/currency";
+import { getCountryCurrencies } from "@/lib/shopify";
 
 export default async function StoreLayout({ children }: { children: React.ReactNode }) {
-  const [{ country, currency, ipCountry, geoCountry, countryCurrencies }, rates] = await Promise.all([getVisitorContext(), getRates()]);
-
-  // One switcher entry per currency: the current country first, then the visitor's own, then the defaults
-  const options: { country: string; currency: string }[] = [];
-  for (const c of [country, ipCountry, ...SWITCHER_COUNTRIES]) {
-    const cur = c && countryCurrencies[c];
-    if (cur && !options.some((o) => o.currency === cur)) options.push({ country: c, currency: cur });
-  }
-
-  return (
-    <CurrencyProvider currency={currency} options={options} rate={rates[currency] ?? 1}>
-      <ShopifyWebPixels currency={currency} />
-      <PhoneCountryProvider country={dialCountryOrDefault(geoCountry)}>{children}</PhoneCountryProvider>
-    </CurrencyProvider>
-  );
+  const countryCurrencies = await getCountryCurrencies().catch(() => ({ AE: BASE_CURRENCY }) as Record<string, string>);
+  return <StoreProviders defaultOptions={buildCurrencyOptions("AE", null, countryCurrencies)}>{children}</StoreProviders>;
 }

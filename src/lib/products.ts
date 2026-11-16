@@ -1,5 +1,4 @@
 import { getProducts, ShopifyProduct } from "./shopify";
-import { getVisitorContext } from "./visitor";
 
 const COLOR_HEX: Record<string, string> = {
   "Chicory Brown": "#3D2B1F",
@@ -166,17 +165,23 @@ function mapShopifyProduct(p: ShopifyProduct, index: number): LocalProduct {
   };
 }
 
-// Priced in the visitor's currency (see lib/visitor.ts). Only call from request-time store pages.
-export async function getStorefrontProducts(): Promise<LocalProduct[]> {
+// Priced in the store-default market (AED) unless a country is given. Public pages are static/ISR and call this with no
+// argument; /api/session passes the visitor's country so the browser can swap in their currency's prices.
+export async function getStorefrontProducts(country: string = "AE"): Promise<LocalProduct[]> {
   try {
-    const { country } = await getVisitorContext();
     const products = await getProducts(50, country);
     return products.map(mapShopifyProduct);
   } catch (err) {
     console.error("[shopify] product fetch failed:", err);
+    // Pages are cached (ISR). With Shopify configured, throw so a failed render keeps the previous good page (or fails the
+    // build) instead of caching the built-in fallback products. Without credentials (local/preview builds) fall back.
+    if (SHOPIFY_CONFIGURED) throw err;
     return [];
   }
 }
+
+/** False in sandboxes/previews that have no Shopify credentials. */
+export const SHOPIFY_CONFIGURED = !!(process.env.SHOPIFY_STORE_DOMAIN && process.env.SHOPIFY_STOREFRONT_TOKEN);
 
 const REVERSE_COLOR_MAP: Record<string, string> = {
   "Chicory Brown": "Bark Oxides",

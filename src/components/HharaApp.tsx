@@ -1,7 +1,7 @@
 "use client";
 // @ts-nocheck
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, react/no-unescaped-entities */
-import React, { useState, useEffect, useRef, useContext, createContext } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef, useContext, createContext } from "react";
 import Image from "next/image";
 import { addLine as serverAddLine, updateLine as serverUpdateLine, removeLine as serverRemoveLine, applyDiscountCode as serverApplyDiscount, addGiftCard as serverAddGiftCard } from "@/lib/cart-actions";
 import { GIFT_CARD_HANDLE, GIFT_CARDS_ENABLED } from "@/lib/gift-card";
@@ -13,6 +13,7 @@ import { submitReview } from "@/lib/review-actions";
 import { MagneticImpactCard } from "@/components/ui/morphing-cursor";
 import CardLogos from "@/components/CardLogos";
 import { useCurrency } from "@/components/CurrencyProvider";
+import { useStoreSession } from "@/components/StoreProviders";
 import {
   trackEvent,
   formatEcommerceItem,
@@ -4260,6 +4261,7 @@ function AccountPage({
   cartCount?: number;
 }) {
   const customer = useCustomer();
+  const { ready: sessionReady } = useStoreSession();
   const [tab, setTab] = useState("signin");
   const [form, setForm] = useState({ email: "", password: "", firstName: "", dob: "", hpCompany: "" });
   const [formTs] = useState(() => Date.now());
@@ -4324,6 +4326,9 @@ function AccountPage({
     setBusy(false);
     window.location.reload();
   };
+
+  // Pages are static, so wait for /api/session before showing the sign-in form to someone who may already be signed in
+  if (!customer && !sessionReady) return <div className="auth-wrap" aria-busy="true" />;
 
   // Logged-in view → profile + orders
   if (customer) {
@@ -5315,9 +5320,14 @@ const SIGNUP_POPUP_SNOOZE_MS = 24 * 60 * 60 * 1000;
 
 // === FILE 10-180e2df1-7549-448a-8bbb-f6c3acb791f4.jsx ===
 
+const HOME_QUERY_ROUTES = new Set(["shop", "lookbook", "atelier", "stores", "about-us", "social-impact", "account", "faq", "shipping", "returns", "size-guide", "contact", "gift-card", "privacy", "terms", "wishlist"]);
+const HOME_QUERY_ALIASES: Record<string, string> = { "about-us": "atelier", "social-impact": "stores" };
+
 function App({ initialProducts, initialCart, initialCustomer, initialRoute, initialProductHandle }: { initialProducts?: any[]; initialCart?: any; initialCustomer?: any; initialRoute?: string; initialProductHandle?: string }) {
   const { currency } = useCurrency();
-  const products = (initialProducts && initialProducts.length) ? initialProducts : PRODUCTS;
+  // Pages are static and priced in AED; /api/session sends the same products priced for visitors in another currency
+  const { ready: sessionReady, session } = useStoreSession();
+  const products = session?.products?.length ? session.products : (initialProducts && initialProducts.length) ? initialProducts : PRODUCTS;
   const [shopifyCart, setShopifyCart] = useState<any>(initialCart || null);
   const [localCartItems, setLocalCartItems] = useState<any[]>([]);
   const [customer, setCustomer] = useState<any>(initialCustomer || null);
@@ -5337,8 +5347,27 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
   const [selectedCatFilter, setSelectedCatFilter] = useState<string | null>(null);
   const [initialProductColor, setInitialProductColor] = useState<string | null>(null);
   const historyReadyRef = useRef(false);
+  const queryRouteRef = useRef<string | null>(null);
+
+  // The cart and signed-in customer come from /api/session; anything an action already set meanwhile wins
+  useEffect(() => {
+    if (!session) return;
+    setShopifyCart((c: any) => c ?? session.cart);
+    setCustomer((c: any) => c ?? session.customer);
+  }, [session]);
+
+  // "/?r=shop" opens that view. Read in the browser (not searchParams) so the home page can stay static.
+  useLayoutEffect(() => {
+    if (initialRoute) return;
+    const r = new URLSearchParams(window.location.search).get("r");
+    if (!r || !HOME_QUERY_ROUTES.has(r) || (r === "gift-card" && !GIFT_CARDS_ENABLED)) return;
+    queryRouteRef.current = HOME_QUERY_ALIASES[r] ?? r;
+    setRouteState(queryRouteRef.current);
+  }, []);
 
   useEffect(() => {
+    // The first pass, before the ?r= view is applied, must not rewrite the URL or log a home page view
+    if (!historyReadyRef.current && queryRouteRef.current && route !== queryRouteRef.current) return;
     window.scrollTo({ top: 0, behavior: "instant" });
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
@@ -5470,7 +5499,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
   const [signupError, setSignupError] = useState("");
 
   useEffect(() => {
-    if (customer) return;
+    if (customer || !sessionReady) return;
     // Every page load (Back, reload, a new page) remounts this, so remember the popup was shown
     // and stay quiet for a day; after a signup it never comes back.
     try {
@@ -5488,7 +5517,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [customer]);
+  }, [customer, sessionReady]);
 
   const handleNewsletterSignup = async (e: React.FormEvent) => {
     e.preventDefault();
