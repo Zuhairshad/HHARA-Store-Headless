@@ -7,6 +7,7 @@ import { ShopifyWebPixels } from "@/components/analytics/ShopifyWebPixels";
 import { BASE_CURRENCY } from "@/lib/currency";
 import { DEFAULT_DIAL_COUNTRY } from "@/lib/dial-codes";
 import type { StoreSession } from "@/lib/session";
+import { recoverFromStaleDeploy } from "@/lib/stale-deploy";
 
 type SessionState = {
   /** False until /api/session has answered (or failed), so the UI can avoid showing a wrong signed-out/empty state. */
@@ -43,6 +44,15 @@ export function StoreProviders({
   children: React.ReactNode;
 }) {
   const [state, setState] = useState<SessionState>({ ready: false, session: null });
+
+  // Server actions without their own try/catch (sign-in, sign-up, footer forms…) surface a stale deploy here
+  useEffect(() => {
+    const onRejection = (e: PromiseRejectionEvent) => {
+      if (recoverFromStaleDeploy(e.reason)) e.preventDefault();
+    };
+    window.addEventListener("unhandledrejection", onRejection);
+    return () => window.removeEventListener("unhandledrejection", onRejection);
+  }, []);
 
   useEffect(() => {
     let alive = true;

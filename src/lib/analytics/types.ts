@@ -1,7 +1,9 @@
 export type CurrencyCode = "AED" | "USD" | "EUR" | "GBP" | "SAR" | string;
 
 export interface EcommerceItem {
-  item_id: string; // SKU or Shopify Variant ID
+  item_id: string; // Shopify variant GID (what GA4/Meta/TikTok key on)
+  product_id?: string; // Shopify product GID (gid://shopify/Product/…), for Shopify analytics
+  variant_id?: string; // Shopify variant GID (gid://shopify/ProductVariant/…), for Shopify analytics
   item_name: string; // Product title
   item_brand?: string; // e.g. "HHARA"
   item_category?: string; // e.g. "Activewear", "Bra", "Legging"
@@ -42,6 +44,8 @@ export type AnalyticsEvent =
         page_location: string;
         page_path: string;
         page_type?: string;
+        /** Shopify GID of the page's resource (e.g. the product on a product page). */
+        resource_id?: string;
       };
     }
   | {
@@ -111,13 +115,17 @@ export type AnalyticsEvent =
   | {
       name: "customer_subscribed";
       payload: {
+        // No email or other personal data: these payloads go to GA4/Meta/TikTok from the browser.
         source: string;
-        email?: string;
       };
     };
 
 export function formatEcommerceItem(params: {
   id: string;
+  /** Shopify product GID. */
+  productId?: string;
+  /** Shopify variant GID; defaults to `id` when that is a variant GID. */
+  variantId?: string;
   name: string;
   price: number;
   quantity?: number;
@@ -128,6 +136,8 @@ export function formatEcommerceItem(params: {
 }): EcommerceItem {
   return {
     item_id: params.id,
+    product_id: params.productId,
+    variant_id: params.variantId || (params.id?.includes("/ProductVariant/") ? params.id : undefined),
     item_name: params.name,
     item_brand: params.brand || "HHARA",
     item_category: params.category || "Considered Luxury",

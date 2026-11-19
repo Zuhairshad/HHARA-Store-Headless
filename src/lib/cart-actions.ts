@@ -19,6 +19,8 @@ import { getVisitorContext } from "./visitor";
 
 const COOKIE = "hhara_cart_id";
 const ATTR_COOKIE = "hhara_attr";
+/** Timestamp of the attribution last written to the cart, so each new campaign visit is copied once. */
+const ATTR_SYNCED_COOKIE = "hhara_attr_synced";
 
 async function readCartId(): Promise<string | null> {
   const c = await cookies();
@@ -64,6 +66,45 @@ async function getAttributionAttributes(): Promise<{ key: string; value: string 
   }
 }
 
+function attributionTimestamp(raw: string | undefined): string | null {
+  if (!raw) return null;
+  try {
+    const ts = JSON.parse(decodeURIComponent(raw))?.timestamp;
+    return ts ? String(ts) : null;
+  } catch {
+    return null;
+  }
+}
+
+async function markAttributionSynced(ts: string) {
+  const c = await cookies();
+  c.set(ATTR_SYNCED_COOKIE, ts, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 30,
+  });
+}
+
+// A returning visitor who already has a cart and arrives through a new campaign (UTM / gclid / fbclid / ttclid) gets
+// that attribution on the cart, so the order is credited to the visit that converted. Best effort.
+async function syncNewAttribution(cart: ShopifyCart): Promise<ShopifyCart> {
+  const c = await cookies();
+  const ts = attributionTimestamp(c.get(ATTR_COOKIE)?.value);
+  if (!ts || c.get(ATTR_SYNCED_COOKIE)?.value === ts) return cart;
+  try {
+    const attrs = await getAttributionAttributes();
+    if (!attrs.length) return cart;
+    const updated = await cartAttributesUpdate(cart.id, attrs);
+    await markAttributionSynced(ts);
+    return updated;
+  } catch (err) {
+    console.warn("[cart] attribution sync error:", err);
+    return cart;
+  }
+}
+
 // Keeps the cart in the visitor's country, so its prices and checkout use their currency
 async function inVisitorCountry(cart: ShopifyCart): Promise<ShopifyCart> {
   const { country } = await getVisitorContext();
@@ -81,7 +122,7 @@ export async function ensureCart(): Promise<ShopifyCart> {
   if (id) {
     try {
       const existing = await getCart(id);
-      if (existing && existing.checkoutUrl) return inVisitorCountry(existing);
+      if (existing && existing.checkoutUrl) return syncNewAttribution(await inVisitorCountry(existing));
     } catch (e) {
       console.warn("[cart] failed to fetch existing cart, creating new one:", e);
     }
@@ -95,6 +136,8 @@ export async function ensureCart(): Promise<ShopifyCart> {
     const attrs = await getAttributionAttributes();
     if (attrs.length > 0) {
       created = await cartAttributesUpdate(created.id, attrs);
+      const ts = attributionTimestamp((await cookies()).get(ATTR_COOKIE)?.value);
+      if (ts) await markAttributionSynced(ts);
     }
   } catch (err) {
     console.warn("[cart] attribution sync on create error:", err);

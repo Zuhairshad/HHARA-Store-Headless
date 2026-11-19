@@ -30,9 +30,9 @@ export function trackEvent(event: AnalyticsEvent) {
   // 3. Check consent state
   const consent = getConsentPreferences();
 
-  // 4. GA4 / Google Tag (direct gtag with Consent Mode v2 or analytics consent)
-  // If Consent Mode v2 is configured, gtag can receive events; otherwise gate on analytics consent
-  if (consent.analytics || Boolean(process.env.NEXT_PUBLIC_GA4_ID)) {
+  // 4. GA4 / Google Ads. Always handed to gtag when a tag is configured: Consent Mode v2 (default denied, see
+  // AnalyticsProvider) makes Google send cookieless pings until the visitor grants analytics/ads consent.
+  if (process.env.NEXT_PUBLIC_GA4_ID) {
     try {
       emitGA4(event);
     } catch (err) {

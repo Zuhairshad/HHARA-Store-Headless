@@ -4,21 +4,22 @@ import {
   AnalyticsEventName,
   AnalyticsPageType,
   ShopifySalesChannel,
+  type ShopifyAnalyticsProduct,
 } from "@shopify/hydrogen-react";
-import { AnalyticsEvent } from "../types";
+import { AnalyticsEvent, EcommerceItem } from "../types";
 import { getConsentPreferences } from "../consent";
 import { SHOPIFY_CONFIG } from "@/lib/shopify/analytics-config";
+
+// Storefront events for Shopify Analytics (Headless channel), sent the way Hydrogen does it:
+//   every page      → PAGE_VIEW_2 (trekkie page view + page_rendered)
+//   product page    → + PRODUCT_VIEW      collection → + COLLECTION_VIEW      search → + SEARCH_VIEW
+//   add to cart     → ADD_TO_CART
+// Cart, checkout and purchase are recorded by Shopify's own checkout, which reads the shared _shopify_y/_s cookies
+// (see ShopifyWebPixels), so they are not sent from here.
 
 declare global {
   interface Window {
     Shopify?: {
-      shop?: string;
-      shopId?: string;
-      currency?: { active: string; rate: string };
-      analytics?: {
-        publish: (eventName: string, payload: unknown, options?: unknown) => void;
-        replayQueue?: Array<[string, unknown, unknown?]>;
-      };
       customerPrivacy?: {
         setTrackingConsent: (
           consent: {
@@ -31,16 +32,15 @@ declare global {
             storefrontRootDomain: string;
             storefrontAccessToken: string;
           },
-          callback?: (err?: Error) => void
+          callback?: (result?: { error?: string }) => void
         ) => void;
       };
     };
   }
 }
 
-// hydrogen-react catches failed monorail requests (ad blockers, offline) and logs them
-// via console.error, which Next.js dev surfaces as an error overlay. They're non-critical,
-// so drop just that message and pass everything else through.
+// hydrogen-react logs failed monorail posts (ad blockers, offline) with console.error, which Next dev turns into an
+// error overlay. They are harmless, so drop that one message.
 const SHOPIFY_ANALYTICS_ERROR = "sendShopifyAnalytics request is unsuccessful";
 if (typeof window !== "undefined" && !(window as any).__hharaShopifyErrorFilter) {
   (window as any).__hharaShopifyErrorFilter = true;
@@ -51,239 +51,148 @@ if (typeof window !== "undefined" && !(window as any).__hharaShopifyErrorFilter)
   };
 }
 
-const BASE_PAYLOAD = {
-  shopId: SHOPIFY_CONFIG.shopId,
-  currency: SHOPIFY_CONFIG.currency,
-  storefrontId: SHOPIFY_CONFIG.storefrontId,
-  shopifySalesChannel: ShopifySalesChannel.headless,
-  acceptedLanguage: SHOPIFY_CONFIG.acceptedLanguage,
-} as const;
+/** Currency the visitor is shopping in; StoreProviders keeps it in sync with /api/session. */
+let activeCurrency: string = SHOPIFY_CONFIG.currency;
+export function setShopifyAnalyticsCurrency(currency: string | null | undefined) {
+  if (currency) activeCurrency = currency;
+}
 
-function getConsentPayload() {
-  if (typeof window === "undefined") return { analyticsAllowed: false, marketingAllowed: false, saleOfDataAllowed: false, hasUserConsent: false };
+/**
+ * Shopify consent flags. The store sells mainly in the UAE, so an undecided visitor counts as consenting (the consent
+ * banner lets them opt out). Keep this in step with ShopifyWebPixels' setTrackingConsent call.
+ */
+export function shopifyConsent() {
   const prefs = getConsentPreferences();
   const analyticsAllowed = !prefs.decided || prefs.analytics;
   const marketingAllowed = !prefs.decided || prefs.marketing;
+  return { analyticsAllowed, marketingAllowed, saleOfDataAllowed: marketingAllowed, hasUserConsent: analyticsAllowed };
+}
+
+const PAGE_TYPES: Record<string, string> = {
+  home: AnalyticsPageType.home,
+  shop: AnalyticsPageType.collection,
+  collection: AnalyticsPageType.collection,
+  product: AnalyticsPageType.product,
+  search: AnalyticsPageType.search,
+  cart: AnalyticsPageType.cart,
+  "pre-checkout": AnalyticsPageType.cart,
+  account: AnalyticsPageType.customersAccount,
+  "gift-card": AnalyticsPageType.giftCard,
+  privacy: AnalyticsPageType.policy,
+  terms: AnalyticsPageType.policy,
+  returns: AnalyticsPageType.policy,
+  shipping: AnalyticsPageType.policy,
+};
+
+const isGid = (id: string | undefined, type: "Product" | "ProductVariant") =>
+  !!id && id.startsWith(`gid://shopify/${type}/`);
+
+function toProducts(items: EcommerceItem[]): ShopifyAnalyticsProduct[] {
+  return items
+    .filter((i) => isGid(i.product_id, "Product"))
+    .map((i) => ({
+      productGid: i.product_id!,
+      variantGid: isGid(i.variant_id, "ProductVariant") ? i.variant_id : undefined,
+      name: i.item_name,
+      variantName: i.item_variant && i.item_variant !== "Default" ? i.item_variant : undefined,
+      brand: i.item_brand || "HHARA",
+      category: i.item_category,
+      price: String(i.price),
+      quantity: i.quantity,
+    }));
+}
+
+function base(currency?: string) {
   return {
-    analyticsAllowed,
-    marketingAllowed,
-    saleOfDataAllowed: marketingAllowed,
-    hasUserConsent: analyticsAllowed,
+    shopId: SHOPIFY_CONFIG.shopId,
+    storefrontId: SHOPIFY_CONFIG.storefrontId,
+    shopifySalesChannel: ShopifySalesChannel.headless,
+    acceptedLanguage: SHOPIFY_CONFIG.acceptedLanguage,
+    currency: (currency || activeCurrency) as any,
+    ...getClientBrowserParameters(),
+    ...shopifyConsent(),
   };
 }
 
-function publishShim(eventName: string, payload: unknown) {
-  try {
-    window.Shopify?.analytics?.publish?.(eventName, payload);
-  } catch {
-    // non-critical
-  }
+function send(eventName: string, payload: Record<string, unknown>) {
+  // The domain makes hydrogen-react post to https://<shop>/.well-known/shopify/monorail/… (first-party for Shopify)
+  return sendShopifyAnalytics({ eventName, payload } as any, SHOPIFY_CONFIG.shopDomain);
 }
+
+// Events wait until useShopifyCookies has fetched Shopify's visitor/session tokens (as Hydrogen does), otherwise a new
+// visitor's first page view goes out without them and Shopify can't tie it to the session.
+let trackingReady = false;
+let pending: AnalyticsEvent[] = [];
+export function markShopifyTrackingReady() {
+  if (trackingReady) return;
+  trackingReady = true;
+  const queued = pending;
+  pending = [];
+  queued.forEach((e) => void emitShopify(e));
+}
+if (typeof window !== "undefined") setTimeout(markShopifyTrackingReady, 4000); // never hold events forever
 
 export async function emitShopify(event: AnalyticsEvent): Promise<void> {
   if (typeof window === "undefined") return;
-
-  const consentPayload = getConsentPayload();
-  const browserParams = getClientBrowserParameters();
-
-  // Common base shared by all sendShopifyAnalytics calls
-  const BASE = {
-    ...BASE_PAYLOAD,
-    ...browserParams,
-    ...consentPayload,
-  };
-
+  if (!trackingReady) {
+    pending.push(event);
+    return;
+  }
   try {
     switch (event.name) {
-    case "page_viewed": {
-      const pageType =
-        event.payload.page_type === "home"
-          ? AnalyticsPageType.home
-          : event.payload.page_type === "product"
-          ? AnalyticsPageType.product
-          : event.payload.page_type === "collection"
-          ? AnalyticsPageType.collection
-          : event.payload.page_type === "search"
-          ? AnalyticsPageType.search
-          : event.payload.page_type === "cart"
-          ? AnalyticsPageType.cart
-          : AnalyticsPageType.page;
-
-      await sendShopifyAnalytics(
-        { eventName: AnalyticsEventName.PAGE_VIEW, payload: { ...BASE, canonicalUrl: event.payload.page_location, pageType } },
-        SHOPIFY_CONFIG.shopDomain
-      );
-
-      publishShim("page_viewed", {
-        url: event.payload.page_location,
-        title: event.payload.page_title,
-        referrer: typeof document !== "undefined" ? document.referrer : "",
-      });
-      break;
-    }
-
-    case "product_viewed": {
-      await sendShopifyAnalytics(
-        {
-          eventName: AnalyticsEventName.PAGE_VIEW,
-          payload: {
-            ...BASE,
-            canonicalUrl: window.location.href,
-            pageType: AnalyticsPageType.product,
-            resourceId: event.payload.product_id,
-            totalValue: event.payload.value,
-            products: event.payload.items.map((item) => ({
-              productGid: item.item_id,
-              name: item.item_name,
-              brand: item.item_brand || "HHARA",
-              category: item.item_category || "Considered Luxury",
-              price: String(item.price),
-              quantity: item.quantity,
-            })),
-          },
-        },
-        SHOPIFY_CONFIG.shopDomain
-      );
-
-      publishShim("product_viewed", {
-        currency: event.payload.currency,
-        totalAmount: String(event.payload.value),
-        products: event.payload.items.map((item) => ({
-          id: item.item_id,
-          title: item.item_name,
-          price: String(item.price),
-          quantity: item.quantity,
-        })),
-      });
-      break;
-    }
-
-    case "collection_viewed": {
-      await sendShopifyAnalytics(
-        {
-          eventName: AnalyticsEventName.PAGE_VIEW,
-          payload: {
-            ...BASE,
-            canonicalUrl: window.location.href,
-            pageType: AnalyticsPageType.collection,
-            collectionHandle: event.payload.collection_handle,
-            products: event.payload.items.map((item) => ({
-              productGid: item.item_id,
-              name: item.item_name,
-              brand: item.item_brand || "HHARA",
-              price: String(item.price),
-              quantity: item.quantity,
-            })),
-          },
-        },
-        SHOPIFY_CONFIG.shopDomain
-      );
-
-      publishShim("collection_viewed", {
-        collection: { title: event.payload.collection_title, id: event.payload.collection_handle },
-      });
-      break;
-    }
-
-    case "search_submitted": {
-      await sendShopifyAnalytics(
-        {
-          eventName: AnalyticsEventName.PAGE_VIEW,
-          payload: { ...BASE, canonicalUrl: window.location.href, pageType: AnalyticsPageType.search, searchString: event.payload.search_term },
-        },
-        SHOPIFY_CONFIG.shopDomain
-      );
-      break;
-    }
-
-    case "product_added_to_cart": {
-      const cartId = event.payload.cart_id || "";
-      await sendShopifyAnalytics(
-        {
-          eventName: AnalyticsEventName.ADD_TO_CART,
-          payload: {
-            ...BASE,
-            cartId,
-            totalValue: event.payload.value,
-            products: event.payload.items.map((item) => ({
-              productGid: item.item_id,
-              name: item.item_name,
-              brand: item.item_brand || "HHARA",
-              price: String(item.price),
-              quantity: item.quantity,
-              variantName: item.item_variant,
-            })),
-          },
-        },
-        SHOPIFY_CONFIG.shopDomain
-      );
-
-      publishShim("product_added_to_cart", {
-        currency: event.payload.currency,
-        totalAmount: String(event.payload.value),
-        cartId,
-        products: event.payload.items.map((item) => ({
-          id: item.item_id,
-          title: item.item_name,
-          price: String(item.price),
-          quantity: item.quantity,
-        })),
-      });
-      break;
-    }
-
-    // Events with no hydrogen-react equivalent — dispatch through shim only
-    case "product_removed_from_cart":
-      publishShim("product_removed_from_cart", {
-        currency: event.payload.currency,
-        totalAmount: String(event.payload.value),
-        cartId: event.payload.cart_id,
-        products: event.payload.items.map((item) => ({
-          id: item.item_id,
-          title: item.item_name,
-          price: String(item.price),
-          quantity: item.quantity,
-        })),
-      });
-      break;
-
-    case "cart_viewed":
-      publishShim("cart_viewed", {
-        currency: event.payload.currency,
-        totalAmount: String(event.payload.value),
-        cartId: event.payload.cart_id,
-        products: event.payload.items.map((item) => ({
-          id: item.item_id,
-          title: item.item_name,
-          price: String(item.price),
-          quantity: item.quantity,
-        })),
-      });
-      break;
-
-    case "checkout_started":
-      publishShim("checkout_started", {
-        currency: event.payload.currency,
-        totalAmount: String(event.payload.value),
-        cartId: event.payload.cart_id,
-        checkoutUrl: event.payload.checkout_url,
-        products: event.payload.items.map((item) => ({
-          id: item.item_id,
-          title: item.item_name,
-          price: String(item.price),
-          quantity: item.quantity,
-        })),
-      });
-      break;
-
-    case "customer_subscribed":
-      publishShim("customer_subscribed", {
-        email: event.payload.email,
-        source: event.payload.source,
-      });
-      break;
+      case "page_viewed": {
+        const pageType = PAGE_TYPES[event.payload.page_type || ""] || AnalyticsPageType.page;
+        await send(AnalyticsEventName.PAGE_VIEW_2, {
+          ...base(),
+          canonicalUrl: event.payload.page_location,
+          pageType,
+          ...(event.payload.resource_id ? { resourceId: event.payload.resource_id } : {}),
+        });
+        break;
+      }
+      case "product_viewed": {
+        const products = toProducts(event.payload.items);
+        if (!products.length) break;
+        await send(AnalyticsEventName.PRODUCT_VIEW, {
+          ...base(event.payload.currency),
+          canonicalUrl: window.location.href,
+          pageType: AnalyticsPageType.product,
+          resourceId: products[0].productGid,
+          totalValue: event.payload.value,
+          products,
+        });
+        break;
+      }
+      case "collection_viewed":
+        await send(AnalyticsEventName.COLLECTION_VIEW, {
+          ...base(),
+          canonicalUrl: window.location.href,
+          pageType: AnalyticsPageType.collection,
+          collectionHandle: event.payload.collection_handle,
+        });
+        break;
+      case "search_submitted":
+        await send(AnalyticsEventName.SEARCH_VIEW, {
+          ...base(),
+          canonicalUrl: window.location.href,
+          pageType: AnalyticsPageType.search,
+          searchString: event.payload.search_term,
+        });
+        break;
+      case "product_added_to_cart": {
+        const products = toProducts(event.payload.items);
+        if (!products.length || !event.payload.cart_id) break;
+        await send(AnalyticsEventName.ADD_TO_CART, {
+          ...base(event.payload.currency),
+          cartId: event.payload.cart_id,
+          totalValue: event.payload.value,
+          products,
+        });
+        break;
+      }
+      // removed-from-cart, cart viewed, checkout started, subscribed: no headless event in Shopify Analytics
     }
   } catch {
-    // network errors from sendShopifyAnalytics are non-critical
+    // network errors are non-critical
   }
 }

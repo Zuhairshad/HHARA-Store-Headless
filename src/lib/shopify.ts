@@ -1,8 +1,15 @@
 const DOMAIN = process.env.SHOPIFY_STORE_DOMAIN!;
 const TOKEN = process.env.SHOPIFY_STOREFRONT_TOKEN!;
-const API_VERSION = process.env.SHOPIFY_API_VERSION || "2025-01";
 
-const ENDPOINT = `https://${DOMAIN}/api/${API_VERSION}/graphql.json`;
+/**
+ * Storefront + Admin API version. Owned by the code, not by an env var: the queries below are written against this
+ * schema, so changing it is a code change. Shopify supports a version for ~12 months and then silently serves the
+ * oldest supported one instead (2025-01 was being answered as 2026-01). Check every year:
+ * https://shopify.dev/docs/api/usage/versioning
+ */
+export const SHOPIFY_API_VERSION = "2026-07";
+
+const ENDPOINT = `https://${DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
 
 export type Money = { amount: string; currencyCode: string };
 
@@ -62,7 +69,16 @@ export type ShopifyCart = {
 
 class ShopifyError extends Error {
   constructor(message: string, public detail?: unknown) {
-    super(message);
+    // Put Shopify's own message in the error text: console.error prints nested arrays as "[Array]", which hid the cause
+    super(detail === undefined ? message : `${message}: ${describe(detail)}`);
+  }
+}
+
+function describe(detail: unknown): string {
+  try {
+    return (typeof detail === "string" ? detail : JSON.stringify(detail)).slice(0, 1000);
+  } catch {
+    return String(detail);
   }
 }
 
@@ -108,7 +124,7 @@ export async function shopifyAdminFetch<T>(
   if (!adminToken || !domain) {
     throw new ShopifyError("Missing SHOPIFY_ADMIN_TOKEN or SHOPIFY_STORE_DOMAIN environment variables.");
   }
-  const endpoint = `https://${domain}/admin/api/2025-01/graphql.json`;
+  const endpoint = `https://${domain}/admin/api/${SHOPIFY_API_VERSION}/graphql.json`;
   const res = await fetch(endpoint, {
     method: "POST",
     headers: {
@@ -435,10 +451,10 @@ export async function customerCreate(input: {
 // Best effort: a failure here must not fail the signup itself.
 export async function subscribeExistingCustomer(email: string, tags: string[] = []): Promise<void> {
   try {
-    const found = await shopifyAdminFetch<{ customers: { nodes: { id: string; emailMarketingConsent: { marketingState: string } | null }[] } }>(
+    const found = await shopifyAdminFetch<{ customers: { nodes: { id: string; defaultEmailAddress: { marketingState: string } | null }[] } }>(
       /* GraphQL */ `
         query FindCustomer($q: String!) {
-          customers(first: 1, query: $q) { nodes { id emailMarketingConsent { marketingState } } }
+          customers(first: 1, query: $q) { nodes { id defaultEmailAddress { marketingState } } }
         }
       `,
       { q: `email:"${email.replace(/"/g, "")}"` }
@@ -456,7 +472,7 @@ export async function subscribeExistingCustomer(email: string, tags: string[] = 
       );
       if (tagged.tagsAdd.userErrors.length) console.error("[subscribeExistingCustomer] tags", tagged.tagsAdd.userErrors);
     }
-    if (customer.emailMarketingConsent?.marketingState === "SUBSCRIBED") return;
+    if (customer.defaultEmailAddress?.marketingState === "SUBSCRIBED") return;
     const data = await shopifyAdminFetch<{ customerEmailMarketingConsentUpdate: { userErrors: { message: string }[] } }>(
       /* GraphQL */ `
         mutation Consent($input: CustomerEmailMarketingConsentUpdateInput!) {

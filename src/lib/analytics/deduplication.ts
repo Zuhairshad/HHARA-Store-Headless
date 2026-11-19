@@ -6,7 +6,8 @@ const DEDUP_WINDOW_MS = 500;
 function createSignature(event: AnalyticsEvent): string {
   switch (event.name) {
     case "page_viewed":
-      return `page_viewed:${event.payload.page_path}`;
+      // Path without the query string, so the same page reported with and without ?utm_… counts once
+      return `page_viewed:${event.payload.page_path.split("?")[0]}`;
     case "product_viewed":
       return `product_viewed:${event.payload.product_id || event.payload.handle || ""}:${event.payload.items[0]?.item_id || ""}`;
     case "collection_viewed":
@@ -22,7 +23,7 @@ function createSignature(event: AnalyticsEvent): string {
     case "checkout_started":
       return `checkout_started:${event.payload.cart_id || ""}:${event.payload.value}`;
     case "customer_subscribed":
-      return `customer_subscribed:${event.payload.source}:${event.payload.email || ""}`;
+      return `customer_subscribed:${event.payload.source}`;
     default:
       return JSON.stringify(event);
   }

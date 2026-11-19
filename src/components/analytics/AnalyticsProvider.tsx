@@ -3,7 +3,7 @@
 import React, { useEffect, useState, Suspense } from "react";
 import Script from "next/script";
 import { usePathname, useSearchParams } from "next/navigation";
-import { getConsentPreferences, subscribeConsent } from "@/lib/analytics/consent";
+import { CONSENT_COOKIE_KEY, CONSENT_STORAGE_KEY, getConsentPreferences, subscribeConsent } from "@/lib/analytics/consent";
 import { captureAttribution } from "@/lib/analytics/attribution";
 import { trackEvent } from "@/lib/analytics";
 
@@ -12,13 +12,21 @@ const GADS_ID = process.env.NEXT_PUBLIC_GADS_ID;
 const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID;
 
+declare global {
+  interface Window {
+    /** Set while HharaApp is mounted: its in-app router reports page views itself. */
+    __hharaAppTracksPageViews?: boolean;
+  }
+}
+
+// Page views for pages that don't render HharaApp (order tracking, account activate/reset). HharaApp claims the flag in a
+// layout effect, which runs before this passive effect in the same commit, so each navigation is reported exactly once.
 function RouteChangeListener() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // Only fire standard page_view for standalone pages or initial visit
-    // Internal HharaApp route changes will be tracked via internal events
+    if (window.__hharaAppTracksPageViews) return;
     const path = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "");
     const title = typeof document !== "undefined" ? document.title : "HHARA";
 
@@ -28,7 +36,7 @@ function RouteChangeListener() {
         page_title: title,
         page_location: typeof window !== "undefined" ? window.location.href : "",
         page_path: path,
-        page_type: pathname === "/" ? "home" : pathname.replace(/^\//, ""),
+        page_type: pathname === "/" ? "home" : pathname.split("/").filter(Boolean)[0],
       },
     });
   }, [pathname, searchParams]);
@@ -68,12 +76,21 @@ export function AnalyticsProvider({ children }: { children: React.ReactNode }) {
                 function gtag(){dataLayer.push(arguments);}
                 window.gtag = gtag;
                 
-                // Set default denied consent mode
+                // Consent Mode v2 default from the visitor's saved choice. Read here in the browser: the page HTML is
+                // static, so anything rendered on the server would say "denied" for everyone, forever.
+                var c = {};
+                try { c = JSON.parse(localStorage.getItem('${CONSENT_STORAGE_KEY}') || 'null') || {}; } catch (e) {}
+                if (c.analytics === undefined) {
+                  try {
+                    var m = document.cookie.match(/(?:^|; )${CONSENT_COOKIE_KEY}=([^;]*)/);
+                    if (m) c = JSON.parse(decodeURIComponent(m[1])) || {};
+                  } catch (e) {}
+                }
                 gtag('consent', 'default', {
-                  'analytics_storage': '${consent.analytics ? "granted" : "denied"}',
-                  'ad_storage': '${consent.marketing ? "granted" : "denied"}',
-                  'ad_user_data': '${consent.marketing ? "granted" : "denied"}',
-                  'ad_personalization': '${consent.marketing ? "granted" : "denied"}',
+                  'analytics_storage': c.analytics ? 'granted' : 'denied',
+                  'ad_storage': c.marketing ? 'granted' : 'denied',
+                  'ad_user_data': c.marketing ? 'granted' : 'denied',
+                  'ad_personalization': c.marketing ? 'granted' : 'denied',
                   'wait_for_update': 500
                 });
               `,

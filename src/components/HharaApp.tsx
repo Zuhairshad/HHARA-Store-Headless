@@ -10,6 +10,7 @@ import { signIn as serverSignIn, signUp as serverSignUp, signOut as serverSignOu
 import { subscribeNewsletter as serverSubscribe } from "@/lib/newsletter-actions";
 import { FIELD_LIMITS, stripNameChars } from "@/lib/form-rules";
 import { submitReview } from "@/lib/review-actions";
+import { recoverFromStaleDeploy } from "@/lib/stale-deploy";
 import { MagneticImpactCard } from "@/components/ui/morphing-cursor";
 import CardLogos from "@/components/CardLogos";
 import { useCurrency } from "@/components/CurrencyProvider";
@@ -990,7 +991,6 @@ function Footer({ setRoute, route = "" }) {
         name: "customer_subscribed",
         payload: {
           source: "footer_newsletter",
-          email,
         },
       });
     }
@@ -2419,6 +2419,7 @@ function PDP({ productId, setRoute, addToCart, openProduct, onWishlistToggle, wi
         items: [
           formatEcommerceItem({
             id: currentVariantId,
+            productId: product.shopifyId,
             name: product.name,
             price: product.price || 0,
             brand: "HHARA",
@@ -4261,6 +4262,7 @@ function AccountPage({
   cartCount?: number;
 }) {
   const customer = useCustomer();
+  const shopifyCart = useShopifyCart();
   const { ready: sessionReady } = useStoreSession();
   const [tab, setTab] = useState("signin");
   const [form, setForm] = useState({ email: "", password: "", firstName: "", dob: "", hpCompany: "" });
@@ -4458,6 +4460,27 @@ function AccountPage({
                 className="btn btn-outline btn-block"
                 onClick={() => {
                   if (checkoutUrl) {
+                    const lines = shopifyCart?.lines || [];
+                    const cur = shopifyCart?.cost?.totalAmount?.currencyCode || "AED";
+                    trackEvent({
+                      name: "checkout_started",
+                      payload: {
+                        currency: cur,
+                        value: parseFloat(shopifyCart?.cost?.totalAmount?.amount || "0"),
+                        cart_id: shopifyCart?.id,
+                        checkout_url: checkoutUrl,
+                        items: lines.map((l: any) =>
+                          formatEcommerceItem({
+                            id: l.merchandise.id,
+                            name: l.merchandise.product.title,
+                            price: parseFloat(l.cost.totalAmount.amount) / Math.max(l.quantity, 1),
+                            variant: l.merchandise.title,
+                            currency: cur,
+                            quantity: l.quantity,
+                          })
+                        ),
+                      },
+                    });
                     const attr = getStoredAttribution();
                     const decoratedUrl = appendAttributionToUrl(checkoutUrl, attr);
                     window.open(decoratedUrl, "_self");
@@ -5356,6 +5379,14 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
     setCustomer((c: any) => c ?? session.customer);
   }, [session]);
 
+  // This component's router reports page views; AnalyticsProvider's pathname listener stands down while it is mounted.
+  useLayoutEffect(() => {
+    window.__hharaAppTracksPageViews = true;
+    return () => {
+      window.__hharaAppTracksPageViews = false;
+    };
+  }, []);
+
   // "/?r=shop" opens that view. Read in the browser (not searchParams) so the home page can stay static.
   useLayoutEffect(() => {
     if (initialRoute) return;
@@ -5411,6 +5442,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
         page_location: pageLocation,
         page_path: pagePath,
         page_type: route,
+        ...(route === "product" && matched?.shopifyId ? { resource_id: matched.shopifyId } : {}),
       },
     });
 
@@ -5422,6 +5454,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
         .map((p: any) =>
           formatEcommerceItem({
             id: p.shopifyId || p.id,
+            productId: p.shopifyId,
             name: p.name,
             price: p.price || 0,
             brand: "HHARA",
@@ -5541,7 +5574,6 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
           name: "customer_subscribed",
           payload: {
             source: "popup_newsletter",
-            email: newsletterEmail,
           },
         });
       } else {
@@ -5549,6 +5581,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
         setSignupError(res.error || "Sign up failed");
       }
     } catch (err: any) {
+      if (recoverFromStaleDeploy(err)) return;
       console.error("Popup newsletter signup error:", err);
       setSignupStatus("error");
       setSignupError(err.message || "An unexpected error occurred");
@@ -5713,6 +5746,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
           items: [
             formatEcommerceItem({
               id: variantId,
+              productId: product?.shopifyId,
               name: item.name || product?.name || "Product",
               price: item.price || product?.price || 0,
               brand: "HHARA",
@@ -5725,6 +5759,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
         },
       });
     } catch (e) {
+      if (recoverFromStaleDeploy(e)) return;
       console.error("addToCart failed - variantId:", variantId, e);
       try {
         const retry = await serverAddLine(variantId, 1);
@@ -5739,6 +5774,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
             items: [
               formatEcommerceItem({
                 id: variantId,
+                productId: product?.shopifyId,
                 name: item.name || product?.name || "Product",
                 price: item.price || product?.price || 0,
                 brand: "HHARA",
@@ -5767,6 +5803,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
       const next = await serverUpdateLine(lineId, qty);
       setShopifyCart(next);
     } catch (e) {
+      if (recoverFromStaleDeploy(e)) return;
       console.error("updateQty failed", e);
     }
   };
@@ -5802,6 +5839,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
         });
       }
     } catch (e) {
+      if (recoverFromStaleDeploy(e)) return;
       console.error("removeItem failed", e);
     }
   };
@@ -5812,6 +5850,7 @@ function App({ initialProducts, initialCart, initialCustomer, initialRoute, init
       setShopifyCart(next);
       return next;
     } catch (e) {
+      if (recoverFromStaleDeploy(e)) return;
       console.error("applyDiscount failed", e);
       throw e;
     }
